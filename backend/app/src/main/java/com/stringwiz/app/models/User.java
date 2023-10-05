@@ -1,5 +1,6 @@
 package com.stringwiz.app.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.stringwiz.app.utils.RoleSelectorUtil;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -18,6 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,7 +41,7 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(name = "first_name")
-    private String firstName;
+    @Setter private String firstName;
 
     @Column(name = "last_name")
     private String lastName;
@@ -62,18 +64,30 @@ public class User implements UserDetails {
 //    private Timestamp lastUpdatedOn;
 
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade= CascadeType.ALL)
     @JoinTable(
             name="users_roles",
             joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
             inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
 //    private List<String> roles = new ArrayList<>();
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)
     private List<Role> roles = new ArrayList<>();
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public void setFirstName() {
+        this.firstName = "Mario";
+    }
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
+
         List<Role.RoleNames> roleNames = new RoleSelectorUtil().getRolesFromEmail(email);
         List<SimpleGrantedAuthority> result = new ArrayList<>();
         for(Role.RoleNames roleName : roleNames) {

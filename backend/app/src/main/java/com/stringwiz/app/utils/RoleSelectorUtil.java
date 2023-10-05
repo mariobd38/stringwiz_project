@@ -20,4 +20,7 @@ public class RoleSelectorUtil {
         return roles;
 //        return domain.equals("stringwiz") ? "ROLE_ADMIN" : "ROLE_IND_USER";
     }
+
+
+
 }
