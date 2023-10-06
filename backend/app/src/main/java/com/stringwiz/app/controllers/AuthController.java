@@ -10,8 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.stringwiz.app.models.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +25,6 @@ public class AuthController {
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody UserRegistrationDto request) {
         try {
-            System.out.println("helloooo");
             Authentication authenticate = authenticationManager
                     .authenticate(
                             new UsernamePasswordAuthenticationToken(
@@ -35,8 +33,8 @@ public class AuthController {
                             )
                     );
 
-            UserDetails user = (UserDetails) authenticate.getPrincipal();
-
+            User user = (User) authenticate.getPrincipal();
+            user.setPassword(null);
             return ResponseEntity.ok()
                     .header(
                         HttpHeaders.AUTHORIZATION,
@@ -44,12 +42,7 @@ public class AuthController {
                     )
                     .body(user);
 
-
         } catch(BadCredentialsException ex) {
-            System.out.println("error :((((");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        } catch(AuthenticationException ae) {
-//            ae.printStackTrace();
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }

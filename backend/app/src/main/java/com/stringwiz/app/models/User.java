@@ -44,7 +44,7 @@ public class User implements UserDetails {
     @Setter private String firstName;
 
     @Column(name = "last_name")
-    private String lastName;
+    @Setter private String lastName;
 
     @Column(name = "full_name")
     private String fullName;
@@ -79,8 +79,20 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public User(String fullName, String email, String password) {
+        this.fullName = fullName;
+        setFirstName();
+        setLastName();
+        this.email = email;
+        this.password = password;
+    }
+
     public void setFirstName() {
-        this.firstName = "Mario";
+        this.firstName = fullName.substring(0,fullName.indexOf(' '));
+    }
+
+    public void setLastName() {
+        this.lastName = fullName.substring(fullName.indexOf(' ')+1);
     }
 
 
