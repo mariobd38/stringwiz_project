@@ -1,0 +1,64 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+@media (max-width: 991px) {
+    .navbar-brand {
+        text-align: center;
+        margin: auto;
+        display: inline-block;
+        width: 150px;
+    }
+    .sidebar {
+        backdrop-filter: blur(40px);
+    }
+}
+.nav-link{
+    font-size: 0.85em;
+}
+@media (width < 1200px) {
+    .dropdown-menu {
+        width: 60%;
+    }
+}
+.offcanvas-header {
+    color: #4296af;
+    border-bottom-color: #4296af;
+}
+ul li:hover > ul,
+ul li:focus-within > ul,
+ul li ul:hover,
+ul li ul:focus {
+    visibility: visible;
+    opacity: 1;
+    display: block
+}
+
+ul li ul li {
+    clear: both;
+    width: 100%;
+}
+.nav-link:hover {
+    color: black;
+    font-weight: bold;
+}
+.register {
+    background-color: black;
+    border: 2px solid black;
+}
+.register:hover {
+    background-color: #4296af;
+}
+.login:hover {
+    color: #551de2;
+}
+.navbar {
+    height: 100px;
+    margin: 0;
+    padding: 0;
+}
+.navbar-brand {
+    text-align: center;
+    margin: auto;
+    display: inline-block;
+}

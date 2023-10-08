@@ -1,0 +1,34 @@
+.left-header-block {
+    width: 350px;
+}
+.left-header-text {
+    font-size: 60px;
+    font-family: 'Ubuntu', serif;
+    font-weight: 700;
+    color: white;
+}
+.description {
+    font-family: 'Montserrat', serif;
+    font-size: 1.2em;
+    color: white;
+}
+.how_it_works {
+    border: 2px solid black;
+    background-color: white;
+}
+.how_it_works:hover {
+   background-color: #58bcdb;
+}
+.header {
+    background-color: #223654;
+}
+a {
+    text-decoration: none;
+}
+.center-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
