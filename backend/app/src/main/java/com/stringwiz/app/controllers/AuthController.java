@@ -1,6 +1,9 @@
 package com.stringwiz.app.controllers;
 
+import com.stringwiz.app.repositories.UserRepository;
+import com.stringwiz.app.services.CustomUserService;
 import com.stringwiz.app.utils.JwtUtil;
+import com.stringwiz.app.web.UserAuthenticationDto;
 import com.stringwiz.app.web.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -12,18 +15,20 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import com.stringwiz.app.models.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/api/auth")
 public class AuthController {
     @Autowired private AuthenticationManager authenticationManager;
     @Autowired private JwtUtil jwtUtil;
+    @Autowired private UserRepository userRepository;
+    @Autowired private CustomUserService customUserService;
 
-    @PostMapping("login")
-    public ResponseEntity<?> login(@RequestBody UserRegistrationDto request) {
+    @PostMapping("/api/auth/login")
+    public ResponseEntity<?> login(@RequestBody UserAuthenticationDto request) {
         try {
             Authentication authenticate = authenticationManager
                     .authenticate(
@@ -37,15 +42,25 @@ public class AuthController {
             user.setPassword(null);
             return ResponseEntity.ok()
                     .header(
-                        HttpHeaders.AUTHORIZATION,
-                        jwtUtil.generateToken(user)
+                            HttpHeaders.AUTHORIZATION,
+                            jwtUtil.generateToken(user)
                     )
                     .body(user);
 
-        } catch(BadCredentialsException ex) {
+        } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
-
+    @PostMapping("/api/auth/signup")
+    public ResponseEntity<?> register(@RequestBody UserRegistrationDto request) {
+        User user = new User(request.getFullName(), request.getEmail(), request.getPassword());
+        customUserService.saveUser(request);
+        return ResponseEntity.ok()
+                .header(
+                    HttpHeaders.AUTHORIZATION,
+                    jwtUtil.generateToken(user)
+                )
+                .build();
+    }
 }

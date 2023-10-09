@@ -1,28 +1,36 @@
 import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import './App.css';
-import Dashboard from "./Dashboard/dashboard";
+import Home from "./Home/home";
 import HomePage from "./HomePage/homePage";
 import { useLocalState } from "./utils/useLocalStorage";
 import Login from "./Login/login";
+import SignUp from "./SignUp/signUp";
 import PrivateRoute from "./PrivateRoute/privateRoute";
 
 function App() {
   const [jwt, setJwt] = useLocalState("", "jwt");
+  const [userEmail, setUserEmail] = useLocalState("", "userEmail");
 
   useEffect(() => {
     console.log(`JWT is: ${jwt}`);
   }, [jwt]);
 
+  useEffect(() => {
+    console.log(`JWT is: ${userEmail}`);
+  }, [userEmail]);
+
   return (
     <Routes>
-      <Route path="/dashboard" element={
+      <Route path="/home" element={
         <PrivateRoute>
-          <Dashboard/> 
+          <Home/> 
         </PrivateRoute>
       } />
 
       <Route path="/login" element={<Login/> } />
+
+      <Route path="/signUp" element={<SignUp/> } />
 
       <Route path="/" element={<HomePage/> } />
 

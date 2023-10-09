@@ -1,0 +1,60 @@
+.bottom-description {
+    color: #4a4a4a;
+    font-size: 0.97em;
+}
+.signup-top-text {
+    font-size: 50px;
+    font-family: 'Ubuntu', serif;
+    font-weight: 700;
+    color: black;
+}
+.illustration-div {
+    height: 100vh;
+    background-color: #551de2;
+    padding: 0 32px;
+}
+@media (max-width: 991px) {
+    .illustration-div {
+        width: 100%;
+        height: 70vh;
+    }
+}
+.input-group,.register-continue {
+    margin: auto;
+    width: 25em;
+}
+.register-continue {
+    background-color: black;
+}
+.register-continue:hover {
+    background-color: #551de2;
+}
+.form-control::placeholder {
+    font-family: 'Lato', serif;
+    color: #9a9a9a;
+}
+.form-control {
+    border-left: none;
+}
+.input-group-text {
+    background-color: #f7f7f7;
+    
+}
+.input-label {
+    margin:auto;
+    width: 25em;
+    text-align:start;
+    padding-left: 3px;
+    font-family: 'Lato', serif;
+    color: #5a5a5a;
+}
+.logo_icon {
+    width: 3em;
+}
+.signup-center-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}

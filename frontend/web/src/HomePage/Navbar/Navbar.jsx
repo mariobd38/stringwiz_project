@@ -120,9 +120,11 @@ function Navbar () {
                         ></path>
                       </svg>
                     </button>
-                    <button className="btn nav-button register text-white px-3 py-1 rounded-4">
-                      Get Started
-                    </button>
+                    <a href="/signup">
+                      <button className="btn nav-button register text-white px-3 py-1 rounded-4">
+                        Get Started
+                      </button>
+                    </a>
                   </div>
                 </div>
               </div>

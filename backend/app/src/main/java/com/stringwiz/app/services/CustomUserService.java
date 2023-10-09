@@ -6,6 +6,7 @@ import com.stringwiz.app.models.User;
 import com.stringwiz.app.repositories.RoleRepository;
 import com.stringwiz.app.repositories.UserRepository;
 import com.stringwiz.app.utils.RoleSelectorUtil;
+import com.stringwiz.app.web.UserAuthenticationDto;
 import com.stringwiz.app.web.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,9 +26,8 @@ public class CustomUserService implements UserService {
     @Autowired private PasswordEncoder passwordEncoder;
     @Override
     public void saveUser(UserRegistrationDto userRegistrationDto) {
-        User user = new User(userRegistrationDto.getEmail(), userRegistrationDto.getPassword());
+        User user = new User(userRegistrationDto.getFullName(), userRegistrationDto.getEmail(), userRegistrationDto.getPassword());
         user.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword()));
-
 
         List<Role.RoleNames> roleNames = new RoleSelectorUtil().getRolesFromEmail(user.getEmail());
         List<Role> roleList = new ArrayList<>();

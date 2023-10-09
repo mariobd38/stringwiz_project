@@ -1,5 +1,6 @@
 package com.stringwiz.app.services;
 
+import com.stringwiz.app.web.UserAuthenticationDto;
 import com.stringwiz.app.web.UserRegistrationDto;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
