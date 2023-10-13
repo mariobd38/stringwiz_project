@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.hibernate.validator.constraints.Length;
 
 @Data
 @NoArgsConstructor
@@ -14,5 +15,6 @@ public class UserRegistrationDto {
     @NonNull
     private String email;
     @NonNull
+    @Length(min = 8)
     private String password;
 }

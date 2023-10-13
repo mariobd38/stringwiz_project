@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocalState } from '../utils/useLocalStorage';
-import './login.css'
 import Container from 'react-bootstrap/Container';
+import './login.css'
 
 
 const Login = () => {
@@ -10,6 +10,7 @@ const Login = () => {
 
     const [jwt, setJwt] = useLocalState("","jwt");
     const [userEmail, setUserEmail] = useLocalState("", "userEmail");
+    const [userFullName, setUserFullName] = useLocalState("", "userFullName");
     document.body.style.backgroundColor = "#223654";
 
     function sendLoginRequest () {
@@ -20,6 +21,9 @@ const Login = () => {
         const userEmailInfo = {
             userEmail: userEmail
         };
+        const userFullNameInfo = {
+            userFullName: userFullName
+        };
 
         fetch("api/auth/login", {
             headers: {
@@ -27,7 +31,7 @@ const Login = () => {
             },
             method: "post",
             body: JSON.stringify(reqBody),
-            userEmail: JSON.stringify(userEmailInfo),
+            userFullName: JSON.stringify(userFullNameInfo),
         })
         .then((response) => {
             if (response.status === 200) {
@@ -39,6 +43,8 @@ const Login = () => {
         .then(([data,headers]) => {
             setUserEmail(data['email']);
             console.log(data['email']);
+            setUserFullName(data['firstName'] + " " + data['lastName']);
+            console.log("data = " + data['firstName']);
             setJwt(headers.get("authorization"));
             window.location.href = '/home';
         }).catch(message => {
@@ -86,7 +92,7 @@ const Login = () => {
                     <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
                     </svg>
                 </span>
-                <input type="email" htmlFor='email' id="email" className="form-control" placeholder="name@site.com" aria-label="email" aria-describedby="email-addon" name="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                <input type="email" htmlFor='email' id="email" className="form-control" placeholder="name@site.com" aria-label="email" aria-describedby="email-addon" name="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="off"/>
                 </div>
 
                 <div className="input-group mb-3 pt-1 pb-2">

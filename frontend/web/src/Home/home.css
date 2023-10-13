@@ -1,0 +1,74 @@
+.today {
+    font-family: 'Nunito Sans', serif;
+    font-size: 1.3rem;
+}
+.greeting {
+    font-family: 'Nunito Sans', serif;
+    font-size: 2.1rem;
+    font-weight: 600;
+    color: red;
+}
+.user-button {
+    background-color: #58bcdb;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    border-radius: 50%;
+    width:3.5rem;
+    height:3.5rem;
+}
+.initials {
+  color: black;
+  font-weight: 500;
+  font-size: 1.35em;
+  font-family: 'Ubuntu', serif;
+  text-transform: uppercase;
+}
+.navbar {
+    background-color: #e7e7e7;
+}
+.nav-link {
+    color: #223654 !important;
+    font-family: 'Lato', serif;
+    font-size: 1rem !important;
+}
+.tasks-text {
+    font-family: 'Ubuntu', serif;
+    font-weight: 600;
+}
+.my-card {
+    width: 110%;
+    background-color: #f8f8f8 !important;
+}
+@media(width < 1200px) {
+    .my-card {
+        width: 100%;
+        margin:auto;
+    }
+}
+@media(width < 1000px) {
+    .my-card {
+        width: 95%;
+        margin:auto;
+    }
+}
+.create-task-button {
+    background-color: #551de2 !important;
+    font-family: 'Lato', serif !important;
+    /* border-style: dashed ; */
+}
+.checklist-rtl-icon {
+    background-color: #58bcdb !important;
+    width:3.5rem !important;
+    height:3.5rem !important;
+    border-radius: 50%;
+    padding: 10px;
+}
+.default-tab-text {
+    font-family: 'Ubuntu', serif !important;
+}
+@media (max-width: 991px) {
+    .navbar-brand {
+        width: 250px !important;
+    }
+}

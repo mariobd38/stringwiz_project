@@ -17,7 +17,7 @@ function App() {
   }, [jwt]);
 
   useEffect(() => {
-    console.log(`JWT is: ${userEmail}`);
+    console.log(`Email is: ${userEmail}`);
   }, [userEmail]);
 
   return (

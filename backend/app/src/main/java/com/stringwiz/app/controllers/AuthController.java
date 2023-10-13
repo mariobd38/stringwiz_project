@@ -54,13 +54,17 @@ public class AuthController {
 
     @PostMapping("/api/auth/signup")
     public ResponseEntity<?> register(@RequestBody UserRegistrationDto request) {
-        User user = new User(request.getFullName(), request.getEmail(), request.getPassword());
-        customUserService.saveUser(request);
-        return ResponseEntity.ok()
-                .header(
-                    HttpHeaders.AUTHORIZATION,
-                    jwtUtil.generateToken(user)
-                )
-                .build();
+        try {
+            User user = new User(request.getFullName(), request.getEmail(), request.getPassword());
+            customUserService.saveUser(request);
+            return ResponseEntity.ok()
+                    .header(
+                            HttpHeaders.AUTHORIZATION,
+                            jwtUtil.generateToken(user)
+                    )
+                    .build();
+        } catch(StringIndexOutOfBoundsException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 }

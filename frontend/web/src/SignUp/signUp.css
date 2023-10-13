@@ -11,7 +11,12 @@
 .illustration-div {
     height: 100vh;
     background-color: #551de2;
-    padding: 0 32px;
+    padding: 0 10px;
+}
+@media(width > 1280px) {
+    .illustration-div {
+        padding: 0 60px;
+    }
 }
 @media (max-width: 991px) {
     .illustration-div {
