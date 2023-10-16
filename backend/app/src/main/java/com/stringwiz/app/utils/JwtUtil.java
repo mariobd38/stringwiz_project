@@ -5,7 +5,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -17,10 +16,11 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-    private static final long JWT_TOKEN_VALIDITY = 30*24*60*60;
+    private static final long JWT_TOKEN_VALIDITY = 30*24*60*60*60;
     private static final String SECRET_KEY = "8EC736DF26FCC1EEDC919F5F1A715YSAD769219270D98012SHDKJHSDAH9UG54D";
 
     public String getUserEmailFromToken(String token) {
+        System.out.println("extracting user email now");
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -30,20 +30,27 @@ public class JwtUtil {
     }
 
     public String generateToken(UserDetails userDetails) {
-        Map<String,Object> claims = new HashMap<>();
         return Jwts
                 .builder()
-                .setClaims(claims)
+                .setClaims(new HashMap<>())
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public Boolean validateToken(String token, UserDetails user) {
         final String username = getUserEmailFromToken(token);
-        return (username.equals(user.getUsername()) && isTokenExpired(token));
+        return (username.equals(user.getUsername()) && !isTokenExpired(token));
+    }
+
+    public Boolean canTokenBeRefreshed(String token) {
+        return (!isTokenExpired(token) || ignoreTokenExpiration(token));
+    }
+
+    private Boolean ignoreTokenExpiration(String token) {
+        return false;
     }
 
     private Claims extractAllClaims(String token) {

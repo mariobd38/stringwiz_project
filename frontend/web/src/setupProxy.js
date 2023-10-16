@@ -15,4 +15,14 @@ module.exports = function(app) {
       changeOrigin: true,
     })
   );
+  app.use(
+    '/api/tasks',
+    createProxyMiddleware({
+      target: 'http://localhost:8080',
+      changeOrigin: true,
+      onProxyReq(proxyReq, req, res) {
+        console.log('Forwarding request to /api/auth/tasks');
+      },
+    })
+  );
 };

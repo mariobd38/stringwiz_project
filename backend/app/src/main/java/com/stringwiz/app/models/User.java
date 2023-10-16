@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -62,6 +63,9 @@ public class User implements UserDetails {
 //    @UpdateTimestamp
 //    @Column(name="last_updated_on")
 //    private Timestamp lastUpdatedOn;
+@JsonIgnore
+@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+private List<Task> tasks = new ArrayList<>();
 
 
     @JsonIgnore
@@ -70,8 +74,6 @@ public class User implements UserDetails {
             name="users_roles",
             joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
             inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
-//    private List<String> roles = new ArrayList<>();
-//    @Enumerated(EnumType.STRING)
     private List<Role> roles = new ArrayList<>();
 
     public User(String email, String password) {

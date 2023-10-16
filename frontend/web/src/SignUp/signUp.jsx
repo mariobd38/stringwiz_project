@@ -40,9 +40,6 @@ const SignUp = () => {
           email: email,
           password: password
         };
-        const userEmailInfo = {
-          userEmail: userEmail
-        };
         const userFullNameInfo = {
             userFullName: userFullName
           };
