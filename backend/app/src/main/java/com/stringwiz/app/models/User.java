@@ -1,5 +1,6 @@
 package com.stringwiz.app.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.stringwiz.app.utils.RoleSelectorUtil;
 import jakarta.persistence.CascadeType;
@@ -21,12 +22,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Entity()
@@ -56,13 +64,14 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-//    @CreationTimestamp
-//    @Column(name="created_on")
-//    private Instant createdOn;
-//
-//    @UpdateTimestamp
-//    @Column(name="last_updated_on")
-//    private Timestamp lastUpdatedOn;
+    @CreationTimestamp
+    @Column(name="created_on")
+    private Timestamp createdOn;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @UpdateTimestamp
+    @Column(name="last_updated_on")
+    private Timestamp lastUpdatedOn;
 @JsonIgnore
 @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 private List<Task> tasks = new ArrayList<>();
@@ -81,12 +90,17 @@ private List<Task> tasks = new ArrayList<>();
         this.password = password;
     }
 
-    public User(String fullName, String email, String password) {
+    public User(String fullName, String email, String password, Boolean isnewUser) {
         this.fullName = fullName;
         setFirstName();
         setLastName();
         this.email = email;
         this.password = password;
+        Timestamp currentTime = new Timestamp(new Date().getTime());
+        if (isnewUser) {
+            this.createdOn = currentTime;
+        }
+        this.lastUpdatedOn = currentTime;
     }
 
     public void setFirstName() {

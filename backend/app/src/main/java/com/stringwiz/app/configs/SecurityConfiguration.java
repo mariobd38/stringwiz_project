@@ -46,6 +46,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers(new AntPathRequestMatcher("/api/auth/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/**")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/api/tasks/**")).authenticated()
                         .anyRequest().authenticated());
         return http.build();
     }

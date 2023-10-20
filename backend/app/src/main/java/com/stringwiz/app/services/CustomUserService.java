@@ -26,7 +26,7 @@ public class CustomUserService implements UserService {
     @Autowired private PasswordEncoder passwordEncoder;
     @Override
     public void saveUser(UserRegistrationDto userRegistrationDto) {
-        User user = new User(userRegistrationDto.getFullName(), userRegistrationDto.getEmail(), userRegistrationDto.getPassword());
+        User user = new User(userRegistrationDto.getFullName(), userRegistrationDto.getEmail(), userRegistrationDto.getPassword(), true);
         user.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword()));
 
         List<Role.RoleNames> roleNames = new RoleSelectorUtil().getRolesFromEmail(user.getEmail());

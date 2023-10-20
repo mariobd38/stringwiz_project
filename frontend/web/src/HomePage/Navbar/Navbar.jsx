@@ -74,27 +74,27 @@ function Navbar () {
                 </div>
                 <div className="offcanvas-body d-flex flex-column flex-lg-row p-4 p-lg-0">
                   <ul className="navbar-nav justify-content-center align-items-center fs-5 flex-grow-1 pe-3">
-                    <li className="nav-item mx-2">
+                    <li className="nav-header-item mx-2">
                       <a className="nav-link disabled" href="/">
                         Features
                       </a>
                     </li>
-                    <li className="nav-item mx-2">
+                    <li className="nav-header-item mx-2">
                       <a className="nav-link disabled" href="/">
                         Teams
                       </a>
                     </li>
-                    <li className="nav-item mx-2">
+                    <li className="nav-header-item mx-2">
                       <a className="nav-link disabled" href="/">
                         Resources
                       </a>
                     </li>
-                    <li className="nav-item mx-2">
+                    <li className="nav-header-item mx-2">
                       <a className="nav-link disabled" href="/">
                         Enterprise
                       </a>
                     </li>
-                    <li className="nav-item mx-2">
+                    <li className="nav-header-item mx-2">
                       <a className="nav-link disabled" href="/">
                         Pricing
                       </a>

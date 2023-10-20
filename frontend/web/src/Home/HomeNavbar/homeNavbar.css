@@ -1,0 +1,69 @@
+.img-fluid {
+    text-align: center;
+    margin:auto;
+}
+.user-button {
+    background-color: #58bcdb;
+    display: flex; 
+    border-radius: 32%;
+    width:3.5rem;
+    height:3.5rem;
+    border: none !important ;
+}
+.user-button:hover {
+    border: none !important;
+    background-color: #551de2;
+}
+
+.initials {
+    color: black;
+    font-weight: 500;
+    font-size: 1.35em;
+    font-family: 'Ubuntu', serif;
+    text-transform: uppercase;
+  }
+  .navbar {
+      background-color: #e7e7e7;
+  }
+  .notis {
+      border-radius: 30%;
+      padding: 8px;
+      width: 75% !important;
+      height: 75% !important;
+  }
+  .notis:hover {
+      background-color: #d1d1d1;
+      /* border: 1px solid red; */
+      border-radius: 30%;
+      transition: .3s;
+  }
+  .nav-link {
+      color: #223654 !important;
+      font-family: 'Lato', serif;
+      font-size: 1rem !important;
+  }
+
+  @media (max-width: 991px) {
+    .navbar-brand {
+        width: 250px !important;
+    }
+}
+
+.logout {
+    background-color: white;
+    border: none;
+
+   width: 100% !important;
+}
+.logout-menu {
+    width: 108% !important;
+    left: -31% !important;
+    margin-left: 46px !important;
+}
+.logout-menu-icon {
+    padding-left: 0.3% !important;
+}
+
+.my-profile:hover {
+    background-color: #58bcdb !important;
+}

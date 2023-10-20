@@ -20,9 +20,13 @@ module.exports = function(app) {
     createProxyMiddleware({
       target: 'http://localhost:8080',
       changeOrigin: true,
-      onProxyReq(proxyReq, req, res) {
-        console.log('Forwarding request to /api/auth/tasks');
-      },
+    })
+  );
+  app.use(
+    '/api/tasks/get',
+    createProxyMiddleware({
+      target: 'http://localhost:8080',
+      changeOrigin: true,
     })
   );
 };

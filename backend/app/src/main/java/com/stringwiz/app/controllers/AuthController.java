@@ -15,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import com.stringwiz.app.models.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -53,7 +54,7 @@ public class AuthController {
     @PostMapping("/api/auth/signup")
     public ResponseEntity<?> register(@RequestBody UserRegistrationDto request) {
         try {
-            User user = new User(request.getFullName(), request.getEmail(), request.getPassword());
+            User user = new User(request.getFullName(), request.getEmail(), request.getPassword(), true);
             customUserService.saveUser(request);
             return ResponseEntity.ok()
                 .header(

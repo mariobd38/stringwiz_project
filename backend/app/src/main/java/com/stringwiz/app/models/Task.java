@@ -10,10 +10,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Entity()
@@ -28,19 +32,31 @@ public class Task {
     @Column(updatable = false, nullable = false)
     private Long id;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String name;
-//    @Column
+
     private String description;
 
-//    @Column
+    @Column(nullable = true)
     private String status;
 
-//    @Column
     private String priority;
 
     @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "due_date")
+    private Date dueDate;
+
+    public Task(String name, String description, String status, String priority, User user, Date dueDate) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.priority = priority;
+        this.user = user;
+        this.dueDate = dueDate;
+    }
 }

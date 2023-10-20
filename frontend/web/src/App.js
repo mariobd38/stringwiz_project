@@ -11,6 +11,7 @@ import PrivateRoute from "./PrivateRoute/privateRoute";
 function App() {
   const [jwt, setJwt] = useLocalState("", "jwt");
   const [userEmail, setUserEmail] = useLocalState("", "userEmail");
+  const [userTasks, setUserTasks] = useLocalState([], "userTasks");
 
   useEffect(() => {
     console.log(`JWT is: ${jwt}`);

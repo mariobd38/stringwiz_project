@@ -1,9 +1,4 @@
-
-.img-fluid {
-    text-align: center;
-    margin:auto;
-}
-.dashboard-text {
+.home-text {
     font-family: 'Poppins', serif;
     font-size: 1.7rem;
 }
@@ -15,47 +10,6 @@
     font-family: 'Nunito Sans', serif;
     font-size: 2.1rem;
     font-weight: 600;
-}
-.user-button {
-    background-color: #58bcdb;
-    display: flex; 
-    border-radius: 32%;
-    width:3.5rem;
-    height:3.5rem;
-    border: none !important ;
-    /* color: white !important; */
-}
-.user-button:hover {
-    border: none !important;
-    background-color: #551de2;
-}
-
-.initials {
-  color: black;
-  font-weight: 500;
-  font-size: 1.35em;
-  font-family: 'Ubuntu', serif;
-  text-transform: uppercase;
-}
-.navbar {
-    background-color: #e7e7e7;
-}
-.notis {
-    border-radius: 30%;
-    padding: 8px;
-    width: 75% !important;
-    height: 75% !important;
-}
-.notis:hover {
-    background-color: #d1d1d1;
-    /* border: 1px solid red; */
-    border-radius: 30%;
-    transition: .3s;
-}
-.nav-link {
-    color: #223654 !important;
-    font-family: 'Lato', serif;
-    font-size: 1rem !important;
 }
 .tasks-text {
     font-family: 'Ubuntu', serif;
@@ -77,10 +31,14 @@
         margin:auto;
     }
 }
+.add-task-icon {
+    width: 0.9em !important;
+}
 .create-task-button {
-    background-color: #551de2 !important;
+    background-color: rgb(218,218,218) !important;
+    color: black !important;
     font-family: 'Lato', serif !important;
-    /* border-style: dashed ; */
+    font-size: 0.9em !important;
 }
 .create-task-button:hover {
     background-color: #58bcdb !important;
@@ -90,7 +48,6 @@
 	transform: translateY(-4px);
     /* position: absolute; */
 }
-
 
 .checklist-rtl-icon {
     background-color: #58bcdb !important;
@@ -102,10 +59,8 @@
 .default-tab-text {
     font-family: 'Ubuntu', serif !important;
 }
-@media (max-width: 991px) {
-    .navbar-brand {
-        width: 250px !important;
-    }
+.error-message {
+    color: #c90825;
 }
 .cc {
     display: flex;
@@ -113,6 +68,30 @@
   align-items: center;
   height: 12rem;
 }
-.my-profile {
+.status-item,.priority-item {
+    border: 1.5px solid white !important;
+    font-family: 'Lato', serif !important;
+}
+.status-item:hover, .priority-item:hover, .create-task-btn:hover {
     background-color: #58bcdb !important;
+}
+.bg-high {
+    background-color: #551de2 !important;
+}
+.bg-medium {
+    background-color: rgb(86, 89, 215) !important;
+}
+.bg-low {
+    background-color: rgb(103, 153, 245) !important;
+}
+.create-task-btn {
+    background-color: rgb(86, 89, 215) !important;
+    border: none !important;
+}
+.nav-item:hover {
+    transition: .7s;
+    background-color: #58bcdb !important;
+}
+.nav-item {
+    border-radius: 2%;
 }

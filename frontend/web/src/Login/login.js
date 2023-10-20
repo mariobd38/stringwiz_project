@@ -11,7 +11,6 @@ const Login = () => {
     const [jwt, setJwt] = useLocalState("","jwt");
     const [userEmail, setUserEmail] = useLocalState("", "userEmail");
     const [userFullName, setUserFullName] = useLocalState("", "userFullName");
-    const [userPassword, setUserPassword] = useLocalState("", "userPassword");
     document.body.style.backgroundColor = "#223654";
 
     function sendLoginRequest () {
@@ -45,7 +44,6 @@ const Login = () => {
             setUserEmail(data['email']);
             console.log(data['email']);
             setUserFullName(data['firstName'] + " " + data['lastName']);
-            setUserPassword(data['password']);
             console.log("data = " + data['firstName']);
             setJwt(headers.get("authorization"));
             window.location.href = '/home';
