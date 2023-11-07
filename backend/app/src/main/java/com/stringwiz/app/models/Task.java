@@ -37,7 +37,6 @@ public class Task {
 
     private String description;
 
-    @Column(nullable = true)
     private String status;
 
     private String priority;

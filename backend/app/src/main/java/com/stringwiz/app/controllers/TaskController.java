@@ -10,23 +10,21 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 //@RequestMapping("/api/tasks")
 public class TaskController {
     @Autowired TaskService taskService;
     @Autowired UserRepository userRepository;
-    @Value("${baseUrl}")
-    private String baseUrl;
 
     @PostMapping("/api/tasks")
-    public ResponseEntity<?>  createTask(@AuthenticationPrincipal User user, @RequestHeader("Authorization") String authorization, @RequestBody Task task) {
-//        Task task1 = new Task(task.getName(),task.getDescription(),task.getStatus(), task.getPriority(), task.getDueDate());
+    public ResponseEntity<?>  createTask(@AuthenticationPrincipal User user, @RequestBody Task task) {
         try {
             Task newTask = taskService.save(user, task);
             return ResponseEntity.ok(newTask);
@@ -41,4 +39,9 @@ public class TaskController {
         return ResponseEntity.ok(tasks);
     }
 
+    @PutMapping("/api/tasks/put")
+    public ResponseEntity<?> updateTask(@RequestBody Task task) {
+        Task myTask = taskService.update(task);
+        return ResponseEntity.ok(myTask);
+    }
 }

@@ -13,17 +13,14 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CheckIcon from '@mui/icons-material/Check';
 import ChecklistRtlRoundedIcon from '@mui/icons-material/ChecklistRtlRounded';
-import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import FlagIcon from '@mui/icons-material/Flag';
 import Alert from '@mui/material/Alert';
-import Divider from '@mui/material/Divider';
 import Fade from '@mui/material/Fade';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
@@ -37,13 +34,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import HomeNavbar from './HomeNavbar/homeNavbar';
+import HomeHeader from './HomeHeader/homeHeader';
 import './home.css';
 
 
@@ -51,42 +48,13 @@ import './home.css';
 const Home = () => {
     const dayjs = require('dayjs');
 
-    document.body.style.backgroundColor = "rgb(30,31,33)";
-    const [jwt, setJwt] = useLocalState("", "jwt");
-    const [userFullName] = useLocalState("", "userFullName");
+    // document.body.style.backgroundColor = "#1e1f21";
+    // document.body.style.backgroundColor = "";
+
+
+    const [jwt] = useLocalState("", "jwt");
     const [userTasks, setUserTasks] = useLocalState([], "userTasks");
-    
-    var now = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    now = dayjs();
-    const date = new Date(now.year(), now.month(), now.date());  // 2009-11-10
-    const month = date.toLocaleString('default', { month: 'long' });
-    const dayOfWeek = date.toLocaleDateString('en-US',{weekday: 'long'});
-    const todays_date = dayOfWeek + ", " + month + " " + date.getDate();
-
-    let hour = now.hour();
-    let minute = now.minute();
-    let greeting = "Good ";
-    const firstName = userFullName.split(' ')[0];
-
-    let timeEmoji = "";
-    switch(true) {
-        case (hour < 6):
-            greeting += "night";
-            timeEmoji = "😴";
-            break;
-        case (hour >= 18 && (hour <= 23 && minute <= 59)):
-            greeting += "evening";
-            timeEmoji = "🌙";
-            break;
-        case (hour >= 12):
-            greeting += "afternoon";
-            timeEmoji = "☀️";
-            break;  
-        default:
-            greeting += "morning";
-            timeEmoji = "🌅";
-            break;
-    }
+ 
     const [taskName, setTaskName] = useState(null);
     const [taskDescription, setTaskDescription] = useState(null);
     const [taskStatus, setTaskStatus] = useState(null);
@@ -95,7 +63,9 @@ const Home = () => {
     
     const [missingNameError, setMissingNameError] = useState(false);
     const [taskCreated, setTaskCreated] = useState(false);
-    
+
+    const [isCheckIconVisible, setCheckIconVisible] = useState(false);
+
 
     const handleTaskNameChange = (event) => {
         setTaskName(event.target.value);
@@ -143,13 +113,12 @@ const Home = () => {
         setPlacement(newPlacement);
     };
 
-
-
     //status popovers
     const [statusPopoverAnchorEl, setStatusPopoverAnchorEl] = useState(null);
 
-    const handleStatusPopoverClick = (event) => {
+    const handleStatusPopoverClick = (event, index) => {
         setStatusPopoverAnchorEl(event.currentTarget);
+        setCurrentIndex(index);
     };
 
     const handleStatusPopoverClose = () => {
@@ -162,8 +131,9 @@ const Home = () => {
     //priority popovers
     const [priorityPopoverAnchorEl, setProrityPopoverAnchorEl] = useState(null);
 
-    const handlePriorityPopoverClick = (event) => {
+    const handlePriorityPopoverClick = (event, index) => {
         setProrityPopoverAnchorEl(event.currentTarget);
+        setCurrentIndex(index);
     };
 
     const handlePriorityPopoverClose = () => {
@@ -174,19 +144,34 @@ const Home = () => {
     const priorityPopOverId = openPriorityPopover ? 'simple-popover' : undefined;
 
     //due date popovers
+    const [currentIndex, setCurrentIndex] = useState(null);
+
     const [dueDatePopoverAnchorEl, setDueDatePopoverAnchorEl] = useState(null);
 
-    const handleDueDatePopoverClick = (event) => {
+    const handleDueDatePopoverClick = (event, index) => {
         setDueDatePopoverAnchorEl(event.currentTarget);
+        setCurrentIndex(index);
     };
+
+    const [selectedDate, setSelectedDate] = useState(null);
+
 
     const handleDueDatePopoverClose = () => {
         setDueDatePopoverAnchorEl(null);
+        setSelectedDate(false);
     };
 
     const openDueDatePopover = Boolean(dueDatePopoverAnchorEl);
     const dueDatePopOverId = openDueDatePopover ? 'simple-popover' : undefined;
+
+
   
+
+
+    const handleDateSelection = (date) => {
+        setSelectedDate(date);
+      };
+
     function createTaskInfo() {
         if (!taskName) {
             setMissingNameError(true);
@@ -214,7 +199,7 @@ const Home = () => {
             dueDate: (taskDueDate !== null) ? `${monthString}/${dayString}/${yearString}` : ''
         };
         setTaskData([...taskData, taskTableInfo]);
-
+        // console.log("mydate " + myDate);
 
         const taskInfo = {
             name: taskName,
@@ -243,11 +228,11 @@ const Home = () => {
             let taskList = userTasks;
             if(taskList === "") taskList = [];
 
-            console.log("task list before: " + taskList);
+
             taskList.push(taskTableInfo);
-            console.log("task list after: " + taskList);
+
             setUserTasks(JSON.parse(JSON.stringify(taskList)))
-            console.log(JSON.parse(JSON.stringify(taskList)));
+
             setTaskCreated(true);
             setTaskName(null);
             setTaskDescription(null);
@@ -276,9 +261,71 @@ const Home = () => {
             return response.json();
         })
         .then((data) => {
-            console.log('Data below');
-            console.log(data);
+            // console.log('Data below');
+            // console.log(data);
             setTaskData(data);
+        })
+        .catch((error) => {
+            console.error(error); 
+        });
+    }
+
+    const updateTaskInfo = (task, event) => {
+        const targetClassList = event.currentTarget.className.split(' ');
+
+        if (targetClassList.includes('date-calendar-btn') && selectedDate !== null) {
+            const newDayString = selectedDate.format('D');
+            const newMonthString = selectedDate.format('M');
+            const newYearString = selectedDate.format('YYYY');
+            const newDate = dayjs(`${newYearString}-${newMonthString}-${newDayString}`).toDate();
+            task.dueDate = newDate;
+            handleDueDatePopoverClose();
+        } else if (targetClassList.includes('priority-list-item-btn')) {
+            task.priority = event.target.textContent;
+            setCheckIconVisible(true);
+            setTimeout(function () {
+                setCheckIconVisible(false);
+
+                handlePriorityPopoverClose();
+
+            }, 610);
+        } else if (targetClassList.includes('status-list-item-btn')) {
+            task.status = event.target.textContent;
+            setCheckIconVisible(true);
+
+
+            setTimeout(function () {
+                setCheckIconVisible(false);
+
+                handleStatusPopoverClose();
+
+            }, 610);
+        }
+
+
+
+        const taskInfo = {
+            id: task.id,
+            name: task.name,
+            description: task.description,
+            status: task.status,
+            priority: task.priority,
+            dueDate: task.dueDate
+        };
+
+        fetch("/api/tasks/put", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: 'Bearer ' + jwt
+            },
+            body: JSON.stringify(taskInfo),
+        }).then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            // Parse the response as JSON
+            return response.json();
         })
         .catch((error) => {
             console.error(error); 
@@ -289,14 +336,9 @@ const Home = () => {
         getTaskInfo();
       }, []);
 
-      const sayHello = (index) => {
-
-        // Create a copy of the task data array
+      const completeTask = (index) => {
         let updatedTaskData = [...taskData];
-        // Toggle a property like 'completed' for the task at the given index
-        // updatedTaskData[index].completed = !updatedTaskData[index].completed;
         updatedTaskData[index].status = 'Completed';
-        // Set the updated data
 
         setTaskData(updatedTaskData);
 
@@ -308,29 +350,28 @@ const Home = () => {
 
             setTaskData(newTaskData);
 
-          }, 400);
-
+          }, 600);
       };
+
+    const updateTaskInfoFunc = (event) => {
+        // setCheckIconVisible(true);
+
+        // Log to see when this is executed
+        // console.log('CheckIcon visible: true');
+
+        updateTaskInfo(taskData[currentIndex], event);
+
+        // setTimeout(function () {
+        //     setCheckIconVisible(false);
+        // }, 3000);
+
+    }
     
     return (
         <>
         <HomeNavbar></HomeNavbar>    
-        <Container className=''>
-            <div className='pt-4 d-none d-sm-block'>
-                <div className='d-flex justify-content-between'>
-                    <h2 className='text-white home-text pt-2 m-0'> My Home</h2>
-                    
-                    <Button className='customize-bg'>
-                    <DashboardCustomizeIcon></DashboardCustomizeIcon><span className='ps-1'>Customize</span>
-                    </Button>
-                </div>
-                {/* <h2 className='text-white home-text'>My Home</h2> */}
-                <hr className='text-white '/>
-            </div>
-            <div className='pt-5 pt-sm-3 text-center'>
-                <h2 className='text-white today'>{todays_date}</h2>
-                <h2 className='text-white greeting pt-1'>{greeting}, <span>{firstName}</span> {timeEmoji}</h2> 
-            </div>
+        <Container >
+            <HomeHeader></HomeHeader>
             
             <div className='row pb-5'>
                 <div className='pt-4 col-xl d-flex justify-content-center'>
@@ -344,12 +385,12 @@ const Home = () => {
                                     <TableRow key={index} className='table-row'>
                                         <TableCell component="th" scope="row" className='default-tab-text d-flex align-items-center justify-content-between table-cell'>
                                             <div className='d-flex align-items-center'>
-                                                <CheckCircleIcon className='ps-1 pb-1 mt-1 task-check table-cell-icon' onClick={() => sayHello(index)} />
-                                                <span contentEditable={true} className={`ps-2 taskName-text ${row.status === 'Completed' ? ' strikethrough' : ''}`}>{row.name}</span>
+                                                <CheckCircleIcon className='ps-1 pb-1 mt-1 task-check table-cell-icon' onClick={() => completeTask(index)} />
+                                                <span /*contentEditable={true}*/ className={`ps-2 taskName-text ${row.status === 'Completed' ? ' strikethrough' : ''}`}>{row.name}</span>
                                             </div>
                                             <div className='d-flex align-items-center'>
                                             <Tooltip title="Set status" arrow className='status-tooltip'>
-                                                <AssignmentIcon className='table-cell-icon status-icon mx-1' variant="contained" onClick={handleStatusPopoverClick}></AssignmentIcon>
+                                                <AssignmentIcon className='table-cell-icon status-icon mx-1' variant="contained" onClick={(event) => handleStatusPopoverClick(event, index)}></AssignmentIcon>
                                             </Tooltip>
 
                                             <Popover
@@ -358,29 +399,34 @@ const Home = () => {
                                                 anchorEl={statusPopoverAnchorEl}
                                                 onClose={handleStatusPopoverClose}
                                                 anchorOrigin={{
-                                                vertical: 'bottom',
-                                                horizontal: 'left',
+                                                    vertical: 'bottom',
+                                                    horizontal: 'left',
                                                 }}
                                             >
+
                                                 <List disablePadding>
-                                                    <ListItem disablePadding >
-                                                        <ListItemButton className='status-list-item-btn'>
+                                                    <ListItem disablePadding>
+                                                        <ListItemButton className={`status-list-item-btn ${isCheckIconVisible ? 'status-item-hide' : ''}`} onClick={(event) => updateTaskInfoFunc(event, 'Stuck')}>
                                                         <ListItemText primary="Stuck" />
                                                         </ListItemButton>
                                                     </ListItem>
                                                     <ListItem disablePadding>
-                                                        <ListItemButton className='status-list-item-btn'>
-                                                        <ListItemText primary="To Do"  />
+                                                        <ListItemButton className={`status-list-item-btn ${isCheckIconVisible ? 'status-item-hide' : ''}`} onClick={(event) => updateTaskInfoFunc(event, 'To Do')}>
+                                                        <ListItemText primary="To Do" />
                                                         </ListItemButton>
                                                     </ListItem>
+                                                    <div className={` d-flex justify-content-center ${isCheckIconVisible ? '' : 'd-none'}`}>
+                                                        <CheckIcon className='check-icon'></CheckIcon>
+
+                                                    </div>
                                                     <ListItem disablePadding>
-                                                        <ListItemButton className='status-list-item-btn'>
+                                                        <ListItemButton className={`status-list-item-btn ${isCheckIconVisible ? 'status-item-hide' : ''}`} onClick={(event) => updateTaskInfoFunc(event, 'In Progress')}>
                                                         <ListItemText primary="In Progress" />
                                                         </ListItemButton>
                                                     </ListItem>
                                                     <ListItem disablePadding>
-                                                        <ListItemButton className='status-list-item-btn'>
-                                                        <ListItemText primary="Completed"/>
+                                                        <ListItemButton className={`status-list-item-btn ${isCheckIconVisible ? 'status-item-hide' : ''}`} onClick={(event) => updateTaskInfoFunc(event, 'Completed')}>
+                                                        <ListItemText primary="Completed" />
                                                         </ListItemButton>
                                                     </ListItem>
                                                 </List>
@@ -388,7 +434,7 @@ const Home = () => {
 
 
                                             <Tooltip title="Set priority" arrow className='priority-tooltip'>
-                                                <FlagIcon  className='table-cell-icon priority-icon mx-1' variant="contained"  onClick={handlePriorityPopoverClick}></FlagIcon>
+                                                <FlagIcon  className='table-cell-icon priority-icon mx-1' variant="contained"  onClick={(event) => handlePriorityPopoverClick(event, index)}></FlagIcon>
                                             </Tooltip>
                                                                                     
                                             <Popover
@@ -403,29 +449,33 @@ const Home = () => {
                                             >
                                                 <List disablePadding>
                                                     <ListItem disablePadding>
-                                                        <ListItemButton className='pe-5 priority-list-item-btn'>
-                                                        <ListItemText primary="Critical"/>
+                                                        <ListItemButton className={`pe-5 priority-list-item-btn ${isCheckIconVisible ? 'priority-item-hide' : ''}`} onClick={(event) => updateTaskInfoFunc(event, 'Critical')}>
+                                                        <ListItemText primary="Critical" />
                                                         </ListItemButton>
                                                     </ListItem>
-                                                    <ListItem disablePadding >
-                                                        <ListItemButton className='priority-list-item-btn'>
+                                                    <ListItem disablePadding>
+                                                        <ListItemButton className={`priority-list-item-btn ${isCheckIconVisible ? 'priority-item-hide' : ''}`} onClick={(event) => updateTaskInfoFunc(event, 'High')}>
                                                         <ListItemText primary="High" />
                                                         </ListItemButton>
                                                     </ListItem>
+                                                    <div className={` d-flex justify-content-center ${isCheckIconVisible ? '' : 'd-none'}`}>
+                                                        <CheckIcon className='check-icon'></CheckIcon>
+
+                                                    </div>
                                                     <ListItem disablePadding>
-                                                        <ListItemButton className='priority-list-item-btn'>
-                                                        <ListItemText primary="Medium"  />
+                                                        <ListItemButton className={`priority-list-item-btn ${isCheckIconVisible ? 'priority-item-hide' : ''}`} onClick={(event) => updateTaskInfoFunc(event, 'Medium')}>
+                                                        <ListItemText primary="Medium" />
                                                         </ListItemButton>
                                                     </ListItem>
                                                     <ListItem disablePadding>
-                                                        <ListItemButton className='priority-list-item-btn'>
+                                                        <ListItemButton className={`priority-list-item-btn ${isCheckIconVisible ? 'priority-item-hide' : ''}`} onClick={(event) => updateTaskInfoFunc(event, 'Low')}>
                                                         <ListItemText primary="Low" />
                                                         </ListItemButton>
                                                     </ListItem>
                                                 </List>
                                             </Popover>
                                             <Tooltip title="Set due date" arrow className='due-date-tooltip '>
-                                                <AccessTimeIcon className='table-cell-icon due-date-icon mx-1' variant="contained" onClick={handleDueDatePopoverClick}></AccessTimeIcon>
+                                                <AccessTimeIcon className='table-cell-icon due-date-icon mx-1' variant="contained" onClick={(event) => handleDueDatePopoverClick(event, index)}></AccessTimeIcon>
                                             </Tooltip>
 
                                             <Popover
@@ -439,7 +489,12 @@ const Home = () => {
                                                 }}
                                             >
                                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                    <DateCalendar />
+                                                    <DateCalendar onChange={handleDateSelection} />
+                                                    <div className='  pb-2 d-flex justify-content-around'> 
+                                                        <Button className='date-calendar-btn' onClick={handleDueDatePopoverClose}>CANCEL</Button>
+                                                        <Button className='date-calendar-btn' onClick={updateTaskInfoFunc} disabled={!selectedDate} >OK</Button>
+                                                    </div>
+                                                    
                                                 </LocalizationProvider>
                                             </Popover>
 

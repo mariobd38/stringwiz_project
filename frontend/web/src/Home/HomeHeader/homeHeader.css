@@ -1,0 +1,61 @@
+.customize-bg {
+    background-color: #f8f8f8 !important;
+    color: #1E1F21 !important;
+    border: none !important;
+}
+.customize-bg:hover {
+    background-color: #4411c6 !important;
+    color: white !important;
+    border: none !important;
+}
+.home-text {
+    font-family: 'Poppins', serif;
+    font-size: 1.7rem;
+}
+.today {
+    font-family: 'Nunito Sans', serif;
+    font-size: 1.3rem;
+}
+.greeting {
+    font-family: 'Nunito Sans', serif;
+    font-size: 2.1rem;
+    font-weight: 600;
+}
+.customize-typography {
+    padding: 1rem;
+}
+.customize-btn {
+    border: none !important;
+    width: 2.5rem;
+    height: 2.5rem;
+}
+#black-btn {
+    background-color: #1e1f21 !important;
+}
+#red-btn {
+    background-color: #52121a !important;
+}
+#green-btn {
+    background-color: #043d13 !important;
+}
+#violet-btn {
+    background-color: #3b0363 !important;
+}
+#blue-btn {
+    background-color: #044863 !important;
+}
+#rose-btn {
+    background-color: #7a0557 !important;
+}
+#gradient1-btn {
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+}
+#gradient2-btn {
+    background-color: #0093E9;
+    background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+}
+#gradient3-btn {
+    background-color: #00DBDE;
+    background-image: linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%);
+}
