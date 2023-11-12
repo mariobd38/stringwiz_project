@@ -5,7 +5,7 @@
 .user-button {
     background-color: #58bcdb;
     display: flex; 
-    border-radius: 32%;
+    border-radius: 50%;
     width:3.5rem;
     height:3.5rem;
     border: none !important ;

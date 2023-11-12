@@ -25,34 +25,23 @@ import java.util.Date;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Entity()
-@Table(name = "tasks_dim")
+@Table(name = "projects_dim")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Task {
+public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
     private Long id;
 
-    @Column(nullable = false)
     private String name;
-
-    private String description;
-
-    private String status;
-
-    private String priority;
 
     @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-
-    @Temporal(TemporalType.DATE)
-    @Column(name = "due_date")
-    private Date dueDate;
 
     @CreationTimestamp
     @Column(name="created_on")
@@ -62,16 +51,4 @@ public class Task {
     @UpdateTimestamp
     @Column(name="last_updated_on")
     private Timestamp lastUpdatedOn;
-
-    public Task(String name, String description, String status, String priority, User user, Date dueDate) {
-        this.name = name;
-        this.description = description;
-        this.status = status;
-        this.priority = priority;
-        this.user = user;
-        this.dueDate = dueDate;
-        Timestamp currentTime = new Timestamp(new Date().getTime());
-        this.createdOn = currentTime;
-        this.lastUpdatedOn = currentTime;
-    }
 }

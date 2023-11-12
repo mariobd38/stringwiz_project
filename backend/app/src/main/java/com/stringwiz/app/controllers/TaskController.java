@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -43,5 +44,11 @@ public class TaskController {
     public ResponseEntity<?> updateTask(@RequestBody Task task) {
         Task myTask = taskService.update(task);
         return ResponseEntity.ok(myTask);
+    }
+
+    @DeleteMapping("/api/tasks/delete")
+    public ResponseEntity<?> deleteTask(@RequestBody Task task) {
+        taskService.delete(task);
+        return ResponseEntity.noContent().build();
     }
 }
