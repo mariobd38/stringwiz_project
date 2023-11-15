@@ -17,10 +17,6 @@ function App() {
     console.log(`JWT is: ${jwt}`);
   }, [jwt]);
 
-  useEffect(() => {
-    console.log(`Email is: ${userEmail}`);
-  }, [userEmail]);
-
   return (
     <Routes>
       <Route path="/home" element={

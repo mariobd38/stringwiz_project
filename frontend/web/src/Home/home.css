@@ -15,7 +15,6 @@
 @media(max-width: 1000px) {
     .my-card {
         width: 95%;
-        margin:auto;
     }
 }
 .add-task-icon {
@@ -44,7 +43,7 @@
     border-radius: 50%;
     padding: 8px;
 }
-.default-tab-text {
+.default-tab-text, #menu-current-status-btn, .menu-tooltip-text {
     font-family: 'Lato', serif !important;
 }
 .error-message {
@@ -123,9 +122,14 @@
 .taskName-text.strikethrough {
     text-decoration: line-through;
 }
+[contenteditable] {
+    height: 2rem;
+    line-height: 12px;
+}
 [contenteditable]:hover {
     outline: 1px solid blue;
 }
+
 .more-horiz:hover {
     cursor: pointer;
     background-color: #cacaca !important;
@@ -151,10 +155,6 @@
 .status-icon:hover {
     color: rgb(86, 89, 215) !important;
     display: block !important;
-}
-.priority-icon:hover {
-    color: rgb(210, 56, 46) !important;
-    display: inline !important;
 }
 .due-date-icon:hover {
     color: rgb(103, 153, 245) !important;
@@ -510,21 +510,99 @@ width: 100%;
         width: 120%;
         right: -10% !important;
     }
+    
 }
 @media (max-width: 650px) {
     .modal-parent {
         width: 100%;
         right: 2.5% !important;
     }
+    #menu-current-status-btn {
+        padding: 0.3rem 0.6rem !important;
+    }
 }
-.more-task-priority-btn {
+.more-task-priority-btn, .due-date-create-btn {
     width: 2.5rem !important;
     height: 2.5rem !important;
     border-radius: 50%;
     padding: 0.4rem;
     background-color: none;
     border: 1px dashed #4b4b4b;
+    cursor: pointer;
 }
-.more-task-priority-btn:hover{
-    border-color: rgb(210, 56, 46);
+.more_task_nav {
+    background-color: #f1f1f1;
+    border-radius: 10px;
 }
+.more-task-check-completed {
+    width: 2.3rem !important;
+    height: 2.3rem !important;
+    background-color: red;
+    color: #a1a1a1;
+    background-color: #f1f1f1;;
+    padding: 5.8px;
+    border: 1.3px solid #a1a1a1;
+    border-radius: 18%;
+}
+.more-task-check-completed:hover {
+    color: #58bcdb;
+    border-color: #58bcdb;
+}
+#menu-current-status-btn {
+    background-color: #d1d1d1 !important;
+    color: #353535;
+    padding: 0.4rem 1.3rem;
+    border: 2px solid #d1d1d1;
+    font-weight: 600;
+}
+
+#menu-current-status-btn:hover, #menu-current-status-btn:active {
+    border-color: #58bcdb;
+}
+.divider {
+    width: 0.9px; /* Width of the divider */
+    height: 35px; /* Adjust the height as needed */
+    background-color: #8a8a8a; /* Color of the line (black in this example) */
+    margin: 0 1.5rem; 
+    display: inline-block;
+    vertical-align: middle;
+}
+.task-settings {
+    width: 1.7rem !important;
+    height: 1.7rem !important;
+}
+.task-settings:hover, .remove-due-date-btn:hover {
+    color: #58bcdb;
+}
+.created-date-div {
+    display: inline-block !important;
+    vertical-align: middle;
+}
+.created-text {
+    text-transform: uppercase;
+    color: #a1a1a1;
+    font-size: 0.73rem;
+    font-family: 'Ubuntu', serif !important;
+}
+.created-date-text {
+    color: #545454;
+    font-size: 0.87rem;
+    font-family: 'Lato', serif !important;
+    margin-right: 2px !important;
+}
+.created-date-tooltip-text {
+    display: block;
+    text-align: center !important;
+}
+.created-date-div .remove-due-date-btn {
+    width: 0.65rem !important;
+    height: 0.65rem!important;
+    vertical-align: middle !important;
+    margin: auto !important;
+    margin-bottom: 2px !important;
+    cursor: pointer;
+    display: none;
+}
+.created-date-div:hover .remove-due-date-btn {
+    display: inline;
+  }

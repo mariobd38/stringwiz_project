@@ -68,7 +68,6 @@ public class User implements UserDetails {
     @Column(name="created_on")
     private Timestamp createdOn;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @UpdateTimestamp
     @Column(name="last_updated_on")
     private Timestamp lastUpdatedOn;
