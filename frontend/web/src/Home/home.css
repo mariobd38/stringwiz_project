@@ -43,7 +43,7 @@
     border-radius: 50%;
     padding: 8px;
 }
-.default-tab-text, #menu-current-status-btn, .menu-tooltip-text {
+.default-tab-text, #menu-current-status-btn, .menu-tooltip-text, .menu-change-priority-btn {
     font-family: 'Lato', serif !important;
 }
 .error-message {
@@ -75,18 +75,6 @@
 .bg-low {
     background-color: #6799f5 !important;
 }
-.bg-stuck {
-    background-color: #d2392e !important;
-}
-.bg-todo {
-    background-color: #e6a64c !important;
-}
-.bg-inprogress {
-    background-color: #c1da5e !important;
-}
-.bg-completed {
-    background-color: #6ecb43 !important;
-}
 
 .create-task-btn {
     background-color: #5659d7 !important;
@@ -105,7 +93,7 @@
 
 .task-check:hover {
     cursor: pointer;
-    color: green !important;
+    color: #006A4E !important;
 }
 .taskName-text {
     font-size: 0.95rem !important;
@@ -528,28 +516,27 @@ width: 100%;
     padding: 0.4rem;
     background-color: none;
     border: 1px dashed #4b4b4b;
-    cursor: pointer;
 }
 .more_task_nav {
     background-color: #f1f1f1;
-    border-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
-.more-task-check-completed {
+.set-task-complete-btn {
     width: 2.3rem !important;
     height: 2.3rem !important;
-    background-color: red;
     color: #a1a1a1;
     background-color: #f1f1f1;;
     padding: 5.8px;
     border: 1.3px solid #a1a1a1;
     border-radius: 18%;
 }
-.more-task-check-completed:hover {
+.set-task-complete-btn:hover {
     color: #58bcdb;
     border-color: #58bcdb;
 }
 #menu-current-status-btn {
-    background-color: #d1d1d1 !important;
+    background-color: #d1d1d1;
     color: #353535;
     padding: 0.4rem 1.3rem;
     border: 2px solid #d1d1d1;
@@ -567,11 +554,11 @@ width: 100%;
     display: inline-block;
     vertical-align: middle;
 }
-.task-settings {
+.task-settings-btn {
     width: 1.7rem !important;
     height: 1.7rem !important;
 }
-.task-settings:hover, .remove-due-date-btn:hover {
+.task-settings-btn:hover, .remove-due-date-btn:hover {
     color: #58bcdb;
 }
 .created-date-div {
@@ -600,9 +587,86 @@ width: 100%;
     vertical-align: middle !important;
     margin: auto !important;
     margin-bottom: 2px !important;
-    cursor: pointer;
     display: none;
 }
 .created-date-div:hover .remove-due-date-btn {
     display: inline;
-  }
+}
+.more-task-priority-btn, .due-date-create-btn, .set-task-complete-btn, 
+    .task-settings-btn, .created-date-div .remove-due-date-btn, 
+    .menu-current-priority-btn, .menu-current-priority-btn {
+    cursor: pointer;
+}
+.set-task-complete-true-btn {
+    background-color: #006A4E !important;
+    border-color: white;
+    color: white;
+}
+.menu-current-status-isCompleted {
+    background-color: #006A4E !important;
+    color: white !important;
+}
+.modal-header {
+    border-color: #f1f1f1 !important;
+}
+.upper_more_task_nav {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 0 !important;
+    background-color: #f1f1f1;
+}
+.more-task-priority-critical-btn {
+    cursor: pointer;
+    color: #E13121 !important;
+}
+.more-task-current-priority-btn {
+    border: 1px dashed #353535 !important;
+    border-radius: 50%;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    padding: 0.4rem;
+}
+.more-task-priority-high-btn {
+    cursor: pointer;
+    color: #FFD700 !important;
+}
+.more-task-priority-medium-btn {
+    cursor: pointer;
+    color: #16bfd9 !important;
+}
+.more-task-priority-low-btn {
+    cursor: pointer;
+    color: #b0b7b8 !important;
+}
+.more-task-user-button {
+    background-color: #58bcdb !important;
+    /* display: flex !important;  */
+    border-radius: 50% !important;
+    width:2.5rem !important;
+    height:2.5rem !important;
+    font-size: 80% !important;
+    border: none !important;
+    position: relative;
+    padding: 0 !important;
+}
+.remove-user-cancel-icon {
+    color: black;
+    position: absolute !important;
+    bottom: 0.8em !important;
+    left: 0.16em !important;
+    padding: 0.2em !important;
+    margin-left: 0.78em;
+    font-size: 2.1em !important;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out !important;
+}
+.remove-user-cancel-icon:hover {
+    color: blue;
+    /* visibility: visible; */
+}
+.more-task-user-button:hover .remove-user-cancel-icon {
+    display: auto !important;
+    opacity: 1;
+    pointer-events: auto;
+}

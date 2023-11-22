@@ -19,6 +19,7 @@ import EventIcon from '@mui/icons-material/Event';
 import FlagIcon from '@mui/icons-material/Flag';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Alert from '@mui/material/Alert';
+import Badge from '@mui/material/Badge';
 // import Box from '@mui/material/Box';
 // import Dialog from '@mui/material/Dialog';
 // import Fade from '@mui/material/Fade';'
@@ -51,14 +52,21 @@ import { DateField } from '@mui/x-date-pickers/DateField';
 import HomeNavbar from './HomeNavbar/homeNavbar';
 import HomeHeader from './HomeHeader/homeHeader';
 import './home.css';
+import { withStyles } from '@mui/styles';
+import {createTaskInfo} from '../DataManagement/createTask';
+import {getTaskInfo} from '../DataManagement/getTasks';
+import { updateTaskInfo } from '../DataManagement/updateTask';
+
 
 
 
 const Home = () => {
+    
     const dayjs = require('dayjs');
 
 
     const [jwt] = useLocalState("", "jwt");
+    console.log(jwt);
     const [userFullName] = useLocalState('', 'userFullName');
     const [firstName, lastName] = userFullName.split(' ');
     const initials = (firstName[0] + lastName[0]).toUpperCase();
@@ -71,7 +79,6 @@ const Home = () => {
     const [taskDueDate, setTaskDueDate] = useState(null);
     
     const [missingNameError, setMissingNameError] = useState(false);
-    const [taskCreated, setTaskCreated] = useState(false);
 
     const [isCheckIconVisible, setCheckIconVisible] = useState(false);
 
@@ -101,6 +108,7 @@ const Home = () => {
     const [currentTaskName, setCurrentTaskName] = useState('');
     const [currentTaskDescription, setCurrentTaskDescription] = useState('');
     const [currentTaskStatus, setCurrentTaskStatus] = useState('');
+    const [currentTaskPriority, setCurrentTaskPriority] = useState('');
     const [currentTaskCreatedOn, setCurrentTaskCreatedOn] = useState('');
     const [currentTaskUpdatedOn, setCurrentTaskUpdatedOn] = useState('');
     const [currentTaskDueDate, setCurrentTaskDueDate] = useState('');
@@ -112,36 +120,42 @@ const Home = () => {
 
     const [moreTaskmodalOpen, setMoreTaskModalOpen] = useState(false);
     const defaultStatuses = ['Stuck', 'To Do', 'In Progress', 'Completed'];
-    const [statusArray, setStatusArray] = useState(defaultStatuses);
-    const handleMoreTaskModalOpen = (index, taskName, taskDescription, taskStatus, taskCreatedOn, taskDueDate, taskUpdatedOn) => {
+    const defaultPriorities = ['Critical', 'High', 'Medium', 'Low'];
+    let userStatuses = defaultStatuses;
+    let userPriorities = defaultPriorities;
+    let [otherStatusesArray, setOtherStatusesArray] = useState(userStatuses);
+    const handleMoreTaskModalOpen = (index, taskName, taskDescription, taskStatus, taskPriority,  taskCreatedOn, taskDueDate, taskUpdatedOn) => {
         setCurrentIndex(index);
         setCurrentTaskName(taskName);
         setCurrentTaskDescription(taskDescription);
-        statusArray.splice(statusArray.indexOf(taskStatus), 1);
-        setStatusArray(statusArray);
-        setCurrentTaskStatus(taskStatus)
+
+        otherStatusesArray.splice(otherStatusesArray.indexOf(taskStatus), 1);
+        console.log(otherStatusesArray.indexOf(taskStatus));
+        console.log(otherStatusesArray);
+        setOtherStatusesArray(otherStatusesArray);
+        setCurrentTaskStatus(taskStatus);
+        console.log(currentTaskStatus + " is the current status")
+
+        setCurrentTaskPriority(taskPriority);
+
         const taskCreatedOnDate = dayjs(taskCreatedOn).format(`MMM D, h:mm a`);
-        // console.log(taskUpdatedOn);
         const taskUpdatedOnDate = dayjs(taskUpdatedOn).format(`MMM D, h:mm a`);
         const taskDueOnDate = dayjs(taskDueDate).format(`MMM D`);
+
         setCurrentTaskCreatedOn(taskCreatedOnDate);
         setCurrentTaskUpdatedOn(taskUpdatedOnDate);
-        // console.log("created: " + taskCreatedOnDate);
-        // console.log("updated: " + taskUpdatedOnDate);
-
         setCurrentTaskDueDate(taskDueOnDate);
+
         setMoreTaskModalOpen(true);
         // console.log(taskData[index].lastUpdatedOn);
     };
 
     const handleRemoveDueDateClick = (event) => {
         setCurrentTaskDueDate(null);
-        updateTaskInfo(currentIndex, event);
-        // console.log(event.currentTarget.getAttribute("class").split(" "));
-        // updateTaskInfo(currentIndex, event)
+        handleUpdateTask(event);
     }
     const handleMoreTaskModalClose = () => {
-        setStatusArray(defaultStatuses);
+        setOtherStatusesArray(defaultStatuses);
         setMoreTaskModalOpen(false);
     };
 
@@ -200,212 +214,59 @@ const Home = () => {
 
     const openDueDatePopover = Boolean(dueDatePopoverAnchorEl);
     const dueDatePopOverId = openDueDatePopover ? 'simple-popover' : undefined;
-    const dueDatePopOverId2 = openDueDatePopover ? 'simple-popover' : undefined;
-
 
     const handleDateSelection = (date) => {
         setSelectedDate(date);
       };
 
-    function createTaskInfo() {
-        if (!taskName) {
-            setMissingNameError(true);
-            return;
-        } else {
-            setMissingNameError(false);
-        }
-        let myDate = null;
-        let dayString = null;
-        let monthString = null;
-        let yearString = null;
-        if (taskDueDate !== null) {
-            dayString = taskDueDate.format('DD');
-            monthString = taskDueDate.format('MM');
-            yearString = taskDueDate.format('YYYY');
-            myDate = dayjs(`${yearString}-${monthString}-${dayString}`).toDate();
-        }
-        
-        
-        
-        const taskTableInfo = {
-            name: taskName,
-            description: taskDescription,
-            status: taskStatus===null ? "To Do " : taskStatus,
-            priority: taskPriority,
-            dueDate: (taskDueDate !== null) ? `${monthString}/${dayString}/${yearString}` : ''
-        };
-        setTaskData([...taskData, taskTableInfo]);
 
-        const taskInfo = {
+    //create task call
+    const handleCreateTask = () => {
+        createTaskInfo(
+        dayjs,
+        taskName,
+        taskDescription,
+        taskStatus,
+        taskPriority,
+        taskDueDate,
+        setMissingNameError,
+        setTaskData,
+        setUserTasks,
+        setTaskName,
+        setTaskDescription,
+        setTaskStatus,
+        setTaskPriority,
+        setTaskDueDate,
+        setCreateTaskModalOpen,
+        jwt,
+        taskData,
+        userTasks )
+    };
 
-            name: taskName,
-            description: taskDescription,
-            status: taskStatus===null ? "To Do " : taskStatus,
-            priority: taskPriority,
-            dueDate: myDate
-        };
+    //get task call
+    const handleGetTasks = () => {
+        getTaskInfo(jwt, setTaskData)
+    };
 
-
-        fetch("/api/tasks", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: 'Bearer ' + jwt
-            },
-            body: JSON.stringify(taskInfo),
-        }).then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then((data) => {
-            const createdTask = {
-                id: data.id, 
-                name: data.name,
-                description: data.description,
-                status: data.status,
-                priority: data.priority,
-                dueDate: data.dueDate,
-                dateCreated: data.createdOn,
-                dateUpdated: data.lastUpdatedOn,
-            };
-            setTaskData([...taskData, createdTask]);
-
-
-            let taskList = userTasks;
-            if(taskList === "") taskList = [];
-            taskList.push(taskTableInfo);
-            setUserTasks(JSON.parse(JSON.stringify(taskList)))
-            setTaskCreated(true);
-            setTaskName(null);
-            setTaskDescription(null);
-            setTaskStatus(null);
-            setTaskPriority(null);
-            setTaskDueDate(null);
-            setCreateTaskModalOpen(false);
-          })
-          .catch((error) => {
-            console.error(error); 
-          }); 
-    }
-
-    const getTaskInfo = () => {
-        fetch("/api/tasks/get", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: 'Bearer ' + jwt
-            },
-        }).then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then((data) => {
-            setTaskData(data);
-            // setTaskData([...taskData, data]);
-        })
-        .catch((error) => {
-            console.error(error); 
-        });
-    }
-
-    const updateTaskInfo = (c, event) => {
-        console.log(c);
-        let task = taskData[c];
-
-        const targetClassList = event.currentTarget.getAttribute("class").split(' ');
-        console.log(targetClassList);
-        // console.log("target class list: " + targetClassList)
-
-        if (targetClassList.includes('date-calendar-btn') && selectedDate !== null) {
-            console.log("AHHHHH")
-            const newDayString = selectedDate.format('D');
-            const newMonthString = selectedDate.format('M');
-            const newYearString = selectedDate.format('YYYY');
-            const newDate = dayjs(`${newYearString}-${newMonthString}-${newDayString}`).toDate();
-            task.dueDate = newDate;
-
-            if (!moreTaskmodalOpen) {
-                setCheckIconVisible(true);
-                
-                setTimeout(function () {
-                    setCheckIconVisible(false);
-
-                    handleDueDatePopoverClose();
-                    
-
-                }, 1800);
-
-            } else {
-                // console.log(dayjs(task.dueDate).format(`MMM D`));
-                setCurrentTaskDueDate(dayjs(task.dueDate).format(`MMM D`));
-                handleDueDatePopoverClose();
-            }
-        } else if (targetClassList.includes('priority-list-item-btn')) {
-            task.priority = event.target.textContent;
-            setCheckIconVisible(true);
-            setTimeout(function () {
-                setCheckIconVisible(false);
-
-                handlePriorityPopoverClose();
-
-            }, 1800);
-        } else if (targetClassList.includes('status-list-item-btn')) {
-            task.status = event.target.textContent;
-            setCheckIconVisible(true);
-
-
-            setTimeout(function () {
-                setCheckIconVisible(false);
-
-                handleStatusPopoverClose();
-
-            }, 1800);
-        } else if (targetClassList.includes('remove-due-date-btn')) {
-            task.dueDate = null;
-            console.log(task.dueDate)
-        }
-
-
-
-        const taskInfo = {
-            id: task.id,
-            name: task.name,
-            description: task.description,
-            status: task.status,
-            priority: task.priority,
-            dueDate: task.dueDate,
-
-        };
-
-        fetch("/api/tasks/put", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: 'Bearer ' + jwt
-            },
-            body: JSON.stringify(taskInfo),
-        }).then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then((newData) => {
-            taskData[c] = newData;
-            // setTaskData(newData);    
-            console.log("updated task array!");
-        })
-        .catch((error) => {
-            console.error(error); 
-        });
-    }
+    //update task call
+    const handleUpdateTask = (event) => {
+        updateTaskInfo(
+            currentIndex, 
+            event,
+            taskData,
+            selectedDate,
+            dayjs,
+            moreTaskmodalOpen,
+            setCheckIconVisible,
+            handleDueDatePopoverClose,
+            setCurrentTaskDueDate,
+            handlePriorityPopoverClose,
+            handleStatusPopoverClose,
+            jwt )
+    };
 
     useEffect(() => {
-        getTaskInfo();
+        handleGetTasks();
       }, []);
 
       const completeTask = (index) => {
@@ -422,21 +283,51 @@ const Home = () => {
           }, 600);
       };
 
-    const updateTaskInfoFunc = (event) => {
-        console.log(currentIndex + " is my ci");
-        // console.log(this.currentIndex);
-        updateTaskInfo(currentIndex, event);
-    }
-
 
     const [menuStatusanchorEl, setMenuStatusAnchorEl] = React.useState(null);
     const openMenuStatus = Boolean(menuStatusanchorEl);
     const handleMenuStatusBtnClick = (event) => {
         setMenuStatusAnchorEl(event.currentTarget);
     };
-    const handleMenuStatusBtnClose = () => {
+    const handleMenuStatusBtnClose = (otherStatus, event) => {
+        if (userStatuses.includes(otherStatus)) {
+            otherStatusesArray = userStatuses;
+
+            otherStatusesArray.splice(otherStatusesArray.indexOf(otherStatus), 1);
+            setOtherStatusesArray(otherStatusesArray);
+
+            setCurrentTaskStatus(otherStatus);
+            
+            handleUpdateTask(event);
+
+        }
+
         setMenuStatusAnchorEl(null);
     };
+    const [menuPriorityanchorEl, setMenuPriorityAnchorEl] = React.useState(null);
+    const openMenuPriority = Boolean(menuPriorityanchorEl);
+    const handleMenuPriorityBtnClick = (event) => {
+        setMenuPriorityAnchorEl(event.currentTarget);
+    };
+    const handleMenuPriorityBtnClose = (userPriority, event) => {
+        if (userPriorities.includes(userPriority)) {
+            setCurrentTaskPriority(userPriority);
+            handleUpdateTask(event);
+        }
+        setMenuPriorityAnchorEl(null);
+    };
+    const handleSetTaskCompleteBtn = (event) => {
+        otherStatusesArray = userStatuses;
+
+        otherStatusesArray.splice(otherStatusesArray.indexOf('Completed'), 1);
+        setOtherStatusesArray(otherStatusesArray);
+
+        setCurrentTaskStatus('Completed');
+        
+        handleUpdateTask(event);
+
+    }
+
 
     return (
         <>
@@ -458,7 +349,9 @@ const Home = () => {
                                                 <TableCell component="th" scope="row" className='default-tab-text d-flex align-items-center justify-content-between table-cell'>
                                                     <div className='d-flex align-items-center'>
                                                         <CheckCircleIcon className='ps-1 pb-1 mt-1 task-check table-cell-icon' onClick={() => completeTask(index)} />
-                                                        <button className='task-name-link' onClick={() => handleMoreTaskModalOpen(index, row.name, row.description, row.status, row.createdOn, row.dueDate, row.lastUpdatedOn)}><span /*contentEditable={true}*/ className={`ps-2 taskName-text ${row.status === 'Completed' ? ' strikethrough' : ''}`}>{row.name}</span> </button>
+                                                        <button className='task-name-link' onClick={() => handleMoreTaskModalOpen(index, row.name, row.description, row.status, row.priority, row.createdOn, row.dueDate, row.lastUpdatedOn)}>
+                                                            <span /*contentEditable={true}*/ className={`ps-2 taskName-text ${row.status === 'Completed' ? ' strikethrough' : ''}`}>{row.name}</span> 
+                                                        </button>
                                                     </div>
                                                     <div className='d-flex align-items-center'>
                                                         <Tooltip title={<span className='menu-tooltip-text'>{[`Set status`]}</span>} arrow className='status-tooltip menu-tooltip'>
@@ -478,13 +371,13 @@ const Home = () => {
 
                                                             <List disablePadding className='update-list-menu'>
                                                                 <ListItem disablePadding>
-                                                                    <ListItemButton className={`status-list-item-btn ${isCheckIconVisible ? 'status-item-hide' : ''}`} onClick={(event) => updateTaskInfoFunc(event, 'Stuck')}>
-                                                                    <ListItemText primary="Stuck" className='text-center' />
+                                                                    <ListItemButton className={`status-list-item-btn ${isCheckIconVisible ? 'status-item-hide' : ''}`} onClick={(event) => handleUpdateTask(event, 'Stuck')}>
+                                                                    <ListItemText primary="Stuck"/>
                                                                     </ListItemButton>
                                                                 </ListItem>
                                                                 <ListItem disablePadding>
-                                                                    <ListItemButton className={`status-list-item-btn ${isCheckIconVisible ? 'status-item-hide' : ''}`} onClick={(event) => updateTaskInfoFunc(event, 'To Do')}>
-                                                                    <ListItemText primary="To Do" className='text-center' />
+                                                                    <ListItemButton className={`status-list-item-btn ${isCheckIconVisible ? 'status-item-hide' : ''}`} onClick={(event) => handleUpdateTask(event, 'To Do')}>
+                                                                    <ListItemText primary="To Do"/>
                                                                     </ListItemButton>
                                                                 </ListItem>
                                                                 <div className={`wrapper d-flex justify-content-center ${isCheckIconVisible ? '' : 'd-none'}`}>
@@ -493,13 +386,13 @@ const Home = () => {
                                                                 </div>
 
                                                                 <ListItem disablePadding>
-                                                                    <ListItemButton className={`status-list-item-btn ${isCheckIconVisible ? 'status-item-hide' : ''}`} onClick={(event) => updateTaskInfoFunc(event, 'In Progress')}>
-                                                                    <ListItemText primary="In Progress" className='text-center' />
+                                                                    <ListItemButton className={`status-list-item-btn ${isCheckIconVisible ? 'status-item-hide' : ''}`} onClick={(event) => handleUpdateTask(event, 'In Progress')}>
+                                                                    <ListItemText primary="In Progress"/>
                                                                     </ListItemButton>
                                                                 </ListItem>
                                                                 <ListItem disablePadding>
-                                                                    <ListItemButton className={`status-list-item-btn ${isCheckIconVisible ? 'status-item-hide' : ''}`} onClick={(event) => updateTaskInfoFunc(event, 'Completed')}>
-                                                                    <ListItemText primary="Completed" className='text-center' />
+                                                                    <ListItemButton className={`status-list-item-btn ${isCheckIconVisible ? 'status-item-hide' : ''}`} onClick={(event) => handleUpdateTask(event, 'Completed')}>
+                                                                    <ListItemText primary="Completed"/>
                                                                     </ListItemButton>
                                                                 </ListItem>
                                                             </List>
@@ -523,13 +416,13 @@ const Home = () => {
                                                         >
                                                             <List disablePadding className='update-list-menu'>
                                                                 <ListItem disablePadding>
-                                                                    <ListItemButton className={` priority-list-item-btn ${isCheckIconVisible ? 'priority-item-hide' : ''}`} onClick={(event) => updateTaskInfoFunc(event, 'Critical')}>
-                                                                    <ListItemText primary="Critical" className='text-center' />
+                                                                    <ListItemButton className={` priority-list-item-btn ${isCheckIconVisible ? 'priority-item-hide' : ''}`} onClick={(event) => handleUpdateTask(event, 'Critical')}>
+                                                                    <ListItemText primary="Critical"/>
                                                                     </ListItemButton>
                                                                 </ListItem>
                                                                 <ListItem disablePadding>
-                                                                    <ListItemButton className={`priority-list-item-btn ${isCheckIconVisible ? 'priority-item-hide' : ''}`} onClick={(event) => updateTaskInfoFunc(event, 'High')}>
-                                                                    <ListItemText primary="High" className='text-center'/>
+                                                                    <ListItemButton className={`priority-list-item-btn ${isCheckIconVisible ? 'priority-item-hide' : ''}`} onClick={(event) => handleUpdateTask(event, 'High')}>
+                                                                    <ListItemText primary="High"/>
                                                                     </ListItemButton>
                                                                 </ListItem>
                                                                 <div className={`wrapper d-flex justify-content-center ${isCheckIconVisible ? '' : 'd-none'}`}>
@@ -537,19 +430,19 @@ const Home = () => {
                                                                     </svg>
                                                                 </div>
                                                                 <ListItem disablePadding>
-                                                                    <ListItemButton className={`priority-list-item-btn ${isCheckIconVisible ? 'priority-item-hide' : ''}`} onClick={(event) => updateTaskInfoFunc(event, 'Medium')}>
-                                                                    <ListItemText primary="Medium" className='text-center' />
+                                                                    <ListItemButton className={`priority-list-item-btn ${isCheckIconVisible ? 'priority-item-hide' : ''}`} onClick={(event) => handleUpdateTask(event, 'Medium')}>
+                                                                    <ListItemText primary="Medium" />
                                                                     </ListItemButton>
                                                                 </ListItem>
                                                                 <ListItem disablePadding>
-                                                                    <ListItemButton className={`priority-list-item-btn ${isCheckIconVisible ? 'priority-item-hide' : ''}`} onClick={(event) => updateTaskInfoFunc(event, 'Low')}>
-                                                                    <ListItemText primary="Low" className='text-center' />
+                                                                    <ListItemButton className={`priority-list-item-btn ${isCheckIconVisible ? 'priority-item-hide' : ''}`} onClick={(event) => handleUpdateTask(event, 'Low')}>
+                                                                    <ListItemText primary="Low"  />
                                                                     </ListItemButton>
                                                                 </ListItem>
                                                             </List>
                                                         </Popover>
                                                         <Tooltip title={<span className='menu-tooltip-text'>{[`Set due date`]}</span>} arrow className='due-date-tooltip menu-tooltip'>
-                                                            <AccessTimeIcon className='table-cell-icon due-date-icon mx-1' variant="contained" onClick={(event) => handleDueDatePopoverClick(event, index)}></AccessTimeIcon>
+                                                            <AccessTimeIcon className={`table-cell-icon due-date-icon mx-1`} variant="contained" onClick={(event) => handleDueDatePopoverClick(event, index)}></AccessTimeIcon>
                                                         </Tooltip>
 
                                                         <Popover
@@ -570,7 +463,7 @@ const Home = () => {
                                                                 </div>
                                                                 <div className={`pb-2 d-flex justify-content-around ${isCheckIconVisible ? 'calendar-hide' : ''}`}> 
                                                                     <Button className='date-calendar-btn' onClick={handleDueDatePopoverClose}>CANCEL</Button>
-                                                                    <Button className='date-calendar-btn' onClick={updateTaskInfoFunc} disabled={!selectedDate} >OK</Button>
+                                                                    <Button className='date-calendar-btn' onClick={handleUpdateTask} disabled={!selectedDate} >OK</Button>
                                                                 </div>
                                                                 
                                                             </LocalizationProvider>
@@ -588,97 +481,159 @@ const Home = () => {
                                             onHide={handleMoreTaskModalClose}
                                         >
                                             <div className='modal-parent row '>
-                                                <Nav className=' more_task_nav'>
-                                                    <div className='my-3 ms-3'>
-
-                                                        <Button className='ms-0 ms-md-2 ' id="menu-current-status-btn"
-                                                            aria-controls={openMenuStatus ? 'basic-menu' : undefined}
-                                                            aria-haspopup="true"
-                                                            aria-expanded={openMenuStatus ? 'true' : undefined}
-                                                            onClick={handleMenuStatusBtnClick}>
-                                                            {currentTaskStatus} 
-                                                        </Button>
-                                                        <Menu
-                                                            id="basic-menu"
-                                                            anchorEl={menuStatusanchorEl}
-                                                            open={openMenuStatus}
-                                                            onClose={handleMenuStatusBtnClose}
-                                                            MenuListProps={{
-                                                            'aria-labelledby': 'basic-button',
-                                                            }}
-                                                        >
-                                                            {statusArray.map((otherStatuses) => (
-                                                                <MenuItem onClick={handleMenuStatusBtnClose}>{otherStatuses}</MenuItem>
-                                                            ))}
-                                                        </Menu>
-                                                        <Tooltip title={<span className='menu-tooltip-text'>{[`Set to Complete`]}</span>} arrow className='set-complete-tooltip d-none d-sm-inline menu-tooltip'>
-                                                            <CheckIcon className='mx-2 mx-md-3 more-task-check-completed'></CheckIcon>
-                                                        </Tooltip>
+                                                <Nav className='upper_more_task_nav m-0 b-0 d-flex justify-content-end'>
+                                                        <Modal.Header closeButton>
+                                                        </Modal.Header>
+                                                </Nav>
+                                                <Nav className=' more_task_nav row'>
+                                                    
+                                                    <div className='my-3 d-flex justify-content-between'>
                                                         
-                                                        <Tooltip title={<span className='menu-tooltip-text'>{[`Set priority`]}</span>} arrow className='task-priority-tooltip menu-tooltip'>
-                                                            <FlagIcon className='more-task-priority-btn mx-2 mx-md-3' variant="contained" ></FlagIcon>
-                                                        </Tooltip>
+                                                        <div>
+                                                            <Button className={`ms-0 ms-md-2 ${currentTaskStatus === 'Completed' ? 'menu-current-status-isCompleted' : ''}`} id="menu-current-status-btn"
+                                                                aria-controls={openMenuStatus ? 'basic-menu' : undefined}
+                                                                aria-haspopup="true"
+                                                                aria-expanded={openMenuStatus ? 'true' : undefined}
+                                                                onClick={handleMenuStatusBtnClick}>
+                                                                {currentTaskStatus} 
+                                                            </Button>
 
-                                                        {/* <div className="divider"></div> */}
-                                                        <Tooltip title={<span className='menu-tooltip-text'>{[`Task Settings`]}</span>} arrow className='task-settings-tooltip menu-tooltip'>
-                                                            <MoreHorizIcon className='task-settings mx-1 mx-md-5'></MoreHorizIcon>
-                                                        </Tooltip>
-                                                        <Tooltip title={<span className='created-date-tooltip-text menu-tooltip-text'>{[`Created by  ${userFullName} on ${currentTaskCreatedOn}`,<br />,`Last Updated on ${currentTaskUpdatedOn}`]}</span>} arrow className='created-date-tooltip menu-tooltip'>
-                                                            <div className='created-date-div mx-2 mx-md-2'>
-                                                                <div className='created-text'>Created</div>
-                                                                <div className='created-date-text'>{currentTaskCreatedOn}</div>
-                                                            </div>
-                                                        </Tooltip>
-                                    
-                                                        {/* <div className='created-date-div mx-2 mx-md-2'>
-                                                            <div className='created-text'>Updated</div>
-                                                            <div className='created-date-text'>{currentTaskUpdatedOn}</div>
-                                                        </div> */}
-                                                        <div className="divider"></div>
-                                                        <div className='created-date-div mx-2 mx-md-2' >
-                                                            {currentTaskDueDate && currentTaskDueDate!=='Invalid Date' ? 
-                                                                <div>
-                                                                    <div className='created-text'>Due Date</div>
-                                                                    <div className='created-date-text '>
-                                                                        {/* <Button > */}
-                                                                            <CancelIcon className='remove-due-date-btn' onClick={handleRemoveDueDateClick}></CancelIcon>
-                                                                        {/* </Button> */}
-                                                                        {currentTaskDueDate}
-                                                                    </div>
-                                                                </div>
-                                                            :
-                                                            <>
-                                                                <Tooltip title={<span className='menu-tooltip-text'>{[`Set due date`]}</span>} arrow className='due-date-create-tooltip menu-tooltip'>
-                                                                    <div><EventIcon className='due-date-create-btn' onClick={(event) => handleDueDatePopoverClick(event, currentIndex)} ></EventIcon></div>
-                                                                </Tooltip>
-
-                                                                <Popover
-                                                                id={dueDatePopOverId2}
-                                                                open={openDueDatePopover}
-                                                                anchorEl={dueDatePopoverAnchorEl}
-                                                                onClose={handleDueDatePopoverClose}
-                                                                anchorOrigin={{
-                                                                    vertical: 'bottom',
-                                                                    horizontal: 'left',
+                                                            <Menu
+                                                                id="basic-menu"
+                                                                anchorEl={menuStatusanchorEl}
+                                                                open={openMenuStatus}
+                                                                onClose={handleMenuStatusBtnClose}
+                                                                MenuListProps={{
+                                                                'aria-labelledby': 'basic-button',
                                                                 }}
-                                                                >
-                                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                                    <DateCalendar onChange={handleDateSelection} className={`${isCheckIconVisible ? 'calendar-hide' : ''}`}/>
-                                                                    <div className={`wrapper d-flex justify-content-center ${isCheckIconVisible ? '' : 'd-none'}`}>
-                                                                        <svg className="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"> <circle className="checkmark__circle" cx="26" cy="26" r="25" fill="none"/> <path className="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-                                                                        </svg>
-                                                                    </div>
-                                                                    <div className={`pb-2 d-flex justify-content-around ${isCheckIconVisible ? 'calendar-hide' : ''}`}> 
-                                                                        <Button className='date-calendar-btn' onClick={handleDueDatePopoverClose}>CANCEL</Button>
-                                                                        <Button className='date-calendar-btn' onClick={updateTaskInfoFunc} disabled={!selectedDate} >OK</Button>
-                                                                    </div>
-                                                                    
-                                                                </LocalizationProvider>
-                                                                </Popover>
-                                                            </>
+                                                            >
+                                                                {otherStatusesArray.map((otherStatuses) => (
+                                                                    <MenuItem onClick={(event) => handleMenuStatusBtnClose(otherStatuses, event)} className='menu-change-status-btn'>{otherStatuses}</MenuItem>
+                                                                ))}
+                                                            </Menu>
+                                                            <Tooltip title={<span className='menu-tooltip-text'>{[`Mark as Complete`]}</span>} arrow className='set-complete-tooltip d-none d-sm-inline menu-tooltip'>
+                                                                <CheckIcon className={`mx-2 mx-md-3 set-task-complete-btn ${currentTaskStatus === 'Completed' ? 'set-task-complete-true-btn' : ''}`}  onClick={(event) => handleSetTaskCompleteBtn(event)}></CheckIcon>
+                                                            </Tooltip>
                                                             
-                                                            }
+
+                                                            <Menu
+                                                                id="basic-menu"
+                                                                anchorEl={menuPriorityanchorEl}
+                                                                open={openMenuPriority}
+                                                                onClose={handleMenuPriorityBtnClose}
+                                                                MenuListProps={{
+                                                                'aria-labelledby': 'basic-button',
+                                                                }}
+                                                            >
+                                                                {userPriorities.map((userPriority) => (
+                                                                    <MenuItem onClick={(event) => handleMenuPriorityBtnClose(userPriority, event)} className='menu-change-priority-btn'>
+                                                                        <span className={`m-0 ${userPriority === 'Critical' ? 'more-task-priority-critical-btn' : ''}
+                                                                                                ${userPriority === 'High' ? 'more-task-priority-high-btn' : ''}
+                                                                                                ${userPriority === 'Medium' ? 'more-task-priority-medium-btn' : ''}
+                                                                                                ${userPriority === 'Low' ? 'more-task-priority-low-btn' : ''}`}>
+                                                                            <FlagIcon className='me-3'></FlagIcon>
+                                                                        </span>
+                                                                        {userPriority} {userPriority === currentTaskPriority && <CheckIcon className='ms-2'></CheckIcon>}
+                                                                    </MenuItem>
+                                                                ))}
+                                                            </Menu>
+
+                                                            {/* user does not have a current priority for this task */}
+                                                            {currentTaskPriority === null ? 
+                                                            <Tooltip title={<span className='menu-tooltip-text'>{[`Set priority`]}</span>} arrow className='task-priority-tooltip menu-tooltip'>
+                                                                <FlagIcon className='more-task-priority-btn mx-2 mx-md-5' variant="contained" onClick={handleMenuPriorityBtnClick} ></FlagIcon>
+                                                            </Tooltip> 
+                                                            :
+                                                            <Tooltip title={<span className='menu-tooltip-text'>{[`${currentTaskPriority} priority`]}</span>} arrow className='task-priority-tooltip menu-tooltip '>
+                                                                <FlagIcon className={`mx-2 mx-md-5 more-task-current-priority-btn ${
+                                                            currentTaskPriority === 'Critical' ? 'more-task-priority-critical-btn' :
+                                                            currentTaskPriority === 'High' ? 'more-task-priority-high-btn' :
+                                                            currentTaskPriority === 'Medium' ? 'more-task-priority-medium-btn' :
+                                                            currentTaskPriority === 'Low' ? 'more-task-priority-low-btn' : ''
+                                                            }`}
+                                                                variant="contained" onClick={handleMenuPriorityBtnClick} ></FlagIcon>
+                                                            </Tooltip> }
+
+                                                            {/* <button className="btn nav-button px-0 px-md-1 py-1 py-md-0  user-button" 
+                                                                >
+                                                                <Badge badgeContent={'x'} color="secondary" className='more-task-user-button-badge '>
+                                                                    <div className='more-task-user-button m-auto'>
+                                                                        <p className='m-auto text-white initials'>{initials}</p>
+                                                                    </div>
+                                                                </Badge>
+                                                                
+                                                                
+                                                            </button> */}
+                                                            <Button className="btn px-0 px-md-1 py-1 py-md-0 more-task-user-button">
+                                                                    <p className='m-auto text-white initials'>{initials}</p>
+                                                                    <Tooltip title={<span className='menu-tooltip-text'>{[`Remove asignee`]}</span>} arrow className='task-settings-tooltip menu-tooltip'>
+                                                                        <CancelIcon className="remove-user-cancel-icon " />
+                                                                    </Tooltip>
+                                                            </Button>
+
+                                                            {/* <div className="divider"></div> */}
+                                                        {/* </div> */}
+                                                        {/* <div> */}
+                                                            <Tooltip title={<span className='menu-tooltip-text'>{[`Task Settings`]}</span>} arrow className='task-settings-tooltip menu-tooltip'>
+                                                                <MoreHorizIcon className='task-settings-btn mx-1 mx-md-5'></MoreHorizIcon>
+                                                            </Tooltip>
+                                                        </div>
+
+                                                        <div>
+                                                            <Tooltip title={<span className='created-date-tooltip-text menu-tooltip-text'>{[`Created by  ${userFullName} on ${currentTaskCreatedOn}`,<br />,`Last Updated on ${currentTaskUpdatedOn}`]}</span>} arrow className='created-date-tooltip menu-tooltip'>
+                                                                <div className='created-date-div mx-2 mx-md-2'>
+                                                                    <div className='created-text'>Created</div>
+                                                                    <div className='created-date-text'>{currentTaskCreatedOn}</div>
+                                                                </div>
+                                                            </Tooltip>
+
+                                                            <div className="divider"></div>
+                                                            <div className='created-date-div mx-2 me-md-5' >
+                                                                {currentTaskDueDate && currentTaskDueDate!=='Invalid Date' ? 
+                                                                    <div>
+                                                                        <div className='created-text'>Due Date</div>
+                                                                        <div className='created-date-text '>
+                                                                            {/* <Button > */}
+                                                                                <CancelIcon className='remove-due-date-btn' onClick={handleRemoveDueDateClick}></CancelIcon>
+                                                                            {/* </Button> */}
+                                                                            {currentTaskDueDate}
+                                                                        </div>
+                                                                    </div>
+                                                                :
+                                                                <>
+                                                                    <Tooltip title={<span className='menu-tooltip-text'>{[`Set due date`]}</span>} arrow className='due-date-create-tooltip menu-tooltip'>
+                                                                        <div><EventIcon className='due-date-create-btn' onClick={(event) => handleDueDatePopoverClick(event, currentIndex)} ></EventIcon></div>
+                                                                    </Tooltip>
+
+                                                                    <Popover
+                                                                    id={dueDatePopOverId}
+                                                                    open={openDueDatePopover}
+                                                                    anchorEl={dueDatePopoverAnchorEl}
+                                                                    onClose={handleDueDatePopoverClose}
+                                                                    anchorOrigin={{
+                                                                        vertical: 'bottom',
+                                                                        horizontal: 'left',
+                                                                    }}
+                                                                    >
+                                                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                                        <DateCalendar onChange={handleDateSelection} className={`${isCheckIconVisible ? 'calendar-hide' : ''}`}/>
+                                                                        <div className={`wrapper d-flex justify-content-center ${isCheckIconVisible ? '' : 'd-none'}`}>
+                                                                            <svg className="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"> <circle className="checkmark__circle" cx="26" cy="26" r="25" fill="none"/> <path className="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                                                                            </svg>
+                                                                        </div>
+                                                                        <div className={`pb-2 d-flex justify-content-around ${isCheckIconVisible ? 'calendar-hide' : ''}`}> 
+                                                                            <Button className='date-calendar-btn' onClick={handleDueDatePopoverClose}>CANCEL</Button>
+                                                                            <Button className='date-calendar-btn' onClick={handleUpdateTask} disabled={!selectedDate} >OK</Button>
+                                                                        </div>
+                                                                        
+                                                                    </LocalizationProvider>
+                                                                    </Popover>
+                                                                </>
+                                                                
+                                                                }
+                                                            </div> 
                                                         </div> 
+                                                        
                                                     </div>
                                                 </Nav>
                                                 <div className='modal-wrapper col-xl'>
@@ -775,10 +730,10 @@ const Home = () => {
                                                         className=''
                                                         >
                                                         {/* <div> */}
-                                                        <MenuItem value={'Stuck'} className='bg-stuck text-white status-item'>Stuck</MenuItem>
-                                                        <MenuItem value={'To Do'} className='bg-todo text-white status-item'>To Do</MenuItem>
-                                                        <MenuItem value={'In Progress'} className='bg-inprogress text-white status-item'>In Progress</MenuItem>
-                                                        <MenuItem value={'Completed'} className='bg-completed text-white status-item'>Completed</MenuItem>
+                                                        <MenuItem value={'Stuck'} className=' text-dark status-item'>Stuck</MenuItem>
+                                                        <MenuItem value={'To Do'} className=' text-dark status-item'>To Do</MenuItem>
+                                                        <MenuItem value={'In Progress'} className=' text-dark status-item'>In Progress</MenuItem>
+                                                        <MenuItem value={'Completed'} className=' text-dark status-item'>Completed</MenuItem>
                                                         {/* </div> */}
                                                         
                                                     </Select>
@@ -820,7 +775,7 @@ const Home = () => {
                                     </Modal.Body>
 
                                     <Modal.Footer>
-                                        <Button variant="primary" onClick={createTaskInfo} className='default-tab-text create-task-btn'>
+                                        <Button variant="primary" onClick={handleCreateTask} className='default-tab-text create-task-btn'>
                                             <AddCircleRoundedIcon className=''></AddCircleRoundedIcon>
                                         </Button>
                                     </Modal.Footer>

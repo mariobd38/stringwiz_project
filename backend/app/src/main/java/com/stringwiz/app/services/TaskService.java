@@ -31,8 +31,8 @@ public class TaskService {
             assert existingTask != null;
             existingTask.setName(task.getName() != null ? task.getName() : existingTask.getName());
             existingTask.setDueDate(task.getDueDate());
-            existingTask.setPriority(task.getPriority() != null ? task.getPriority() : existingTask.getPriority());
-            existingTask.setStatus(task.getStatus() != null ? task.getStatus() : existingTask.getStatus());
+            existingTask.setPriority(task.getPriority());
+            existingTask.setStatus(task.getStatus());
             existingTask.setLastUpdatedOn(new Timestamp(new Date().getTime()));
             return taskRepository.save(existingTask);
         } catch (NullPointerException npe) {
