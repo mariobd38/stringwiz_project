@@ -11,7 +11,9 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @NoArgsConstructor
@@ -32,6 +34,10 @@ public class Role {
     @JsonIgnore
     @ManyToMany(mappedBy="roles")
     private List<User> users;
+
+    @CreationTimestamp
+    @Column(name="created_on")
+    private Timestamp createdOn;
 
     public enum RoleNames {
         ADMIN, USER

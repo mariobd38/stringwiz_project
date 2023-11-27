@@ -48,6 +48,7 @@ const HomeHeader = () => {
 
     const [backgroundColor, setBackgroundColor] = useLocalState("#1e1f21", "backgroundColor");
     const [backgroundImage, setBackgroundImage] = useLocalState(null, "backgroundImage");
+    const [background, setBackground] = useLocalState(null, "background");
 
 
 
@@ -105,7 +106,13 @@ const HomeHeader = () => {
         else if (targetId === "gradient3-btn") {
             setBackgroundColor("#00DBDE");
             setBackgroundImage("linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%)");
-
+        }
+        else if (targetId === "gradient4-btn") {
+            // setBackgroundColor("#00DBDE");
+            // setBackgroundImage("linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%)");
+            setBackgroundColor("#0F2027");
+            setBackgroundImage("-webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027)");
+            setBackgroundImage("linear-gradient(to right, #2C5364, #203A43, #0F2027)");
         }
 
         // handleCustomizePopoverClose();
@@ -152,6 +159,9 @@ const HomeHeader = () => {
                                 <Button id="gradient2-btn" className='customize-btn mx-1' onClick={handleBackgroundColor}></Button>
                                 <Button id="gradient3-btn" className='customize-btn mx-1' onClick={handleBackgroundColor}></Button>
 
+                            </div>
+                            <div className='mt-3'>
+                                <Button id="gradient4-btn" className='customize-btn mx-1' onClick={handleBackgroundColor}></Button>
                             </div>
                             </Typography>
                     </Popover>

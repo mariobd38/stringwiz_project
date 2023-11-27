@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useLocalState } from "../utils/useLocalStorage";
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
+import Dropdown from 'react-bootstrap/Dropdown';
+import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
 import Tabs from 'react-bootstrap/Tabs';
+import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import AddTaskRoundedIcon from '@mui/icons-material/AddTaskRounded';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -17,9 +19,10 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ChecklistRtlRoundedIcon from '@mui/icons-material/ChecklistRtlRounded';
 import EventIcon from '@mui/icons-material/Event';
 import FlagIcon from '@mui/icons-material/Flag';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+
 import Alert from '@mui/material/Alert';
-import Badge from '@mui/material/Badge';
 // import Box from '@mui/material/Box';
 // import Dialog from '@mui/material/Dialog';
 // import Fade from '@mui/material/Fade';'
@@ -51,11 +54,15 @@ import { DateField } from '@mui/x-date-pickers/DateField';
 
 import HomeNavbar from './HomeNavbar/homeNavbar';
 import HomeHeader from './HomeHeader/homeHeader';
-import './home.css';
-import { withStyles } from '@mui/styles';
 import {createTaskInfo} from '../DataManagement/createTask';
 import {getTaskInfo} from '../DataManagement/getTasks';
 import { updateTaskInfo } from '../DataManagement/updateTask';
+import { deleteTaskInfo } from '../DataManagement/deleteTask';
+import { createTagInfo } from '../DataManagement/createTag';
+import './home.css';
+import { styled, alpha } from '@mui/material/styles';
+import { create } from '@mui/material/styles/createTransitions';
+
 
 
 
@@ -64,9 +71,14 @@ const Home = () => {
     
     const dayjs = require('dayjs');
 
+    var now = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    now = dayjs();
+    const date = new Date(now.year(), now.month(), now.date());  // 2009-11-10
+    const month = date.toLocaleString('default', { month: 'long' });
+    const dayOfWeek = date.toLocaleDateString('en-US',{weekday: 'long'});
+    const todays_date = dayOfWeek + ", " + month + " " + date.getDate();
 
     const [jwt] = useLocalState("", "jwt");
-    console.log(jwt);
     const [userFullName] = useLocalState('', 'userFullName');
     const [firstName, lastName] = userFullName.split(' ');
     const initials = (firstName[0] + lastName[0]).toUpperCase();
@@ -112,6 +124,7 @@ const Home = () => {
     const [currentTaskCreatedOn, setCurrentTaskCreatedOn] = useState('');
     const [currentTaskUpdatedOn, setCurrentTaskUpdatedOn] = useState('');
     const [currentTaskDueDate, setCurrentTaskDueDate] = useState('');
+    const [currentTaskIdNumber, setCurrentTaskIdNumber] = useState('');
 
     const handleCreateTaskModalClose = () => {
         setCreateTaskModalOpen(false);
@@ -124,7 +137,8 @@ const Home = () => {
     let userStatuses = defaultStatuses;
     let userPriorities = defaultPriorities;
     let [otherStatusesArray, setOtherStatusesArray] = useState(userStatuses);
-    const handleMoreTaskModalOpen = (index, taskName, taskDescription, taskStatus, taskPriority,  taskCreatedOn, taskDueDate, taskUpdatedOn) => {
+    const handleMoreTaskModalOpen = (index, taskName, taskDescription, taskStatus, taskPriority, taskIdNumber, taskCreatedOn, taskDueDate, taskUpdatedOn) => {
+        console.log(taskData);
         setCurrentIndex(index);
         setCurrentTaskName(taskName);
         setCurrentTaskDescription(taskDescription);
@@ -134,9 +148,10 @@ const Home = () => {
         console.log(otherStatusesArray);
         setOtherStatusesArray(otherStatusesArray);
         setCurrentTaskStatus(taskStatus);
-        console.log(currentTaskStatus + " is the current status")
 
         setCurrentTaskPriority(taskPriority);
+        setCurrentTaskIdNumber(taskIdNumber);
+        console.log(taskIdNumber);
 
         const taskCreatedOnDate = dayjs(taskCreatedOn).format(`MMM D, h:mm a`);
         const taskUpdatedOnDate = dayjs(taskUpdatedOn).format(`MMM D, h:mm a`);
@@ -147,7 +162,6 @@ const Home = () => {
         setCurrentTaskDueDate(taskDueOnDate);
 
         setMoreTaskModalOpen(true);
-        // console.log(taskData[index].lastUpdatedOn);
     };
 
     const handleRemoveDueDateClick = (event) => {
@@ -157,6 +171,7 @@ const Home = () => {
     const handleMoreTaskModalClose = () => {
         setOtherStatusesArray(defaultStatuses);
         setMoreTaskModalOpen(false);
+        setInputValue(null);
     };
 
 
@@ -264,10 +279,21 @@ const Home = () => {
             handleStatusPopoverClose,
             jwt )
     };
+    //delete task call
+    const handleDeleteTask = (event) => {
+        deleteTaskInfo(
+            currentIndex, 
+            taskData,
+            setTaskData,
+            jwt );
+            handleMenuSettingsBtnClose();
+        
+    };
 
     useEffect(() => {
         handleGetTasks();
       }, []);
+
 
       const completeTask = (index) => {
         let updatedTaskData = [...taskData];
@@ -316,6 +342,19 @@ const Home = () => {
         }
         setMenuPriorityAnchorEl(null);
     };
+    const [menuSettingsanchorEl, setMenuSettingsAnchorEl] = React.useState(null);
+    const openMenuSettings = Boolean(menuSettingsanchorEl);
+    const handleMenuSettingsBtnClick = (event) => {
+        setMenuSettingsAnchorEl(event.currentTarget);
+    };
+    const handleMenuSettingsBtnClose = (event) => {
+        setMenuSettingsAnchorEl(null);
+    };
+    const handleDeleteTaskBtnClick = (event) => {
+        setCurrentIndex(currentIndex);
+        handleDeleteTask(event);
+        setMoreTaskModalOpen(false);
+    };
     const handleSetTaskCompleteBtn = (event) => {
         otherStatusesArray = userStatuses;
 
@@ -327,7 +366,96 @@ const Home = () => {
         handleUpdateTask(event);
 
     }
+    const [isInputFocused, setInputFocused] = useState(false);
+    const [inputValue, setInputValue] = useState('');
 
+    const handleFocus = () => {
+        setInputFocused(true);
+    };
+
+    const handleBlur = () => {
+        setInputFocused(false);
+    };
+
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value);
+        setCurrentTaskDescription(event.target.value);
+        handleUpdateTask(event);
+    };
+
+    const [itemType, setItemType] = React.useState('Task');
+
+    const handleItemTypeChange = (event) => {
+        setItemType(event.target.value);
+    };
+
+    // Handler for tag input changes
+    // const handleTagInputChange = (event) => {
+    //     setTagInputValue(event.target.value);
+    // };
+
+    const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+        <Tooltip title={<span className='create-tag-tooltip-menu-text'>{[`Create Tag`]}</span>} arrow className='create-tag-tooltip menu-tooltip'>
+    <LocalOfferIcon
+            ref={ref}
+            className='tag-icon'
+            onClick={
+                (e) => {
+                e.preventDefault();
+                onClick(e);
+            }
+            }
+            >
+            {children}
+            </LocalOfferIcon>        
+        </Tooltip>
+
+       
+      ));
+      const [tagInputValue, setTagInputValue] = useState('');
+      const CustomMenu = React.forwardRef(
+        ({ children, style, className, 'aria-labelledby': labeledBy }, ref) => {
+          
+      
+          return (
+            <div 
+              ref={ref}
+              style={style}
+              className={className}
+              aria-labelledby={labeledBy}
+
+            >
+              <Form.Control
+                autoFocus
+                className=" my-2  m-auto menu-tag-form-control"
+                placeholder="Search or Create New Tag"
+                onChange={(e) => setTagInputValue(e.target.value)}
+                onKeyDown={enterTag}
+                value={tagInputValue}
+                
+              />
+              <ul className="list-unstyled">
+                {React.Children.toArray(children).filter(
+                  (child) =>
+                    !tagInputValue || child.props.children.toLowerCase().startsWith(tagInputValue),
+                )}
+              </ul>
+            </div>
+          );
+        },
+      );
+      const handleCreateTag = (event) => {
+        createTagInfo(jwt, tagInputValue, taskData[currentIndex].id);
+    };
+      const enterTag = (event) => {
+        if (event.key === 'Enter') {
+            console.log(tagInputValue);
+
+            handleCreateTag();
+        }
+    };
+
+    
 
     return (
         <>
@@ -349,7 +477,7 @@ const Home = () => {
                                                 <TableCell component="th" scope="row" className='default-tab-text d-flex align-items-center justify-content-between table-cell'>
                                                     <div className='d-flex align-items-center'>
                                                         <CheckCircleIcon className='ps-1 pb-1 mt-1 task-check table-cell-icon' onClick={() => completeTask(index)} />
-                                                        <button className='task-name-link' onClick={() => handleMoreTaskModalOpen(index, row.name, row.description, row.status, row.priority, row.createdOn, row.dueDate, row.lastUpdatedOn)}>
+                                                        <button className='task-name-link' onClick={() => handleMoreTaskModalOpen(index, row.name, row.description, row.status, row.priority, row.taskIdNumber, row.createdOn, row.dueDate, row.lastUpdatedOn)}>
                                                             <span /*contentEditable={true}*/ className={`ps-2 taskName-text ${row.status === 'Completed' ? ' strikethrough' : ''}`}>{row.name}</span> 
                                                         </button>
                                                     </div>
@@ -487,9 +615,10 @@ const Home = () => {
                                                 </Nav>
                                                 <Nav className=' more_task_nav row'>
                                                     
-                                                    <div className='my-3 d-flex justify-content-between'>
+
+                                                    <div className='my-3 d-flex  justify-content-md-between row'>
                                                         
-                                                        <div>
+                                                        <div className='col-12 col-lg-8'>
                                                             <Button className={`ms-0 ms-md-2 ${currentTaskStatus === 'Completed' ? 'menu-current-status-isCompleted' : ''}`} id="menu-current-status-btn"
                                                                 aria-controls={openMenuStatus ? 'basic-menu' : undefined}
                                                                 aria-haspopup="true"
@@ -512,7 +641,7 @@ const Home = () => {
                                                                 ))}
                                                             </Menu>
                                                             <Tooltip title={<span className='menu-tooltip-text'>{[`Mark as Complete`]}</span>} arrow className='set-complete-tooltip d-none d-sm-inline menu-tooltip'>
-                                                                <CheckIcon className={`mx-2 mx-md-3 set-task-complete-btn ${currentTaskStatus === 'Completed' ? 'set-task-complete-true-btn' : ''}`}  onClick={(event) => handleSetTaskCompleteBtn(event)}></CheckIcon>
+                                                                <CheckIcon className={`mx-2 mx-lg-3 set-task-complete-btn ${currentTaskStatus === 'Completed' ? 'set-task-complete-true-btn' : ''}`}  onClick={(event) => handleSetTaskCompleteBtn(event)}></CheckIcon>
                                                             </Tooltip>
                                                             
 
@@ -538,64 +667,61 @@ const Home = () => {
                                                                 ))}
                                                             </Menu>
 
-                                                            {/* user does not have a current priority for this task */}
                                                             {currentTaskPriority === null ? 
                                                             <Tooltip title={<span className='menu-tooltip-text'>{[`Set priority`]}</span>} arrow className='task-priority-tooltip menu-tooltip'>
                                                                 <FlagIcon className='more-task-priority-btn mx-2 mx-md-5' variant="contained" onClick={handleMenuPriorityBtnClick} ></FlagIcon>
                                                             </Tooltip> 
                                                             :
                                                             <Tooltip title={<span className='menu-tooltip-text'>{[`${currentTaskPriority} priority`]}</span>} arrow className='task-priority-tooltip menu-tooltip '>
-                                                                <FlagIcon className={`mx-2 mx-md-5 more-task-current-priority-btn ${
+                                                                <span className='more-task-current-priority-btn mx-2 mx-lg-3' onClick={handleMenuPriorityBtnClick}><FlagIcon className={`me-2   ${
                                                             currentTaskPriority === 'Critical' ? 'more-task-priority-critical-btn' :
                                                             currentTaskPriority === 'High' ? 'more-task-priority-high-btn' :
                                                             currentTaskPriority === 'Medium' ? 'more-task-priority-medium-btn' :
                                                             currentTaskPriority === 'Low' ? 'more-task-priority-low-btn' : ''
                                                             }`}
-                                                                variant="contained" onClick={handleMenuPriorityBtnClick} ></FlagIcon>
+                                                                variant="contained"  ></FlagIcon><span className='more-task-priority-text'>{currentTaskPriority} priority</span></span>
                                                             </Tooltip> }
-
-                                                            {/* <button className="btn nav-button px-0 px-md-1 py-1 py-md-0  user-button" 
-                                                                >
-                                                                <Badge badgeContent={'x'} color="secondary" className='more-task-user-button-badge '>
-                                                                    <div className='more-task-user-button m-auto'>
-                                                                        <p className='m-auto text-white initials'>{initials}</p>
-                                                                    </div>
-                                                                </Badge>
-                                                                
-                                                                
-                                                            </button> */}
+                                                            
                                                             <Button className="btn px-0 px-md-1 py-1 py-md-0 more-task-user-button">
                                                                     <p className='m-auto text-white initials'>{initials}</p>
-                                                                    <Tooltip title={<span className='menu-tooltip-text'>{[`Remove asignee`]}</span>} arrow className='task-settings-tooltip menu-tooltip'>
+                                                                    <Tooltip title={<span className='menu-tooltip-text'>{[`Remove asignee`]}</span>} arrow className='remove-asignee-tooltip menu-tooltip'>
                                                                         <CancelIcon className="remove-user-cancel-icon " />
                                                                     </Tooltip>
                                                             </Button>
 
-                                                            {/* <div className="divider"></div> */}
-                                                        {/* </div> */}
-                                                        {/* <div> */}
+                                                            <Menu
+                                                                id="basic-menu"
+                                                                anchorEl={menuSettingsanchorEl}
+                                                                open={openMenuSettings}
+                                                                onClose={handleMenuSettingsBtnClose}
+                                                                MenuListProps={{
+                                                                'aria-labelledby': 'basic-button',
+                                                                }}
+                                                            >
+                                                                    <MenuItem onClick={handleDeleteTaskBtnClick} className='menu-delete-task-btn'>
+                                                                        Delete task
+                                                                    </MenuItem>
+                                                            </Menu>
                                                             <Tooltip title={<span className='menu-tooltip-text'>{[`Task Settings`]}</span>} arrow className='task-settings-tooltip menu-tooltip'>
-                                                                <MoreHorizIcon className='task-settings-btn mx-1 mx-md-5'></MoreHorizIcon>
+                                                                <MoreHorizIcon className='task-settings-btn mx-1  ms-md-3 me-md-5' onClick={handleMenuSettingsBtnClick}></MoreHorizIcon>
                                                             </Tooltip>
                                                         </div>
-
-                                                        <div>
-                                                            <Tooltip title={<span className='created-date-tooltip-text menu-tooltip-text'>{[`Created by  ${userFullName} on ${currentTaskCreatedOn}`,<br />,`Last Updated on ${currentTaskUpdatedOn}`]}</span>} arrow className='created-date-tooltip menu-tooltip'>
-                                                                <div className='created-date-div mx-2 mx-md-2'>
+                                                        {/* <div className=''> */}
+                                                        <div className='mt-3 mt-lg-0 col-12 col-lg-4  d-flex justify-content-start justify-content-lg-end'>
+                                                            <Tooltip title={<span className=' created-date-tooltip-text menu-tooltip-text'>{[`Created by  ${userFullName} on ${currentTaskCreatedOn}`,<br />,`Last Updated on ${currentTaskUpdatedOn}`]}</span>} arrow className='created-date-tooltip menu-tooltip'>
+                                                                <div className='created-date-div mx-2  mx-md-2'>
                                                                     <div className='created-text'>Created</div>
                                                                     <div className='created-date-text'>{currentTaskCreatedOn}</div>
                                                                 </div>
                                                             </Tooltip>
 
                                                             <div className="divider"></div>
-                                                            <div className='created-date-div mx-2 me-md-5' >
+                                                            <div className='created-date-div mx-2 me-md-0 me-lg-5' >
                                                                 {currentTaskDueDate && currentTaskDueDate!=='Invalid Date' ? 
                                                                     <div>
                                                                         <div className='created-text'>Due Date</div>
                                                                         <div className='created-date-text '>
-                                                                            {/* <Button > */}
                                                                                 <CancelIcon className='remove-due-date-btn' onClick={handleRemoveDueDateClick}></CancelIcon>
-                                                                            {/* </Button> */}
                                                                             {currentTaskDueDate}
                                                                         </div>
                                                                     </div>
@@ -633,17 +759,124 @@ const Home = () => {
                                                                 }
                                                             </div> 
                                                         </div> 
+                                                        {/* </div> */}
+                                                        
                                                         
                                                     </div>
                                                 </Nav>
-                                                <div className='modal-wrapper col-xl'>
-                                                    <div className="row" >
-                                                        <div className='mt-2 mx-2 mb-2 pt-2' contentEditable={true} suppressContentEditableWarning={true}>
-                                                            <p className='update-modal-task-name'>{currentTaskName}</p>
-                                                        </div>
+                                                <div className="container mt-4">
+                                                    <div className="row ">
+                                                        <div className="col-xl-6 mx-2">
+                                                            <div className=' ' contentEditable={true} suppressContentEditableWarning={true}>
+                                                                <h1 className='update-modal-task-name'>{currentTaskName}</h1>
+                                                            </div>
+                                                            <div className='mt-3 '>
+                                                                {/* <Menu
+                                                                    id="basic-menu"
+                                                                    anchorEl={menuTaganchorEl}
+                                                                    open={openMenuTag}
+                                                                    onClose={handleMenuTagBtnClose}
+                                                                    MenuListProps={{
+                                                                    'aria-labelledby': 'basic-button',
+                                                                    }}
+                                                                >
+                                                                    <div className='input-field-container'>
+                                                                        <TextField
+                                                                            label="Type something..."
+                                                                            variant="outlined"
+                                                                            value={tagInputValue}
+                                                                            onChange={handleTagInputChange}
+                                                                        />
+                                                                    </div>
+                                                                    
+                                                                    <MenuItem onClick={handleMenuTagBtnClose} className='menu-tags-item'>Profile</MenuItem>
+                                                                    <MenuItem onClick={handleMenuTagBtnClose} className='menu-tags-item'>My account</MenuItem>
+                                                                    <MenuItem onClick={handleMenuTagBtnClose} className='menu-tags-item'>Logout</MenuItem>
+                                                                </Menu> */}
 
-                                                        <div className='my-4 pt-2 mx-2 w-100 tt' contentEditable={true} suppressContentEditableWarning={true}>
-                                                            <p className='update-modal-task-name' placeholder='n'>{currentTaskDescription}</p> 
+                                                                {/* <Tooltip title={<span className='menu-tooltip-tag'>{[`Add tags`]}</span>} arrow className='set-tag-tooltip mx-3 menu-tooltip'>
+                                                                    <LocalOfferIcon className='me-4 tag-icon' onClick={handleMenuTagBtnClick}></LocalOfferIcon>
+                                                                </Tooltip> */}
+
+                                                                <Dropdown className='d-inline me-2'>
+                                                                    <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" >
+                                                                        Custom toggle
+                                                                    </Dropdown.Toggle>
+
+                                                                    <Dropdown.Menu as={CustomMenu} className='tag-dropdown-menu' >
+                                                                        <Dropdown.Item eventKey="red">Red</Dropdown.Item>
+                                                                        <Dropdown.Item eventKey="blue">Blue</Dropdown.Item>
+                                                                        <Dropdown.Item eventKey="orange">Orange</Dropdown.Item>
+                                                                        <Dropdown.Item eventKey="red-orange">Red-Orange</Dropdown.Item>
+                                                                    </Dropdown.Menu>
+                                                                </Dropdown>
+    
+                                                                <FormControl className='mx-2'>
+                                                                    <Select className='item-type-form'
+                                                                    // defaultValue={"task"}
+                                                                        labelId="demo-simple-select-label"
+                                                                        id="demo-simple-select"
+                                                                        value={itemType}
+                                                                        onChange={handleItemTypeChange}
+                                                                    >
+                                                                        <MenuItem value={'Task'} default >Task</MenuItem>
+                                                                        <MenuItem value={'Subtask'} default>Subtask</MenuItem>
+                                                                        <MenuItem value={'Project'}>Project</MenuItem>
+                                                                    </Select>
+                                                                </FormControl>
+                                                                {currentTaskIdNumber && <Tooltip title={<span className='copy-task-id-tooltip'>{[`Copy task ID`]}</span>} arrow className='copy-task-id-tooltip mx-3 menu-tooltip'>
+                                                                    <Button className='ms-2 current-task-id-number-btn' onClick={() => {navigator.clipboard.writeText(currentTaskIdNumber)}}>{currentTaskIdNumber}</Button>
+                                                                </Tooltip>}
+
+                                                            </div>
+
+                                                            <div className='my-4 pt-2 w-100'>
+                                                                
+                                                                <TextareaAutosize
+                                                                placeholder={!isInputFocused && !inputValue && !currentTaskDescription ? 'Add description' : undefined}
+                                                                // defaultValue={currentTaskDescription ? currentTaskDescription : ''}
+                                                                fullWidth
+                                                                className='more-task-description ps-3'
+                                                                // startAdornment={
+                                                                //     <InputAdornment position="start" className='more-task-description-adornment'>
+                                                                //     {!isInputFocused && !inputValue  && <DescriptionIcon />}
+                                                                //     </InputAdornment>
+                                                                // }
+                                                                onFocus={handleFocus}
+                                                                onBlur={handleBlur}
+                                                                onChange={handleInputChange}
+                                                                value={inputValue ? inputValue : currentTaskDescription}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-xl-6">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {/* <div className='modal-wrapper col-xl'>
+                                                    <div className="row" >
+                                                        <div className=' mx-2 ' contentEditable={true} suppressContentEditableWarning={true}>
+                                                            <h1 className='update-modal-task-name'>{currentTaskName}</h1>
+                                                        </div>
+                                                        
+
+                                                        <div className='my-4 pt-2 mx-2 w-100'>
+                                                            
+                                                            <TextareaAutosize
+                                                            placeholder={!isInputFocused && !inputValue && !currentTaskDescription ? 'Add description' : null}
+                                                            defaultValue={currentTaskDescription ? currentTaskDescription : ''}
+                                                            fullWidth
+                                                            className='more-task-description ps-3'
+                                                            startAdornment={
+                                                                <InputAdornment position="start" className='more-task-description-adornment'>
+                                                                {!isInputFocused && !inputValue  && <DescriptionIcon />}
+                                                                </InputAdornment>
+                                                            }
+                                                            onFocus={handleFocus}
+                                                            onBlur={handleBlur}
+                                                            onChange={handleInputChange}
+                                                            value={inputValue ? inputValue : currentTaskDescription}
+                                                            />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -672,7 +905,7 @@ const Home = () => {
                                                             </Button>
                                                         </Modal.Footer>
                                                     </Modal.Dialog>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </Modal>
                                         
@@ -775,8 +1008,8 @@ const Home = () => {
                                     </Modal.Body>
 
                                     <Modal.Footer>
-                                        <Button variant="primary" onClick={handleCreateTask} className='default-tab-text create-task-btn'>
-                                            <AddCircleRoundedIcon className=''></AddCircleRoundedIcon>
+                                        <Button variant="primary" onClick={handleCreateTask}  className='default-stringwiz-text create-task-btn'>
+                                            Create
                                         </Button>
                                     </Modal.Footer>
                                     </Modal>

@@ -12,7 +12,6 @@ function getTaskInfo  (jwt, setTaskData) {
         return response.json();
     })
     .then((data) => {
-        console.log("got data!");
         setTaskData(data);
         // setTaskData([...taskData, data]);
     })

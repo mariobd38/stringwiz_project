@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 //@RequestMapping("/api/tasks")
@@ -24,7 +23,7 @@ public class TaskController {
     @Autowired TaskService taskService;
     @Autowired UserRepository userRepository;
 
-    @PostMapping("/api/tasks")
+    @PostMapping("/api/tasks/create")
     public ResponseEntity<?>  createTask(@AuthenticationPrincipal User user, @RequestBody Task task) {
         try {
             Task newTask = taskService.save(user, task);

@@ -15,7 +15,6 @@ public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
-//    @Bean
     public Task save(User user, Task task) {
         Task taskDetails = new Task(task.getName(),task.getDescription(),task.getStatus(), task.getPriority(), user, task.getDueDate());
         return taskRepository.save(taskDetails);
@@ -30,6 +29,7 @@ public class TaskService {
             Task existingTask = taskRepository.findById(task.getId()).orElse(null);
             assert existingTask != null;
             existingTask.setName(task.getName() != null ? task.getName() : existingTask.getName());
+            existingTask.setDescription(task.getDescription());
             existingTask.setDueDate(task.getDueDate());
             existingTask.setPriority(task.getPriority());
             existingTask.setStatus(task.getStatus());

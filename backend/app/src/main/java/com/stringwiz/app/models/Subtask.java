@@ -2,17 +2,12 @@ package com.stringwiz.app.models;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.stringwiz.app.utils.TaskIdNumberBuilder;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -26,17 +21,15 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Entity()
-@Table(name = "tasks_dim")
+@Table(name = "subtasks_dim")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Task {
+public class Subtask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
@@ -51,19 +44,15 @@ public class Task {
 
     private String priority;
 
-    @Column(name = "task_id_number", unique = true)
-    private String taskIdNumber;
-
     @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "task_tags_dim",
-            joinColumns = @JoinColumn(name = "task_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    private Set<Tag> tags = new HashSet<>();
+    @JsonIgnore
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "task_id", referencedColumnName = "id")
+    private Task task;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "due_date")
@@ -76,17 +65,4 @@ public class Task {
     @UpdateTimestamp
     @Column(name="last_updated_on")
     private Timestamp lastUpdatedOn;
-
-    public Task(String name, String description, String status, String priority, User user, Date dueDate) {
-        setName(name);
-        setDescription(description);
-        setStatus(status);
-        setPriority(priority);
-        setTaskIdNumber(new TaskIdNumberBuilder().buildTaskIdNumber());
-        setUser(user);
-        setDueDate(dueDate);
-        Timestamp currentTime = new Timestamp(new Date().getTime());
-        setCreatedOn(currentTime);
-        setLastUpdatedOn(currentTime);
-    }
 }

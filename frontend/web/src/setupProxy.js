@@ -16,7 +16,7 @@ module.exports = function(app) {
     })
   );
   app.use(
-    '/api/tasks',
+    '/api/tasks/create',
     createProxyMiddleware({
       target: 'http://localhost:8080',
       changeOrigin: true,
@@ -31,6 +31,20 @@ module.exports = function(app) {
   );
   app.use(
     '/api/tasks/put',
+    createProxyMiddleware({
+      target: 'http://localhost:8080',
+      changeOrigin: true,
+    })
+  );
+  app.use(
+    '/api/tasks/delete',
+    createProxyMiddleware({
+      target: 'http://localhost:8080',
+      changeOrigin: true,
+    })
+  );
+  app.use(
+    '/api/tags/create',
     createProxyMiddleware({
       target: 'http://localhost:8080',
       changeOrigin: true,

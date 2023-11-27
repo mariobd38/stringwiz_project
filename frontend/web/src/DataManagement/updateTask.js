@@ -67,14 +67,12 @@ function updateTaskInfo  (
         } else if (targetClassList.includes('set-task-complete-btn')) {
             task.status = 'Completed';
         } else if (targetClassList.includes('menu-change-priority-btn')) {
-
             task.priority = event.currentTarget.innerText;
-            // setCurrentTaskPriority(task.priority);
-
-            console.log("the text content is " + event.currentTarget.textContent)
-            console.log("heloooo");
-            console.log(task.priority + "task");
         }
+        else if (targetClassList.includes('more-task-description')) {
+            task.description = event.target.value;
+        }
+
 
 
 

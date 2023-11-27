@@ -1,6 +1,6 @@
 .tasks-text, .update-modal-task-name {
-    font-family: 'Ubuntu', serif;
-    font-weight: 600;
+    font-family: 'Lato', serif;
+    font-weight: 800;
 }
 .my-card {
     width: 110%;
@@ -45,6 +45,10 @@
 }
 .default-tab-text, #menu-current-status-btn, .menu-tooltip-text, .menu-change-priority-btn {
     font-family: 'Lato', serif !important;
+}
+.default-stringwiz-text {
+    font-family: 'Nunito Sans', serif !important;
+    font-weight: 600 !important;
 }
 .error-message {
     color: #c90825;
@@ -96,9 +100,10 @@
     color: #006A4E !important;
 }
 .taskName-text {
-    font-size: 0.95rem !important;
+    font-size: 0.97rem !important;
     padding: 0.3em 1em;
     border: none !important;
+    font-family: 'Nunito Sans', serif;
     /* width: 100% !important;  */
     /* text-overflow: clip; 
     overflow: hidden;
@@ -111,12 +116,13 @@
     text-decoration: line-through;
 }
 [contenteditable] {
-    height: 2rem;
-    line-height: 12px;
+    /* height: 2rem;
+    line-height: 12px; */
+    outline: 0px solid transparent;
 }
-[contenteditable]:hover {
+/* [contenteditable]:hover {
     outline: 1px solid blue;
-}
+} */
 
 .more-horiz:hover {
     cursor: pointer;
@@ -535,7 +541,7 @@ width: 100%;
     color: #58bcdb;
     border-color: #58bcdb;
 }
-#menu-current-status-btn {
+#menu-current-status-btn, .more-task-current-priority-btn {
     background-color: #d1d1d1;
     color: #353535;
     padding: 0.4rem 1.3rem;
@@ -543,7 +549,7 @@ width: 100%;
     font-weight: 600;
 }
 
-#menu-current-status-btn:hover, #menu-current-status-btn:active {
+#menu-current-status-btn:hover, #menu-current-status-btn:active, .more-task-current-priority-btn:hover {
     border-color: #58bcdb;
 }
 .divider {
@@ -620,15 +626,13 @@ width: 100%;
     color: #E13121 !important;
 }
 .more-task-current-priority-btn {
-    border: 1px dashed #353535 !important;
-    border-radius: 50%;
-    width: 2.5rem !important;
-    height: 2.5rem !important;
-    padding: 0.4rem;
+    border-radius: 10px !important;
+    padding: 0.65rem;
+    cursor: pointer;
 }
 .more-task-priority-high-btn {
     cursor: pointer;
-    color: #FFD700 !important;
+    color: #0f9f12 !important;
 }
 .more-task-priority-medium-btn {
     cursor: pointer;
@@ -636,7 +640,7 @@ width: 100%;
 }
 .more-task-priority-low-btn {
     cursor: pointer;
-    color: #b0b7b8 !important;
+    color: #778183 !important;
 }
 .more-task-user-button {
     background-color: #58bcdb !important;
@@ -669,4 +673,57 @@ width: 100%;
     display: auto !important;
     opacity: 1;
     pointer-events: auto;
+}
+.more-task-priority-text {
+    font-family: 'Nunito Sans', serif;
+    font-weight: 600;
+}
+
+.css-7obqij-MuiInputBase-root-MuiInput-root::before, .css-7obqij-MuiInputBase-root-MuiInput-root, .css-7obqij-MuiInputBase-root-MuiInput-root::after {
+    border: none !important;
+}
+.more-task-description {
+    border: 1px solid #D1D1D1 !important;
+    border-radius: 10px;
+    padding: 12px;
+    width: 85%;
+    resize:none;
+    font-family: 'Nunito Sans', serif !important;
+}
+.more-task-description:focus {
+    border: 1px solid red !important;
+}
+.more-task-description input {
+    overflow-wrap: break-word !important; /* Allow text to wrap */
+    max-height:max-content; 
+    overflow-y: auto;
+}
+.tag-icon {
+    cursor: pointer;
+    width: 1.3rem !important;
+}
+.item-type-form {
+    height: 2rem;
+}
+iframe#webpack-dev-server-client-overlay{
+    display:none!important
+}
+.current-task-id-number-btn {
+    padding: 0.2rem 0.75rem !important;
+    background-color: #fbfbfb !important;
+    color: #202020 !important;
+    border-color: #c1c1c1 !important;
+    font-family: 'Nunito Sans', serif !important;
+}
+.current-task-id-number-btn:hover {
+    background-color: #e7e7e7 !important;
+    border-color: #58bcdb !important;
+}
+.tag-dropdown-menu {
+    transform: translate3d(0px, 37px, 0px) !important;
+    width: 18rem !important;
+}
+.menu-tag-form-control {
+    border: 1px solid #c1c1c1 !important;
+    width: 80% !important;
 }

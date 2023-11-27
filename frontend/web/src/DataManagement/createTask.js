@@ -56,7 +56,7 @@ function createTaskInfo(
     };
 
 
-    fetch("/api/tasks", {
+    fetch("/api/tasks/create", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -79,6 +79,7 @@ function createTaskInfo(
             dueDate: data.dueDate,
             dateCreated: data.createdOn,
             dateUpdated: data.lastUpdatedOn,
+            taskIdNumber: data.taskIdNumber,
         };
         setTaskData([...taskData, createdTask]);
 
