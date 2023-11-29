@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import React, { useEffect } from 'react';
 import './App.css';
 import Home from "./Home/home";
 import HomePage from "./HomePage/homePage";
@@ -9,9 +9,9 @@ import SignUp from "./SignUp/signUp";
 import PrivateRoute from "./PrivateRoute/privateRoute";
 
 function App() {
-  const [jwt, setJwt] = useLocalState("", "jwt");
-  const [userEmail, setUserEmail] = useLocalState("", "userEmail");
-  const [userTasks, setUserTasks] = useLocalState([], "userTasks");
+  const [jwt] = useLocalState("", "jwt");
+  // const [userEmail, setUserEmail] = useLocalState("", "userEmail");
+  // const [userTasks, setUserTasks] = useLocalState([], "userTasks");
 
   useEffect(() => {
     console.log(`JWT is: ${jwt}`);

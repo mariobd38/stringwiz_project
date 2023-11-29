@@ -28,7 +28,7 @@ public class TaskService {
         try {
             Task existingTask = taskRepository.findById(task.getId()).orElse(null);
             assert existingTask != null;
-            existingTask.setName(task.getName() != null ? task.getName() : existingTask.getName());
+            existingTask.setName(task.getName());
             existingTask.setDescription(task.getDescription());
             existingTask.setDueDate(task.getDueDate());
             existingTask.setPriority(task.getPriority());

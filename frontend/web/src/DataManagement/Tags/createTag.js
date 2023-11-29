@@ -1,10 +1,10 @@
 
 function createTagInfo(
-    jwt, tagName, currTaskId) {
+    jwt, tagName, currTaskId, tagData, setTagData) {
     
-        const tagInfo = {
-            name: tagName
-        };
+    const tagInfo = {
+        name: tagName
+    };
 
     fetch("/api/tags/create?taskId=" + currTaskId, {
         method: "POST",
@@ -21,18 +21,14 @@ function createTagInfo(
     })
     .then((data) => {
         console.log(data);
-        // const createdTask = {
-        //     id: data.id, 
-        //     name: data.name,
-        //     description: data.description,
-        //     status: data.status,
-        //     priority: data.priority,
-        //     dueDate: data.dueDate,
-        //     dateCreated: data.createdOn,
-        //     dateUpdated: data.lastUpdatedOn,
-        //     taskIdNumber: data.taskIdNumber,
-        // };
-        // setTaskData([...taskData, createdTask]);
+        const createdTag = {
+            id: data.id, 
+            name: data.name,
+            description: data.description,
+            dateCreated: data.createdOn,
+            color: data.color,
+        };
+        setTagData([...tagData, createdTag]);
 
 
         // let taskList = userTasks;

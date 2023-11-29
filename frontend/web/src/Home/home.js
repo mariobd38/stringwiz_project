@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocalState } from "../utils/useLocalStorage";
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -6,10 +6,12 @@ import Container from 'react-bootstrap/Container';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
+import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
+
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AddTaskRoundedIcon from '@mui/icons-material/AddTaskRounded';
 import AssignmentIcon from '@mui/icons-material/Assignment';
@@ -23,9 +25,6 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import Alert from '@mui/material/Alert';
-// import Box from '@mui/material/Box';
-// import Dialog from '@mui/material/Dialog';
-// import Fade from '@mui/material/Fade';'
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import List from '@mui/material/List';
@@ -34,9 +33,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-// import Paper from '@mui/material/Paper';
 import Popover from '@mui/material/Popover';
-// import Popper from '@mui/material/Popper';
 import Select from '@mui/material/Select';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -45,7 +42,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
-// import Typography from '@mui/material/Typography';
+
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -54,14 +51,15 @@ import { DateField } from '@mui/x-date-pickers/DateField';
 
 import HomeNavbar from './HomeNavbar/homeNavbar';
 import HomeHeader from './HomeHeader/homeHeader';
-import {createTaskInfo} from '../DataManagement/createTask';
-import {getTaskInfo} from '../DataManagement/getTasks';
-import { updateTaskInfo } from '../DataManagement/updateTask';
-import { deleteTaskInfo } from '../DataManagement/deleteTask';
-import { createTagInfo } from '../DataManagement/createTag';
+import {createTaskInfo} from '../DataManagement/Tasks/createTask';
+import {getTaskInfo} from '../DataManagement/Tasks/getTasks';
+import { updateTaskInfo } from '../DataManagement/Tasks/updateTask';
+import { deleteTaskInfo } from '../DataManagement/Tasks/deleteTask';
+import { createTagInfo } from '../DataManagement/Tags/createTag';
+import { addExistingTagInfo } from '../DataManagement/Tags/addExistingTag';
+import { getTagInfo } from '../DataManagement/Tags/getTags';
+import { getAllTagsInfo } from '../DataManagement/Tags/getAllTags';
 import './home.css';
-import { styled, alpha } from '@mui/material/styles';
-import { create } from '@mui/material/styles/createTransitions';
 
 
 
@@ -114,6 +112,8 @@ const Home = () => {
     };
 
     const [taskData, setTaskData] = useState([]);
+    const [tagData, setTagData] = useState([]);
+    const [allTagData, setAllTagData] = useState([]);
 
     const [createTaskModalOpen, setCreateTaskModalOpen] = useState(false);
     const handleCreateTaskModalOpen = () => setCreateTaskModalOpen(true);
@@ -144,14 +144,11 @@ const Home = () => {
         setCurrentTaskDescription(taskDescription);
 
         otherStatusesArray.splice(otherStatusesArray.indexOf(taskStatus), 1);
-        console.log(otherStatusesArray.indexOf(taskStatus));
-        console.log(otherStatusesArray);
         setOtherStatusesArray(otherStatusesArray);
         setCurrentTaskStatus(taskStatus);
 
         setCurrentTaskPriority(taskPriority);
         setCurrentTaskIdNumber(taskIdNumber);
-        console.log(taskIdNumber);
 
         const taskCreatedOnDate = dayjs(taskCreatedOn).format(`MMM D, h:mm a`);
         const taskUpdatedOnDate = dayjs(taskUpdatedOn).format(`MMM D, h:mm a`);
@@ -171,7 +168,7 @@ const Home = () => {
     const handleMoreTaskModalClose = () => {
         setOtherStatusesArray(defaultStatuses);
         setMoreTaskModalOpen(false);
-        setInputValue(null);
+        setTaskDescriptionInputValue(null);
     };
 
 
@@ -215,16 +212,13 @@ const Home = () => {
     const handleDueDatePopoverClick = (event, index) => {
         setDueDatePopoverAnchorEl(event.currentTarget);
         setCurrentIndex(index);
-        console.log(currentIndex + " + wyooo")
     };
 
     const [selectedDate, setSelectedDate] = useState(null);
 
-
     const handleDueDatePopoverClose = () => {
         setDueDatePopoverAnchorEl(null);
         setSelectedDate(false);
-        console.log(currentIndex);
     };
 
     const openDueDatePopover = Boolean(dueDatePopoverAnchorEl);
@@ -237,6 +231,7 @@ const Home = () => {
 
     //create task call
     const handleCreateTask = () => {
+
         createTaskInfo(
         dayjs,
         taskName,
@@ -260,7 +255,7 @@ const Home = () => {
 
     //get task call
     const handleGetTasks = () => {
-        getTaskInfo(jwt, setTaskData)
+        getTaskInfo(jwt, setTaskData);
     };
 
     //update task call
@@ -293,6 +288,7 @@ const Home = () => {
     useEffect(() => {
         handleGetTasks();
       }, []);
+    
 
 
       const completeTask = (index) => {
@@ -366,8 +362,10 @@ const Home = () => {
         handleUpdateTask(event);
 
     }
+
+    //description related
     const [isInputFocused, setInputFocused] = useState(false);
-    const [inputValue, setInputValue] = useState('');
+    const [taskDescriptionInputValue, setTaskDescriptionInputValue] = useState('');
 
     const handleFocus = () => {
         setInputFocused(true);
@@ -377,12 +375,29 @@ const Home = () => {
         setInputFocused(false);
     };
 
-    const handleInputChange = (event) => {
-        setInputValue(event.target.value);
+    const handleInputTaskDescriptionChange = (event) => {
+        setTaskDescriptionInputValue(event.target.value);
         setCurrentTaskDescription(event.target.value);
         handleUpdateTask(event);
     };
 
+
+    //Task name related
+    const handleInputTaskNameChange = (event) => {
+        if (event.type === 'input') {
+            if (event.currentTarget.textContent === '') {
+                console.log('empty!');
+            }
+            handleUpdateTask(event);
+        } 
+        else if (event.type === 'keydown' && event.key === 'Enter') {
+            event.preventDefault();
+        }
+        
+    };
+
+
+    //Item type related (task, subtask, project)
     const [itemType, setItemType] = React.useState('Task');
 
     const handleItemTypeChange = (event) => {
@@ -390,32 +405,62 @@ const Home = () => {
     };
 
     // Handler for tag input changes
-    // const handleTagInputChange = (event) => {
-    //     setTagInputValue(event.target.value);
-    // };
 
-    const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
-        <Tooltip title={<span className='create-tag-tooltip-menu-text'>{[`Create Tag`]}</span>} arrow className='create-tag-tooltip menu-tooltip'>
-    <LocalOfferIcon
-            ref={ref}
-            className='tag-icon'
-            onClick={
-                (e) => {
-                e.preventDefault();
+    // const tagDataRef = useRef(tagData);
+
+
+    useEffect(() => {
+        const fetchTagsData = async () => {
+          try {
+            const data = await getTagInfo(jwt, tagData, setTagData, taskData[currentIndex].id);
+            setTagData(data);
+
+            getAllTagsInfo(jwt,setAllTagData);
+          } catch (e) {
+            console.log(e);
+          }
+        };
+        fetchTagsData();
+      }, [currentIndex]);
+    //Tag related
+    const TagMenuCustomToggle = React.forwardRef(({ children, onClick }, ref) => {
+        const delayedClick = (e, currentIndex ) => {
+            if(tagNameAbsent) setTagNameAbsent(false);
+            setTagInputValue('');
+
+            // console.log("real tag data below :)")
+            // console.log(tagData);
+
+            taskData[currentIndex].tags = tagData;
+            console.log(taskData);
+
+            e.preventDefault();
+            setTimeout(() => {
                 onClick(e);
-            }
-            }
+            }, 80); 
+        };
+    
+        return (
+            <Tooltip
+                title={<span className='create-tag-tooltip-menu-text'>{[`Create Tag`]}</span>}
+                arrow
+                className='create-tag-tooltip menu-tooltip'
             >
-            {children}
-            </LocalOfferIcon>        
-        </Tooltip>
-
-       
-      ));
-      const [tagInputValue, setTagInputValue] = useState('');
+                <LocalOfferIcon
+                    ref={ref}
+                    className='tag-icon'
+                    onClick={(event) => delayedClick(event, currentIndex)}
+                >
+                    {children}
+                </LocalOfferIcon>
+            </Tooltip> 
+        );
+    });
+    const [tagInputValue, setTagInputValue] = useState('');
+    const [tagNameAbsent, setTagNameAbsent] = useState(false);
+    
       const CustomMenu = React.forwardRef(
         ({ children, style, className, 'aria-labelledby': labeledBy }, ref) => {
-          
       
           return (
             <div 
@@ -427,34 +472,74 @@ const Home = () => {
             >
               <Form.Control
                 autoFocus
-                className=" my-2  m-auto menu-tag-form-control"
+                className="my-2 m-auto menu-tag-form-control"
                 placeholder="Search or Create New Tag"
                 onChange={(e) => setTagInputValue(e.target.value)}
-                onKeyDown={enterTag}
+                onKeyDown={handleTagInputChange}
                 value={tagInputValue}
-                
-              />
-              <ul className="list-unstyled">
-                {React.Children.toArray(children).filter(
-                  (child) =>
-                    !tagInputValue || child.props.children.toLowerCase().startsWith(tagInputValue),
-                )}
-              </ul>
+                open={handleTagInputChange}
+                />
+                <ul className="list-unstyled">
+                {React.Children.toArray(children).filter((child) => {
+                    const childText = child.props.children.toLowerCase(); // Convert child text to lowercase
+                    const inputValue = tagInputValue.toLowerCase(); // Convert input value to lowercase
+                    return !inputValue || childText.startsWith(inputValue);
+                })}
+                </ul>
             </div>
           );
         },
       );
       const handleCreateTag = (event) => {
-        createTagInfo(jwt, tagInputValue, taskData[currentIndex].id);
+        createTagInfo(jwt, tagInputValue, taskData[currentIndex].id, tagData, setTagData);
     };
-      const enterTag = (event) => {
+
+      const handleTagInputChange = (event) => {
+        // console.log(tagDataRef.current);
+
+        setTagNameAbsent(false);
+        // handleGetTags();
         if (event.key === 'Enter') {
-            console.log(tagInputValue);
-
-            handleCreateTag();
+            if (tagInputValue === '') {
+                setTagNameAbsent(true);
+            } else {
+                setTagNameAbsent(false);
+                console.log("my entire tag data right here");
+                console.log(allTagData);
+                console.log(taskData[currentIndex]);
+                for(let i = 0; i < allTagData.length;i++) {
+                    if(allTagData[i].name === tagInputValue) {
+                        const existingTag = allTagData[i];
+                        addExistingTagInfo(jwt, existingTag, tagData, setTagData, taskData[currentIndex]);
+                        taskData[currentIndex].tags = existingTag;
+                        return;
+                    }
+                }
+                handleCreateTag();
+                setTagInputValue('');
+            }
         }
+        
     };
 
+
+    // const handleGetTags = () => {
+    //     getTagInfo(jwt, setTagData,taskData[currentIndex].id);
+    // };
+
+
+    // useEffect(() => {
+    //     const fetchTagsData = async () => {
+    //         try {
+    //             console.log(currentIndex);
+    //             const data =  await getTagInfo(jwt, tagData, setTagData, taskData[currentIndex].id);
+    //             tagDataRef.current = data;
+    //         } catch (e) {
+    //             console.log(e);
+    //         }
+    //     };
+    //     fetchTagsData();
+    // },[]);
     
 
     return (
@@ -478,7 +563,7 @@ const Home = () => {
                                                     <div className='d-flex align-items-center'>
                                                         <CheckCircleIcon className='ps-1 pb-1 mt-1 task-check table-cell-icon' onClick={() => completeTask(index)} />
                                                         <button className='task-name-link' onClick={() => handleMoreTaskModalOpen(index, row.name, row.description, row.status, row.priority, row.taskIdNumber, row.createdOn, row.dueDate, row.lastUpdatedOn)}>
-                                                            <span /*contentEditable={true}*/ className={`ps-2 taskName-text ${row.status === 'Completed' ? ' strikethrough' : ''}`}>{row.name}</span> 
+                                                            <span className={`ps-2 taskName-text ${row.status === 'Completed' ? ' strikethrough' : ''}`}>{row.name}</span> 
                                                         </button>
                                                     </div>
                                                     <div className='d-flex align-items-center'>
@@ -525,7 +610,6 @@ const Home = () => {
                                                                 </ListItem>
                                                             </List>
                                                         </Popover>
-
 
                                                         <Tooltip title={<span className='menu-tooltip-text'>{[`Set priority`]}</span>} arrow className='priority-tooltip menu-tooltip'>
                                                             <FlagIcon  className='table-cell-icon priority-icon mx-1' variant="contained"  onClick={(event) => handlePriorityPopoverClick(event, index)}></FlagIcon>
@@ -767,50 +851,38 @@ const Home = () => {
                                                 <div className="container mt-4">
                                                     <div className="row ">
                                                         <div className="col-xl-6 mx-2">
-                                                            <div className=' ' contentEditable={true} suppressContentEditableWarning={true}>
-                                                                <h1 className='update-modal-task-name'>{currentTaskName}</h1>
+                                                            <div className='update-task-name-content' contentEditable={true}  onInput={handleInputTaskNameChange} onKeyDown={handleInputTaskNameChange} suppressContentEditableWarning={true}
+                                                                >
+                                                                <h1 className='update-task-name kk'>{currentTaskName}</h1>
                                                             </div>
                                                             <div className='mt-3 '>
-                                                                {/* <Menu
-                                                                    id="basic-menu"
-                                                                    anchorEl={menuTaganchorEl}
-                                                                    open={openMenuTag}
-                                                                    onClose={handleMenuTagBtnClose}
-                                                                    MenuListProps={{
-                                                                    'aria-labelledby': 'basic-button',
-                                                                    }}
-                                                                >
-                                                                    <div className='input-field-container'>
-                                                                        <TextField
-                                                                            label="Type something..."
-                                                                            variant="outlined"
-                                                                            value={tagInputValue}
-                                                                            onChange={handleTagInputChange}
-                                                                        />
-                                                                    </div>
-                                                                    
-                                                                    <MenuItem onClick={handleMenuTagBtnClose} className='menu-tags-item'>Profile</MenuItem>
-                                                                    <MenuItem onClick={handleMenuTagBtnClose} className='menu-tags-item'>My account</MenuItem>
-                                                                    <MenuItem onClick={handleMenuTagBtnClose} className='menu-tags-item'>Logout</MenuItem>
-                                                                </Menu> */}
-
-                                                                {/* <Tooltip title={<span className='menu-tooltip-tag'>{[`Add tags`]}</span>} arrow className='set-tag-tooltip mx-3 menu-tooltip'>
-                                                                    <LocalOfferIcon className='me-4 tag-icon' onClick={handleMenuTagBtnClick}></LocalOfferIcon>
-                                                                </Tooltip> */}
 
                                                                 <Dropdown className='d-inline me-2'>
-                                                                    <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" >
-                                                                        Custom toggle
+                                                                    <Dropdown.Toggle as={TagMenuCustomToggle} id="dropdown-custom-components" >
                                                                     </Dropdown.Toggle>
-
-                                                                    <Dropdown.Menu as={CustomMenu} className='tag-dropdown-menu' >
-                                                                        <Dropdown.Item eventKey="red">Red</Dropdown.Item>
+                                                                    <Dropdown.Menu as={CustomMenu} className='tag-dropdown-menu tag-search-wrapper' >
+                                                                        {tagNameAbsent && <p className='ms-3 pt-1 error-message'>Oops! Tag Name is required</p>}
+                                                                        {/* <Dropdown.Item eventKey="red">Red</Dropdown.Item>
                                                                         <Dropdown.Item eventKey="blue">Blue</Dropdown.Item>
-                                                                        <Dropdown.Item eventKey="orange">Orange</Dropdown.Item>
-                                                                        <Dropdown.Item eventKey="red-orange">Red-Orange</Dropdown.Item>
+                                                                        <Dropdown.Item eventKey="orange">Orange</Dropdown.Item> */}
+                                                                        
+                                                                        {/* {tagData && tagData.map((r, index) => (
+                                                                            <Dropdown.Item eventKey="m">{r.name}</Dropdown.Item>
+
+                                                                        ))} */}
+                                                                        {/* <div className=''> */}
+                                                                            {allTagData && allTagData.map((tagRow, index) => (
+                                                                                <Dropdown.Item eventKey={`${tagRow.name}`}>{tagRow.name}</Dropdown.Item>
+
+                                                                            ))}
+                                                                        {/* </div> */}
+                                                                        
+
                                                                     </Dropdown.Menu>
                                                                 </Dropdown>
-    
+
+                                                                
+
                                                                 <FormControl className='mx-2'>
                                                                     <Select className='item-type-form'
                                                                     // defaultValue={"task"}
@@ -830,10 +902,16 @@ const Home = () => {
 
                                                             </div>
 
+                                                            <div className=' '>
+                                                            {tagData && tagData.map((r, index) => (
+                                                                    <Button className='me-2 mt-3 menu-tag-button'><span><LocalOfferIcon className='tag-icon-span me-1'></LocalOfferIcon></span>{r.name}</Button>
+                                                                ))}
+                                                            </div>
+
                                                             <div className='my-4 pt-2 w-100'>
                                                                 
                                                                 <TextareaAutosize
-                                                                placeholder={!isInputFocused && !inputValue && !currentTaskDescription ? 'Add description' : undefined}
+                                                                placeholder={!isInputFocused && !taskDescriptionInputValue && !currentTaskDescription ? 'Add description' : undefined}
                                                                 // defaultValue={currentTaskDescription ? currentTaskDescription : ''}
                                                                 fullWidth
                                                                 className='more-task-description ps-3'
@@ -844,8 +922,8 @@ const Home = () => {
                                                                 // }
                                                                 onFocus={handleFocus}
                                                                 onBlur={handleBlur}
-                                                                onChange={handleInputChange}
-                                                                value={inputValue ? inputValue : currentTaskDescription}
+                                                                onChange={handleInputTaskDescriptionChange}
+                                                                value={taskDescriptionInputValue ? taskDescriptionInputValue : currentTaskDescription}
                                                                 />
                                                             </div>
                                                         </div>
@@ -853,59 +931,6 @@ const Home = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {/* <div className='modal-wrapper col-xl'>
-                                                    <div className="row" >
-                                                        <div className=' mx-2 ' contentEditable={true} suppressContentEditableWarning={true}>
-                                                            <h1 className='update-modal-task-name'>{currentTaskName}</h1>
-                                                        </div>
-                                                        
-
-                                                        <div className='my-4 pt-2 mx-2 w-100'>
-                                                            
-                                                            <TextareaAutosize
-                                                            placeholder={!isInputFocused && !inputValue && !currentTaskDescription ? 'Add description' : null}
-                                                            defaultValue={currentTaskDescription ? currentTaskDescription : ''}
-                                                            fullWidth
-                                                            className='more-task-description ps-3'
-                                                            startAdornment={
-                                                                <InputAdornment position="start" className='more-task-description-adornment'>
-                                                                {!isInputFocused && !inputValue  && <DescriptionIcon />}
-                                                                </InputAdornment>
-                                                            }
-                                                            onFocus={handleFocus}
-                                                            onBlur={handleBlur}
-                                                            onChange={handleInputChange}
-                                                            value={inputValue ? inputValue : currentTaskDescription}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className='modal-wrapper col-xl'>
-                                                    <Modal.Dialog className='custom-width-modal'>
-                                                        <Modal.Header closeButton className='modal-header'>
-                                                            <Modal.Title className='default-tab-text'>{currentTaskName} - {currentTaskDescription}</Modal.Title>
-                                                        </Modal.Header>
-                                                        <Modal.Body>
-                                                            <div className='d-flex justify-content-center align-items-center'>
-                                                            <h2
-                                                                contentEditable={true}
-                                                                suppressContentEditableWarning={true}
-                                                                style={{ maxWidth: '100%', textAlign: 'center' }}
-                                                            >
-                                                                {currentTaskName}
-                                                            </h2>
-                                                            </div>
-                                                        </Modal.Body>
-                                                        <Modal.Footer>
-                                                            <Button
-                                                            variant="primary"
-                                                            className='default-tab-text create-task-btn'
-                                                            >
-                                                            <AddCircleRoundedIcon className='' />
-                                                            </Button>
-                                                        </Modal.Footer>
-                                                    </Modal.Dialog>
-                                                </div> */}
                                             </div>
                                         </Modal>
                                         
@@ -1008,7 +1033,7 @@ const Home = () => {
                                     </Modal.Body>
 
                                     <Modal.Footer>
-                                        <Button variant="primary" onClick={handleCreateTask}  className='default-stringwiz-text create-task-btn'>
+                                        <Button variant="primary" onClick={handleCreateTask} className='default-stringwiz-text create-task-btn'>
                                             Create
                                         </Button>
                                     </Modal.Footer>

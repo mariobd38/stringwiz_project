@@ -12,10 +12,14 @@ function updateTaskInfo  (
         handleStatusPopoverClose,
         jwt
         ) {
-    let task = taskData[currentRowIndex];
-
-        const targetClassList = event.currentTarget.getAttribute("class").split(' ');
-        console.log(targetClassList);
+        let task = taskData[currentRowIndex];
+        let targetClassList = null;
+        if (event.currentTarget.classList.length > 1) {
+            targetClassList = event.currentTarget.getAttribute("class").split(' ');
+        } else {
+            targetClassList = event.currentTarget.getAttribute("class");
+        }
+        
 
         
         if (targetClassList.includes('date-calendar-btn') && selectedDate !== null) {
@@ -71,6 +75,10 @@ function updateTaskInfo  (
         }
         else if (targetClassList.includes('more-task-description')) {
             task.description = event.target.value;
+        } else if (targetClassList.includes('update-task-name-content')) {
+            // console.log("inside tc: " + event.currentTarget.textContent);
+            task.name = event.currentTarget.textContent;
+            // console.log("My task name " + task.name)
         }
 
 
