@@ -1,6 +1,6 @@
 
 function createTagInfo(
-    jwt, tagName, currTaskId, tagData, setTagData) {
+    jwt, tagName, currTaskId, tagData, setTagData, allTagData, setAllTagData) {
     
     const tagInfo = {
         name: tagName
@@ -29,7 +29,7 @@ function createTagInfo(
             color: data.color,
         };
         setTagData([...tagData, createdTag]);
-
+        setAllTagData([...allTagData, createdTag]);
 
         // let taskList = userTasks;
         // if(taskList === "") taskList = [];

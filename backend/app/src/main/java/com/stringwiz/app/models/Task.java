@@ -26,7 +26,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
@@ -63,7 +63,7 @@ public class Task {
     @JoinTable(name = "task_tags_dim",
             joinColumns = @JoinColumn(name = "task_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    private Set<Tag> tags = new HashSet<>();
+    private Set<Tag> tags = new LinkedHashSet<>();
 
     @Temporal(TemporalType.DATE)
     @Column(name = "due_date")

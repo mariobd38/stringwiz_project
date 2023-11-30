@@ -17,7 +17,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
@@ -41,7 +41,7 @@ public class Tag {
     private String color;
 
     @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
-    private Set<Task> tasks = new HashSet<>();
+    private Set<Task> tasks = new LinkedHashSet<>();
 
     @CreationTimestamp
     @Column(name="created_on")

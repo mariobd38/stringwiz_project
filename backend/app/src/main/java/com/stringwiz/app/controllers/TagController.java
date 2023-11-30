@@ -48,7 +48,7 @@ public class TagController {
 
     @GetMapping("/api/tags/get")
     public ResponseEntity<?> getTags(@RequestParam("taskId") Long task_id) {
-        Set<Tag> newTag = tagService.get(task_id);
+        Set<Tag> newTag = tagService.getByTask(task_id);
         return ResponseEntity.ok(newTag);
     }
 

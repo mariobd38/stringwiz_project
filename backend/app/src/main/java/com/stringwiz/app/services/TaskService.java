@@ -24,7 +24,6 @@ public class TaskService {
         return taskRepository.findByUser(user);
     }
     public Task update(Task task) {
-
         try {
             Task existingTask = taskRepository.findById(task.getId()).orElse(null);
             assert existingTask != null;

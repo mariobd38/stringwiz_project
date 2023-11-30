@@ -9,9 +9,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -54,14 +52,12 @@ public class TagService {
             } catch(Exception e) {
                 throw new IllegalArgumentException("Tag '" + tag.getName() + "' is a duplicate entry.");
             }
-
-
         }
         throw new NoSuchElementException("Task not found for the given task_id: " + task_id);
     }
 
 
-    public Set<Tag> get(Long task_id) {
+    public Set<Tag> getByTask(Long task_id) {
         Optional<Task> optionalTask = taskRepository.findById(task_id);
         if(optionalTask.isPresent()) {
             return tagRepository.findByTasks(optionalTask.get());
@@ -71,19 +67,35 @@ public class TagService {
 
     public Set<Tag> getAllTags(User user) {
         List<Task> tasks = taskRepository.findByUser(user);
-        Set<Tag> allTags = new HashSet<>();
+        Set<Tag> allTags = new LinkedHashSet<>();
         for(Task task : tasks) {
-            Set<Tag> tags = get(task.getId());
+            Set<Tag> tags = getByTask(task.getId());
             allTags.addAll(tags);
         }
         return allTags;
     }
 
+    public void removeTagFromTask(Tag tag, Long task_id) throws Exception {
+        Optional<Task> optionalTask = taskRepository.findById(task_id);
+        try {
+            if(optionalTask.isPresent()) {
+                Task currentTask = optionalTask.get();
+                currentTask.getTags().remove(tag);
+                taskRepository.save(currentTask);
+            }
+        } catch(IllegalArgumentException e) {
+            throw new IllegalArgumentException("Tag not found for the given task_id: " + task_id);
+        } catch(Exception e) {
+            throw new Exception("Request to remove tag from given task id '" + task_id + "' could not be processed");
+        }
+    }
+
+
     private Set<String> getAllTagNames(User user) {
         List<Task> tasks = taskRepository.findByUser(user);
-        Set<String> allTagNames = new HashSet<>();
+        Set<String> allTagNames = new LinkedHashSet<>();
         for(Task task : tasks) {
-            Set<Tag> tags = get(task.getId());
+            Set<Tag> tags = getByTask(task.getId());
             for(Tag tag : tags) {
                 allTagNames.add(tag.getName());
             }

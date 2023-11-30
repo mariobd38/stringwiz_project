@@ -19,10 +19,14 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import CheckIcon from '@mui/icons-material/Check';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ChecklistRtlRoundedIcon from '@mui/icons-material/ChecklistRtlRounded';
+import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import EventIcon from '@mui/icons-material/Event';
 import FlagIcon from '@mui/icons-material/Flag';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import PaletteIcon from '@mui/icons-material/Palette';
 
 import Alert from '@mui/material/Alert';
 import FormControl from '@mui/material/FormControl';
@@ -491,7 +495,7 @@ const Home = () => {
         },
       );
       const handleCreateTag = (event) => {
-        createTagInfo(jwt, tagInputValue, taskData[currentIndex].id, tagData, setTagData);
+        createTagInfo(jwt, tagInputValue, taskData[currentIndex].id, tagData, setTagData, allTagData, setAllTagData);
     };
 
       const handleTagInputChange = (event) => {
@@ -520,6 +524,15 @@ const Home = () => {
             }
         }
         
+    };
+
+    const [menuTagsAnchorEl, setMenuTagsAnchorEl] = React.useState(null);
+    const openMenuTags = Boolean(menuTagsAnchorEl);
+    const handleMenuTagBtnClick = (event) => {
+        setMenuTagsAnchorEl(event.currentTarget);
+    };
+    const handleMenuTagBtnClose = (event) => {
+        setMenuTagsAnchorEl(null);
     };
 
 
@@ -559,7 +572,7 @@ const Home = () => {
                                         <TableBody>
                                             {taskData.map((row, index) => (
                                             <TableRow key={index} className='table-row'>
-                                                <TableCell component="th" scope="row" className='default-tab-text d-flex align-items-center justify-content-between table-cell'>
+                                                <TableCell component="th" scope="row" className='lato-font d-flex align-items-center justify-content-between table-cell'>
                                                     <div className='d-flex align-items-center'>
                                                         <CheckCircleIcon className='ps-1 pb-1 mt-1 task-check table-cell-icon' onClick={() => completeTask(index)} />
                                                         <button className='task-name-link' onClick={() => handleMoreTaskModalOpen(index, row.name, row.description, row.status, row.priority, row.taskIdNumber, row.createdOn, row.dueDate, row.lastUpdatedOn)}>
@@ -567,7 +580,7 @@ const Home = () => {
                                                         </button>
                                                     </div>
                                                     <div className='d-flex align-items-center'>
-                                                        <Tooltip title={<span className='menu-tooltip-text'>{[`Set status`]}</span>} arrow className='status-tooltip menu-tooltip'>
+                                                        <Tooltip title={<span className='lato-font'>{[`Set status`]}</span>} arrow className='status-tooltip menu-tooltip'>
                                                             <AssignmentIcon className='table-cell-icon status-icon mx-1' variant="contained" onClick={(event) => handleStatusPopoverClick(event, index)}></AssignmentIcon>
                                                         </Tooltip>
 
@@ -611,7 +624,7 @@ const Home = () => {
                                                             </List>
                                                         </Popover>
 
-                                                        <Tooltip title={<span className='menu-tooltip-text'>{[`Set priority`]}</span>} arrow className='priority-tooltip menu-tooltip'>
+                                                        <Tooltip title={<span className='lato-font'>{[`Set priority`]}</span>} arrow className='priority-tooltip menu-tooltip'>
                                                             <FlagIcon  className='table-cell-icon priority-icon mx-1' variant="contained"  onClick={(event) => handlePriorityPopoverClick(event, index)}></FlagIcon>
                                                         </Tooltip>
                                                                                         
@@ -653,7 +666,7 @@ const Home = () => {
                                                                 </ListItem>
                                                             </List>
                                                         </Popover>
-                                                        <Tooltip title={<span className='menu-tooltip-text'>{[`Set due date`]}</span>} arrow className='due-date-tooltip menu-tooltip'>
+                                                        <Tooltip title={<span className='lato-font'>{[`Set due date`]}</span>} arrow className='due-date-tooltip menu-tooltip'>
                                                             <AccessTimeIcon className={`table-cell-icon due-date-icon mx-1`} variant="contained" onClick={(event) => handleDueDatePopoverClick(event, index)}></AccessTimeIcon>
                                                         </Tooltip>
 
@@ -703,7 +716,7 @@ const Home = () => {
                                                     <div className='my-3 d-flex  justify-content-md-between row'>
                                                         
                                                         <div className='col-12 col-lg-8'>
-                                                            <Button className={`ms-0 ms-md-2 ${currentTaskStatus === 'Completed' ? 'menu-current-status-isCompleted' : ''}`} id="menu-current-status-btn"
+                                                            <Button className={`ms-0 ms-md-2 lato-font ${currentTaskStatus === 'Completed' ? 'menu-current-status-isCompleted' : ''}`} id="menu-current-status-btn"
                                                                 aria-controls={openMenuStatus ? 'basic-menu' : undefined}
                                                                 aria-haspopup="true"
                                                                 aria-expanded={openMenuStatus ? 'true' : undefined}
@@ -724,7 +737,7 @@ const Home = () => {
                                                                     <MenuItem onClick={(event) => handleMenuStatusBtnClose(otherStatuses, event)} className='menu-change-status-btn'>{otherStatuses}</MenuItem>
                                                                 ))}
                                                             </Menu>
-                                                            <Tooltip title={<span className='menu-tooltip-text'>{[`Mark as Complete`]}</span>} arrow className='set-complete-tooltip d-none d-sm-inline menu-tooltip'>
+                                                            <Tooltip title={<span className='lato-font'>{[`Mark as complete`]}</span>} arrow className='set-complete-tooltip d-none d-sm-inline menu-tooltip'>
                                                                 <CheckIcon className={`mx-2 mx-lg-3 set-task-complete-btn ${currentTaskStatus === 'Completed' ? 'set-task-complete-true-btn' : ''}`}  onClick={(event) => handleSetTaskCompleteBtn(event)}></CheckIcon>
                                                             </Tooltip>
                                                             
@@ -739,7 +752,7 @@ const Home = () => {
                                                                 }}
                                                             >
                                                                 {userPriorities.map((userPriority) => (
-                                                                    <MenuItem onClick={(event) => handleMenuPriorityBtnClose(userPriority, event)} className='menu-change-priority-btn'>
+                                                                    <MenuItem onClick={(event) => handleMenuPriorityBtnClose(userPriority, event)} className='menu-change-priority-btn lato-font'>
                                                                         <span className={`m-0 ${userPriority === 'Critical' ? 'more-task-priority-critical-btn' : ''}
                                                                                                 ${userPriority === 'High' ? 'more-task-priority-high-btn' : ''}
                                                                                                 ${userPriority === 'Medium' ? 'more-task-priority-medium-btn' : ''}
@@ -752,11 +765,11 @@ const Home = () => {
                                                             </Menu>
 
                                                             {currentTaskPriority === null ? 
-                                                            <Tooltip title={<span className='menu-tooltip-text'>{[`Set priority`]}</span>} arrow className='task-priority-tooltip menu-tooltip'>
+                                                            <Tooltip title={<span className='lato-font'>{[`Set priority`]}</span>} arrow className='task-priority-tooltip menu-tooltip'>
                                                                 <FlagIcon className='more-task-priority-btn mx-2 mx-md-5' variant="contained" onClick={handleMenuPriorityBtnClick} ></FlagIcon>
                                                             </Tooltip> 
                                                             :
-                                                            <Tooltip title={<span className='menu-tooltip-text'>{[`${currentTaskPriority} priority`]}</span>} arrow className='task-priority-tooltip menu-tooltip '>
+                                                            <Tooltip title={<span className='lato-font'>{[`${currentTaskPriority} priority`]}</span>} arrow className='task-priority-tooltip menu-tooltip '>
                                                                 <span className='more-task-current-priority-btn mx-2 mx-lg-3' onClick={handleMenuPriorityBtnClick}><FlagIcon className={`me-2   ${
                                                             currentTaskPriority === 'Critical' ? 'more-task-priority-critical-btn' :
                                                             currentTaskPriority === 'High' ? 'more-task-priority-high-btn' :
@@ -768,7 +781,7 @@ const Home = () => {
                                                             
                                                             <Button className="btn px-0 px-md-1 py-1 py-md-0 more-task-user-button">
                                                                     <p className='m-auto text-white initials'>{initials}</p>
-                                                                    <Tooltip title={<span className='menu-tooltip-text'>{[`Remove asignee`]}</span>} arrow className='remove-asignee-tooltip menu-tooltip'>
+                                                                    <Tooltip title={<span className='lato-font'>{[`Remove asignee`]}</span>} arrow className='remove-asignee-tooltip menu-tooltip'>
                                                                         <CancelIcon className="remove-user-cancel-icon " />
                                                                     </Tooltip>
                                                             </Button>
@@ -786,13 +799,13 @@ const Home = () => {
                                                                         Delete task
                                                                     </MenuItem>
                                                             </Menu>
-                                                            <Tooltip title={<span className='menu-tooltip-text'>{[`Task Settings`]}</span>} arrow className='task-settings-tooltip menu-tooltip'>
+                                                            <Tooltip title={<span className='lato-font'>{[`Task Settings`]}</span>} arrow className='task-settings-tooltip menu-tooltip'>
                                                                 <MoreHorizIcon className='task-settings-btn mx-1  ms-md-3 me-md-5' onClick={handleMenuSettingsBtnClick}></MoreHorizIcon>
                                                             </Tooltip>
                                                         </div>
                                                         {/* <div className=''> */}
                                                         <div className='mt-3 mt-lg-0 col-12 col-lg-4  d-flex justify-content-start justify-content-lg-end'>
-                                                            <Tooltip title={<span className=' created-date-tooltip-text menu-tooltip-text'>{[`Created by  ${userFullName} on ${currentTaskCreatedOn}`,<br />,`Last Updated on ${currentTaskUpdatedOn}`]}</span>} arrow className='created-date-tooltip menu-tooltip'>
+                                                            <Tooltip title={<span className=' created-date-tooltip-text lato-font'>{[`Created by  ${userFullName} on ${currentTaskCreatedOn}`,<br />,`Last Updated on ${currentTaskUpdatedOn}`]}</span>} arrow className='created-date-tooltip menu-tooltip'>
                                                                 <div className='created-date-div mx-2  mx-md-2'>
                                                                     <div className='created-text'>Created</div>
                                                                     <div className='created-date-text'>{currentTaskCreatedOn}</div>
@@ -811,7 +824,7 @@ const Home = () => {
                                                                     </div>
                                                                 :
                                                                 <>
-                                                                    <Tooltip title={<span className='menu-tooltip-text'>{[`Set due date`]}</span>} arrow className='due-date-create-tooltip menu-tooltip'>
+                                                                    <Tooltip title={<span className='lato-font'>{[`Set due date`]}</span>} arrow className='due-date-create-tooltip menu-tooltip'>
                                                                         <div><EventIcon className='due-date-create-btn' onClick={(event) => handleDueDatePopoverClick(event, currentIndex)} ></EventIcon></div>
                                                                     </Tooltip>
 
@@ -903,8 +916,35 @@ const Home = () => {
                                                             </div>
 
                                                             <div className=' '>
+
+
+                                                            <Menu
+                                                                id="basic-menu"
+                                                                anchorEl={menuTagsAnchorEl}
+                                                                open={openMenuTags}
+                                                                onClose={handleMenuTagBtnClose}
+                                                                MenuListProps={{
+                                                                'aria-labelledby': 'basic-button',
+                                                                }}
+                                                                anchorOrigin={{
+                                                                    vertical: 'bottom'
+                                                                }}
+                                                                className='mt-2'
+                                                            >
+                                                                    <MenuItem onClick={(event) => handleMenuTagBtnClose(event)} className='menu-tag-btn'>
+                                                                        <span className={`nunito-sans-font`}><EditIcon className='me-1 mb-1 tag-menu-icon'></EditIcon>Rename</span>
+                                                                    </MenuItem>
+                                                                    <MenuItem onClick={(event) => handleMenuTagBtnClose(event)} className='menu-tag-btn'>
+                                                                        <span className={`nunito-sans-font`}><PaletteIcon className='me-1 mb-1 tag-menu-icon'></PaletteIcon>Change color</span>
+                                                                    </MenuItem>
+                                                                    <MenuItem onClick={(event) => handleMenuTagBtnClose(event)} className='menu-tag-btn'>
+                                                                        <span className={`nunito-sans-font`}><DeleteIcon className='me-1 mb-1 tag-menu-icon'></DeleteIcon>Delete</span>
+                                                                    </MenuItem>
+                                                                
+                                                            </Menu>
+                                                            
                                                             {tagData && tagData.map((r, index) => (
-                                                                    <Button className='me-2 mt-3 menu-tag-button'><span><LocalOfferIcon className='tag-icon-span me-1'></LocalOfferIcon></span>{r.name}</Button>
+                                                                    <Button className='me-2 mt-3 menu-tag-button' onClick={handleMenuTagBtnClick}><span><LocalOfferIcon className='tag-icon-span me-1'></LocalOfferIcon></span>{r.name}<CloseIcon className='remove-tag-icon ms-1 pb-1 d-none'></CloseIcon></Button>
                                                                 ))}
                                                             </div>
 
@@ -913,7 +953,7 @@ const Home = () => {
                                                                 <TextareaAutosize
                                                                 placeholder={!isInputFocused && !taskDescriptionInputValue && !currentTaskDescription ? 'Add description' : undefined}
                                                                 // defaultValue={currentTaskDescription ? currentTaskDescription : ''}
-                                                                fullWidth
+                                                                
                                                                 className='more-task-description ps-3'
                                                                 // startAdornment={
                                                                 //     <InputAdornment position="start" className='more-task-description-adornment'>
@@ -943,16 +983,16 @@ const Home = () => {
                                     <button className="btn create-task-button" onClick={handleCreateTaskModalOpen}>
                                         <AddTaskRoundedIcon className='add-task-icon'>
                                         </AddTaskRoundedIcon> 
-                                        <span className='ps-2 default-tab-text'>Create new task</span>
+                                        <span className='ps-2 lato-font'>Create new task</span>
                                     </button>
                                     
                                     <Modal show={createTaskModalOpen} onHide={handleCreateTaskModalClose}>
                                         <Modal.Header closeButton>
-                                            <Modal.Title className='default-tab-text'>Create a task</Modal.Title>
+                                            <Modal.Title className='lato-font'>Create a task</Modal.Title>
                                         </Modal.Header>
                                     <Modal.Body>
                                         <Alert severity="error" className='w-75 mb-3'>Task Name is required</Alert>
-                                        {missingNameError && <p className="pt-2 error-message default-tab-text">Please enter a name for your task</p>}
+                                        {missingNameError && <p className="pt-2 error-message lato-font">Please enter a name for your task</p>}
 
                                             <div className='pt-2'>
                                                 <TextField
@@ -1041,11 +1081,11 @@ const Home = () => {
                                 </div>
                             </Tab>
                             <Tab eventKey="overdueKey" className="pt-3" title="Overdue">
-                                <p className='default-tab-text m-auto text-center pt-3'>No overdue tasks! 🥳</p>
+                                <p className='lato-font m-auto text-center pt-3'>No overdue tasks! 🥳</p>
                             </Tab>
                             <Tab eventKey="completedKey" className="pt-3 text-start ps-4 d-flex justify-content-center"title="Completed">
                                 <ChecklistRtlRoundedIcon className='checklist-rtl-icon'/>
-                                <p className='ps-4 mt-auto default-tab-text'>Your completed tasks will show up here!</p>
+                                <p className='ps-4 mt-auto lato-font'>Your completed tasks will show up here!</p>
                             </Tab>
                         </Tabs>
                     </Card>
@@ -1057,7 +1097,7 @@ const Home = () => {
                             <div className="projects-div">
                                 <button className='btn  create-task-button'  >
                                         <AddTaskRoundedIcon></AddTaskRoundedIcon> 
-                                        <span className='ps-2 default-tab-text'>Create new project</span>
+                                        <span className='ps-2 lato-font'>Create new project</span>
                                 </button>
                             </div>     
                     </Card>

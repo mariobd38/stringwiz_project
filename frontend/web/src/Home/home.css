@@ -5,6 +5,7 @@
 .my-card {
     width: 110%;
     background-color: #f8f8f8 !important;
+    border-radius: 20px !important;
 }
 @media(max-width: 1200px) {
     .my-card {
@@ -43,8 +44,11 @@
     border-radius: 50%;
     padding: 8px;
 }
-.default-tab-text, #menu-current-status-btn, .menu-tooltip-text, .menu-change-priority-btn {
+.lato-font {
     font-family: 'Lato', serif !important;
+}
+.nunito-sans-font {
+    font-family: 'Nunito Sans', serif !important;
 }
 .default-stringwiz-text {
     font-family: 'Nunito Sans', serif !important;
@@ -549,9 +553,11 @@ width: 100%;
 #menu-current-status-btn, .more-task-current-priority-btn {
     background-color: #d1d1d1;
     color: #353535;
-    padding: 0.4rem 1.3rem;
+    padding: 0.3rem 1rem;
     border: 2px solid #d1d1d1;
     font-weight: 600;
+    /* width: 4rem !important;
+    height: 4rem !important; */
 }
 
 #menu-current-status-btn:hover, #menu-current-status-btn:active, .more-task-current-priority-btn:hover {
@@ -632,7 +638,7 @@ width: 100%;
 }
 .more-task-current-priority-btn {
     border-radius: 10px !important;
-    padding: 0.65rem;
+    padding: 0.5rem;
     cursor: pointer;
 }
 .more-task-priority-high-btn {
@@ -691,7 +697,7 @@ width: 100%;
     border: 1px solid #D1D1D1 !important;
     border-radius: 10px;
     padding: 12px;
-    width: 85%;
+    width: 95%;
     resize:none;
     font-family: 'Nunito Sans', serif !important;
 }
@@ -747,4 +753,18 @@ iframe#webpack-dev-server-client-overlay{
 }
 .tag-icon-span {
     width: 0.7rem !important;
+}
+.remove-tag-icon {
+    width: 0.9rem !important;
+}
+.menu-tag-button:hover .remove-tag-icon  {
+    display: inline !important;
+    /* visibility:visible !important; */
+}
+.remove-tag-icon:hover {
+    color: #c90825;
+}
+.tag-menu-icon {
+    width: 1.1rem !important;
+    color: #222529;
 }
