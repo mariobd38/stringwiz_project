@@ -2,10 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="052adb08-e748-43c4-b58c-e2a50348e324" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/test.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/src/main/java/com/stringwiz/app/AppApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/src/main/java/com/stringwiz/app/AppApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/src/main/java/com/stringwiz/app/controllers/TagController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/src/main/java/com/stringwiz/app/controllers/TagController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/src/main/java/com/stringwiz/app/controllers/TaskController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/src/main/java/com/stringwiz/app/controllers/TaskController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/src/main/java/com/stringwiz/app/models/Tag.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/src/main/java/com/stringwiz/app/models/Tag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/src/main/java/com/stringwiz/app/models/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/src/main/java/com/stringwiz/app/models/Task.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/src/main/java/com/stringwiz/app/services/TagService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/src/main/java/com/stringwiz/app/services/TagService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/web/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/web/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/web/src/Home/HomeHeader/homeHeader.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/web/src/Home/HomeHeader/homeHeader.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/web/src/Home/HomeHeader/homeHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/web/src/Home/HomeHeader/homeHeader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/web/src/Home/home.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/web/src/Home/home.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/web/src/Home/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/web/src/Home/home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/web/src/setupProxy.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/web/src/setupProxy.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,9 +25,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="2W8qs4yPaI95czufOUsSoVn47j8" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -33,6 +40,7 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
     "last_opened_file_path": "/Users/mariobarragan/Desktop/workspace/stringwiz_project_v2",
+    "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -45,6 +53,7 @@
       <option name="presentableId" value="Default" />
       <updated>1696124757842</updated>
       <workItem from="1696124758873" duration="104000" />
+      <workItem from="1701481678739" duration="15000" />
     </task>
     <servers />
   </component>

@@ -96,7 +96,7 @@
 .nav-item {
     border-radius: 2%;
 }
-.table-row:hover {
+.table-row:hover, .tag-dropdown-item:hover {
     background-color: #eeeeee !important;
 }
 

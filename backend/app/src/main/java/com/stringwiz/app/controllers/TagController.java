@@ -9,16 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Set;
 
-@Controller
+@RestController
 public class TagController {
     @Autowired
     TagService tagService;
@@ -56,5 +57,17 @@ public class TagController {
     public ResponseEntity<?> getAllTags(@AuthenticationPrincipal User user) {
         Set<Tag> allTags = tagService.getAllTags(user);
         return ResponseEntity.ok(allTags);
+    }
+
+    @DeleteMapping("/api/tags/remove")
+    public ResponseEntity<?> remove(@RequestBody Tag tag, @RequestParam("taskId") Long task_id) {
+        Set<Tag> updatedTagSet = tagService.removeTag(tag, task_id);
+        return ResponseEntity.ok(updatedTagSet);
+    }
+
+    @DeleteMapping("/api/tags/delete")
+    public ResponseEntity<?> delete(@RequestBody Tag tag) {
+        tagService.delete(tag);
+        return ResponseEntity.noContent().build();
     }
 }

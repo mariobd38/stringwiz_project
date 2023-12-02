@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocalState } from "../utils/useLocalStorage";
+
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
@@ -63,6 +64,8 @@ import { createTagInfo } from '../DataManagement/Tags/createTag';
 import { addExistingTagInfo } from '../DataManagement/Tags/addExistingTag';
 import { getTagInfo } from '../DataManagement/Tags/getTags';
 import { getAllTagsInfo } from '../DataManagement/Tags/getAllTags';
+import { removeTagInfo } from '../DataManagement/Tags/removeTag';
+
 import './home.css';
 
 
@@ -535,6 +538,15 @@ const Home = () => {
         setMenuTagsAnchorEl(null);
     };
 
+    const handleRemoveTag = (index) => {
+        // console.log(tagData);
+        // console.log(tagData[index]);
+        // console.log(taskData[currentIndex].id);
+        const tagToRemove = tagData[index];
+        const currTaskId = taskData[currentIndex].id;
+        removeTagInfo(jwt, tagToRemove, currTaskId, tagData, setTagData, allTagData, setAllTagData);
+    }
+
 
     // const handleGetTags = () => {
     //     getTagInfo(jwt, setTagData,taskData[currentIndex].id);
@@ -885,7 +897,7 @@ const Home = () => {
                                                                         ))} */}
                                                                         {/* <div className=''> */}
                                                                             {allTagData && allTagData.map((tagRow, index) => (
-                                                                                <Dropdown.Item eventKey={`${tagRow.name}`}>{tagRow.name}</Dropdown.Item>
+                                                                                <Dropdown.Item eventKey={`${tagRow.name}`} className='tag-dropdown-item lato-font'>{tagRow.name}</Dropdown.Item>
 
                                                                             ))}
                                                                         {/* </div> */}
@@ -932,19 +944,19 @@ const Home = () => {
                                                                 className='mt-2'
                                                             >
                                                                     <MenuItem onClick={(event) => handleMenuTagBtnClose(event)} className='menu-tag-btn'>
-                                                                        <span className={`nunito-sans-font`}><EditIcon className='me-1 mb-1 tag-menu-icon'></EditIcon>Rename</span>
+                                                                        <span className={`nunito-sans-font`}><EditIcon className='me-1 mb-1 tag-menu-icon tag-dropdown-item'></EditIcon>Rename</span>
                                                                     </MenuItem>
                                                                     <MenuItem onClick={(event) => handleMenuTagBtnClose(event)} className='menu-tag-btn'>
-                                                                        <span className={`nunito-sans-font`}><PaletteIcon className='me-1 mb-1 tag-menu-icon'></PaletteIcon>Change color</span>
+                                                                        <span className={`nunito-sans-font`}><PaletteIcon className='me-1 mb-1 tag-menu-icon tag-dropdown-item'></PaletteIcon>Change color</span>
                                                                     </MenuItem>
                                                                     <MenuItem onClick={(event) => handleMenuTagBtnClose(event)} className='menu-tag-btn'>
-                                                                        <span className={`nunito-sans-font`}><DeleteIcon className='me-1 mb-1 tag-menu-icon'></DeleteIcon>Delete</span>
+                                                                        <span className={`nunito-sans-font`}><DeleteIcon className='me-1 mb-1 tag-menu-icon tag-dropdown-item'></DeleteIcon>Delete</span>
                                                                     </MenuItem>
                                                                 
                                                             </Menu>
                                                             
                                                             {tagData && tagData.map((r, index) => (
-                                                                    <Button className='me-2 mt-3 menu-tag-button' onClick={handleMenuTagBtnClick}><span><LocalOfferIcon className='tag-icon-span me-1'></LocalOfferIcon></span>{r.name}<CloseIcon className='remove-tag-icon ms-1 pb-1 d-none'></CloseIcon></Button>
+                                                                    <Button className='me-2 mt-3 menu-tag-button' onClick={handleMenuTagBtnClick}><span><LocalOfferIcon className='tag-icon-span me-1'></LocalOfferIcon></span>{r.name}<CloseIcon className='remove-tag-icon ms-1 pb-1 d-none' onClick={() => handleRemoveTag(index)}></CloseIcon></Button>
                                                                 ))}
                                                             </div>
 

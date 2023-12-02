@@ -36,20 +36,17 @@ public class Tag {
     @Column(nullable = false, unique = true)
     private String name;
 
-    private String description;
-
     private String color;
 
     @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
     private Set<Task> tasks = new LinkedHashSet<>();
 
     @CreationTimestamp
-    @Column(name="created_on")
+    @Column(name="created_on",nullable = false)
     private Timestamp createdOn;
 
-    public Tag(String name, String description, String color) {
+    public Tag(String name, String color) {
         setName(name);
-        setDescription(description);
         setColor(color);
         Timestamp currentTime = new Timestamp(new Date().getTime());
         setCreatedOn(currentTime);

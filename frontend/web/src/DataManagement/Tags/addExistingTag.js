@@ -21,7 +21,6 @@ function addExistingTagInfo(
         const addedTag = {
             id: data.id, 
             name: data.name,
-            description: data.description,
             dateCreated: data.createdOn,
             color: data.color,
         };

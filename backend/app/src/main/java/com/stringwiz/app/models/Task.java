@@ -59,7 +59,7 @@ public class Task {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH})
     @JoinTable(name = "task_tags_dim",
             joinColumns = @JoinColumn(name = "task_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
@@ -70,7 +70,7 @@ public class Task {
     private Date dueDate;
 
     @CreationTimestamp
-    @Column(name="created_on")
+    @Column(name="created_on", nullable = false)
     private Timestamp createdOn;
 
     @UpdateTimestamp
