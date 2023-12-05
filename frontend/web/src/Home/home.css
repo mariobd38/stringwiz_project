@@ -47,8 +47,11 @@
 .lato-font {
     font-family: 'Lato', serif !important;
 }
-.nunito-sans-font {
+.nunito-sans-font, .nunito-sans-font-600 {
     font-family: 'Nunito Sans', serif !important;
+}
+.nunito-sans-font-600 {
+    font-weight: 600;
 }
 .default-stringwiz-text {
     font-family: 'Nunito Sans', serif !important;
@@ -697,9 +700,11 @@ width: 100%;
     border: 1px solid #D1D1D1 !important;
     border-radius: 10px;
     padding: 12px;
-    width: 95%;
-    resize:none;
+    width: 80%;
+    resize:vertical;
     font-family: 'Nunito Sans', serif !important;
+    /* max-height: 11.5rem;  */
+    overflow:auto;
 }
 .more-task-description:focus {
     border: 1px solid red !important;

@@ -13,6 +13,7 @@ module.exports = function(app) {
     '/api/tags/getAll',
     '/api/tags/addTag',
     '/api/tags/remove',
+    '/api/tags/delete',
   ];
 
   endpoints.forEach(endpoint => {

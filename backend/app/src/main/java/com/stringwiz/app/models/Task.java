@@ -2,6 +2,7 @@ package com.stringwiz.app.models;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.stringwiz.app.utils.JwtUtil;
 import com.stringwiz.app.utils.TaskIdNumberBuilder;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -20,13 +21,17 @@ import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
@@ -36,6 +41,8 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper= false)
+//@EqualsAndHashCode(of = "id")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

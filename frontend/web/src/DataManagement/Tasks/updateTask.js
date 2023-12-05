@@ -20,9 +20,10 @@ function updateTaskInfo  (
             targetClassList = event.currentTarget.getAttribute("class");
         }
         
-
+        console.log(targetClassList);
         
         if (targetClassList.includes('date-calendar-btn') && selectedDate !== null) {
+            console.log("inside date calendar");
             const newDayString = selectedDate.format('D');
             const newMonthString = selectedDate.format('M');
             const newYearString = selectedDate.format('YYYY');
@@ -42,8 +43,22 @@ function updateTaskInfo  (
 
             } else {
                 setCurrentTaskDueDate(dayjs(task.dueDate).format(`MMM D`));
+                console.log(dayjs(task.dueDate).format(`MMM D`));
                 handleDueDatePopoverClose();
             }
+        }
+        else if (targetClassList.includes('date-calendar-btn2') && selectedDate !== null) {
+            const newDayString = selectedDate.format('D');
+            const newMonthString = selectedDate.format('M');
+            const newYearString = selectedDate.format('YYYY');
+            const newDate = dayjs(`${newYearString}-${newMonthString}-${newDayString}`).toDate();
+            task.dueDate = newDate;
+
+            setCurrentTaskDueDate(dayjs(task.dueDate).format(`MMM D`));
+            console.log(dayjs(task.dueDate).format(`MMM D`));
+            handleDueDatePopoverClose();
+
+            // return;
         } else if (targetClassList.includes('priority-list-item-btn')) {
             task.priority = event.target.textContent;
             setCheckIconVisible(true);

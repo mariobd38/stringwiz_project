@@ -20,19 +20,14 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@Transactional
 public class TagService {
     @Autowired
     private TagRepository tagRepository;
     @Autowired
     private TaskRepository taskRepository;
-    @PersistenceContext
-    private EntityManager entityManager;
 
     public Tag create(User user, Tag tag, Long task_id) {
-//        Set<String> allTagNames = getAllTagNames(user);
-//        if(allTagNames.contains(tag.getName())) {
-//            throw new IllegalArgumentException("Tag '" + tag.getName() + "' already exists.");
-//        }
         try {
             Optional<Task> optionalTask = taskRepository.findById(task_id);
             if (optionalTask.isPresent()) {
@@ -55,7 +50,6 @@ public class TagService {
         if(optionalTask.isPresent()) {
             Task task = optionalTask.get();
             try {
-                //tag.getTasks().add(task);
                 task.getTags().add(tag);
                 taskRepository.save(task);
                 return tag;
@@ -89,22 +83,13 @@ public class TagService {
         return allTags;
     }
 
-    @Transactional
     public Set<Tag> removeTag(Tag tag, Long task_id) {
         Optional<Task> optionalTask = taskRepository.findById(task_id);
         try {
             if(optionalTask.isPresent()) {
 
                 Task currentTask = optionalTask.get();
-                System.out.println(currentTask.getTags());
-                EntityGraph<Task> graph = entityManager.createEntityGraph(Task.class);
-                graph.addAttributeNodes("tags");
-
-                Task myTask = entityManager.find(Task.class, task_id, Collections.singletonMap("javax.persistence.fetchgraph", graph));
-
-                if (myTask != null) {
-                    System.out.println(myTask.getTags().size());
-                }
+                System.out.println(currentTask.getTags().size());
                 return currentTask.getTags();
             }
         } catch(IllegalArgumentException e) {
@@ -113,7 +98,6 @@ public class TagService {
         throw new NoSuchElementException("Request to remove tag from given task id '" + task_id + "' could not be processed");
     }
 
-    @Transactional
     public void delete(Tag tag) {
         tagRepository.delete(tag);
     }

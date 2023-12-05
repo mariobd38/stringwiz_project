@@ -12,6 +12,4 @@ import java.util.Optional;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findByUser(User user);
-    @EntityGraph(attributePaths = "tags")
-    Optional<Task> findById(Long id);
 }

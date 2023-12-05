@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useLocalState } from "../utils/useLocalStorage";
 
 import Button from 'react-bootstrap/Button';
@@ -65,6 +65,10 @@ import { addExistingTagInfo } from '../DataManagement/Tags/addExistingTag';
 import { getTagInfo } from '../DataManagement/Tags/getTags';
 import { getAllTagsInfo } from '../DataManagement/Tags/getAllTags';
 import { removeTagInfo } from '../DataManagement/Tags/removeTag';
+import { deleteTagInfo } from '../DataManagement/Tags/deleteTag';
+// import HomeMoreTaskInfo from './HomeMoreTaskInfo/homeMoreTaskInfo';
+
+// import { Editor } from '../tinymce-react-demo/node_modules/@tinymce/tinymce-react';
 
 import './home.css';
 
@@ -73,7 +77,7 @@ import './home.css';
 
 
 const Home = () => {
-    
+
     const dayjs = require('dayjs');
 
     var now = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -81,7 +85,7 @@ const Home = () => {
     const date = new Date(now.year(), now.month(), now.date());  // 2009-11-10
     const month = date.toLocaleString('default', { month: 'long' });
     const dayOfWeek = date.toLocaleDateString('en-US',{weekday: 'long'});
-    const todays_date = dayOfWeek + ", " + month + " " + date.getDate();
+    const todays_date = now.year() + "-" + now.month() + "-" + now.get('date');
 
     const [jwt] = useLocalState("", "jwt");
     const [userFullName] = useLocalState('', 'userFullName');
@@ -119,6 +123,7 @@ const Home = () => {
     };
 
     const [taskData, setTaskData] = useState([]);
+    const taskTimeStatuses = ['upcoming', 'overdue', 'completed'];
     const [tagData, setTagData] = useState([]);
     const [allTagData, setAllTagData] = useState([]);
 
@@ -132,6 +137,9 @@ const Home = () => {
     const [currentTaskUpdatedOn, setCurrentTaskUpdatedOn] = useState('');
     const [currentTaskDueDate, setCurrentTaskDueDate] = useState('');
     const [currentTaskIdNumber, setCurrentTaskIdNumber] = useState('');
+    const [upcomingTasks, setUpcomingTasks] = useState([]);
+    const [overdueTasks, setOverdueTasks] = useState([]);
+    const [completedTasks, setCompletedTasks] = useState([]);
 
     const handleCreateTaskModalClose = () => {
         setCreateTaskModalOpen(false);
@@ -144,6 +152,8 @@ const Home = () => {
     let userStatuses = defaultStatuses;
     let userPriorities = defaultPriorities;
     let [otherStatusesArray, setOtherStatusesArray] = useState(userStatuses);
+    // const childRef = useRef();
+
     const handleMoreTaskModalOpen = (index, taskName, taskDescription, taskStatus, taskPriority, taskIdNumber, taskCreatedOn, taskDueDate, taskUpdatedOn) => {
         console.log(taskData);
         setCurrentIndex(index);
@@ -261,9 +271,10 @@ const Home = () => {
     };
 
     //get task call
-    const handleGetTasks = () => {
-        getTaskInfo(jwt, setTaskData);
-    };
+    // const handleGetTasks = () => {
+    //     getTaskInfo(jwt, setTaskData);
+
+    // };
 
     //update task call
     const handleUpdateTask = (event) => {
@@ -293,8 +304,37 @@ const Home = () => {
     };
 
     useEffect(() => {
-        handleGetTasks();
-      }, []);
+        getTaskInfo(jwt, setTaskData);
+    }, []);
+
+    useEffect(() => {
+        const fetchAndSetTabs = async () => {
+            var now = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            now = dayjs().format('YYYY-MM-DD');
+
+            const todays_date = now;
+            const upcoming = [];
+            const overdue = [];
+            const completed = [];
+
+            taskData.forEach((task) => {
+                
+                if ((task.dueDate == null || task.dueDate >= todays_date) && task.status !== 'Completed') {
+                    upcoming.push(task);
+                } else if (todays_date > task.dueDate && task.status !== 'Completed') {
+                    // console.log("perreo")
+                    overdue.push(task);
+                }else if (task.status === 'Completed') {
+                    completed.push(task);
+                } 
+            });
+
+                setUpcomingTasks(upcoming);
+                setOverdueTasks(overdue);
+                setCompletedTasks(completed);
+            };
+        fetchAndSetTabs();
+    }, [taskData]);
     
 
 
@@ -414,7 +454,7 @@ const Home = () => {
     // Handler for tag input changes
 
     // const tagDataRef = useRef(tagData);
-
+    const [currentTag, setCurrentTag] = useState(null);
 
     useEffect(() => {
         const fetchTagsData = async () => {
@@ -428,19 +468,13 @@ const Home = () => {
           }
         };
         fetchTagsData();
-      }, [currentIndex]);
+      }, [currentIndex, setTagData]);
     //Tag related
     const TagMenuCustomToggle = React.forwardRef(({ children, onClick }, ref) => {
         const delayedClick = (e, currentIndex ) => {
             if(tagNameAbsent) setTagNameAbsent(false);
             setTagInputValue('');
-
-            // console.log("real tag data below :)")
-            // console.log(tagData);
-
             taskData[currentIndex].tags = tagData;
-            console.log(taskData);
-
             e.preventDefault();
             setTimeout(() => {
                 onClick(e);
@@ -502,7 +536,6 @@ const Home = () => {
     };
 
       const handleTagInputChange = (event) => {
-        // console.log(tagDataRef.current);
 
         setTagNameAbsent(false);
         // handleGetTags();
@@ -531,42 +564,34 @@ const Home = () => {
 
     const [menuTagsAnchorEl, setMenuTagsAnchorEl] = React.useState(null);
     const openMenuTags = Boolean(menuTagsAnchorEl);
-    const handleMenuTagBtnClick = (event) => {
+    const handleMenuTagBtnClick = (event, index) => {
         setMenuTagsAnchorEl(event.currentTarget);
+        setCurrentTag(tagData[index]);
     };
     const handleMenuTagBtnClose = (event) => {
         setMenuTagsAnchorEl(null);
+        setCurrentTag(null);
     };
 
     const handleRemoveTag = (index) => {
-        // console.log(tagData);
-        // console.log(tagData[index]);
-        // console.log(taskData[currentIndex].id);
         const tagToRemove = tagData[index];
         const currTaskId = taskData[currentIndex].id;
         removeTagInfo(jwt, tagToRemove, currTaskId, tagData, setTagData, allTagData, setAllTagData);
     }
 
+    const handleDeleteTag = () => {
+        const tagToDelete = currentTag;
+        deleteTagInfo(jwt, tagToDelete, tagData, setTagData, allTagData, setAllTagData);
+    }
 
-    // const handleGetTags = () => {
-    //     getTagInfo(jwt, setTagData,taskData[currentIndex].id);
-    // };
 
 
-    // useEffect(() => {
-    //     const fetchTagsData = async () => {
-    //         try {
-    //             console.log(currentIndex);
-    //             const data =  await getTagInfo(jwt, tagData, setTagData, taskData[currentIndex].id);
-    //             tagDataRef.current = data;
-    //         } catch (e) {
-    //             console.log(e);
-    //         }
-    //     };
-    //     fetchTagsData();
-    // },[]);
-    
-
+//     const editorRef = useRef(null);
+//   const log = () => {
+//     if (editorRef.current) {
+//       console.log(editorRef.current.getContent());
+//     }
+//   };
     return (
         <>
         <HomeNavbar></HomeNavbar>    
@@ -582,7 +607,7 @@ const Home = () => {
                                     <TableContainer className="table-container" >
                                         <Table sx={{ }} aria-label="simple table">
                                         <TableBody>
-                                            {taskData.map((row, index) => (
+                                            {upcomingTasks.map((row, index) => (
                                             <TableRow key={index} className='table-row'>
                                                 <TableCell component="th" scope="row" className='lato-font d-flex align-items-center justify-content-between table-cell'>
                                                     <div className='d-flex align-items-center'>
@@ -690,8 +715,7 @@ const Home = () => {
                                                             anchorOrigin={{
                                                                 vertical: 'bottom',
                                                                 horizontal: 'left',
-                                                            }}
-                                                        >
+                                                            }} >
                                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                                 <DateCalendar onChange={handleDateSelection} className={`${isCheckIconVisible ? 'calendar-hide' : ''}`}/>
                                                                 <div className={`wrapper d-flex justify-content-center ${isCheckIconVisible ? '' : 'd-none'}`}>
@@ -713,6 +737,22 @@ const Home = () => {
                                         
                                             )) }
                                             
+
+                                        {/* <HomeMoreTaskInfo 
+                                            moreTaskmodalOpen={moreTaskmodalOpen} handleMoreTaskModalClose={handleMoreTaskModalClose}
+                                            handleMoreTaskModalOpen={handleMoreTaskModalOpen} dayjs={dayjs} jwt={jwt} taskData={taskData} tagData={tagData} setTagData={setTagData} allTagData={allTagData} currentTag={currentTag} setCurrentTag={setCurrentTag} 
+                                            currentIndex={currentIndex} setCurrentIndex={setCurrentIndex}  currentTaskName={currentTaskName} setCurrentTaskName={setCurrentTaskName} currentTaskDescription={currentTaskDescription}  
+                                            setCurrentTaskDescription={setCurrentTaskDescription}  otherStatusesArray={otherStatusesArray} setOtherStatusesArray={setOtherStatusesArray}  
+                                            currentTaskStatus={currentTaskStatus} setCurrentTaskStatus={setCurrentTaskStatus} currentTaskPriority={currentTaskPriority}  
+                                            setCurrentTaskPriority={setCurrentTaskPriority} currentTaskIdNumber={currentTaskIdNumber} setCurrentTaskIdNumber={setCurrentTaskIdNumber} currentTaskCreatedOn={currentTaskCreatedOn}  
+                                            setCurrentTaskCreatedOn={setCurrentTaskCreatedOn}  currentTaskUpdatedOn={currentTaskUpdatedOn} setCurrentTaskUpdatedOn={setCurrentTaskUpdatedOn} currentTaskDueDate={currentTaskDueDate} setCurrentTaskDueDate={setCurrentTaskDueDate}  
+                                            handleDueDatePopoverClick={handleDueDatePopoverClick} dueDatePopOverId={dueDatePopOverId} dueDatePopoverAnchorEl={dueDatePopoverAnchorEl}  
+                                            isCheckIconVisible={isCheckIconVisible} selectedDate={selectedDate} handleDueDatePopoverClose={handleDueDatePopoverClose}  
+                                            handleDateSelection={handleDateSelection} openDueDatePopover={openDueDatePopover} userStatuses={userStatuses} defaultStatuses={defaultStatuses}  
+                                            userPriorities={userPriorities} handleUpdateTask={handleUpdateTask} handleDeleteTask={handleDeleteTask} handleRemoveTag={handleRemoveTag}  
+                                            handleDeleteTag={handleDeleteTag} handleCreateTag={handleCreateTag} addExistingTagInfo={addExistingTagInfo} >
+
+                                        </HomeMoreTaskInfo> */}
                                         <Modal
                                             show={moreTaskmodalOpen}
                                             onHide={handleMoreTaskModalClose}
@@ -815,7 +855,6 @@ const Home = () => {
                                                                 <MoreHorizIcon className='task-settings-btn mx-1  ms-md-3 me-md-5' onClick={handleMenuSettingsBtnClick}></MoreHorizIcon>
                                                             </Tooltip>
                                                         </div>
-                                                        {/* <div className=''> */}
                                                         <div className='mt-3 mt-lg-0 col-12 col-lg-4  d-flex justify-content-start justify-content-lg-end'>
                                                             <Tooltip title={<span className=' created-date-tooltip-text lato-font'>{[`Created by  ${userFullName} on ${currentTaskCreatedOn}`,<br />,`Last Updated on ${currentTaskUpdatedOn}`]}</span>} arrow className='created-date-tooltip menu-tooltip'>
                                                                 <div className='created-date-div mx-2  mx-md-2'>
@@ -868,17 +907,16 @@ const Home = () => {
                                                                 }
                                                             </div> 
                                                         </div> 
-                                                        {/* </div> */}
                                                         
                                                         
                                                     </div>
                                                 </Nav>
                                                 <div className="container mt-4">
                                                     <div className="row ">
-                                                        <div className="col-xl-6 mx-2">
+                                                        <div className="col-xl-7 ms-2">
                                                             <div className='update-task-name-content' contentEditable={true}  onInput={handleInputTaskNameChange} onKeyDown={handleInputTaskNameChange} suppressContentEditableWarning={true}
                                                                 >
-                                                                <h1 className='update-task-name kk'>{currentTaskName}</h1>
+                                                                <h1 className='update-task-name nunito-sans-font-600'>{currentTaskName}</h1>
                                                             </div>
                                                             <div className='mt-3 '>
 
@@ -887,20 +925,10 @@ const Home = () => {
                                                                     </Dropdown.Toggle>
                                                                     <Dropdown.Menu as={CustomMenu} className='tag-dropdown-menu tag-search-wrapper' >
                                                                         {tagNameAbsent && <p className='ms-3 pt-1 error-message'>Oops! Tag Name is required</p>}
-                                                                        {/* <Dropdown.Item eventKey="red">Red</Dropdown.Item>
-                                                                        <Dropdown.Item eventKey="blue">Blue</Dropdown.Item>
-                                                                        <Dropdown.Item eventKey="orange">Orange</Dropdown.Item> */}
-                                                                        
-                                                                        {/* {tagData && tagData.map((r, index) => (
-                                                                            <Dropdown.Item eventKey="m">{r.name}</Dropdown.Item>
-
-                                                                        ))} */}
-                                                                        {/* <div className=''> */}
                                                                             {allTagData && allTagData.map((tagRow, index) => (
                                                                                 <Dropdown.Item eventKey={`${tagRow.name}`} className='tag-dropdown-item lato-font'>{tagRow.name}</Dropdown.Item>
 
                                                                             ))}
-                                                                        {/* </div> */}
                                                                         
 
                                                                     </Dropdown.Menu>
@@ -910,7 +938,6 @@ const Home = () => {
 
                                                                 <FormControl className='mx-2'>
                                                                     <Select className='item-type-form'
-                                                                    // defaultValue={"task"}
                                                                         labelId="demo-simple-select-label"
                                                                         id="demo-simple-select"
                                                                         value={itemType}
@@ -944,34 +971,27 @@ const Home = () => {
                                                                 className='mt-2'
                                                             >
                                                                     <MenuItem onClick={(event) => handleMenuTagBtnClose(event)} className='menu-tag-btn'>
-                                                                        <span className={`nunito-sans-font`}><EditIcon className='me-1 mb-1 tag-menu-icon tag-dropdown-item'></EditIcon>Rename</span>
+                                                                    <span className={`nunito-sans-font`}><EditIcon className='me-1 mb-1 tag-menu-icon tag-dropdown-item'></EditIcon>Rename</span>
                                                                     </MenuItem>
-                                                                    <MenuItem onClick={(event) => handleMenuTagBtnClose(event)} className='menu-tag-btn'>
+                                                                    <MenuItem   className='menu-tag-btn'>
                                                                         <span className={`nunito-sans-font`}><PaletteIcon className='me-1 mb-1 tag-menu-icon tag-dropdown-item'></PaletteIcon>Change color</span>
                                                                     </MenuItem>
-                                                                    <MenuItem onClick={(event) => handleMenuTagBtnClose(event)} className='menu-tag-btn'>
+                                                                    <MenuItem onClick={handleDeleteTag} className='menu-tag-btn'>
                                                                         <span className={`nunito-sans-font`}><DeleteIcon className='me-1 mb-1 tag-menu-icon tag-dropdown-item'></DeleteIcon>Delete</span>
                                                                     </MenuItem>
+                                                                    
                                                                 
                                                             </Menu>
                                                             
                                                             {tagData && tagData.map((r, index) => (
-                                                                    <Button className='me-2 mt-3 menu-tag-button' onClick={handleMenuTagBtnClick}><span><LocalOfferIcon className='tag-icon-span me-1'></LocalOfferIcon></span>{r.name}<CloseIcon className='remove-tag-icon ms-1 pb-1 d-none' onClick={() => handleRemoveTag(index)}></CloseIcon></Button>
+                                                                    <Button className='me-2 mt-3 menu-tag-button' onClick={(event) => handleMenuTagBtnClick(event, index)}><span><LocalOfferIcon className='tag-icon-span me-1'></LocalOfferIcon></span>{r.name}<CloseIcon className='remove-tag-icon ms-1 pb-1 d-none' onClick={() => handleRemoveTag(index)}></CloseIcon></Button>
                                                                 ))}
                                                             </div>
-
-                                                            <div className='my-4 pt-2 w-100'>
-                                                                
+                                                            <div className='my-4 pt-2'>
                                                                 <TextareaAutosize
                                                                 placeholder={!isInputFocused && !taskDescriptionInputValue && !currentTaskDescription ? 'Add description' : undefined}
-                                                                // defaultValue={currentTaskDescription ? currentTaskDescription : ''}
                                                                 
                                                                 className='more-task-description ps-3'
-                                                                // startAdornment={
-                                                                //     <InputAdornment position="start" className='more-task-description-adornment'>
-                                                                //     {!isInputFocused && !inputValue  && <DescriptionIcon />}
-                                                                //     </InputAdornment>
-                                                                // }
                                                                 onFocus={handleFocus}
                                                                 onBlur={handleBlur}
                                                                 onChange={handleInputTaskDescriptionChange}
@@ -979,7 +999,8 @@ const Home = () => {
                                                                 />
                                                             </div>
                                                         </div>
-                                                        <div className="col-xl-6">
+                                                        <div className="col-xl-3">
+                                                            <h1 className='nunito-sans-font-600'>Comments</h1>
                                                         </div>
                                                     </div>
                                                 </div>
