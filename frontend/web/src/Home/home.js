@@ -71,8 +71,6 @@ import { deleteTagInfo } from '../DataManagement/Tags/deleteTag';
 import relax from '../images/stringwiz_relax.png';
 import completed from '../images/cocollab_completed.png';
 
-import Calendar from 'react-awesome-calendar';
-
 // import { Editor } from '../tinymce-react-demo/node_modules/@tinymce/tinymce-react';
 
 import './home.css';
@@ -1218,9 +1216,6 @@ const Home = () => {
                 <div className='pt-4 col-12 col-lg-7 d-flex justify-content-center'>
                     <Card className=' pb-3 my-card text-center' body>
                         <h4 className='tasks-text '>Daily Calendar</h4>
-                        {/* <Calendar onClick={handleCalendar}
-                            events={events}
-                        /> */}
                         {/* {month}, {dayOfWeek}      
                         <div className='d-flex justify-content-center pt-3'>
                             <div className=''>
