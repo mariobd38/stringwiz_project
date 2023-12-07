@@ -1,4 +1,4 @@
-function getTaskInfo  (jwt, setTaskData) {
+function getTaskInfo  (jwt, setTaskData, setUpcomingTasks) {
     fetch("/api/tasks/get", {
         method: "GET",
         headers: {
@@ -13,6 +13,7 @@ function getTaskInfo  (jwt, setTaskData) {
     })
     .then((data) => {
         setTaskData(data);
+        setUpcomingTasks(data);
         // setTaskData([...taskData, data]);
     })
     .catch((error) => {

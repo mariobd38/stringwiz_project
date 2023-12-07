@@ -68,6 +68,11 @@ import { removeTagInfo } from '../DataManagement/Tags/removeTag';
 import { deleteTagInfo } from '../DataManagement/Tags/deleteTag';
 // import HomeMoreTaskInfo from './HomeMoreTaskInfo/homeMoreTaskInfo';
 
+import relax from '../images/stringwiz_relax.png';
+import completed from '../images/cocollab_completed.png';
+
+import Calendar from 'react-awesome-calendar';
+
 // import { Editor } from '../tinymce-react-demo/node_modules/@tinymce/tinymce-react';
 
 import './home.css';
@@ -79,13 +84,8 @@ import './home.css';
 const Home = () => {
 
     const dayjs = require('dayjs');
-
-    var now = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    now = dayjs();
-    const date = new Date(now.year(), now.month(), now.date());  // 2009-11-10
-    const month = date.toLocaleString('default', { month: 'long' });
-    const dayOfWeek = date.toLocaleDateString('en-US',{weekday: 'long'});
-    const todays_date = now.year() + "-" + now.month() + "-" + now.get('date');
+    const [month, setMonth] = useState(dayjs().format('MMMM'));
+    const [dayOfWeek, setDayOfWeek] = useState(dayjs().format('dddd'));
 
     const [jwt] = useLocalState("", "jwt");
     const [userFullName] = useLocalState('', 'userFullName');
@@ -146,7 +146,7 @@ const Home = () => {
         setMissingNameError(false); 
     };
 
-    const [moreTaskmodalOpen, setMoreTaskModalOpen] = useState(false);
+    const [moreTaskModalOpen, setMoreTaskModalOpen] = useState(false);
     const defaultStatuses = ['Stuck', 'To Do', 'In Progress', 'Completed'];
     const defaultPriorities = ['Critical', 'High', 'Medium', 'Low'];
     let userStatuses = defaultStatuses;
@@ -155,6 +155,8 @@ const Home = () => {
     // const childRef = useRef();
 
     const handleMoreTaskModalOpen = (index, taskName, taskDescription, taskStatus, taskPriority, taskIdNumber, taskCreatedOn, taskDueDate, taskUpdatedOn) => {
+        console.log(taskStatus);
+        console.log(taskPriority);
         console.log(taskData);
         setCurrentIndex(index);
         setCurrentTaskName(taskName);
@@ -183,6 +185,13 @@ const Home = () => {
         handleUpdateTask(event);
     }
     const handleMoreTaskModalClose = () => {
+        console.log(currentTaskPriority);
+        console.log(currentTaskStatus);
+        console.log(currentIndex);
+        taskData[currentIndex].priority = currentTaskPriority;
+        taskData[currentIndex].status = currentTaskStatus;
+        setTaskData(taskData);
+
         setOtherStatusesArray(defaultStatuses);
         setMoreTaskModalOpen(false);
         setTaskDescriptionInputValue(null);
@@ -284,13 +293,16 @@ const Home = () => {
             taskData,
             selectedDate,
             dayjs,
-            moreTaskmodalOpen,
+            moreTaskModalOpen,
             setCheckIconVisible,
             handleDueDatePopoverClose,
             setCurrentTaskDueDate,
             handlePriorityPopoverClose,
             handleStatusPopoverClose,
-            jwt )
+            jwt );
+        setUpcomingTasks(taskData);
+        console.log("UPCOMING!!");
+        console.log(upcomingTasks);
     };
     //delete task call
     const handleDeleteTask = (event) => {
@@ -303,12 +315,12 @@ const Home = () => {
         
     };
 
-    useEffect(() => {
-        getTaskInfo(jwt, setTaskData);
-    }, []);
 
     useEffect(() => {
         const fetchAndSetTabs = async () => {
+            setMonth(dayjs().format('MMMM'));
+            setDayOfWeek(dayjs().format('dddd'));
+
             var now = Intl.DateTimeFormat().resolvedOptions().timeZone;
             now = dayjs().format('YYYY-MM-DD');
 
@@ -322,7 +334,6 @@ const Home = () => {
                 if ((task.dueDate == null || task.dueDate >= todays_date) && task.status !== 'Completed') {
                     upcoming.push(task);
                 } else if (todays_date > task.dueDate && task.status !== 'Completed') {
-                    // console.log("perreo")
                     overdue.push(task);
                 }else if (task.status === 'Completed') {
                     completed.push(task);
@@ -457,6 +468,9 @@ const Home = () => {
     const [currentTag, setCurrentTag] = useState(null);
 
     useEffect(() => {
+        getTaskInfo(jwt, setTaskData, setUpcomingTasks);
+        setUpcomingTasks(taskData);
+
         const fetchTagsData = async () => {
           try {
             const data = await getTagInfo(jwt, tagData, setTagData, taskData[currentIndex].id);
@@ -585,6 +599,30 @@ const Home = () => {
     }
 
 
+    const events = [{
+        id: 1,
+        color: '#aaaaaa', //#fd3153
+        from: '2019-05-02T18:00:00+00:00',
+        to: '2019-05-05T19:00:00+00:00',
+        title: 'This is an event'
+    }, {
+        id: 2,
+        color: '#1ccb9e',
+        from: '2019-05-01T13:00:00+00:00',
+        to: '2019-05-05T14:00:00+00:00',
+        title: 'This is another event'
+    }, {
+        id: 3,
+        color: '#3694DF',
+        from: '2019-05-05T13:00:00+00:00',
+        to: '2019-05-05T20:00:00+00:00',
+        title: 'This is also another event'
+    }];
+
+    // const handleCalendar = (event) => {
+    //     console.log(event);
+    //     console.log("hello")
+    // }
 
 //     const editorRef = useRef(null);
 //   const log = () => {
@@ -598,11 +636,12 @@ const Home = () => {
         <Container >
             <HomeHeader></HomeHeader>
             
-            <div className='row pb-5'>
-                <div className='pt-4 col-xl d-flex justify-content-center'>
-                    <Card className=' pb-3 my-card  m-0' body><h4 className='tasks-text text-center'>My Tasks</h4>
+            <div className='row pb-4 '>
+                <div className='pt-4  col-xl d-flex justify-content-center'>
+                    <Card className='my-card  m-0' body
+                        ><h4 className='tasks-text text-center'>My Tasks</h4>
                         <Tabs className='pt-3' defaultActiveKey="homeKey" justify>
-                            <Tab eventKey="homeKey" className="" title="Upcoming">
+                            <Tab eventKey="homeKey" className="home-tab" title="Upcoming">
                                 <div className="table-container-wrapper">
                                     <TableContainer className="table-container" >
                                         <Table sx={{ }} aria-label="simple table">
@@ -747,15 +786,16 @@ const Home = () => {
                                             setCurrentTaskPriority={setCurrentTaskPriority} currentTaskIdNumber={currentTaskIdNumber} setCurrentTaskIdNumber={setCurrentTaskIdNumber} currentTaskCreatedOn={currentTaskCreatedOn}  
                                             setCurrentTaskCreatedOn={setCurrentTaskCreatedOn}  currentTaskUpdatedOn={currentTaskUpdatedOn} setCurrentTaskUpdatedOn={setCurrentTaskUpdatedOn} currentTaskDueDate={currentTaskDueDate} setCurrentTaskDueDate={setCurrentTaskDueDate}  
                                             handleDueDatePopoverClick={handleDueDatePopoverClick} dueDatePopOverId={dueDatePopOverId} dueDatePopoverAnchorEl={dueDatePopoverAnchorEl}  
-                                            isCheckIconVisible={isCheckIconVisible} selectedDate={selectedDate} handleDueDatePopoverClose={handleDueDatePopoverClose}  
+                                            selectedDate={selectedDate} handleDueDatePopoverClose={handleDueDatePopoverClose}  
                                             handleDateSelection={handleDateSelection} openDueDatePopover={openDueDatePopover} userStatuses={userStatuses} defaultStatuses={defaultStatuses}  
                                             userPriorities={userPriorities} handleUpdateTask={handleUpdateTask} handleDeleteTask={handleDeleteTask} handleRemoveTag={handleRemoveTag}  
                                             handleDeleteTag={handleDeleteTag} handleCreateTag={handleCreateTag} addExistingTagInfo={addExistingTagInfo} >
 
                                         </HomeMoreTaskInfo> */}
                                         <Modal
-                                            show={moreTaskmodalOpen}
+                                            show={moreTaskModalOpen}
                                             onHide={handleMoreTaskModalClose}
+                                            className='more-task-modal'
                                         >
                                             <div className='modal-parent row '>
                                                 <Nav className='upper_more_task_nav m-0 b-0 d-flex justify-content-end'>
@@ -913,94 +953,101 @@ const Home = () => {
                                                 </Nav>
                                                 <div className="container mt-4">
                                                     <div className="row ">
-                                                        <div className="col-xl-7 ms-2">
-                                                            <div className='update-task-name-content' contentEditable={true}  onInput={handleInputTaskNameChange} onKeyDown={handleInputTaskNameChange} suppressContentEditableWarning={true}
-                                                                >
-                                                                <h1 className='update-task-name nunito-sans-font-600'>{currentTaskName}</h1>
-                                                            </div>
-                                                            <div className='mt-3 '>
-
-                                                                <Dropdown className='d-inline me-2'>
-                                                                    <Dropdown.Toggle as={TagMenuCustomToggle} id="dropdown-custom-components" >
-                                                                    </Dropdown.Toggle>
-                                                                    <Dropdown.Menu as={CustomMenu} className='tag-dropdown-menu tag-search-wrapper' >
-                                                                        {tagNameAbsent && <p className='ms-3 pt-1 error-message'>Oops! Tag Name is required</p>}
-                                                                            {allTagData && allTagData.map((tagRow, index) => (
-                                                                                <Dropdown.Item eventKey={`${tagRow.name}`} className='tag-dropdown-item lato-font'>{tagRow.name}</Dropdown.Item>
-
-                                                                            ))}
-                                                                        
-
-                                                                    </Dropdown.Menu>
-                                                                </Dropdown>
-
-                                                                
-
-                                                                <FormControl className='mx-2'>
-                                                                    <Select className='item-type-form'
-                                                                        labelId="demo-simple-select-label"
-                                                                        id="demo-simple-select"
-                                                                        value={itemType}
-                                                                        onChange={handleItemTypeChange}
+                                                        <div className="col-xl-7 ">
+                                                            <div className='ms-xl-3'>
+                                                                <div className='update-task-name-content' contentEditable={true}  onInput={handleInputTaskNameChange} onKeyDown={handleInputTaskNameChange} suppressContentEditableWarning={true}
                                                                     >
-                                                                        <MenuItem value={'Task'} default >Task</MenuItem>
-                                                                        <MenuItem value={'Subtask'} default>Subtask</MenuItem>
-                                                                        <MenuItem value={'Project'}>Project</MenuItem>
-                                                                    </Select>
-                                                                </FormControl>
-                                                                {currentTaskIdNumber && <Tooltip title={<span className='copy-task-id-tooltip'>{[`Copy task ID`]}</span>} arrow className='copy-task-id-tooltip mx-3 menu-tooltip'>
-                                                                    <Button className='ms-2 current-task-id-number-btn' onClick={() => {navigator.clipboard.writeText(currentTaskIdNumber)}}>{currentTaskIdNumber}</Button>
-                                                                </Tooltip>}
+                                                                    <h1 className='update-task-name nunito-sans-font-600'>{currentTaskName}</h1>
+                                                                </div>
+                                                                <div className='mt-3 '>
 
-                                                            </div>
+                                                                    <Dropdown className='d-inline me-2'>
+                                                                        <Dropdown.Toggle as={TagMenuCustomToggle} id="dropdown-custom-components" >
+                                                                        </Dropdown.Toggle>
+                                                                        <Dropdown.Menu as={CustomMenu} className='tag-dropdown-menu tag-search-wrapper' >
+                                                                            {tagNameAbsent && <p className='ms-3 pt-1 error-message'>Oops! Tag Name is required</p>}
+                                                                                {allTagData && allTagData.map((tagRow, index) => (
+                                                                                    <Dropdown.Item eventKey={`${tagRow.name}`} className='tag-dropdown-item lato-font'>{tagRow.name}</Dropdown.Item>
 
-                                                            <div className=' '>
+                                                                                ))}
+                                                                            
 
+                                                                        </Dropdown.Menu>
+                                                                    </Dropdown>
 
-                                                            <Menu
-                                                                id="basic-menu"
-                                                                anchorEl={menuTagsAnchorEl}
-                                                                open={openMenuTags}
-                                                                onClose={handleMenuTagBtnClose}
-                                                                MenuListProps={{
-                                                                'aria-labelledby': 'basic-button',
-                                                                }}
-                                                                anchorOrigin={{
-                                                                    vertical: 'bottom'
-                                                                }}
-                                                                className='mt-2'
-                                                            >
-                                                                    <MenuItem onClick={(event) => handleMenuTagBtnClose(event)} className='menu-tag-btn'>
-                                                                    <span className={`nunito-sans-font`}><EditIcon className='me-1 mb-1 tag-menu-icon tag-dropdown-item'></EditIcon>Rename</span>
-                                                                    </MenuItem>
-                                                                    <MenuItem   className='menu-tag-btn'>
-                                                                        <span className={`nunito-sans-font`}><PaletteIcon className='me-1 mb-1 tag-menu-icon tag-dropdown-item'></PaletteIcon>Change color</span>
-                                                                    </MenuItem>
-                                                                    <MenuItem onClick={handleDeleteTag} className='menu-tag-btn'>
-                                                                        <span className={`nunito-sans-font`}><DeleteIcon className='me-1 mb-1 tag-menu-icon tag-dropdown-item'></DeleteIcon>Delete</span>
-                                                                    </MenuItem>
                                                                     
+
+                                                                    <FormControl className='mx-2'>
+                                                                        <Select className='item-type-form'
+                                                                            labelId="demo-simple-select-label"
+                                                                            id="demo-simple-select"
+                                                                            value={itemType}
+                                                                            onChange={handleItemTypeChange}
+                                                                        >
+                                                                            <MenuItem value={'Task'} default >Task</MenuItem>
+                                                                            <MenuItem value={'Subtask'} default>Subtask</MenuItem>
+                                                                            <MenuItem value={'Project'}>Project</MenuItem>
+                                                                        </Select>
+                                                                    </FormControl>
+                                                                    {currentTaskIdNumber && <Tooltip title={<span className='copy-task-id-tooltip'>{[`Copy task ID`]}</span>} arrow className='copy-task-id-tooltip mx-3 menu-tooltip'>
+                                                                        <Button className='ms-2 current-task-id-number-btn' onClick={() => {navigator.clipboard.writeText(currentTaskIdNumber)}}>{currentTaskIdNumber}</Button>
+                                                                    </Tooltip>}
+
+                                                                </div>
+
+                                                                <div className=' '>
+
+
+                                                                <Menu
+                                                                    id="basic-menu"
+                                                                    anchorEl={menuTagsAnchorEl}
+                                                                    open={openMenuTags}
+                                                                    onClose={handleMenuTagBtnClose}
+                                                                    MenuListProps={{
+                                                                    'aria-labelledby': 'basic-button',
+                                                                    }}
+                                                                    anchorOrigin={{
+                                                                        vertical: 'bottom'
+                                                                    }}
+                                                                    className='mt-2'
+                                                                >
+                                                                        <MenuItem onClick={(event) => handleMenuTagBtnClose(event)} className='menu-tag-btn'>
+                                                                        <span className={`nunito-sans-font`}><EditIcon className='me-1 mb-1 tag-menu-icon tag-dropdown-item'></EditIcon>Rename</span>
+                                                                        </MenuItem>
+                                                                        <MenuItem   className='menu-tag-btn'>
+                                                                            <span className={`nunito-sans-font`}><PaletteIcon className='me-1 mb-1 tag-menu-icon tag-dropdown-item'></PaletteIcon>Change color</span>
+                                                                        </MenuItem>
+                                                                        <MenuItem onClick={handleDeleteTag} className='menu-tag-btn'>
+                                                                            <span className={`nunito-sans-font`}><DeleteIcon className='me-1 mb-1 tag-menu-icon tag-dropdown-item'></DeleteIcon>Delete</span>
+                                                                        </MenuItem>
+                                                                        
+                                                                    
+                                                                </Menu>
                                                                 
-                                                            </Menu>
+                                                                {tagData && tagData.map((r, index) => (
+                                                                        <Button className='me-2 mt-3 menu-tag-button' onClick={(event) => handleMenuTagBtnClick(event, index)}><span><LocalOfferIcon className='tag-icon-span me-1'></LocalOfferIcon></span>{r.name}<CloseIcon className='remove-tag-icon ms-1 pb-1 d-none' onClick={() => handleRemoveTag(index)}></CloseIcon></Button>
+                                                                    ))}
+                                                                </div>
+                                                                <div className='my-4 pt-2'>
+                                                                    <TextareaAutosize
+                                                                    placeholder={!isInputFocused && !taskDescriptionInputValue && !currentTaskDescription ? 'Add description' : undefined}
+                                                                    
+                                                                    className='more-task-description ps-3'
+                                                                    onFocus={handleFocus}
+                                                                    onBlur={handleBlur}
+                                                                    onChange={handleInputTaskDescriptionChange}
+                                                                    value={taskDescriptionInputValue ? taskDescriptionInputValue : currentTaskDescription}
+                                                                    />
+                                                                </div>
+                                                            </div>
                                                             
-                                                            {tagData && tagData.map((r, index) => (
-                                                                    <Button className='me-2 mt-3 menu-tag-button' onClick={(event) => handleMenuTagBtnClick(event, index)}><span><LocalOfferIcon className='tag-icon-span me-1'></LocalOfferIcon></span>{r.name}<CloseIcon className='remove-tag-icon ms-1 pb-1 d-none' onClick={() => handleRemoveTag(index)}></CloseIcon></Button>
-                                                                ))}
-                                                            </div>
-                                                            <div className='my-4 pt-2'>
-                                                                <TextareaAutosize
-                                                                placeholder={!isInputFocused && !taskDescriptionInputValue && !currentTaskDescription ? 'Add description' : undefined}
-                                                                
-                                                                className='more-task-description ps-3'
-                                                                onFocus={handleFocus}
-                                                                onBlur={handleBlur}
-                                                                onChange={handleInputTaskDescriptionChange}
-                                                                value={taskDescriptionInputValue ? taskDescriptionInputValue : currentTaskDescription}
-                                                                />
-                                                            </div>
                                                         </div>
-                                                        <div className="col-xl-3">
-                                                            <h1 className='nunito-sans-font-600'>Comments</h1>
+                                                        <div className="col-xl-5 comment-section ps-3">
+                                                            <div className='bg  d-flex justify-content-start '>
+                                                                <h4 className='nunito-sans-font-600 mt-2'>Comment Section</h4>
+
+                                                            </div>
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1080,10 +1127,10 @@ const Home = () => {
                                                     label="Priority"
                                                     onChange={handleTaskPriorityChange}
                                                     >
-                                                    <MenuItem value={'Critical'} className='bg-dark bg-critical text-white priority-item'>Critical</MenuItem>
-                                                    <MenuItem value={'High'} className='bg-high text-white priority-item'>High</MenuItem>
-                                                    <MenuItem value={'Medium'} className='bg-medium text-white priority-item'>Medium</MenuItem>
-                                                    <MenuItem value={'Low'} className='bg-low text-white priority-item'>Low</MenuItem>
+                                                    <MenuItem value={'Critical'} className='text-dark priority-item'>Critical</MenuItem>
+                                                    <MenuItem value={'High'} className='text-dark priority-item'>High</MenuItem>
+                                                    <MenuItem value={'Medium'} className='text-dark priority-item'>Medium</MenuItem>
+                                                    <MenuItem value={'Low'} className='text-dark priority-item'>Low</MenuItem>
                                                     {/* <MenuItem value={'20'}>Twenty</MenuItem> */}
                                                     </Select>
                                                 </FormControl>
@@ -1113,12 +1160,34 @@ const Home = () => {
                                     </Modal>
                                 </div>
                             </Tab>
-                            <Tab eventKey="overdueKey" className="pt-3" title="Overdue">
-                                <p className='lato-font m-auto text-center pt-3'>No overdue tasks! 🥳</p>
+                            <Tab eventKey="overdueKey" className="home-tab" title="Overdue">
+                                <div className='d-flex align-items-around flex-column '>
+                                <p className='lato-font-600 m-auto pt-2  no-tasks-desc'>Woohoo! No overdue tasks 🥳</p>
+                                   
+                                   <div className='d-flex pt-4'>
+                                        <a className="m-auto  text-center ">
+                                            <img src={relax} className="tab-home-illustration" alt="relax" />
+                                        </a>
+
+                                    </div>
+
+                                </div>
+                                
                             </Tab>
-                            <Tab eventKey="completedKey" className="pt-3 text-start ps-4 d-flex justify-content-center"title="Completed">
-                                <ChecklistRtlRoundedIcon className='checklist-rtl-icon'/>
-                                <p className='ps-4 mt-auto lato-font'>Your completed tasks will show up here!</p>
+                            <Tab eventKey="completedKey" className="home-tab" title="Completed">
+                                <div className='d-flex align-items-around flex-column '>
+                                    <p className='lato-font-600 m-auto pt-2 no-tasks-desc '>Your completed tasks will appear here ✅</p>
+                                    
+                                    <div className='d-flex pt-4'>
+                                        <a className="m-auto  text-center ">
+                                            <img src={completed} className="tab-home-illustration" alt="relax" />
+                                        </a>
+
+                                    </div>
+
+                                </div>
+                                {/* <ChecklistRtlRoundedIcon className='checklist-rtl-icon'/>
+                                <p className='ps-4 mt-auto lato-font'>Your completed tasks will show up here!</p> */}
                             </Tab>
                         </Tabs>
                     </Card>
@@ -1136,6 +1205,63 @@ const Home = () => {
                     </Card>
                 </div>
             </div>
+
+
+            <div className='row pb-4 '>
+                <div className='pt-4  col-12 col-lg-5 d-flex justify-content-center'>
+                    <Card className='my-card  m-0' body
+                        ><h4 className='tasks-text text-center'>Reminders</h4>
+
+                    </Card>
+                </div>
+
+                <div className='pt-4 col-12 col-lg-7 d-flex justify-content-center'>
+                    <Card className=' pb-3 my-card text-center' body>
+                        <h4 className='tasks-text '>Daily Calendar</h4>
+                        {/* <Calendar onClick={handleCalendar}
+                            events={events}
+                        /> */}
+                        {/* {month}, {dayOfWeek}      
+                        <div className='d-flex justify-content-center pt-3'>
+                            <div className=''>
+                                <div className='d-flex justify-content-start'>
+                                <div className='day-of-week-block d-flex w-100'>
+                                    <p className='lato-font day-of-week text-white'>{dayOfWeek}</p>
+
+                                </div>
+
+                                </div>
+                                <div className='time-block'></div>
+                                <div className='time-block'></div>
+                            </div>
+                        </div>     */}
+                    </Card>
+                </div>
+            </div>
+
+
+            {/* <div className='pb-5'>
+                <div className='pt-4 col-lg d-flex justify-content-center'>
+                <Card className='pb-5 my-card text-center' body>
+                    <h4 className='tasks-text'>Daily Calendar</h4>
+                    {month}      
+                    <div className='d-flex justify-content-center pt-3'>
+                        <div className=''>
+                            <div className='d-flex justify-content-start'>
+                            <div className='day-of-week-block d-flex w-100'>
+                                <p className='lato-font day-of-week'>Sunday</p>
+
+                            </div>
+
+                            </div>
+                            <div className='time-block'></div>
+                            <div className='time-block'></div>
+                        </div>
+                    </div>
+                </Card>
+                </div>
+            </div> */}
+            
         </Container>
         </>
     );

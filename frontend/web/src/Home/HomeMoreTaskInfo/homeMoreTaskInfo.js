@@ -52,16 +52,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-import {createTaskInfo} from '../../DataManagement/Tasks/createTask';
-import {getTaskInfo} from '../../DataManagement/Tasks/getTasks';
 import { updateTaskInfo } from '../../DataManagement/Tasks/updateTask';
-import { deleteTaskInfo } from '../../DataManagement/Tasks/deleteTask';
-import { createTagInfo } from '../../DataManagement/Tags/createTag';
-import { addExistingTagInfo } from '../../DataManagement/Tags/addExistingTag';
-import { getTagInfo } from '../../DataManagement/Tags/getTags';
-import { getAllTagsInfo } from '../../DataManagement/Tags/getAllTags';
-import { removeTagInfo } from '../../DataManagement/Tags/removeTag';
-import { deleteTagInfo } from '../../DataManagement/Tags/deleteTag';
 import './homeMoreTaskInfo.css'
 
 
@@ -69,7 +60,7 @@ import './homeMoreTaskInfo.css'
 const HomeMoreTaskInfo = React.forwardRef((props, ref)  => {
     const { moreTaskmodalOpen, handleMoreTaskModalClose, handleMoreTaskModalOpen, dayjs, jwt, taskData, tagData, setTagData, allTagData, setCurrentTag, currentIndex, setCurrentIndex, currentTaskName, setCurrentTaskName, currentTaskDescription, setCurrentTaskDescription,
          currentTaskStatus, setCurrentTaskStatus, currentTaskPriority, setCurrentTaskPriority, currentTaskIdNumber, setCurrentTaskIdNumber, currentTaskCreatedOn, setCurrentTaskCreatedOn, currentTaskUpdatedOn, 
-        setCurrentTaskUpdatedOn, currentTaskDueDate, setCurrentTaskDueDate, handleDueDatePopoverClick, dueDatePopOverId, dueDatePopoverAnchorEl, isCheckIconVisible, selectedDate, handleDueDatePopoverClose, handleDateSelection, 
+        setCurrentTaskUpdatedOn, currentTaskDueDate, setCurrentTaskDueDate, handleDueDatePopoverClick, dueDatePopOverId, dueDatePopoverAnchorEl, selectedDate, handleDueDatePopoverClose, handleDateSelection, 
         openDueDatePopover, handleUpdateTask, handleDeleteTask, handleRemoveTag, handleDeleteTag, handleCreateTag, addExistingTagInfo } = props;
     
 
