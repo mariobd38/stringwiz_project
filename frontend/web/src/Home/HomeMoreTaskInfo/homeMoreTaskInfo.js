@@ -1,25 +1,16 @@
-import React, { useState, forwardRef, useRef, useImperativeHandle } from 'react';
+import React, { useState } from 'react';
 import { useLocalState } from "../../utils/useLocalStorage";
 
 import Button from 'react-bootstrap/Button';
-// import Card from 'react-bootstrap/Card';
-// import Container from 'react-bootstrap/Container';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Nav from 'react-bootstrap/Nav';
-// import Tab from 'react-bootstrap/Tab';
-// import Tabs from 'react-bootstrap/Tabs';
 
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 
-// import AccessTimeIcon from '@mui/icons-material/AccessTime';
-// import AddTaskRoundedIcon from '@mui/icons-material/AddTaskRounded';
-// import AssignmentIcon from '@mui/icons-material/Assignment';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckIcon from '@mui/icons-material/Check';
-// import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-// import ChecklistRtlRoundedIcon from '@mui/icons-material/ChecklistRtlRounded';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -29,23 +20,11 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import PaletteIcon from '@mui/icons-material/Palette';
 
-// import Alert from '@mui/material/Alert';
 import FormControl from '@mui/material/FormControl';
-// import InputLabel from '@mui/material/InputLabel';
-// import List from '@mui/material/List';
-// import ListItem from '@mui/material/ListItem';
-// import ListItemButton from '@mui/material/ListItemButton';
-// import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Popover from '@mui/material/Popover';
 import Select from '@mui/material/Select';
-// import Table from '@mui/material/Table';
-// import TableBody from '@mui/material/TableBody';
-// import TableCell from '@mui/material/TableCell';
-// import TableContainer from '@mui/material/TableContainer';
-// import TableRow from '@mui/material/TableRow';
-// import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -57,11 +36,10 @@ import './homeMoreTaskInfo.css'
 
 
 
-const HomeMoreTaskInfo = React.forwardRef((props, ref)  => {
-    const { moreTaskmodalOpen, handleMoreTaskModalClose, handleMoreTaskModalOpen, dayjs, jwt, taskData, tagData, setTagData, allTagData, setCurrentTag, currentIndex, setCurrentIndex, currentTaskName, setCurrentTaskName, currentTaskDescription, setCurrentTaskDescription,
-         currentTaskStatus, setCurrentTaskStatus, currentTaskPriority, setCurrentTaskPriority, currentTaskIdNumber, setCurrentTaskIdNumber, currentTaskCreatedOn, setCurrentTaskCreatedOn, currentTaskUpdatedOn, 
-        setCurrentTaskUpdatedOn, currentTaskDueDate, setCurrentTaskDueDate, handleDueDatePopoverClick, dueDatePopOverId, dueDatePopoverAnchorEl, selectedDate, handleDueDatePopoverClose, handleDateSelection, 
-        openDueDatePopover, handleUpdateTask, handleDeleteTask, handleRemoveTag, handleDeleteTag, handleCreateTag, addExistingTagInfo } = props;
+const HomeMoreTaskInfo = ((props)  => {
+    const { moreTaskModalOpen, setMoreTaskModalOpen, dayjs, jwt, taskData, tagData, setTagData, allTagData, setCurrentTag, currentIndex, setCurrentIndex, currentTaskName, currentTaskDescription, setCurrentTaskDescription,
+        currentTaskStatus, setCurrentTaskStatus, currentTaskPriority, setCurrentTaskPriority, currentTaskIdNumber, currentTaskCreatedOn, currentTaskUpdatedOn, currentTaskDueDate, setCurrentTaskDueDate, 
+        handleUpdateTask, handleDeleteTask, handleRemoveTag, handleDeleteTag, handleCreateTag, addExistingTagInfo, setUpcomingTasks, setTaskData } = props;
     
 
 
@@ -74,43 +52,14 @@ const HomeMoreTaskInfo = React.forwardRef((props, ref)  => {
     const [firstName, lastName] = userFullName.split(' ');
     const initials = (firstName[0] + lastName[0]).toUpperCase();
 
-    // const [moreTaskmodalOpen, setMoreTaskModalOpen] = useState(false);
 
-    // useImperativeHandle(ref, () => ({
+    const handleMoreTaskModalClose = () => {
+        setTaskData(taskData);
 
-    //     handleMoreTaskModalOpen(index, taskName, taskDescription, taskStatus, taskPriority, taskIdNumber, taskCreatedOn, taskDueDate, taskUpdatedOn)  {
-    //         console.log(taskData);
-    //         setCurrentIndex(index);
-    //         setCurrentTaskName(taskName);
-    //         setCurrentTaskDescription(taskDescription);
-    
-    //         otherStatusesArray.splice(otherStatusesArray.indexOf(taskStatus), 1);
-    //         setOtherStatusesArray(otherStatusesArray);
-    //         setCurrentTaskStatus(taskStatus);
-    
-    //         setCurrentTaskPriority(taskPriority);
-    //         setCurrentTaskIdNumber(taskIdNumber);
-    
-    
-    //         const taskCreatedOnDate = dayjs(taskCreatedOn).format(`MMM D, h:mm a`);
-    //         const taskUpdatedOnDate = dayjs(taskUpdatedOn).format(`MMM D, h:mm a`);
-    //         const taskDueOnDate = dayjs(taskDueDate).format(`MMM D`);
-    
-    //         setCurrentTaskCreatedOn(taskCreatedOnDate);
-    //         setCurrentTaskUpdatedOn(taskUpdatedOnDate);
-    //         setCurrentTaskDueDate(taskDueOnDate);
-    
-    //         setMoreTaskModalOpen(true);
-    //     }
-    
-    //   }));
-    
-
-    // const handleMoreTaskModalClose = () => {
-    //     setOtherStatusesArray(defaultStatuses);
-    //     setMoreTaskModalOpen(false);
-    //     setTaskDescriptionInputValue(null);
-    // };
+        setOtherStatusesArray(defaultStatuses);
+        setMoreTaskModalOpen(false);
+        setTaskDescriptionInputValue(null);
+    };
 
     //name related
     const handleInputTaskNameChange = (event) => {
@@ -192,7 +141,6 @@ const HomeMoreTaskInfo = React.forwardRef((props, ref)  => {
             setCurrentTaskPriority(userPriority);
             handleUpdateTask(event);
         }
-        console.log(userPriority + " is the new priority");
         setMenuPriorityAnchorEl(null);
     };
 
@@ -208,8 +156,7 @@ const HomeMoreTaskInfo = React.forwardRef((props, ref)  => {
     const handleDeleteTaskBtnClick = (event) => {
         setCurrentIndex(currentIndex);
         handleDeleteTask(event);
-        //TODO
-        // setMoreTaskModalOpen(false);
+        setMoreTaskModalOpen(false);
     };
 
     //due date related
@@ -239,20 +186,21 @@ const HomeMoreTaskInfo = React.forwardRef((props, ref)  => {
       };
 
 
-      const handleDueDateUpdateTask = (event) => {
+    const handleDueDateUpdateTask = (event) => {
         updateTaskInfo(
             currentIndex, 
             event,
             taskData,
             selectedDate2,
             dayjs,
-            moreTaskmodalOpen,
+            moreTaskModalOpen,
             null,
             handleDueDatePopoverClose2,
             setCurrentTaskDueDate,
             null,
             null,
             jwt )
+        setUpcomingTasks(taskData);
     };
     //item type
     const [itemType, setItemType] = React.useState('Task');
@@ -366,8 +314,8 @@ const HomeMoreTaskInfo = React.forwardRef((props, ref)  => {
     return (
         <div>
             <Modal
-                moreTaskmodalOpen={moreTaskmodalOpen}
-                show={moreTaskmodalOpen}
+                moreTaskModalOpen={moreTaskModalOpen}
+                show={moreTaskModalOpen}
                 onHide={handleMoreTaskModalClose}
                 onClose={handleMoreTaskModalClose}
             >
@@ -442,7 +390,7 @@ const HomeMoreTaskInfo = React.forwardRef((props, ref)  => {
                                 currentTaskPriority === 'Medium' ? 'more-task-priority-medium-btn' :
                                 currentTaskPriority === 'Low' ? 'more-task-priority-low-btn' : ''
                                 }`}
-                                    variant="contained"  ></FlagIcon><span className='more-task-priority-text'>{currentTaskPriority} priority</span></span>
+                                    variant="contained"></FlagIcon><span className='nunito-sans-font-600'>{currentTaskPriority} priority</span></span>
                                 </Tooltip> }
                                 
                                 <Button className="btn px-0 px-md-1 py-1 py-md-0 more-task-user-button">
@@ -522,95 +470,101 @@ const HomeMoreTaskInfo = React.forwardRef((props, ref)  => {
                     </Nav>
                     <div className="container mt-4">
                         <div className="row ">
-                            <div className="col-xl-7 ms-2">
-                                <div className='update-task-name-content' contentEditable={true}  onInput={handleInputTaskNameChange} onKeyDown={handleInputTaskNameChange} suppressContentEditableWarning={true}
+                            <div className="col-xl-7">
+                                <div className='ms-xl-3'>
+                                    <div className='update-task-name-content' contentEditable={true}  onInput={handleInputTaskNameChange} onKeyDown={handleInputTaskNameChange} suppressContentEditableWarning={true}
                                     >
-                                    <h1 className='update-task-name nunito-sans-font-600'>{currentTaskName}</h1>
-                                </div>
-                                <div className='mt-3 '>
+                                        <h1 className='update-task-name nunito-sans-font-600'>{currentTaskName}</h1>
+                                    </div>
+                                    <div className='mt-3 '>
 
-                                    <Dropdown className='d-inline me-2'>
-                                        <Dropdown.Toggle as={TagMenuCustomToggle} id="dropdown-custom-components" >
-                                        </Dropdown.Toggle>
-                                        <Dropdown.Menu as={CustomMenu} className='tag-dropdown-menu tag-search-wrapper' >
-                                            {tagNameAbsent && <p className='ms-3 pt-1 error-message'>Oops! Tag Name is required</p>}
+                                        <Dropdown className='d-inline me-2'>
+                                            <Dropdown.Toggle as={TagMenuCustomToggle} id="dropdown-custom-components" >
+                                            </Dropdown.Toggle>
+                                            <Dropdown.Menu as={CustomMenu} className='tag-dropdown-menu tag-search-wrapper' >
+                                                {tagNameAbsent && <p className='ms-3 pt-1 error-message'>Oops! Tag Name is required</p>}
 
-                                                {allTagData && allTagData.map((tagRow, index) => (
-                                                    <Dropdown.Item eventKey={`${tagRow.name}`} className='tag-dropdown-item lato-font'>{tagRow.name}</Dropdown.Item>
+                                                    {allTagData && allTagData.map((tagRow, index) => (
+                                                        <Dropdown.Item eventKey={`${tagRow.name}`} className='tag-dropdown-item lato-font'>{tagRow.name}</Dropdown.Item>
 
-                                                ))}                                            
+                                                    ))}                                            
 
-                                        </Dropdown.Menu>
-                                    </Dropdown>
+                                            </Dropdown.Menu>
+                                        </Dropdown>
 
-                                    
-
-                                    <FormControl className='mx-2'>
-                                        <Select className='item-type-form'
-                                        // defaultValue={"task"}
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={itemType}
-                                            onChange={handleItemTypeChange}
-                                        >
-                                            <MenuItem value={'Task'} default >Task</MenuItem>
-                                            <MenuItem value={'Subtask'} default>Subtask</MenuItem>
-                                            <MenuItem value={'Project'}>Project</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                    {currentTaskIdNumber && <Tooltip title={<span className='copy-task-id-tooltip'>{[`Copy task ID`]}</span>} arrow className='copy-task-id-tooltip mx-3 menu-tooltip'>
-                                        <Button className='ms-2 current-task-id-number-btn' onClick={() => {navigator.clipboard.writeText(currentTaskIdNumber)}}>{currentTaskIdNumber}</Button>
-                                    </Tooltip>}
-
-                                </div>
-
-                                <div className=' '>
-
-
-                                <Menu
-                                    id="basic-menu"
-                                    anchorEl={menuTagsAnchorEl}
-                                    open={openMenuTags}
-                                    onClose={handleMenuTagBtnClose}
-                                    MenuListProps={{
-                                    'aria-labelledby': 'basic-button',
-                                    }}
-                                    anchorOrigin={{
-                                        vertical: 'bottom'
-                                    }}
-                                    className='mt-2'
-                                >
-                                        <MenuItem onClick={(event) => handleMenuTagBtnClose(event)} className='menu-tag-btn'>
-                                        <span className={`nunito-sans-font`}><EditIcon className='me-1 mb-1 tag-menu-icon tag-dropdown-item'></EditIcon>Rename</span>
-                                        </MenuItem>
-                                        <MenuItem   className='menu-tag-btn'>
-                                            <span className={`nunito-sans-font`}><PaletteIcon className='me-1 mb-1 tag-menu-icon tag-dropdown-item'></PaletteIcon>Change color</span>
-                                        </MenuItem>
-                                        <MenuItem onClick={handleDeleteTag} className='menu-tag-btn'>
-                                            <span className={`nunito-sans-font`}><DeleteIcon className='me-1 mb-1 tag-menu-icon tag-dropdown-item'></DeleteIcon>Delete</span>
-                                        </MenuItem>
                                         
-                                    
-                                </Menu>
+
+                                        <FormControl className='mx-2'>
+                                            <Select className='item-type-form'
+                                            // defaultValue={"task"}
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={itemType}
+                                                onChange={handleItemTypeChange}
+                                            >
+                                                <MenuItem value={'Task'} default >Task</MenuItem>
+                                                <MenuItem value={'Subtask'} default>Subtask</MenuItem>
+                                                <MenuItem value={'Project'}>Project</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                        {currentTaskIdNumber && <Tooltip title={<span className='copy-task-id-tooltip'>{[`Copy task ID`]}</span>} arrow className='copy-task-id-tooltip mx-3 menu-tooltip'>
+                                            <Button className='ms-2 current-task-id-number-btn' onClick={() => {navigator.clipboard.writeText(currentTaskIdNumber)}}>{currentTaskIdNumber}</Button>
+                                        </Tooltip>}
+
+                                    </div>
+
+                                    <div className=' '>
+
+
+                                    <Menu
+                                        id="basic-menu"
+                                        anchorEl={menuTagsAnchorEl}
+                                        open={openMenuTags}
+                                        onClose={handleMenuTagBtnClose}
+                                        MenuListProps={{
+                                        'aria-labelledby': 'basic-button',
+                                        }}
+                                        anchorOrigin={{
+                                            vertical: 'bottom'
+                                        }}
+                                        className='mt-2'
+                                    >
+                                            <MenuItem onClick={(event) => handleMenuTagBtnClose(event)} className='menu-tag-btn'>
+                                            <span className={`nunito-sans-font`}><EditIcon className='me-1 mb-1 tag-menu-icon tag-dropdown-item'></EditIcon>Rename</span>
+                                            </MenuItem>
+                                            <MenuItem   className='menu-tag-btn'>
+                                                <span className={`nunito-sans-font`}><PaletteIcon className='me-1 mb-1 tag-menu-icon tag-dropdown-item'></PaletteIcon>Change color</span>
+                                            </MenuItem>
+                                            <MenuItem onClick={handleDeleteTag} className='menu-tag-btn'>
+                                                <span className={`nunito-sans-font`}><DeleteIcon className='me-1 mb-1 tag-menu-icon tag-dropdown-item'></DeleteIcon>Delete</span>
+                                            </MenuItem>
+                                            
+                                        
+                                    </Menu>
                                 
-                                {tagData && tagData.map((r, index) => (
-                                        <Button className='me-2 mt-3 menu-tag-button' onClick={(event) => handleMenuTagBtnClick(event, index)}><span><LocalOfferIcon className='tag-icon-span me-1'></LocalOfferIcon></span>{r.name}<CloseIcon className='remove-tag-icon ms-1 pb-1 d-none' onClick={() => handleRemoveTag(index)}></CloseIcon></Button>
-                                    ))}
-                                </div>
-                                <div className='my-4 pt-2'>
-                                    <TextareaAutosize
-                                    placeholder={!isInputFocused && !taskDescriptionInputValue && !currentTaskDescription ? 'Add description' : undefined}
-                                    
-                                    className='more-task-description ps-3'
-                                    onFocus={handleFocus}
-                                    onBlur={handleBlur}
-                                    onChange={handleInputTaskDescriptionChange}
-                                    value={taskDescriptionInputValue ? taskDescriptionInputValue : currentTaskDescription}
-                                    />
+                                    {tagData && tagData.map((r, index) => (
+                                            <Button className='me-2 mt-3 menu-tag-button' onClick={(event) => handleMenuTagBtnClick(event, index)}><span><LocalOfferIcon className='tag-icon-span me-1'></LocalOfferIcon></span>{r.name}<CloseIcon className='remove-tag-icon ms-1 pb-1 d-none' onClick={() => handleRemoveTag(index)}></CloseIcon></Button>
+                                        ))}
+                                    </div>
+                                    <div className='my-4 pt-2'>
+                                        <TextareaAutosize
+                                        placeholder={!isInputFocused && !taskDescriptionInputValue && !currentTaskDescription ? 'Add description' : undefined}
+                                        
+                                        className='more-task-description ps-3'
+                                        onFocus={handleFocus}
+                                        onBlur={handleBlur}
+                                        onChange={handleInputTaskDescriptionChange}
+                                        value={taskDescriptionInputValue ? taskDescriptionInputValue : currentTaskDescription}
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                            <div className="col-xl-3">
-                                <h1 className='nunito-sans-font-600'>Comments</h1>
+                            <div className="col-xl-5 comment-section ps-3">
+                                <div className='bg  d-flex justify-content-start '>
+                                    <h4 className='nunito-sans-font-600 mt-2'>Comment Section</h4>
+
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
