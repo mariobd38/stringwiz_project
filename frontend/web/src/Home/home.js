@@ -498,14 +498,18 @@ const Home = () => {
                                             <TableRow key={index} className='table-row'>
                                                 <TableCell component="th" scope="row" className='lato-font d-flex align-items-center justify-content-between table-cell'>
                                                     <div className='d-flex align-items-center'>
-                                                        <CheckCircleIcon className='ps-1 pb-1 mt-1 task-check table-cell-icon' onClick={() => completeTask(index)} />
+                                                        <CheckCircleIcon className='ps-1 pb-1 mt-1 task-check' onClick={() => completeTask(index)} />
                                                         <button className='task-name-link' onClick={() => handleMoreTaskModalOpen(index, row.name, row.description, row.status, row.priority, row.taskIdNumber, row.createdOn, row.dueDate, row.lastUpdatedOn)}>
                                                             <span className={`ps-2 taskName-text ${row.status === 'Completed' ? ' strikethrough' : ''}`}>{row.name} </span> 
                                                         </button>
                                                     </div>
                                                     <div className='d-flex align-items-center'>
                                                         <Tooltip title={<span className='lato-font'>{[`Set status`]}</span>} arrow className='status-tooltip menu-tooltip'>
-                                                            <AssignmentIcon className='table-cell-icon status-icon mx-1' variant="contained" onClick={(event) => handleStatusPopoverClick(event, index)}></AssignmentIcon>
+                                                            <AssignmentIcon
+                                                                className={`table-cell-icon ${(openStatusPopover || openPriorityPopover || openDueDatePopover || deleteTaskPopover) ? 'table-cell-icon-visible' : ''}`}
+                                                                variant="contained"
+                                                                onClick={(event) => handleStatusPopoverClick(event, index)}
+                                                            />                                                        
                                                         </Tooltip>
 
                                                         <Popover
@@ -544,7 +548,7 @@ const Home = () => {
                                                         </Popover>
 
                                                         <Tooltip title={<span className='lato-font'>{[`Set priority`]}</span>} arrow className='priority-tooltip menu-tooltip'>
-                                                            <FlagIcon  className='table-cell-icon priority-icon mx-1' variant="contained"  onClick={(event) => handlePriorityPopoverClick(event, index)}></FlagIcon>
+                                                            <FlagIcon  className={`table-cell-icon priority-icon mx-1 ${(openStatusPopover || openPriorityPopover || openDueDatePopover || deleteTaskPopover) ? 'table-cell-icon-visible' : ''}`} variant="contained"  onClick={(event) => handlePriorityPopoverClick(event, index)}></FlagIcon>
                                                         </Tooltip>
                                                                                         
                                                         <Popover
@@ -584,7 +588,7 @@ const Home = () => {
                                                         </Popover>
 
                                                         <Tooltip title={<span className='lato-font'>{[`Set due date`]}</span>} arrow className='due-date-tooltip menu-tooltip'>
-                                                            <AccessTimeIcon className={`table-cell-icon due-date-icon mx-1`} variant="contained" onClick={(event) => handleDueDatePopoverClick(event, index)}></AccessTimeIcon>
+                                                            <AccessTimeIcon className={`table-cell-icon due-date-icon mx-1 ${(openStatusPopover || openPriorityPopover || openDueDatePopover || deleteTaskPopover) ? 'table-cell-icon-visible' : ''}`} variant="contained" onClick={(event) => handleDueDatePopoverClick(event, index)}></AccessTimeIcon>
                                                         </Tooltip>
                                                         <Popover
                                                             id={deleteTaskPopOverId}
@@ -637,7 +641,7 @@ const Home = () => {
 
                                                         </Popover>
                                                         <Tooltip title={<span className='lato-font'>{[`Delete task`]}</span>} arrow className='delete-task-tooltip menu-tooltip'>
-                                                            <DeleteIcon className={`table-cell-icon delete-task-icon mx-1`} variant="contained" onClick={() => setModalShow(true)}></DeleteIcon>
+                                                            <DeleteIcon className={`table-cell-icon delete-task-icon mx-1 ${(openStatusPopover || openPriorityPopover || openDueDatePopover || deleteTaskPopover) ? 'table-cell-icon-visible' : ''}`} variant="contained" onClick={() => setModalShow(true)}></DeleteIcon>
                                                         </Tooltip>
                                                     </div>
                                                 </TableCell>

@@ -111,7 +111,7 @@
 .nav-tabs .nav-link {
     border: none;
 }
-.table-cell-icon {
+.table-cell-icon, .task-check {
     color: #1E1F21 !important;
     width: 1.18rem !important;
     /* display: none !important; */
@@ -119,10 +119,10 @@
     cursor: pointer;
     position: relative;
 }
-.table-cell-icon:hover {
+.table-cell-icon:hover, .task-check:hover {
     color: #4295af !important;
 }
-.table-row:hover .table-cell-icon  {
+.table-row:hover .table-cell-icon, .table-row:hover .task-check  {
     display: block !important;
 }
 .status-list-item-btn:hover, .priority-list-item-btn:hover  {
@@ -486,3 +486,12 @@ iframe#webpack-dev-server-client-overlay{
 .delete-task-modal-icon {
     width: 1.15rem !important;
 }
+.table-cell-icon {
+    display: none !important;
+    transition: opacity 0.3s ease; /* Smooth transition */
+  }
+  
+  .table-cell-icon:hover,
+  .table-cell-icon-visible {
+    display: inline !important;
+  }
