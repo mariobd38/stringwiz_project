@@ -5,14 +5,14 @@ import com.stringwiz.app.models.Task;
 import com.stringwiz.app.models.User;
 import com.stringwiz.app.repositories.TagRepository;
 import com.stringwiz.app.repositories.TaskRepository;
-import jakarta.persistence.EntityGraph;
+import com.stringwiz.app.repositories.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -27,48 +27,52 @@ public class TagService {
     private TagRepository tagRepository;
     @Autowired
     private TaskRepository taskRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    public Tag create(User user, Tag tag, Long task_id) {
+    public Tag create(Tag tag, Task task) {
         try {
-            Optional<Task> optionalTask = taskRepository.findById(task_id);
+            Optional<Task> optionalTask = taskRepository.findById(task.getId());
             if (optionalTask.isPresent()) {
-                Tag tagDetails = new Tag(tag.getName(), tag.getColor());
-                Tag savedTag = tagRepository.save(tagDetails);
                 Task currentTask = optionalTask.get();
-
-                currentTask.getTags().add(savedTag);
+                Tag tagDetails = new Tag(tag.getName(), tag.getColor());
+                tagRepository.save(tagDetails);
+                currentTask.getTags().add(tagDetails);
                 taskRepository.save(currentTask);
-                return savedTag;
+                return tagDetails;
             }
         } catch(IllegalArgumentException e) {
             throw new IllegalArgumentException("Tag '" + tag.getName() + "' already exists.");
         }
-        throw new NoSuchElementException("Task not found for the given task_id: " + task_id);
+        throw new NoSuchElementException("Task not found");
     }
 
-    public Tag addTag(Tag tag, Long task_id) {
-        Optional<Task> optionalTask = taskRepository.findById(task_id);
+    public Tag addTag(Tag tag, Task task) {
+        Optional<Task> optionalTask = taskRepository.findById(task.getId());
         if(optionalTask.isPresent()) {
-            Task task = optionalTask.get();
+            Task currentTask = optionalTask.get();
             try {
-                task.getTags().add(tag);
-                task.setTags(task.getTags());
-                for(Tag t : task.getTags()) {
-                    System.out.println(t.getName());
-                }
-                taskRepository.save(task);
-                return tag;
+                Tag tagDetails = tagRepository.findById(tag.getId()).orElseThrow();
+                currentTask.getTags().add(tagDetails);
+                taskRepository.save(currentTask);
+                return tagDetails;
             } catch(Exception e) {
                 throw new IllegalArgumentException("Tag '" + tag.getName() + "' is a duplicate entry.");
             }
         }
-        throw new NoSuchElementException("Task not found for the given task_id: " + task_id);
+        throw new NoSuchElementException("Task not found for the given task_id: " + task.getId());
     }
-
 
     public Set<Tag> getByTask(Long task_id) {
         Optional<Task> optionalTask = taskRepository.findById(task_id);
         if(optionalTask.isPresent()) {
+            Task t = optionalTask.get();
+//            System.out.println("task name " + t.getName());
+//            for(Tag tag : tagRepository.findByTasks(optionalTask.get())) {
+//                System.out.println(tag.getName());
+//            }
             return tagRepository.findByTasks(optionalTask.get());
         }
         throw new IllegalArgumentException("Task not found for the given task_id: " + task_id);
@@ -85,40 +89,33 @@ public class TagService {
     }
 
     @Transactional
-    public Set<Tag> removeTag(Tag tag, Long task_id) {
-        Optional<Task> optionalTask = taskRepository.findById(task_id);
-        List<Task> allTasks = taskRepository.findAll();
+    public Set<Tag> removeTag(User user, Tag tag, Task task) {
+        Optional<Task> optionalTask = taskRepository.findById(task.getId());
 
         try {
             if(optionalTask.isPresent()) {
-
                 Task currentTask = optionalTask.get();
-//                System.out.println(currentTask.getTags().size());
-
-                //new
-//                System.out.println("NEW CLICK");
-//                for(Task currTask : allTasks) {
-//                    for (Tag currTag : currTask.getTags()) {
-//                        System.out.println(currTask.getName() + " has tag: " + currTag.getName());
-//                    }
-//                }
-
-//                Set<Tag> allTags = new LinkedHashSet<>();
                 System.out.println("new query!");
-                Set<Task> tasks = tag.getTasks();
-                for(Task currTask : tasks) {
-                    System.out.println(currTask.getName());
-                }
+                System.out.println("-----START-----");
+
+                System.out.println(task.getName());
+                System.out.println(tag.getName());
 
 
-                //
+                System.out.println(task.getTags().size());
+                System.out.println(currentTask.getTags().size());
+                task.getTags().remove(tag);
+                taskRepository.save(task);
 
-                return currentTask.getTags();
+
+                System.out.println("-----END-----");
+                return task.getTags();
+
             }
         } catch(IllegalArgumentException e) {
-            throw new IllegalArgumentException("Tag not found for the given task_id: " + task_id);
+            throw new IllegalArgumentException("Tag not found for the given task_id: " + task.getId());
         }
-        throw new NoSuchElementException("Request to remove tag from given task id '" + task_id + "' could not be processed");
+        throw new NoSuchElementException("Request to remove tag from given task id '" + task.getId() + "' could not be processed");
     }
 
     public void delete(Tag tag) {

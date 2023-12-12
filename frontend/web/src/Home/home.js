@@ -4,6 +4,7 @@ import { useLocalState } from "../utils/useLocalStorage";
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
@@ -12,13 +13,18 @@ import Tabs from 'react-bootstrap/Tabs';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AddTaskRoundedIcon from '@mui/icons-material/AddTaskRounded';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import BlockIcon from '@mui/icons-material/Block';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
 import FlagIcon from '@mui/icons-material/Flag';
 
 import Alert from '@mui/material/Alert';
+import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import IconButton from '@mui/material/IconButton';
 import InputLabel from '@mui/material/InputLabel';
 import List from '@mui/material/List';
@@ -36,6 +42,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
@@ -53,8 +60,6 @@ import { createTagInfo } from '../DataManagement/Tags/createTag';
 import { addExistingTagInfo } from '../DataManagement/Tags/addExistingTag';
 import { getTagInfo } from '../DataManagement/Tags/getTags';
 import { getAllTagsInfo } from '../DataManagement/Tags/getAllTags';
-import { removeTagInfo } from '../DataManagement/Tags/removeTag';
-import { deleteTagInfo } from '../DataManagement/Tags/deleteTag';
 import HomeMoreTaskInfo from './HomeMoreTaskInfo/homeMoreTaskInfo';
 
 import relax from '../images/stringwiz_relax.png';
@@ -85,10 +90,12 @@ const Home = () => {
     const [taskStatus, setTaskStatus] = useState(null);
     const [taskPriority, setTaskPriority] = useState(null);
     const [taskDueDate, setTaskDueDate] = useState(null);
-    
     const [missingNameError, setMissingNameError] = useState(false);
-
     const [isCheckIconVisible, setCheckIconVisible] = useState(false);
+    const [updatedTaskAttribute, setUpdatedTaskAttribute] = useState('');
+    const [updatedTaskValue, setUpdatedTaskValue] = useState('');
+    const [previousTaskAttributeValue, setPreviousTaskAttributeValue] = useState('');
+ 
 
     const handleTaskNameChange = (event) => {
         setTaskName(event.target.value);
@@ -110,7 +117,6 @@ const Home = () => {
     };
 
     const [taskData, setTaskData] = useState([]);
-    const taskTimeStatuses = ['upcoming', 'overdue', 'completed'];
     const [tagData, setTagData] = useState([]);
     const [allTagData, setAllTagData] = useState([]);
 
@@ -160,6 +166,9 @@ const Home = () => {
         setCurrentTaskDueDate(taskDueOnDate);
 
         setMoreTaskModalOpen(true);
+        console.log("tag data bbelow");
+
+        console.log(allTagData);
     };
 
 
@@ -195,9 +204,7 @@ const Home = () => {
 
     const handlePriorityPopoverClose = () => {
         setPriorityPopoverAnchorEl(null);
-
         setCurrentTaskPriority(null);
-        // setOpenSnackbar(true);
     };
 
     const openPriorityPopover = Boolean(priorityPopoverAnchorEl);
@@ -227,9 +234,22 @@ const Home = () => {
 
     const handleDateSelection = (date) => {
         setSelectedDate(date);
-        console.log("selected date " + date)
         // setCurrentTaskDueDate(taskData[].dueDate);
     };
+
+    //delete task popovers
+    const [deleteTaskPopoverAnchorEl, setDeleteTaskPopoverAnchorEl] = useState(null);
+
+    const handleDeleteTaskPopoverClick = (event, index) => {
+        setDeleteTaskPopoverAnchorEl(event.currentTarget);
+    };
+
+    const handleDeleteTaskPopoverClose = () => {
+        setDeleteTaskPopoverAnchorEl(null);
+    };
+
+    const deleteTaskPopover = Boolean(deleteTaskPopoverAnchorEl);
+    const deleteTaskPopOverId = deleteTaskPopover ? 'simple-popover' : undefined;
 
 
     //create task call
@@ -264,6 +284,7 @@ const Home = () => {
 
     //update task call
     const handleUpdateTask = (event) => {
+        setOpenSnackbar(false);
         updateTaskInfo(
             currentIndex, 
             event,
@@ -276,10 +297,17 @@ const Home = () => {
             setCurrentTaskDueDate,
             handlePriorityPopoverClose,
             handleStatusPopoverClose,
-            jwt );
+            jwt,
+            setOpenSnackbar,
+            setUpdatedTaskValue,
+            setUpdatedTaskAttribute
+            );
+        // console.log("new priority value: " + taskData[currentIndex]);
         setUpcomingTasks(taskData);
+        setUpdatedTaskValue(taskData[currentIndex].priority);
         console.log("UPCOMING!!");
         console.log(upcomingTasks);
+
     };
     //delete task call
     const handleDeleteTask = (event) => {
@@ -347,8 +375,6 @@ const Home = () => {
 
     // Handler for tag input changes
 
-    const [currentTag, setCurrentTag] = useState(null);
-
     useEffect(() => {
         getTaskInfo(jwt, setTaskData, setUpcomingTasks);
         setUpcomingTasks(taskData);
@@ -356,7 +382,9 @@ const Home = () => {
         const fetchTagsData = async () => {
             try {
                 const data = await getTagInfo(jwt, tagData, setTagData, taskData[currentIndex].id);
+                
                 setTagData(data);
+                
 
                 getAllTagsInfo(jwt,setAllTagData);
             } catch (e) {
@@ -366,24 +394,6 @@ const Home = () => {
             fetchTagsData();
     }, [currentIndex, setTagData]);
     
-    const [tagInputValue, setTagInputValue] = useState('');
-    
-    const handleCreateTag = (event) => {
-        createTagInfo(jwt, tagInputValue, taskData[currentIndex].id, tagData, setTagData, allTagData, setAllTagData);
-    };
-
-
-
-    const handleRemoveTag = (index) => {
-        const tagToRemove = tagData[index];
-        const currTaskId = taskData[currentIndex].id;
-        removeTagInfo(jwt, tagToRemove, currTaskId, tagData, setTagData, allTagData, setAllTagData);
-    }
-
-    const handleDeleteTag = () => {
-        const tagToDelete = currentTag;
-        deleteTagInfo(jwt, tagToDelete, tagData, setTagData, allTagData, setAllTagData);
-    }
     
     const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
@@ -423,6 +433,50 @@ const Home = () => {
     });
     const timeBlocks = Array.from({ length: 24 }, (_, index) => '');//String.fromCharCode(65 + index)''); // Generates an array of 23 characters starting from 'A'
 
+    const [modalShow, setModalShow] = useState(false);
+
+    const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
+
+    function DeleteTaskConfirmModal(props) {
+        return (
+          <Modal
+            {...props}
+            size="md"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+          >
+            <Modal.Header>
+              <Modal.Title className="m-auto text-center lato-font-600" id="contained-modal-title-vcenter">
+              <h4 className='text-center m-auto lato-font-600' style={{color: '#1e1f21'}} >Are you sure you want to delete this task?</h4>
+              {/* Are you sure you want to delete this task? */}
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className='py-4'>
+              {/* <h4 className='text-center lato-font-600 mb-3'>Are you sure you want to delete this task?</h4> */}
+              <div className='d-flex justify-content-center '>
+                <Button className='mx-4 delete-task-cancel-btn' onClick={props.onHide}><BlockIcon className='mb-1 me-1 delete-task-modal-icon'></BlockIcon>Cancel</Button>
+                <Button className='mx-4 delete-task-btn'><DeleteIcon className='mb-1 me-1 delete-task-modal-icon'></DeleteIcon>Delete Task</Button>
+              </div>
+            </Modal.Body>
+            <Modal.Footer className='d-flex justify-content-start py-0'>
+                    <FormGroup >
+                    <FormControlLabel
+                        control={<Checkbox />}
+                        label={
+                            <Typography
+                            className='lato-font'
+                            style={{fontSize: '0.94rem', color: '#1e1f21'}}
+                            >
+                                Do not show message again
+                            </Typography>
+                        }
+                    />                    
+                    </FormGroup>
+            </Modal.Footer>
+          </Modal>
+        );
+      }
 
     return (
         <>
@@ -467,27 +521,22 @@ const Home = () => {
 
                                                             <List disablePadding className='update-list-menu'>
                                                                 <ListItem disablePadding>
-                                                                    <ListItemButton  className={`status-list-item-btn ${isCheckIconVisible ? 'status-item-hide' : ''}`} onClick={(event) => handleUpdateTask(event, 'Stuck')}>
+                                                                    <ListItemButton  className={`status-list-item-btn`} onClick={handleUpdateTask}>
                                                                     <ListItemText primary="Stuck"/>{currentTaskStatus === 'Stuck' ? <CheckIcon></CheckIcon>: ''}
                                                                     </ListItemButton>
                                                                 </ListItem>
                                                                 <ListItem disablePadding>
-                                                                    <ListItemButton className={`status-list-item-btn ${isCheckIconVisible ? 'status-item-hide' : ''}`} onClick={(event) => handleUpdateTask(event, 'To Do')}>
+                                                                    <ListItemButton className={`status-list-item-btn`} onClick={handleUpdateTask}>
                                                                     <ListItemText primary="To Do"/>{currentTaskStatus === 'To Do' ? <CheckIcon></CheckIcon>: ''}
                                                                     </ListItemButton>
                                                                 </ListItem>
-                                                                <div className={`wrapper d-flex justify-content-center ${isCheckIconVisible ? '' : 'd-none'}`}>
-                                                                    <svg className="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"> <circle className="checkmark__circle" cx="26" cy="26" r="25" fill="none"/> <path className="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-                                                                    </svg>
-                                                                </div>
-
                                                                 <ListItem disablePadding>
-                                                                    <ListItemButton className={`status-list-item-btn ${isCheckIconVisible ? 'status-item-hide' : ''}`} onClick={(event) => handleUpdateTask(event, 'In Progress')}>
+                                                                    <ListItemButton className={`status-list-item-btn`} onClick={handleUpdateTask}>
                                                                     <ListItemText primary="In Progress"/>{currentTaskStatus === 'In Progress' ? <CheckIcon></CheckIcon>: ''}
                                                                     </ListItemButton>
                                                                 </ListItem>
                                                                 <ListItem disablePadding>
-                                                                    <ListItemButton className={`status-list-item-btn ${isCheckIconVisible ? 'status-item-hide' : ''}`} onClick={(event) => handleUpdateTask(event, 'Completed')}>
+                                                                    <ListItemButton className={`status-list-item-btn`} onClick={handleUpdateTask}>
                                                                     <ListItemText primary="Completed"/>{currentTaskStatus === 'Completed' ? <CheckIcon></CheckIcon>: ''}
                                                                     </ListItemButton>
                                                                 </ListItem>
@@ -510,35 +559,59 @@ const Home = () => {
                                                             className='poopover'
                                                         >
                                                             <List disablePadding className='update-list-menu'>
+                                                                {/* <p className='text-center py-2 bg-warning lato-font'>Update Priority</p> */}
                                                                 <ListItem disablePadding>
-                                                                    <ListItemButton className={` priority-list-item-btn ${isCheckIconVisible ? 'priority-item-hide' : ''}`} onClick={(event) => handleUpdateTask(event, 'Critical')}>
+                                                                    <ListItemButton className={`priority-list-item-btn`} onClick={handleUpdateTask}>
                                                                         <ListItemText primary="Critical"/>{currentTaskPriority === 'Critical' ? <CheckIcon></CheckIcon>: ''}
                                                                     </ListItemButton>
                                                                 </ListItem>
                                                                 <ListItem disablePadding>
-                                                                    <ListItemButton className={`priority-list-item-btn ${isCheckIconVisible ? 'priority-item-hide' : ''}`} onClick={(event) => handleUpdateTask(event, 'High')}>
+                                                                    <ListItemButton className={`priority-list-item-btn`} onClick={handleUpdateTask}>
                                                                         <ListItemText primary="High"/>{currentTaskPriority === 'High' ? <CheckIcon></CheckIcon>: ''}
                                                                     </ListItemButton>
                                                                 </ListItem>
-                                                                <div className={`wrapper d-flex justify-content-center ${isCheckIconVisible ? '' : 'd-none'}`}>
-                                                                    <svg className="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"> <circle className="checkmark__circle" cx="26" cy="26" r="25" fill="none"/> <path className="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-                                                                    </svg>
-                                                                </div>
                                                                 <ListItem disablePadding>
-                                                                    <ListItemButton className={`priority-list-item-btn ${isCheckIconVisible ? 'priority-item-hide' : ''}`} onClick={(event) => handleUpdateTask(event, 'Medium')}>
+                                                                    <ListItemButton className={`priority-list-item-btn`} onClick={handleUpdateTask}>
                                                                         <ListItemText primary="Medium" />{currentTaskPriority === 'Medium' ? <CheckIcon></CheckIcon>: ''}
                                                                     </ListItemButton>
                                                                 </ListItem>
                                                                 <ListItem disablePadding>
-                                                                    <ListItemButton className={`priority-list-item-btn ${isCheckIconVisible ? 'priority-item-hide' : ''}`} onClick={(event) => handleUpdateTask(event, 'Low')}>
+                                                                    <ListItemButton className={`priority-list-item-btn`} onClick={handleUpdateTask}>
                                                                         <ListItemText primary="Low"  />{currentTaskPriority === 'Low' ? <CheckIcon></CheckIcon>: ''}
                                                                     </ListItemButton>
                                                                 </ListItem>
                                                             </List>
                                                         </Popover>
+
                                                         <Tooltip title={<span className='lato-font'>{[`Set due date`]}</span>} arrow className='due-date-tooltip menu-tooltip'>
                                                             <AccessTimeIcon className={`table-cell-icon due-date-icon mx-1`} variant="contained" onClick={(event) => handleDueDatePopoverClick(event, index)}></AccessTimeIcon>
                                                         </Tooltip>
+                                                        <Popover
+                                                            id={deleteTaskPopOverId}
+                                                            open={deleteTaskPopover}
+                                                            anchorEl={deleteTaskPopoverAnchorEl}
+                                                            onClose={handleDeleteTaskPopoverClose}
+                                                            anchorOrigin={{
+                                                                vertical: 'bottom',
+                                                                horizontal: 'left',
+                                                            }}
+                                                        >
+                                                            <List disablePadding className='update-list-menu'>
+                                                                <ListItem disablePadding>
+                                                                    <ListItemButton  className={`status-list-item-btn`} onClick={handleUpdateTask}>
+                                                                    <ListItemText primary="Stuck"/>{currentTaskStatus === 'Stuck' ? <CheckIcon></CheckIcon>: ''}
+                                                                    </ListItemButton>
+                                                                </ListItem>
+                                                                <ListItem disablePadding>
+                                                                    <ListItemButton className={`status-list-item-btn`} onClick={handleUpdateTask}>
+                                                                    <ListItemText primary="To Do"/>{currentTaskStatus === 'To Do' ? <CheckIcon></CheckIcon>: ''}
+                                                                    </ListItemButton>
+                                                                </ListItem>
+                                                            </List>
+                                                        </Popover>
+
+                                                        
+
 
                                                         <Popover
                                                             id={dueDatePopOverId}
@@ -561,30 +634,39 @@ const Home = () => {
                                                                 </div>
                                                                 
                                                             </LocalizationProvider>
+
                                                         </Popover>
+                                                        <Tooltip title={<span className='lato-font'>{[`Delete task`]}</span>} arrow className='delete-task-tooltip menu-tooltip'>
+                                                            <DeleteIcon className={`table-cell-icon delete-task-icon mx-1`} variant="contained" onClick={() => setModalShow(true)}></DeleteIcon>
+                                                        </Tooltip>
                                                     </div>
                                                 </TableCell>
                                             </TableRow>
                                             )) }
                                             {/* TODO: remove example snackbar */}
                                             <div>
-                                                <Button onClick={handleSnackbarClick}>Open simple snackbar</Button>
                                                 <Snackbar
                                                     open={openSnackbar}
-                                                    autoHideDuration={3300}
+                                                    autoHideDuration={3150}
                                                     onClose={handleSnackbarClose}
-                                                    message={`Status set to ${currentTaskStatus}`}
+                                                    message={`${updatedTaskAttribute} set to ${updatedTaskValue}`}
                                                     action={action}
                                                 />
                                             </div>
                                             
+                                            <div>
+                                                <DeleteTaskConfirmModal
+                                                    show={modalShow}
+                                                    onHide={() => setModalShow(false)}
+                                                />
+                                            </div>
                                         <HomeMoreTaskInfo 
                                             moreTaskModalOpen={moreTaskModalOpen} setMoreTaskModalOpen={setMoreTaskModalOpen} dayjs={dayjs} jwt={jwt} taskData={taskData} tagData={tagData} setTagData={setTagData} allTagData={allTagData} 
-                                            setCurrentTag={setCurrentTag} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} currentTaskName={currentTaskName} currentTaskDescription={currentTaskDescription} 
+                                            currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} currentTaskName={currentTaskName} currentTaskDescription={currentTaskDescription} 
                                             setCurrentTaskDescription={setCurrentTaskDescription} currentTaskStatus={currentTaskStatus} setCurrentTaskStatus={setCurrentTaskStatus} currentTaskPriority={currentTaskPriority} 
                                             setCurrentTaskPriority={setCurrentTaskPriority} currentTaskIdNumber={currentTaskIdNumber} currentTaskCreatedOn={currentTaskCreatedOn} currentTaskUpdatedOn={currentTaskUpdatedOn}
-                                            currentTaskDueDate={currentTaskDueDate} setCurrentTaskDueDate={setCurrentTaskDueDate} handleUpdateTask={handleUpdateTask} handleDeleteTask={handleDeleteTask} handleRemoveTag={handleRemoveTag} 
-                                            handleDeleteTag={handleDeleteTag} handleCreateTag={handleCreateTag} addExistingTagInfo={addExistingTagInfo} setUpcomingTasks={setUpcomingTasks} setTaskData={setTaskData}
+                                            currentTaskDueDate={currentTaskDueDate} setCurrentTaskDueDate={setCurrentTaskDueDate} handleUpdateTask={handleUpdateTask} handleDeleteTask={handleDeleteTask} 
+                                            setAllTagData={setAllTagData} addExistingTagInfo={addExistingTagInfo} setUpcomingTasks={setUpcomingTasks} setTaskData={setTaskData}
                                             handleMoreTaskModalOpen={handleMoreTaskModalOpen} >
                                         </HomeMoreTaskInfo>
                                         

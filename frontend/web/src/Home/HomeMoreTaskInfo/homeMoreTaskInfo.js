@@ -32,14 +32,17 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { updateTaskInfo } from '../../DataManagement/Tasks/updateTask';
+import { createTagInfo } from '../../DataManagement/Tags/createTag';
+import { removeTagInfo } from '../../DataManagement/Tags/removeTag';
+import { deleteTagInfo } from '../..//DataManagement/Tags/deleteTag';
 import './homeMoreTaskInfo.css'
 
 
 
 const HomeMoreTaskInfo = ((props)  => {
-    const { moreTaskModalOpen, setMoreTaskModalOpen, dayjs, jwt, taskData, tagData, setTagData, allTagData, setCurrentTag, currentIndex, setCurrentIndex, currentTaskName, currentTaskDescription, setCurrentTaskDescription,
+    const { moreTaskModalOpen, setMoreTaskModalOpen, dayjs, jwt, taskData, tagData, setTagData, allTagData, currentIndex, setCurrentIndex, currentTaskName, currentTaskDescription, setCurrentTaskDescription,
         currentTaskStatus, setCurrentTaskStatus, currentTaskPriority, setCurrentTaskPriority, currentTaskIdNumber, currentTaskCreatedOn, currentTaskUpdatedOn, currentTaskDueDate, setCurrentTaskDueDate, 
-        handleUpdateTask, handleDeleteTask, handleRemoveTag, handleDeleteTag, handleCreateTag, addExistingTagInfo, setUpcomingTasks, setTaskData } = props;
+        handleUpdateTask, handleDeleteTask, setAllTagData, addExistingTagInfo, setUpcomingTasks, setTaskData } = props;
     
 
 
@@ -211,6 +214,7 @@ const HomeMoreTaskInfo = ((props)  => {
     
 
     //tag related
+    const [currentTag, setCurrentTag] = useState(null);
     const [menuTagsAnchorEl, setMenuTagsAnchorEl] = React.useState(null);
     const openMenuTags = Boolean(menuTagsAnchorEl);
     const handleMenuTagBtnClick = (event, index) => {
@@ -226,6 +230,7 @@ const HomeMoreTaskInfo = ((props)  => {
         const delayedClick = (e, currentIndex ) => {
             if(tagNameAbsent) setTagNameAbsent(false);
             setTagInputValue('');
+            console.log(tagData);
             taskData[currentIndex].tags = tagData;
             e.preventDefault();
             setTimeout(() => {
@@ -274,8 +279,8 @@ const HomeMoreTaskInfo = ((props)  => {
                 />
                 <ul className="list-unstyled">
                 {React.Children.toArray(children).filter((child) => {
-                    const childText = child.props.children.toLowerCase(); // Convert child text to lowercase
-                    const inputValue = tagInputValue.toLowerCase(); // Convert input value to lowercase
+                    const childText = child.props.children.toLowerCase();
+                    const inputValue = tagInputValue.toLowerCase();
                     return !inputValue || childText.startsWith(inputValue);
                 })}
                 </ul>
@@ -286,11 +291,13 @@ const HomeMoreTaskInfo = ((props)  => {
       const handleTagInputChange = (event) => {
 
         setTagNameAbsent(false);
+        console.log("current tag name:" + tagInputValue);
         // handleGetTags();
         if (event.key === 'Enter') {
             if (tagInputValue === '') {
                 setTagNameAbsent(true);
             } else {
+
                 setTagNameAbsent(false);
                 console.log("my entire tag data right here");
                 console.log(allTagData);
@@ -300,15 +307,34 @@ const HomeMoreTaskInfo = ((props)  => {
                         const existingTag = allTagData[i];
                         addExistingTagInfo(jwt, existingTag, tagData, setTagData, taskData[currentIndex]);
                         taskData[currentIndex].tags = existingTag;
+                        setTaskData(taskData);
                         return;
                     }
                 }
-                handleCreateTag();
+                createTagInfo(jwt, taskData, currentIndex, tagInputValue, taskData[currentIndex], tagData, setTagData, allTagData, setAllTagData);
+                setTaskData(taskData);
+                // handleCreateTag();
                 setTagInputValue('');
             }
         }
-        
     };
+
+    const handleRemoveTag = (index) => {
+        // taskData[currentIndex].tags = tagData[index];
+        taskData[currentIndex].tags.push(tagData[index]);
+        taskData[currentIndex].tags.tasks = [];
+        const tagToRemove = tagData[index];
+        console.log("removing tag logs");
+        console.log(tagData[index]);
+        console.log(taskData);
+        console.log(taskData[currentIndex]);
+        removeTagInfo(jwt, tagToRemove, taskData[currentIndex], tagData, setTagData, allTagData, setAllTagData);
+    }
+
+    const handleDeleteTag = () => {
+        const tagToDelete = currentTag;
+        deleteTagInfo(jwt, tagToDelete, tagData, setTagData, allTagData, setAllTagData);
+    }
 
 
     return (

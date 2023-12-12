@@ -111,14 +111,6 @@
 .nav-tabs .nav-link {
     border: none;
 }
-.status-icon:hover {
-    color: rgb(86, 89, 215) !important;
-    display: block !important;
-}
-.due-date-icon:hover {
-    color: rgb(103, 153, 245) !important;
-    display: block !important;
-}
 .table-cell-icon {
     color: #1E1F21 !important;
     width: 1.18rem !important;
@@ -126,6 +118,9 @@
     /* visibility: hidden; */
     cursor: pointer;
     position: relative;
+}
+.table-cell-icon:hover {
+    color: #4295af !important;
 }
 .table-row:hover .table-cell-icon  {
     display: block !important;
@@ -468,6 +463,26 @@ iframe#webpack-dev-server-client-overlay{
     overflow: auto;
 }
 .nav-link.active {
-    background-color: #63d7c4 !important;
+    /* background-color: #63d7c4 !important; */
+    border-bottom: 3.5px solid #63d7c4 !important;
     /* border-bottom-color: #63d7c4 !important; */
+}
+.delete-task-cancel-btn {
+    background-color: #4295af !important;
+    border-color: #4295af !important;
+}
+.delete-task-cancel-btn:hover {
+    background-color: #317c93 !important;
+    border-color: #317c93 !important;
+}
+.delete-task-btn {
+    background-color: #c90825 !important;
+    border-color: #c90825 !important;
+}
+.delete-task-btn:hover {
+    background-color: #ae0821 !important;
+    border-color: #ae0821 !important;
+}
+.delete-task-modal-icon {
+    width: 1.15rem !important;
 }

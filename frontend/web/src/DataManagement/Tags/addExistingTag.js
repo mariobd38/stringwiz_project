@@ -2,15 +2,18 @@
 function addExistingTagInfo(
     jwt, existingTag, tagData, setTagData, currentTask) {
     
-    const taskId = currentTask.id;
+    const requestPayload = {
+        task: currentTask,
+        tagInfo: existingTag
+    }
 
-    fetch("/api/tags/addTag?taskId=" + taskId, {
+    fetch("/api/tags/addTag", {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
             Authorization: 'Bearer ' + jwt
         },
-        body: JSON.stringify(existingTag),
+        body: JSON.stringify(requestPayload),
     }).then((response) => {
         if (!response.ok) {
             throw new Error("Network response was not ok");

@@ -65,9 +65,9 @@ public class User implements UserDetails {
     @UpdateTimestamp
     @Column(name="last_updated_on")
     private Timestamp lastUpdatedOn;
-@JsonIgnore
-@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-private List<Task> tasks = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Task> tasks = new ArrayList<>();
 
 
     @JsonIgnore

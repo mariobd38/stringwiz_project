@@ -1,13 +1,19 @@
 
 function removeTagInfo(
-    jwt, tagToRemove, currTaskId, tagData, setTagData, allTagData, setAllTagData) {
-    fetch("/api/tags/remove?taskId=" + currTaskId, {
+    jwt, tagToRemove, currentTask, tagData, setTagData, allTagData, setAllTagData) {
+
+    const requestPayload = {
+        task: currentTask,
+        tagInfo: tagToRemove
+    }
+
+    fetch("/api/tags/remove", {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
             Authorization: 'Bearer ' + jwt
         },
-        body: JSON.stringify(tagToRemove),
+        body: JSON.stringify(requestPayload),
     }).then((response) => {
         if (!response.ok) {
             throw new Error("Network response was not ok");

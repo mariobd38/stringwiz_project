@@ -10,7 +10,10 @@ function updateTaskInfo  (
         setCurrentTaskDueDate,
         handlePriorityPopoverClose,
         handleStatusPopoverClose,
-        jwt
+        jwt,
+        setOpenSnackbar,
+        setUpdatedTaskValue,
+        setUpdatedTaskAttribute
         ) {
         let task = taskData[currentRowIndex];
         let targetClassList = null;
@@ -57,28 +60,28 @@ function updateTaskInfo  (
             setCurrentTaskDueDate(dayjs(task.dueDate).format(`MMM D`));
             console.log(dayjs(task.dueDate).format(`MMM D`));
             handleDueDatePopoverClose();
-
-            // return;
         } else if (targetClassList.includes('priority-list-item-btn')) {
             task.priority = event.target.textContent;
-            setCheckIconVisible(true);
+            setOpenSnackbar(false);
+            
             setTimeout(function () {
-                setCheckIconVisible(false);
-
+                setUpdatedTaskValue(task.priority);
+                setUpdatedTaskAttribute('Priority')
+                setOpenSnackbar(true);
                 handlePriorityPopoverClose();
 
-            }, 1800);
+            }, 230);
         } else if (targetClassList.includes('status-list-item-btn')) {
             task.status = event.target.textContent;
-            setCheckIconVisible(true);
-
+            setOpenSnackbar(false);
 
             setTimeout(function () {
-                setCheckIconVisible(false);
-
+                setUpdatedTaskValue(task.status);
+                setUpdatedTaskAttribute('Status')
+                setOpenSnackbar(true);
                 handleStatusPopoverClose();
 
-            }, 1800);
+            }, 230);
         } else if (targetClassList.includes('remove-due-date-btn')) {
             task.dueDate = null;
         } else if (targetClassList.includes('menu-change-status-btn')) {
