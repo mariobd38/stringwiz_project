@@ -1,8 +1,8 @@
 .left-header-block {
-    width: 350px;
+    width: 32rem;
 }
 .left-header-text {
-    font-size: 60px;
+    font-size: 3.5rem;
     font-family: 'Ubuntu', serif;
     font-weight: 700;
     color: white;
@@ -13,11 +13,14 @@
     color: white;
 }
 .how_it_works {
-    border: 2px solid black;
+    border: 2px solid white;
     background-color: white;
 }
 .how_it_works:hover {
    background-color: #58bcdb;
+}
+.cocollabs_logo {
+    width: 21.3rem;
 }
 .header {
     background-color: #223654;
@@ -31,4 +34,48 @@ a {
     align-items: center;
     text-align: center;
     min-height: 100vh;
+}
+/* .circle {
+    background-color: red;
+    width: 20rem;
+    height: 20rem;
+    border-radius: 50%;
+    padding-top: 9rem;
+} */
+
+.circle {
+    width: 16.5rem; /* Adjust the width and height to change the circle size */
+    height: 16.5rem;
+    border-radius: 13.5%; /* Creates a circle */
+    background-color:  #39474e;   /* #3498db */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+
+.home-illustration {
+width: 15.9rem;
+} 
+.bg-illustrations-div {
+    background-color: #121212;/*#192339;*/
+}
+.circle-text {
+    width: 18.5rem;
+    font-size: 1.16rem;
+    font-weight: 600;
+    font-family: 'Nunito Sans', serif;
+    color: #121212;
+}
+.main-key-words {
+   color: #9153ed;
+}
+.home-description-card {
+    border-radius: 25px;
+    /* padding: 1.2rem 0.4rem; */
+    transition: all .3s ease-in-out; 
+    background-color: #f3f3f3;
+}
+.home-description-card:hover {
+    transform: scale(1.05); 
 }

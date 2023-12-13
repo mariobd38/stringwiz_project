@@ -7,7 +7,6 @@ body {
         text-align: center;
         margin: auto;
         display: inline-block;
-        width: 150px;
     }
     .sidebar {
         backdrop-filter: blur(40px);
@@ -49,16 +48,20 @@ ul li ul li {
 .register:hover {
     background-color: #4296af;
 }
+.login {
+    color: white !important;
+}
 .login:hover {
-    color: #551de2;
+    color: #4296af !important;
 }
 .navbar {
-    height: 100px;
-    margin: 0;
-    padding: 0;
+    height: 6.2rem; /*todo*/
 }
 .navbar-brand {
     text-align: center;
     margin: auto;
     display: inline-block;
+}
+.cocollabs-navy {
+    background-color: #223654;
 }

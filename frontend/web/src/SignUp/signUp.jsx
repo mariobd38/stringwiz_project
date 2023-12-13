@@ -271,7 +271,7 @@ const SignUp = () => {
       </div>
         {/* <div> */}
             <div className="d-flex align-self-center illustration-div">
-            <a className="m-auto fs-4">
+            <a className="m-auto fs-4" href={() => false}>
             <img src={teamwork} className="illustration" alt="StringWiz" />
             </a>
         {/* </div> */}

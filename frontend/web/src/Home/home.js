@@ -784,7 +784,7 @@ const Home = () => {
                                 <p className='lato-font-600 m-auto pt-3 no-tasks-desc'>Nice work! No overdue tasks 🥳</p>
                                    
                                    <div className='d-flex pt-4'>
-                                        <a className="m-auto  text-center ">
+                                        <a className="m-auto  text-center " href={() => false}>
                                             <img src={relax} className="tab-home-illustration" alt="relax" />
                                         </a>
 
@@ -798,7 +798,7 @@ const Home = () => {
                                     <p className='lato-font-600 m-auto pt-3 no-tasks-desc '>Your completed tasks will appear here ✅</p>
                                     
                                     <div className='d-flex pt-4'>
-                                        <a className="m-auto  text-center ">
+                                        <a className="m-auto  text-center " href={() => false}>
                                             <img src={completed} className="tab-home-illustration" alt="relax" />
                                         </a>
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from "react-router-dom";
 import logo from '../../images/stringwiz_logo2.png';
+import cocollabs_logo from '../../images/cocollabs_logo.png';
 import Container from 'react-bootstrap/Container';
 import './Navbar.css';
 
@@ -25,13 +26,13 @@ function Navbar () {
     setIsOffcanvasOpen(!isOffcanvasOpen);
   };
     return (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary sticky-top">
+        <nav className="navbar navbar-expand-lg cocollabs-navy sticky-top">
             <Container fluid>
 
             <div className="img-fluid">
               <a className="navbar-brand m-auto fs-4" href="/">
                 <img
-                  src={logo}
+                  src={cocollabs_logo}
                   className="img-fluid-custom"
                   alt="String"
                 />
@@ -59,7 +60,7 @@ function Navbar () {
                   <div className="img-fluid">
                     <a className="navbar-brand m-auto fs-4" href="/">
                       <img
-                        src={logo}
+                        src={cocollabs_logo}
                         className="img-fluid-custom"
                         alt="String"
                       />
@@ -75,27 +76,27 @@ function Navbar () {
                 <div className="offcanvas-body d-flex flex-column flex-lg-row p-4 p-lg-0">
                   <ul className="navbar-nav justify-content-center align-items-center fs-5 flex-grow-1 pe-3">
                     <li className="nav-header-item mx-2">
-                      <a className="nav-link disabled" href="/">
+                      <a className="nav-link disabled text text-white" href="/">
                         Features
                       </a>
                     </li>
                     <li className="nav-header-item mx-2">
-                      <a className="nav-link disabled" href="/">
+                      <a className="nav-link disabled text-white" href="/">
                         Teams
                       </a>
                     </li>
                     <li className="nav-header-item mx-2">
-                      <a className="nav-link disabled" href="/">
+                      <a className="nav-link disabled text-white" href="/">
                         Resources
                       </a>
                     </li>
                     <li className="nav-header-item mx-2">
-                      <a className="nav-link disabled" href="/">
+                      <a className="nav-link disabled text-white" href="/">
                         Enterprise
                       </a>
                     </li>
                     <li className="nav-header-item mx-2">
-                      <a className="nav-link disabled" href="/">
+                      <a className="nav-link disabled text-white" href="/">
                         Pricing
                       </a>
                     </li>
