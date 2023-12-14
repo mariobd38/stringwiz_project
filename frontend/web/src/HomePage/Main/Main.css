@@ -5,7 +5,6 @@
     font-size: 3.5rem;
     font-family: 'Ubuntu', serif;
     font-weight: 700;
-    color: white;
 }
 .description {
     font-family: 'Montserrat', serif;
@@ -13,8 +12,8 @@
     color: white;
 }
 .how_it_works {
-    border: 2px solid white;
-    background-color: white;
+    border: 2px solid #fafafa;
+    background-color: #fafafa;
 }
 .how_it_works:hover {
    background-color: #58bcdb;
@@ -35,14 +34,6 @@ a {
     text-align: center;
     min-height: 100vh;
 }
-/* .circle {
-    background-color: red;
-    width: 20rem;
-    height: 20rem;
-    border-radius: 50%;
-    padding-top: 9rem;
-} */
-
 .circle {
     width: 16.5rem; /* Adjust the width and height to change the circle size */
     height: 16.5rem;
@@ -51,11 +42,9 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
-    
   }
-
 .home-illustration {
-width: 15.9rem;
+    width: 15.9rem;
 } 
 .bg-illustrations-div {
     background-color: #121212;/*#192339;*/
@@ -65,17 +54,44 @@ width: 15.9rem;
     font-size: 1.16rem;
     font-weight: 600;
     font-family: 'Nunito Sans', serif;
-    color: #121212;
+    color: #fafafa;
 }
 .main-key-words {
    color: #9153ed;
 }
 .home-description-card {
     border-radius: 25px;
-    /* padding: 1.2rem 0.4rem; */
     transition: all .3s ease-in-out; 
-    background-color: #f3f3f3;
+    background-color: #263552;
 }
 .home-description-card:hover {
     transform: scale(1.05); 
+}
+.feature-number {
+    width: 6rem; 
+    height: 6rem;
+    border-radius: 50%;
+    background-color:  #8956e5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.feature-number-text {
+    font-size: 2.1rem;
+}
+.feature-desc {
+    display: flex;
+    align-items: center;
+    font-size: 1.3rem;
+    max-width:34rem;
+}
+.fafafa-color {
+    color: #fafafa;
+}
+.features-header {
+    font-size: 2.4rem;
+}
+.hp-screenshot {
+    width: 65rem;
+    border-radius: 19px;
 }

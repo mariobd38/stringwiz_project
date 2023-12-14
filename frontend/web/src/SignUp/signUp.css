@@ -63,3 +63,6 @@
     text-align: center;
     min-height: 100vh;
 }
+.login-text:hover {
+    color: #551de2;
+}

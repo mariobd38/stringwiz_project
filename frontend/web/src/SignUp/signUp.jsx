@@ -264,8 +264,8 @@ const SignUp = () => {
         </form>
 
         <div className="pt-4 pb-3">
-          <p className="input-label text-center ">
-            Already a member? <a href="/login" className="login">Log In</a>
+          <p className="input-label text-center">
+            Already a member? <a href="/login" className="login-text ps-1">Log In</a>
           </p>
         </div>
       </div>

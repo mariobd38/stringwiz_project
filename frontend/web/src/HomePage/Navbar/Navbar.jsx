@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from "react-router-dom";
-import logo from '../../images/stringwiz_logo2.png';
 import cocollabs_logo from '../../images/cocollabs_logo.png';
 import Container from 'react-bootstrap/Container';
 import './Navbar.css';
@@ -11,15 +10,12 @@ function Navbar () {
     const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
     let navigate = useNavigate(); 
     const routeChange = (path) =>{ 
-      // let path = "/login";
       navigate(path);
     }
 
     const routeChangeToLogin = () =>{ 
 
-      routeChange("/login")
-      // let path = "/login";
-      // navigate(path);
+      routeChange("/login");
     }
 
   const toggleOffcanvas = () => {
