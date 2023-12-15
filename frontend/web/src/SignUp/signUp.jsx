@@ -12,14 +12,6 @@ const SignUp = () => {
     const [userEmail, setUserEmail] = useLocalState("", "userEmail");
     const [userFullName, setUserFullName] = useLocalState("", "userFullName");
     // let error = '';
-
-
-    const [input, setInput] = useState({
-        fullName: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-      });
      
       const [error, setError] = useState({
         fullName: '',

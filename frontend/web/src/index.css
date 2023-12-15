@@ -5,9 +5,27 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #fafafa;
+  padding: 0;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.fafafa-color {
+  color: #fafafa;
+}
+.lato-font,.lato-font-600 {
+  font-family: 'Lato', serif !important;
+}
+.lato-font-600 {
+  font-weight: 600;
+}
+.nunito-sans-font, .nunito-sans-font-600 {
+  font-family: 'Nunito Sans', serif !important;
+}
+.nunito-sans-font-600 {
+  font-weight: 600;
 }

@@ -44,7 +44,7 @@ const HomeNavbar = () => {
 
     return (
         <div>
-            <Nav className="navbar navbar-expand-md">
+            <Nav className="navbar navbar-expand-md" style={{height: "6.2rem" }}>
                 <Container fluid>
                     <div className="img-fluid">
                         <a className="navbar-brand m-auto fs-4 ps-3" href="/">

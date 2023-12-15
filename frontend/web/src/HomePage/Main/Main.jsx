@@ -5,7 +5,8 @@ import Container from 'react-bootstrap/Container';
 import discover from '../../images/discover.png';
 import addTask from '../../images/add_task.png';
 import collaboration from '../../images/collaboration.png';
-import hp_screenshot from '../../images/user_home_page_screenshot.png';
+import computer_look from '../../images/looking_at_computer.jpg';
+import coconut from '../../images/coconut.png';
 
 
 
@@ -13,12 +14,14 @@ import hp_screenshot from '../../images/user_home_page_screenshot.png';
 const Main = () => {
     const main = <main>
     <div className="header pb-5">
-      <Container className="pt-5">
-        <div className='d-flex justify-content-center'>
+      <Container className="pt-4">
+        <div className='d-flex justify-content-center pt-5'>
           <div className="d-none d-lg-block left-header-block">
-            <h1 className="left-header-text fafafa-color">Let's plan.</h1>
-            <h1 className="left-header-text fafafa-color">Let's collab.</h1>
-            <h1 className="left-header-text fafafa-color">Let's do it your way.</h1>
+            <h1 className="left-header-text">Let's Plan.</h1>
+            <h1 className="left-header-text">Let's Manage.</h1>
+            <h1 className="left-header-text">Let's Collab.<span><a className="m-auto" href={() => false}>
+                <img src={coconut} className="coconut mw-100 pb-3 ms-xl-2 w-100 text-center" alt="coconut" />
+            </a></span></h1>
           </div>
           <div className="right-header-block pt-3">
             <p className="description text-center">
@@ -26,25 +29,23 @@ const Main = () => {
             </p>
             <p className="description text-center">Simple features. Simple solutions.</p>
             <p className="description text-center">Begin the journey today.</p>
-            <div className="text-center d-flex justify-content-center pt-2">
+            <div className="d-flex justify-content-center pt-2">
               <a href="/signup">
                 <button className="btn register fafafa-color p-3 mx-5">Get Started</button>
               </a>
-              <form action="#">
-                <button className="btn how_it_works text-dark p-3 mx-5">See how it works</button>
-              </form>
             </div>
-            <p className="description text-center pt-3" style={{ fontSize: '0.9em', color: 'white' }}>
+            <p className="description text-center pt-3" style={{ fontSize: '0.9em', color: '#fafafa' }}>
               No credit card needed · Start with a free plan
             </p>
           </div>
 
         </div>
-        <div className='d-flex justify-content-center pt-4'>
-          {/* <p className='fafafa-color description'>Hello world</p> */}
-          <a className="m-auto" href={() => false}>
-              <img src={hp_screenshot} className="hp-screenshot mw-100 w-100" alt="hp_screenshot" />
-          </a>
+        <div className='pt-5'>
+          <div className='d-flex justify-content-center'>
+            <a className="m-auto" href={() => false}>
+                <img src={computer_look} className="hp-screenshot mw-100 w-100 text-center" alt="computer_look" />
+            </a>
+          </div>
         </div>
         
       </Container>
@@ -78,7 +79,8 @@ const Main = () => {
             </a>
           </div>
           <div className='text-center circle-text'>
-            <p>We <span className='main-key-words'>empower</span> you to focus on scaling your company by efficiently <span className='main-key-words'>managing</span> time-consuming tasks</p>
+            <p>We <span className='main-key-words'>empower</span> you to focus on scaling your company by efficiently <span className='main-key-words'>managing</span> time-consuming tasks
+            </p>
           </div>
         </div>
       </div>

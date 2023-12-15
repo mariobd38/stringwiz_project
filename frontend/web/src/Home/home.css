@@ -34,18 +34,6 @@
 	transform: translateY(-4px);
     /* position: absolute; */
 }
-.lato-font,.lato-font-600 {
-    font-family: 'Lato', serif !important;
-}
-.lato-font-600 {
-    font-weight: 600;
-}
-.nunito-sans-font, .nunito-sans-font-600 {
-    font-family: 'Nunito Sans', serif !important;
-}
-.nunito-sans-font-600 {
-    font-weight: 600;
-}
 .default-stringwiz-text {
     font-family: 'Nunito Sans', serif !important;
     font-weight: 600 !important;
@@ -110,6 +98,7 @@
 }
 .nav-tabs .nav-link {
     border: none;
+    color: #121212;
 }
 .table-cell-icon, .task-check {
     color: #1E1F21 !important;
@@ -463,9 +452,13 @@ iframe#webpack-dev-server-client-overlay{
     overflow: auto;
 }
 .nav-link.active {
-    /* background-color: #63d7c4 !important; */
     border-bottom: 3.5px solid #63d7c4 !important;
-    /* border-bottom-color: #63d7c4 !important; */
+    border-top: 1px solid #dfe2e6 !important;
+    border-left: 1px solid #dfe2e6 !important;
+    border-right: 1px solid #dfe2e6 !important;
+}
+.nav-link.active:hover {
+    background-color: #dfe2e6 !important;
 }
 .delete-task-cancel-btn {
     background-color: #4295af !important;
@@ -495,3 +488,7 @@ iframe#webpack-dev-server-client-overlay{
   .table-cell-icon-visible {
     display: inline !important;
   }
+  /* .nav-item .nav-link {
+    color: #121212 !important;
+    border: 1px solid #dfd2e6 ;
+  } */

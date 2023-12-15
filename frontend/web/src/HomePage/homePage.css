@@ -1,4 +1,9 @@
-/*colors: #58bcdb, #4296af*/
-body {
-    background-color: #223654;
+.register {
+    background-color: #121212;
+    border: 2px solid #121212;
+    border-radius: 14px;
+}
+.register:hover {
+    background-color: #4296af;
+    color: #fafafa;
 }

@@ -1,19 +1,25 @@
 .left-header-block {
-    width: 32rem;
+    width: 24rem;
 }
 .left-header-text {
-    font-size: 3.5rem;
-    font-family: 'Ubuntu', serif;
-    font-weight: 700;
+    font-size: 3.66rem;
+    font-family: 'Lato', serif;
+    font-weight: 600;
+    color: #fafafa;
+}
+.coconut {
+    width: 3.3rem !important;
 }
 .description {
     font-family: 'Montserrat', serif;
     font-size: 1.2em;
-    color: white;
+    color: #fafafa;
+    font-weight: 600;
 }
 .how_it_works {
-    border: 2px solid #fafafa;
-    background-color: #fafafa;
+    border: 2px solid #223654;
+    background-color: #223654;
+    color: #fafafa;
 }
 .how_it_works:hover {
    background-color: #58bcdb;
@@ -22,7 +28,9 @@
     width: 21.3rem;
 }
 .header {
-    background-color: #223654;
+    background: #4e21d9; 
+    background: -webkit-linear-gradient(to right, #4e21d9, #cc655e); 
+    background: linear-gradient(to right, #4e21d9, #cc655e);
 }
 a {
     text-decoration: none;
@@ -84,9 +92,6 @@ a {
     align-items: center;
     font-size: 1.3rem;
     max-width:34rem;
-}
-.fafafa-color {
-    color: #fafafa;
 }
 .features-header {
     font-size: 2.4rem;

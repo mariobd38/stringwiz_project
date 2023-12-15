@@ -13,6 +13,9 @@
     background-color: #551de2;
     padding: 0 10px;
 }
+.illustration {
+    width: 31.9rem !important;
+}
 @media(width > 1280px) {
     .illustration-div {
         padding: 0 60px;
@@ -62,6 +65,7 @@
     align-items: center;
     text-align: center;
     min-height: 100vh;
+    background-color: #fefefe;
 }
 .login-text:hover {
     color: #551de2;
