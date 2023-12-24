@@ -97,6 +97,19 @@ a {
     font-size: 2.4rem;
 }
 .hp-screenshot {
-    width: 65rem;
-    border-radius: 19px;
+    border-radius: 35px;
+}
+.computer-look-header {
+    font-size: 2.45rem !important;
+}
+.computer-look-description {
+    font-size: 1.36rem !important;
+}
+.computer-look-sub-description {
+    font-size: 1.1rem !important;
+
+}
+.computer-look-icon {
+    width: 2rem !important;
+    height: 2rem !important;
 }

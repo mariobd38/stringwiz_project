@@ -88,33 +88,33 @@ function Navbar () {
                 </div>
                 <div className="offcanvas-body d-flex flex-column flex-lg-row p-4 p-lg-0">
                   <ul className="navbar-nav justify-content-center align-items-center fs-5 flex-grow-1 pe-3">
-                    <li className="nav-header-item mx-3">
+                    <li className="nav-header-item mx-3 my-4 my-lg-0">
                       <a className='nav-top-link' href={() => false}>
                         Features
                       </a>
                     </li>
-                    <li className="nav-header-item mx-3">
+                    <li className="nav-header-item mx-3 my-4 my-lg-0">
                       <a className='nav-top-link' href={() => false}>
                         Teams
                       </a>
                     </li>
-                    <li className="nav-header-item mx-3" >
+                    <li className="nav-header-item mx-3 my-4 my-lg-0" >
                       <a className='nav-top-link' href={() => false}>
                         Resources
                       </a>
                     </li>
-                    <li className="nav-header-item mx-3">
+                    <li className="nav-header-item mx-3 my-4 my-lg-0">
                       <a className='nav-top-link' href={() => false}>
                         Enterprise
                       </a>
                     </li>
-                    <li className="nav-header-item ms-lg-2">
+                    <li className="nav-header-item ms-lg-3 my-4 my-lg-0">
                       <a className='nav-top-link' href={() => false}>
                         Pricing
                       </a>
                     </li>
                   </ul>
-                  <div className="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-3">
+                  <div className="d-flex flex-column flex-lg-row mt-4 my-lg-0 justify-content-center align-items-center gap-3">
                     <a href="/login" onClick={routeChangeToLogin} className='lato-font login pe-3 px-1 py-1'>
                       Sign In
                     </a>

@@ -2,6 +2,12 @@ import React from 'react';
 import './Main.css'
 import Container from 'react-bootstrap/Container';
 
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import CloudIcon from '@mui/icons-material/Cloud';
+import FolderIcon from '@mui/icons-material/Folder';
+import HomeIcon from '@mui/icons-material/Home';
+import HubIcon from '@mui/icons-material/Hub';
+
 import discover from '../../images/discover.png';
 import addTask from '../../images/add_task.png';
 import collaboration from '../../images/collaboration.png';
@@ -23,7 +29,7 @@ const Main = () => {
                 <img src={coconut} className="coconut mw-100 pb-3 ms-xl-2 w-100 text-center" alt="coconut" />
             </a></span></h1>
           </div>
-          <div className="right-header-block pt-3">
+          <div className="right-header-block pt-3 pb-4">
             <p className="description text-center">
               Want to achieve great results within your team or organization?
             </p>
@@ -41,10 +47,53 @@ const Main = () => {
 
         </div>
         <div className='pt-5'>
-          <div className='d-flex justify-content-center'>
-            <a className="m-auto" href={() => false}>
-                <img src={computer_look} className="hp-screenshot mw-100 w-100 text-center" alt="computer_look" />
-            </a>
+          <div className='d-flex justify-content-center flex-column flex-lg-row'>
+            <div className='col-lg-6 computer-look-div'>
+              <a className="m-auto" href={() => false}>
+                <img src={computer_look} className="hp-screenshot w-100" alt="computer_look" />
+              </a>
+            </div>
+            <div className='col-lg-6 m-auto mt-4 mt-lg-auto'>
+              <h2 className='nunito-sans-font-600 fafafa-color computer-look-header text-center mb-3'>The Productivity Hub<HubIcon  className="mb-2 ms-1" style={{width:"2.25rem", height: "2.25rem"}}></HubIcon></h2>
+              {/* <p className='nunito-sans-font fafafa-color computer-look-description text-lg-left'>
+                <FolderIcon className='ms-4 me-2'></FolderIcon>
+                <span>Stay organized with Coco Boards</span>
+              </p>
+              <p className='nunito-sans-font fafafa-color computer-look-description text-lg-left mx-5'>
+                <span className='text-right bg-primary'>Stay organized with Coco Boards</span>
+              </p> */}
+              <div className='ms-4 me-2 fafafa-color'>
+                <div>
+                  <div className='nunito-sans-font-600 computer-look-description'>
+                    <span><FolderIcon className='ms-2 me-3 computer-look-icon mb-2'></FolderIcon></span>
+                    Stay organized with Coco Boards
+                  </div>
+                  <div className='ms-5'>
+                    <p className='ms-2 nunito-sans-font computer-look-sub-description'>
+                      Allow your team members to see who is working on what, and for how long
+                    </p>
+                  </div>
+                </div>
+
+
+                <div>
+                  <div className='nunito-sans-font-600 computer-look-description'>
+                    <span><AssignmentTurnedInIcon className='ms-2 me-3 computer-look-icon mb-2'></AssignmentTurnedInIcon></span>
+                    Easily manage tasks and projects 
+                  </div>
+                  <div className='ms-5'>
+                    <p className='ms-2 nunito-sans-font computer-look-sub-description'>
+                      Tracking, managing, and completing your tasks has never been easier with Cocollab
+                    </p>
+                  </div>
+                </div>
+                <div className='text-center pt-2'>
+                  <a href="/signup">
+                    <button className='btn fafafa-color nunito-sans-font register p-2' style={{width: "10rem"}}>Start cocollabin'</button>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         
