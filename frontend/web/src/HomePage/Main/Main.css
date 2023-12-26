@@ -113,3 +113,30 @@ a {
     width: 2rem !important;
     height: 2rem !important;
 }
+.register-home-page, .learn_more-home-page {
+    color: #fafafa !important;
+    text-transform: capitalize !important;
+    font-size: 0.98rem !important;
+    font-weight: 500 !important;
+    border-radius: 30px !important;
+    padding: 0.8rem 1.1rem !important;
+}
+.register-home-page {
+    background-color: #121212 !important;
+    border: 1px solid #121212 !important;
+}
+.register-home-page:hover {
+    background-color: #4296af !important;
+    color: #fafafa;
+    border: 1px solid #4296af !important;
+}
+.learn_more-home-page {
+    background-color: #4294af !important;
+    border: 1px solid #4294af !important;
+    color: #fafafa !important;
+}
+.learn_more-home-page:hover {
+    background-color: #5b25c1 !important;
+    color: #fafafa !important;
+    border: 1px solid #5b25c1 !important;
+}

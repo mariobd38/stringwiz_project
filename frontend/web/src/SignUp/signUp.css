@@ -3,22 +3,25 @@
     font-size: 0.97em;
 }
 .signup-top-text {
-    font-size: 50px;
-    font-family: 'Ubuntu', serif;
-    font-weight: 700;
-    color: black;
+    font-size: 3.8rem;
+    color: #121212;
 }
 .illustration-div {
     height: 100vh;
     background-color: #551de2;
-    padding: 0 10px;
+    padding: 0 1rem;
 }
 .illustration {
-    width: 31.9rem !important;
+    width: 32rem !important;
 }
 @media(width > 1280px) {
     .illustration-div {
-        padding: 0 60px;
+        padding: 0 3rem;
+    }
+}
+@media(max-width: 1280px) {
+    .illustration {
+        width: 28rem !important;
     }
 }
 @media (max-width: 991px) {
@@ -29,13 +32,16 @@
 }
 .input-group,.register-continue {
     margin: auto;
-    width: 25em;
+    width: 25rem;
 }
 .register-continue {
-    background-color: black;
+    background-color: #121212;
 }
 .register-continue:hover {
     background-color: #551de2;
+}
+.register-continue:active {
+    background-color: #121212 !important;
 }
 .form-control::placeholder {
     font-family: 'Lato', serif;
@@ -43,17 +49,24 @@
 }
 .form-control {
     border-left: none;
+    border-radius: 12px;
+    border-color: #cfcfcf;
+}
+.form-control:focus {
+    border: 1.3px solid #82dfc4;
+    box-shadow: none !important;
 }
 .input-group-text {
     background-color: #f7f7f7;
-    
+    border-radius: 12px;
+    border-color: #cfcfcf;
 }
 .input-label {
     margin:auto;
     width: 25em;
     text-align:start;
-    padding-left: 3px;
-    font-family: 'Lato', serif;
+    padding-left: 0.1rem;
+    font-family: 'Nunito Sans', serif;
     color: #5a5a5a;
 }
 .logo_icon {
@@ -69,4 +82,29 @@
 }
 .login-text:hover {
     color: #551de2;
+}
+.coconut-sign-up-text {
+    width: 2.95rem !important;
+}
+.signup-icon {
+    color: #121212;
+    width: 1.3rem !important;
+}
+.password-form-control:focus + .visibility-btn {
+    border-color: #82dfc4 !important;
+}
+.visibility-btn {
+    border-top-right-radius: 12px !important;
+    border-bottom-right-radius: 12px !important;
+    background-color: white;
+    border: 1px solid #cfcfcf !important;
+    border-left: none !important;
+}
+
+.visibility-icon {
+    color: #121212 !important;
+    width: 1.2rem !important;
+}
+.password-form-control {
+    border-right: none !important;
 }

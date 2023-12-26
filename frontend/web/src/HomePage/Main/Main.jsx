@@ -3,10 +3,10 @@ import './Main.css'
 import Container from 'react-bootstrap/Container';
 
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
-import CloudIcon from '@mui/icons-material/Cloud';
 import FolderIcon from '@mui/icons-material/Folder';
-import HomeIcon from '@mui/icons-material/Home';
 import HubIcon from '@mui/icons-material/Hub';
+
+import Button from '@mui/material/Button';
 
 import discover from '../../images/discover.png';
 import addTask from '../../images/add_task.png';
@@ -37,9 +37,13 @@ const Main = () => {
             <p className="description text-center">Begin the journey today.</p>
             <div className="d-flex justify-content-center pt-2">
               <a href="/signup">
-                <button className="btn register fafafa-color p-3 mx-5">Get Started</button>
+                <Button className=" register-home-page mx-3 nunito-sans-font">Get Started</Button>
+              </a>
+              <a href="/signup">
+                <Button className="learn_more-home-page mx-3 nunito-sans-font">Learn More</Button>
               </a>
             </div>
+            
             <p className="description text-center pt-3" style={{ fontSize: '0.9em', color: '#fafafa' }}>
               No credit card needed · Start with a free plan
             </p>
@@ -54,7 +58,7 @@ const Main = () => {
               </a>
             </div>
             <div className='col-lg-6 m-auto mt-4 mt-lg-auto'>
-              <h2 className='nunito-sans-font-600 fafafa-color computer-look-header text-center mb-3'>The Productivity Hub<HubIcon  className="mb-2 ms-1" style={{width:"2.25rem", height: "2.25rem"}}></HubIcon></h2>
+              <h2 className='nunito-sans-font-600 fafafa-color computer-look-header text-center mb-3'>The Productivity Hub<HubIcon  className="mb-2 ms-1" style={{width:"2.1rem", height: "2.1rem"}}></HubIcon></h2>
               {/* <p className='nunito-sans-font fafafa-color computer-look-description text-lg-left'>
                 <FolderIcon className='ms-4 me-2'></FolderIcon>
                 <span>Stay organized with Coco Boards</span>
@@ -66,11 +70,11 @@ const Main = () => {
                 <div>
                   <div className='nunito-sans-font-600 computer-look-description'>
                     <span><FolderIcon className='ms-2 me-3 computer-look-icon mb-2'></FolderIcon></span>
-                    Stay organized with Coco Boards
+                    Stay organized with CocoBoards
                   </div>
                   <div className='ms-5'>
                     <p className='ms-2 nunito-sans-font computer-look-sub-description'>
-                      Allow your team members to see who is working on what, and for how long
+                      Boards serve to allow your team members to see who is working on what, and for how long
                     </p>
                   </div>
                 </div>
