@@ -42,18 +42,4 @@
     padding: 1.5rem 2.5rem 4rem 2.5rem;
     border-radius: 20px;
     background-color: #f7f7f7;
-    /* background-color: red; */
-
-}
-.sss {
-    background: #4e21d9; 
-    background: -webkit-linear-gradient(to right, #4e21d9, #cc655e); 
-    background: linear-gradient(to right, #4e21d9, #cc655e);
-}
-.coconut-text {
-    width: 2.6rem !important;
-    padding-bottom: 0.45rem;
-}
-.cocollabs-logo {
-    font-size: 3.5rem !important;
 }

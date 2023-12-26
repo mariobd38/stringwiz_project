@@ -60,10 +60,9 @@ const Login = () => {
         <Container className="container center-screen text-center flex-column d-flex align-items-center gap-3">
         {/* <div className="container center-screen text-center flex-column d-flex align-items-center gap-3"> */}
         <div className="sign-in m-auto">
-        {/* <CocollabLogo></CocollabLogo> */}
             <div className="sign-in-header">
                 <div className='d-flex justify-content-center'>
-                <CocollabLogo></CocollabLogo>
+                <CocollabLogo width={2.7} paddingBottom={0.45} fontSize={3.5}></CocollabLogo>
 
                 </div>
             <h1 className="text-center login-header-text pt-5">

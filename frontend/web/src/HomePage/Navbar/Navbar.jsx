@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import './Navbar.css';
 import cocollabs_logo from '../../images/cocollabs_logo.png';
+import CocollabLogo from '../../Logo/logo';
 
 
 function Navbar () {
@@ -41,17 +42,7 @@ function Navbar () {
     return (
         <nav className="navbar navbar-expand-lg sticky-top home-page-navbar" style={{ height: "6.2rem" }}>
             <Container fluid>
-
-            <div className="img-fluid">
-              <a className="navbar-brand m-auto fs-4" href="/">
-                <img
-                  src={cocollabs_logo}
-                  className="img-fluid-custom"
-                  alt="Cocollabs"
-                />
-              </a>
-            </div>
-
+            <CocollabLogo width={2.1} paddingBottom={0.4} fontSize={2.6}></CocollabLogo>
             <button
               className="navbar-toggler shadow-none border-0"
               type="button"
@@ -70,21 +61,15 @@ function Navbar () {
               {/* Offcanvas content */}
               <div className="offcanvas-content" >
                 <div className="offcanvas-header border-bottom">
-                  <div className="img-fluid">
-                    <a className="navbar-brand m-auto fs-4" href="/">
-                      <img
-                        src={cocollabs_logo}
-                        className="img-fluid-custom"
-                        alt="String"
-                      />
-                    </a>
+                  <div className='d-flex justify-content-center'>
+                    <CocollabLogo width={2.1} paddingBottom={0.4} fontSize={2.6}></CocollabLogo>
                   </div>
                   <button
                     type="button"
                     className="btn-close shadow-none"
                     onClick={toggleOffcanvas}
                     aria-label="Close"
-                  ></button>
+                  ></button>                  
                 </div>
                 <div className="offcanvas-body d-flex flex-column flex-lg-row p-4 p-lg-0">
                   <ul className="navbar-nav justify-content-center align-items-center fs-5 flex-grow-1 pe-3">

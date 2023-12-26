@@ -14,9 +14,6 @@ import collaboration from '../../images/collaboration.png';
 import computer_look from '../../images/looking_at_computer.jpg';
 import coconut from '../../images/coconut.png';
 
-
-
-
 const Main = () => {
     const main = <main>
     <div className="header pb-5">
@@ -25,9 +22,11 @@ const Main = () => {
           <div className="d-none d-lg-block left-header-block">
             <h1 className="left-header-text">Let's Plan.</h1>
             <h1 className="left-header-text">Let's Manage.</h1>
-            <h1 className="left-header-text">Let's Collab.<span><a className="m-auto" href={() => false}>
+            <h1 className="left-header-text">Let's Collab.
+            <span><a className="m-auto" href={() => false}>
                 <img src={coconut} className="coconut mw-100 pb-3 ms-xl-2 w-100 text-center" alt="coconut" />
-            </a></span></h1>
+            </a></span>
+            </h1>
           </div>
           <div className="right-header-block pt-3 pb-4">
             <p className="description text-center">

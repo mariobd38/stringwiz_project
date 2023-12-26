@@ -7,7 +7,9 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 
 import './signUp.css'
-import coconut from '../images/coconut.png';
+import { emailRegexUtil } from "../utils/emailRegexUtil";
+import CocollabLogo from '../Logo/logo';
+
 
 
 const SignUp = () => {
@@ -20,80 +22,87 @@ const SignUp = () => {
     const [userFullName, setUserFullName] = useLocalState("", "userFullName");
     // let error = '';
      
-      const [error, setError] = useState({
+    const [error, setError] = useState({
         fullName: '',
         password: '',
         confirmPassword: ''
-      })
+    })
 
 
-      function sendSignUpRequest() {
+    function sendSignUpRequest() {
         let passwordsMatch = true;
-        setError({ ...error, fullName: '' }); // Clear any previous errors
-      
+        setError({ ...error, fullName: '' });
+        
         if (password !== confirmPassword) {
-          passwordsMatch = false;
+            passwordsMatch = false;
         }
         const reqBody = {
-          fullName: fullName,
-          email: email,
-          password: password
+            fullName: fullName,
+            email: email,
+            password: password
         };
         const userFullNameInfo = {
             userFullName: userFullName
-          };
+        };
+
         fetch("api/auth/signup", {
-          headers: {
+            headers: {
             "Content-Type": "application/json",
-          },
-          method: "post",
-          body: JSON.stringify(reqBody),
-          userFullName: JSON.stringify(userFullNameInfo),
+            },
+            method: "post",
+            body: JSON.stringify(reqBody),
+            userFullName: JSON.stringify(userFullNameInfo),
         })
-          .then((response) => {
-            if (response.status === 200 && passwordsMatch) {
+            .then((response) => {
+
+            if (!emailRegexUtil(email)) {
+                setError({ ...error, confirmPassword: "Email is invalid" });
+                return Promise.reject("Invalid registration attempt: Email is invalid");
+            }
+            else if (response.status === 200 && passwordsMatch) {
                 return Promise.all([response.headers]);
             } else if (!passwordsMatch) {
-                setError({ ...error, confirmPassword: "Passwords must match" });
+                setError({ ...error, confirmPassword: "Passwords must matchs" });
                 return Promise.reject("Passwords do not match");
             } else if (fullName.split(' ').length < 2) {
                 setError({ ...error, fullName: "First and last name are required" });
+                console.log("womp womp")
                 return Promise.reject("Invalid registration attempt: only one name");
             } else if (response.status === 409) {
-              setError({ ...error, confirmPassword: "User already registered" });
-              return Promise.reject("Invalid registration attempt: User Already Exists");
+                setError({ ...error, confirmPassword: "User already registered" });
+                return Promise.reject("Invalid registration attempt: User Already Exists");
             } else {
                 return Promise.reject("Invalid registration attempt");
             }
-          })
-          .then(([headers]) => {
+        })
+        .then(([headers]) => {
             setUserEmail(email);
             setUserFullName(fullName);
             setJwt(headers.get("authorization"));
             window.location.href = '/home';
-          })
-          .catch((message) => {
+        })
+        .catch((message) => {
             console.log(message);
-          });
-      } 
+        });
+    } 
       
-      const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
-      const togglePasswordVisibility = () => {
+    const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
-      };
+    };
 
-      const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-      const toggleConfirmPasswordVisibility = () => {
+    const toggleConfirmPasswordVisibility = () => {
         setShowConfirmPassword(!showConfirmPassword);
-      };
+    };
 
 
 
     function handleSubmit (e) {
         e.preventDefault();
-      };
+    };
 
 
 
@@ -103,17 +112,7 @@ const SignUp = () => {
           <div className="sign-up-header pt-5">
             <h1 className="text-center signup-top-text nunito-sans-font-600">
               Welcome to{' '}
-              <div>
-                <a href="/">
-                  <span style={{ color: '#58bcdb', fontFamily: 'Baron Neue, serif' }}>COC</span>
-                  <span>
-                    <a className="m-auto" href={() => false}>
-                      <img src={coconut} className="coconut-sign-up-text pb-2 mx-1 " alt="coconut" />
-                    </a>
-                  </span>
-                  <span style={{ color: '#4296af', fontFamily: 'Baron Neue, serif' }}>LLABS</span>
-                </a>
-              </div>
+              <CocollabLogo width={2.75} paddingBottom={0.55} fontSize={3.5}></CocollabLogo>
             </h1>
           <h4 className="text-center bottom-description lato-font">Get started - it's free. No credit card needed.</h4>
         </div>
