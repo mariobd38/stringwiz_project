@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocalState } from '../utils/useLocalStorage';
 import teamwork from '../images/teamwork_high_five.png';
 
@@ -7,7 +7,6 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 
 import './signUp.css'
-import { emailRegexUtil } from "../utils/emailRegexUtil";
 import CocollabLogo from '../Logo/logo';
 
 
@@ -20,71 +19,49 @@ const SignUp = () => {
     const [jwt, setJwt] = useLocalState("","jwt");
     const [userEmail, setUserEmail] = useLocalState("", "userEmail");
     const [userFullName, setUserFullName] = useLocalState("", "userFullName");
-    // let error = '';
-     
-    const [error, setError] = useState({
-        fullName: '',
-        password: '',
-        confirmPassword: ''
-    })
 
+    const [errorMessages, setErrorMessages] = useState([]);
+
+  
 
     function sendSignUpRequest() {
-        let passwordsMatch = true;
-        setError({ ...error, fullName: '' });
-        
-        if (password !== confirmPassword) {
-            passwordsMatch = false;
-        }
-        const reqBody = {
-            fullName: fullName,
-            email: email,
-            password: password
-        };
-        const userFullNameInfo = {
-            userFullName: userFullName
-        };
-
-        fetch("api/auth/signup", {
-            headers: {
-            "Content-Type": "application/json",
-            },
-            method: "post",
-            body: JSON.stringify(reqBody),
-            userFullName: JSON.stringify(userFullNameInfo),
-        })
-            .then((response) => {
-
-            if (!emailRegexUtil(email)) {
-                setError({ ...error, confirmPassword: "Email is invalid" });
-                return Promise.reject("Invalid registration attempt: Email is invalid");
-            }
-            else if (response.status === 200 && passwordsMatch) {
-                return Promise.all([response.headers]);
-            } else if (!passwordsMatch) {
-                setError({ ...error, confirmPassword: "Passwords must matchs" });
-                return Promise.reject("Passwords do not match");
-            } else if (fullName.split(' ').length < 2) {
-                setError({ ...error, fullName: "First and last name are required" });
-                console.log("womp womp")
-                return Promise.reject("Invalid registration attempt: only one name");
-            } else if (response.status === 409) {
-                setError({ ...error, confirmPassword: "User already registered" });
-                return Promise.reject("Invalid registration attempt: User Already Exists");
-            } else {
-                return Promise.reject("Invalid registration attempt");
-            }
+      setErrorMessages([]);
+      const reqBody = {
+        fullName: fullName,
+        email: email,
+        password: password,
+        confirmPassword: confirmPassword
+      };
+      const userFullNameInfo = {
+        userFullName: userFullName
+      };
+    
+      fetch("api/auth/signup", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "post",
+        body: JSON.stringify(reqBody),
+        userFullName: JSON.stringify(userFullNameInfo),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            return response.json().then((data) => {
+              throw new Error(data.join("\n"));
+            });
+          }
+          return Promise.all([response.headers]);
         })
         .then(([headers]) => {
-            setUserEmail(email);
-            setUserFullName(fullName);
-            setJwt(headers.get("authorization"));
-            window.location.href = '/home';
+          setUserEmail(email);
+          setUserFullName(fullName.replace(/\s+/g, ' '));
+          setJwt(headers.get("authorization"));
+          window.location.href = '/home';
         })
-        .catch((message) => {
-            console.log(message);
+        .catch((error) => {
+          setErrorMessages(error.message.split("\n"));
         });
-    } 
+    }
       
     const [showPassword, setShowPassword] = useState(false);
 
@@ -98,18 +75,14 @@ const SignUp = () => {
         setShowConfirmPassword(!showConfirmPassword);
     };
 
-
-
     function handleSubmit (e) {
         e.preventDefault();
     };
 
-
-
     return (
       <div className="signup-center-screen flex-column flex-lg-row d-flex justify-content-between align-items-center gap-3">
         <div className="sign-up m-auto">
-          <div className="sign-up-header pt-5">
+          <div className="sign-up-header ">
             <h1 className="text-center signup-top-text nunito-sans-font-600">
               Welcome to{' '}
               <CocollabLogo width={2.75} paddingBottom={0.55} fontSize={3.5}></CocollabLogo>
@@ -122,10 +95,10 @@ const SignUp = () => {
 
             <div className="input-label">
               <label htmlFor="fullName" className="text-start">
-                Full Name
+                Full Name *
               </label>
             </div>
-            <div className="input-group mb-1">
+            <div className="input-group mb-3">
               <span className="input-group-text" id="user-addon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-fill" viewBox="0 0 16 16">
                   <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
@@ -139,22 +112,16 @@ const SignUp = () => {
                 aria-label="fullName"
                 aria-describedby="user-addon"
                 name="fullName"
-                required
+                // required
                 autoFocus="autofocus"
                 value={fullName} onChange={(e) => {setFullName(e.target.value);} }
                 autoComplete="off"
               />
             </div>
-            
-
-            <div className='pb-3'>
-              {error.fullName && <span className='error-message'>{error.fullName}</span>}
-            </div>
-
 
             <div className="input-label">
               <label htmlFor="email" className="text-start">
-                Email (Personal / Company)
+                Email (Personal / Work) *
               </label>
             </div>
             <div className="input-group mb-3">
@@ -164,14 +131,14 @@ const SignUp = () => {
                 </svg>
               </span>
               <input
-                type="email"
+                // type="email"
                 id="email"
                 className="form-control"
                 placeholder="name@site.com"
                 aria-label="email"
                 aria-describedby="email-addon"
                 name="email"
-                required
+                //required
                 value={email} onChange={(e) => {setEmail(e.target.value);}}
                 autoComplete="off"
               />
@@ -179,7 +146,7 @@ const SignUp = () => {
 
             <div className="input-label">
               <label htmlFor="password" className="text-start">
-                Password
+                Password *
               </label>
             </div>
             <div className="input-group mb-3">
@@ -197,8 +164,8 @@ const SignUp = () => {
                 aria-describedby="password-addon"
                 name="password"
                 autoComplete="off"
-                required
-                minLength="8"
+                //uired
+                // minLength="8"
                 value={password} 
                 onChange={(e) => {setPassword(e.target.value);}}
               />
@@ -209,10 +176,10 @@ const SignUp = () => {
 
             <div className="input-label">
               <label htmlFor="password-confirm" className="text-start">
-                Confirm Password
+                Confirm Password *
               </label>
             </div>
-            <div className="input-group mb-2">
+            <div className="input-group mb-3">
               <span className="input-group-text" id="password-confirm-addon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-shield-lock-fill" viewBox="0 0 16 16">
                   <path fillRule="evenodd" d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.777 11.777 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7.159 7.159 0 0 0 1.048-.625 11.775 11.775 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.541 1.541 0 0 0-1.044-1.263 62.467 62.467 0 0 0-2.887-.87C9.843.266 8.69 0 8 0zm0 5a1.5 1.5 0 0 1 .5 2.915l.385 1.99a.5.5 0 0 1-.491.595h-.788a.5.5 0 0 1-.49-.595l.384-1.99A1.5 1.5 0 0 1 8 5z" />
@@ -226,8 +193,8 @@ const SignUp = () => {
                 aria-label="password"
                 aria-describedby="password-confirm-addon"
                 name="confirmPassword"
-                required
-                minLength="8"
+                //required
+                // minLength="8"
                 value={confirmPassword} onChange={(e) => {setConfirmPassword(e.target.value);}}
               />
               <Button className="visibility-btn" onClick={toggleConfirmPasswordVisibility}>
@@ -235,12 +202,23 @@ const SignUp = () => {
               </Button>
             </div>
 
-            <div className='pb-3'>
-              {error.confirmPassword && <span className='error-message'>{error.confirmPassword}</span>}
-            </div>
+            {errorMessages && errorMessages.length > 1 ? (
+              <ul className='error-message' style={{ listStyle: 'none' }}>
+                {errorMessages.map((message, index) => (
+                  <li key={index}>{message}</li>
+                ))}
+              </ul>
+            ) : (
+              errorMessages && errorMessages.length === 1 ? (
+                <div className='error-message'>
+                  {errorMessages.map((message, index) => (
+                    <p key={index}>{message}</p>
+                  ))}
+                </div>
+              ) : null
+            )}
 
-
-            <button className="btn register-continue text-white text-center" type="submit" onClick={() => sendSignUpRequest()}>
+            <button className="btn register-continue text-white text-center mt-2" type="submit" onClick={() => sendSignUpRequest()}>
               Continue
             </button>
           </form>

@@ -36,7 +36,7 @@ const HomeNavbar = () => {
     const [userFullName] = useLocalState('', 'userFullName');
     const [firstName, lastName] = userFullName.split(' ');
     const initials = (firstName[0] + lastName[0]).toUpperCase();
-
+    console.log("full name: " + lastName);
     const logout = () => {
         localStorage.clear();
         window.location.href = '/';

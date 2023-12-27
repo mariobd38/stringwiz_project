@@ -6,7 +6,7 @@ import com.stringwiz.app.models.User;
 import com.stringwiz.app.repositories.RoleRepository;
 import com.stringwiz.app.repositories.UserRepository;
 import com.stringwiz.app.utils.RoleSelectorUtil;
-import com.stringwiz.app.web.UserAuthenticationDto;
+import com.stringwiz.app.validations.UserRegistrationDataValidation;
 import com.stringwiz.app.web.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,10 +24,10 @@ public class CustomUserService implements UserService {
     private UserRepository userRepository;
     @Autowired private RoleRepository roleRepository;
     @Autowired private PasswordEncoder passwordEncoder;
+    @Autowired private UserRegistrationDataValidation dataValidation;
     @Override
-    public void saveUser(UserRegistrationDto userRegistrationDto) {
-        User user = new User(userRegistrationDto.getFullName(), userRegistrationDto.getEmail(), userRegistrationDto.getPassword(), true);
-        user.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword()));
+    public void saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         List<Role.RoleNames> roleNames = new RoleSelectorUtil().getRolesFromEmail(user.getEmail());
         List<Role> roleList = new ArrayList<>();
@@ -45,13 +45,34 @@ public class CustomUserService implements UserService {
         }
         user.setRoles(roleList);
         userRepository.save(user);
-
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByEmail(email);
         return user.orElseThrow(() -> new UsernameNotFoundException("Invalid username or password."));
+    }
 
+    public List<String> userRegistrationValidation(UserRegistrationDto request) {
+        List<String> errorMessages = new ArrayList<>();
+        if (!dataValidation.validateNewUser(request.getEmail())) { //user already exists
+            errorMessages.add("This account is already registered. Please login");
+            System.out.println("ok");
+        } else {
+            if (!dataValidation.validateEmail(request.getEmail())) { //email format is invalid/missing
+                errorMessages.add("Email is invalid or missing");
+            }
+            if (!dataValidation.validateFullName(request.getFullName())) { //user did not enter a first and last name
+                errorMessages.add("First and last name are required");
+            }
+            if (!dataValidation.validatePasswords(request.getPassword(), request.getConfirmPassword())) {
+                errorMessages.add("Passwords do not match");
+            }
+            if (!dataValidation.passwordsMatch(request.getPassword(), request.getConfirmPassword())) {
+                errorMessages.add("Password is less than 8 characters long");
+            }
+        }
+        System.out.println(errorMessages);
+        return errorMessages;
     }
 }

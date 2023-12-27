@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 import Container from 'react-bootstrap/Container';
 import './Navbar.css';
-import cocollabs_logo from '../../images/cocollabs_logo.png';
 import CocollabLogo from '../../Logo/logo';
 
 

@@ -86,7 +86,7 @@ const Main = () => {
                   </div>
                   <div className='ms-5'>
                     <p className='ms-2 nunito-sans-font computer-look-sub-description'>
-                      Tracking, managing, and completing your tasks has never been easier with Cocollab
+                      Tracking, managing, and completing your tasks has never been easier with Cocollabs
                     </p>
                   </div>
                 </div>

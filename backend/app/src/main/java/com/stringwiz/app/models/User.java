@@ -83,16 +83,14 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public User(String fullName, String email, String password, Boolean isnewUser) {
-        this.fullName = fullName;
+    public User(String fullName, String email, String password) {
+        this.fullName = fullName.replaceAll("\\s+", " ");
         setFirstName();
         setLastName();
         this.email = email;
         this.password = password;
         Timestamp currentTime = new Timestamp(new Date().getTime());
-        if (isnewUser) {
-            this.createdOn = currentTime;
-        }
+        this.createdOn = currentTime;
         this.lastUpdatedOn = currentTime;
     }
 
@@ -101,7 +99,7 @@ public class User implements UserDetails {
     }
 
     public void setLastName() {
-        this.lastName = fullName.substring(fullName.indexOf(' ')+1);
+        this.lastName = fullName.substring(fullName.indexOf(' ')+1).trim();
     }
 
 
