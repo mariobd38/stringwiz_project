@@ -26,11 +26,15 @@ public class AuthController {
     @Autowired private AuthenticationManager authenticationManager;
     @Autowired private JwtUtil jwtUtil;
     @Autowired private CustomUserService customUserService;
-    @Autowired private UserRepository userRepository;
 
     @PostMapping("/api/auth/login")
     public ResponseEntity<?> login(@RequestBody UserAuthenticationDto request) {
         try {
+            String errorMessage = customUserService.userAuthenticationValidation(request);
+            if (errorMessage != null) {
+                System.out.println(errorMessage);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+            }
             Authentication authenticate = authenticationManager
                 .authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -58,7 +62,7 @@ public class AuthController {
         try {
             List<String> errorMessages = customUserService.userRegistrationValidation(request); // validates user registration data
             if (!errorMessages.isEmpty()) {
-                return ResponseEntity.badRequest().body(errorMessages);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages);
             }
             User user = new User(request.getFullName(), request.getEmail(), request.getPassword());
             //emailUtil.sendEmail(request.getEmail());

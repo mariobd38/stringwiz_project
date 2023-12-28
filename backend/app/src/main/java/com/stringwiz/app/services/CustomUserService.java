@@ -6,7 +6,9 @@ import com.stringwiz.app.models.User;
 import com.stringwiz.app.repositories.RoleRepository;
 import com.stringwiz.app.repositories.UserRepository;
 import com.stringwiz.app.utils.RoleSelectorUtil;
+import com.stringwiz.app.validations.UserAuthenticationDataValidation;
 import com.stringwiz.app.validations.UserRegistrationDataValidation;
+import com.stringwiz.app.web.UserAuthenticationDto;
 import com.stringwiz.app.web.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +26,8 @@ public class CustomUserService implements UserService {
     private UserRepository userRepository;
     @Autowired private RoleRepository roleRepository;
     @Autowired private PasswordEncoder passwordEncoder;
-    @Autowired private UserRegistrationDataValidation dataValidation;
+    @Autowired private UserRegistrationDataValidation registrationDataValidation;
+    @Autowired private UserAuthenticationDataValidation authDataValidation;
     @Override
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -53,26 +56,34 @@ public class CustomUserService implements UserService {
         return user.orElseThrow(() -> new UsernameNotFoundException("Invalid username or password."));
     }
 
+    public String userAuthenticationValidation(UserAuthenticationDto request) {
+        String errorMessage = null;
+        if (authDataValidation.emailOrPasswordMissing(request.getEmail(), request.getPassword())) {
+            errorMessage = "Email and/or password is missing";
+        } else if (!registrationDataValidation.validateEmail(request.getEmail())) {
+            errorMessage = "Email is invalid";
+        }
+        return errorMessage;
+    }
+
     public List<String> userRegistrationValidation(UserRegistrationDto request) {
         List<String> errorMessages = new ArrayList<>();
-        if (!dataValidation.validateNewUser(request.getEmail())) { //user already exists
+        if (!registrationDataValidation.validateNewUser(request.getEmail())) { //user already exists
             errorMessages.add("This account is already registered. Please login");
-            System.out.println("ok");
         } else {
-            if (!dataValidation.validateEmail(request.getEmail())) { //email format is invalid/missing
+            if (!registrationDataValidation.validateEmail(request.getEmail())) { //email format is invalid/missing
                 errorMessages.add("Email is invalid or missing");
             }
-            if (!dataValidation.validateFullName(request.getFullName())) { //user did not enter a first and last name
+            if (!registrationDataValidation.validateFullName(request.getFullName())) { //user did not enter a first and last name
                 errorMessages.add("First and last name are required");
             }
-            if (!dataValidation.validatePasswords(request.getPassword(), request.getConfirmPassword())) {
+            if (!registrationDataValidation.validatePasswords(request.getPassword(), request.getConfirmPassword())) {
                 errorMessages.add("Passwords do not match");
             }
-            if (!dataValidation.passwordsMatch(request.getPassword(), request.getConfirmPassword())) {
+            if (!registrationDataValidation.passwordsMatch(request.getPassword(), request.getConfirmPassword())) {
                 errorMessages.add("Password is less than 8 characters long");
             }
         }
-        System.out.println(errorMessages);
         return errorMessages;
     }
 }

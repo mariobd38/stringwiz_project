@@ -164,8 +164,6 @@ const SignUp = () => {
                 aria-describedby="password-addon"
                 name="password"
                 autoComplete="off"
-                //uired
-                // minLength="8"
                 value={password} 
                 onChange={(e) => {setPassword(e.target.value);}}
               />

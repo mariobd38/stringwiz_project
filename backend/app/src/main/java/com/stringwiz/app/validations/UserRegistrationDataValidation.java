@@ -8,20 +8,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
-public class UserRegistrationDataValidation {
+public class UserRegistrationDataValidation extends EmailRegexValidation {
     @Autowired UserRepository userRepository;
     public boolean validateNewUser(String email) {
         return userRepository.findByEmail(email).isEmpty();
     }
     public boolean validateFullName(String fullName) {
         return fullName.split("\\s+").length > 1;
-    }
-
-    public boolean validateEmail(String email) {
-        final String REGEX_FORMAT = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$";
-        Pattern pattern = Pattern.compile(REGEX_FORMAT);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
     }
 
     public boolean validatePasswords(String password, String confirmPassword) {
