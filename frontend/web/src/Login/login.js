@@ -18,7 +18,7 @@ const Login = () => {
     const [jwt, setJwt] = useLocalState("","jwt");
     const [userEmail, setUserEmail] = useLocalState("", "userEmail");
     const [userFullName, setUserFullName] = useLocalState("", "userFullName");
-    // document.body.style.backgroundColor = "#223654";
+
     document.body.style.background = "#4e21d9";
     document.body.style.background = "-webkit-linear-gradient(to right, #4e21d9, #cc655e)";
     document.body.style.background = "linear-gradient(to right, #4e21d9, #cc655e)";

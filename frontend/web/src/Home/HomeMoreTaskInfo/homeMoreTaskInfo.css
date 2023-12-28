@@ -112,7 +112,7 @@
     height: 2.3rem !important;
     color: #a1a1a1;
     background-color: #f1f1f1;;
-    padding: 5.8px;
+    padding: 0.3rem;
     border: 1.3px solid #a1a1a1;
     border-radius: 18%;
 }
@@ -207,7 +207,7 @@
     height: 0.65rem!important;
     vertical-align: middle !important;
     margin: auto !important;
-    margin-bottom: 2px !important;
+    margin-bottom: 0.1rem !important;
     display: none;
 }
 .created-date-div:hover .remove-due-date-btn {
@@ -230,7 +230,7 @@
     text-align: center !important;
 }
 .tag-dropdown-menu {
-    transform: translate3d(0px, 37px, 0px) !important;
+    transform: translate3d(0, 2.4rem, 0) !important;
     width: 18rem !important;
 }
 .tag-search-wrapper {
@@ -292,7 +292,7 @@
 .more-task-description {
     border: 1px solid #D1D1D1 !important;
     border-radius: 10px;
-    padding: 12px;
+    padding: 0.8rem;
     width: 80%;
     resize:vertical;
     font-family: 'Nunito Sans', serif !important;

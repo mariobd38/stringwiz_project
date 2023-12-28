@@ -6,9 +6,17 @@
     background-color: #58bcdb;
     display: flex; 
     border-radius: 50%;
-    width:3.5rem;
-    height:3.5rem;
+    width:3rem;
+    height:3rem;
     border: none !important ;
+}
+.nav-side-button {
+    display: flex; 
+    border-radius: 50%;
+    width:3.4rem;
+    height:3.4rem;
+    border: none !important ;
+    color: #fafafa;
 }
 .user-button:hover {
     border: none !important;
@@ -16,49 +24,39 @@
 }
 
 .initials {
-    color: black;
-    font-weight: 500;
-    font-size: 1.35em;
-    font-family: 'Ubuntu', serif;
+    font-size: 1.35rem;
+    font-family: 'Lato', serif;
     text-transform: uppercase;
-  }
-  .navbar {
-      background-color: #e7e7e7;
-  }
-  .notis {
-      border-radius: 30%;
-      padding: 8px;
-      width: 75% !important;
-      height: 75% !important;
-  }
-  .notis:hover {
-      background-color: #d1d1d1;
-      /* border: 1px solid red; */
-      border-radius: 30%;
-      transition: .3s;
-  }
-  .nav-top-link {
-      color: #223654 !important;
-      font-family: 'Lato', serif;
-      font-size: 1rem !important;
-  }
-
-  @media (max-width: 991px) {
-    .navbar-brand {
-        width: 250px !important;
-    }
+}
+.navbar {
+    background-color: #222222;
+}
+.notis {
+    border-radius: 30%;
+    padding: 0.5rem;
+    width: 75% !important;
+    height: 75% !important;
+}
+.notis:hover {
+    background-color: #d1d1d1;
+    border-radius: 30%;
+    transition: .3s;
+}
+.nav-top-link {
+    color: #223654 !important;
+    font-family: 'Lato', serif;
+    font-size: 1rem !important;
 }
 
 .logout {
-    background-color: white;
+    background-color: #fafafa;
     border: none;
-
-   width: 100% !important;
+    width: 100% !important;
 }
 .logout-menu {
     width: 108% !important;
     left: -31% !important;
-    margin-left: 46px !important;
+    margin-left: 2.9rem !important;
 }
 .logout-menu-icon {
     padding-left: 0.3% !important;

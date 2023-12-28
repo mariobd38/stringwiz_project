@@ -445,7 +445,7 @@ const HomeMoreTaskInfo = ((props)  => {
                             </div>
                             <div className='mt-3 mt-lg-0 col-12 col-lg-4  d-flex justify-content-start justify-content-lg-end'>
                                 <Tooltip title={<span className=' created-date-tooltip-text lato-font'>{[`Created by  ${userFullName} on ${currentTaskCreatedOn}`,<br />,`Last Updated on ${currentTaskUpdatedOn}`]}</span>} arrow className='created-date-tooltip menu-tooltip'>
-                                    <div className='created-date-div mx-2  mx-md-2'>
+                                    <div className=' mx-2  mx-md-2'>
                                         <div className='created-text'>Created</div>
                                         <div className='created-date-text'>{currentTaskCreatedOn}</div>
                                     </div>
@@ -456,7 +456,7 @@ const HomeMoreTaskInfo = ((props)  => {
                                     {currentTaskDueDate && currentTaskDueDate!=='Invalid Date' ? 
                                         <div>
                                             <div className='created-text'>Due Date</div>
-                                            <div className='created-date-text '>
+                                            <div className='created-date-text'>
                                                     <CancelIcon className='remove-due-date-btn' onClick={handleRemoveDueDateClick}></CancelIcon>
                                                 {currentTaskDueDate}
                                             </div>
