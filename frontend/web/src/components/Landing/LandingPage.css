@@ -3,6 +3,7 @@
     border: 2px solid #121212 !important;
     border-radius: 14px !important;
     color: #fafafa !important;
+    text-transform: capitalize !important;
 }
 .register:hover {
     background-color: #551de2 !important;
