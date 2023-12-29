@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useLocalState } from '../utils/useLocalStorage';
-import teamwork from '../images/teamwork_high_five.png';
+import { useLocalState } from '../../utils/useLocalStorage';
+import teamwork from '../../images/teamwork_high_five.png';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';

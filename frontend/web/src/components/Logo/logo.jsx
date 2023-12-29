@@ -1,5 +1,5 @@
 import React from 'react';
-import coconut from '../images/coconut.png';
+import coconut from '../../images/coconut.png';
 import './logo.css';
 
 const CocollabLogo = ({ width, paddingBottom, fontSize }) => {

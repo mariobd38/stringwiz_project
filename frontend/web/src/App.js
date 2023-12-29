@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router-dom";
 import React, { useEffect } from 'react';
 import './App.css';
-import Home from "./Home/home";
-import HomePage from "./HomePage/homePage";
-import Login from "./Login/login";
-import SignUp from "./SignUp/signUp";
+import Home from "./components/Home/home";
+import LandingPage from "./components/Landing/LandingPage";
+import Login from "./components/Login/login";
+import SignUp from "./components/SignUp/signUp";
 import PrivateRoute from "./PrivateRoute/privateRoute";
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
 
       <Route path="/signUp" element={<SignUp/> } />
 
-      <Route path="/" element={<HomePage/> } />
+      <Route path="/" element={<LandingPage/> } />
 
     </Routes>
   );

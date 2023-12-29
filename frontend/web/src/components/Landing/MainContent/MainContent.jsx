@@ -1,5 +1,5 @@
 import React from 'react';
-import './Main.css'
+import './MainContent.css'
 import Container from 'react-bootstrap/Container';
 
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
@@ -8,13 +8,13 @@ import HubIcon from '@mui/icons-material/Hub';
 
 import Button from '@mui/material/Button';
 
-import discover from '../../images/discover.png';
-import addTask from '../../images/add_task.png';
-import collaboration from '../../images/collaboration.png';
-import computer_look from '../../images/looking_at_computer.jpg';
-import coconut from '../../images/coconut.png';
+import discover from '../../../images/discover.png';
+import addTask from '../../../images/add_task.png';
+import collaboration from '../../../images/collaboration.png';
+import computer_look from '../../../images/looking_at_computer.jpg';
+import coconut from '../../../images/coconut.png';
 
-const Main = () => {
+const MainContent = () => {
     const main = <main>
     <div className="header pb-5">
       <Container className="pt-4">
@@ -169,4 +169,4 @@ const Main = () => {
     );
 };
 
-export default Main;
+export default MainContent;

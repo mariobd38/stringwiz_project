@@ -1,0 +1,16 @@
+.register {
+    background-color: #121212 !important;
+    border: 2px solid #121212 !important;
+    border-radius: 14px !important;
+    color: #fafafa !important;
+}
+.register:hover {
+    background-color: #4296af !important;
+    border-color: #4296af !important;
+    color: #fafafa !important;
+}
+.register:focus {
+    background-color: #222222 !important;
+    color: #fafafa !important;
+    border: 2px solid #222222 !important;
+}

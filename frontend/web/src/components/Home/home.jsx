@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocalState } from "../utils/useLocalStorage";
+import { useLocalState } from "../../utils/useLocalStorage";
 
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -52,18 +52,18 @@ import { DateField } from '@mui/x-date-pickers/DateField';
 
 import HomeNavbar from './HomeNavbar/homeNavbar';
 import HomeHeader from './HomeHeader/homeHeader';
-import {createTaskInfo} from '../DataManagement/Tasks/createTask';
-import {getTaskInfo} from '../DataManagement/Tasks/getTasks';
-import { updateTaskInfo } from '../DataManagement/Tasks/updateTask';
-import { deleteTaskInfo } from '../DataManagement/Tasks/deleteTask';
-import { createTagInfo } from '../DataManagement/Tags/createTag';
-import { addExistingTagInfo } from '../DataManagement/Tags/addExistingTag';
-import { getTagInfo } from '../DataManagement/Tags/getTags';
-import { getAllTagsInfo } from '../DataManagement/Tags/getAllTags';
+import {createTaskInfo} from '../../DataManagement/Tasks/createTask';
+import {getTaskInfo} from '../../DataManagement/Tasks/getTasks';
+import { updateTaskInfo } from '../../DataManagement/Tasks/updateTask';
+import { deleteTaskInfo } from '../../DataManagement/Tasks/deleteTask';
+import { createTagInfo } from '../../DataManagement/Tags/createTag';
+import { addExistingTagInfo } from '../../DataManagement/Tags/addExistingTag';
+import { getTagInfo } from '../../DataManagement/Tags/getTags';
+import { getAllTagsInfo } from '../../DataManagement/Tags/getAllTags';
 import HomeMoreTaskInfo from './HomeMoreTaskInfo/homeMoreTaskInfo';
 
-import relax from '../images/stringwiz_relax.png';
-import completed from '../images/cocollab_completed.png';
+import relax from '../../images/stringwiz_relax.png';
+import completed from '../../images/cocollab_completed.png';
 
 // import { Editor } from '../tinymce-react-demo/node_modules/@tinymce/tinymce-react';
 
