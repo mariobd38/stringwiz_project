@@ -44,14 +44,14 @@ ul li ul li {
   content: '';
   bottom: -0.2rem;
   left: 0;
-  height: 0.06rem;
+  height: 0.075rem;
   width: 0;
   background-color: #fafafa;
   transition: width 0.3s ease-in-out;
 }
 
 .nav-top-link:hover:after {
-  width: 100%; /* Apply underline effect on hover */
+  width: 100%;
 }
 .login {
   color: #fafafa !important;

@@ -90,7 +90,7 @@ const Login = () => {
         <div className="sign-in m-auto">
             <div className="sign-in-header">
                 <div className='d-flex justify-content-center'>
-                <CocollabLogo width={2.7} paddingBottom={0.45} fontSize={3.5}></CocollabLogo>
+                <CocollabLogo width={2.7} paddingBottom={0.45} fontSize={3.5} href={'/'}></CocollabLogo>
 
                 </div>
             <h1 className="text-center login-header-text pt-5">

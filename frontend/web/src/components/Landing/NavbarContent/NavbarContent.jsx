@@ -43,7 +43,7 @@ function NavbarContent () {
     return (
         <nav className="navbar navbar-expand-lg sticky-top home-page-navbar" style={{ height: "6.2rem" }}>
             <Container fluid>
-                <CocollabLogo width={2.1} paddingBottom={0.4} fontSize={2.6}></CocollabLogo>
+                <CocollabLogo width={2.1} paddingBottom={0.4} fontSize={2.6} href={'/'}></CocollabLogo>
                     <button
                     className="navbar-toggler shadow-none border-0"
                     type="button"
@@ -62,7 +62,7 @@ function NavbarContent () {
                     <div className="offcanvas-content" >
                         <div className="offcanvas-header border-bottom">
                             <div className='d-flex justify-content-center'>
-                                <CocollabLogo width={2.1} paddingBottom={0.4} fontSize={2.6}></CocollabLogo>
+                                <CocollabLogo width={2.1} paddingBottom={0.4} fontSize={2.6} href={'/'}></CocollabLogo>
                             </div>
                             <Button
                                 type="button"

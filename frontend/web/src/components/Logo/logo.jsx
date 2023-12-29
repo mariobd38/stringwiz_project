@@ -2,7 +2,7 @@ import React from 'react';
 import coconut from '../../images/coconut.png';
 import './logo.css';
 
-const CocollabLogo = ({ width, paddingBottom, fontSize }) => {
+const CocollabLogo = ({ width, paddingBottom, fontSize, href }) => {
     const coconutWidth = {
         width: `${width}rem`,
         paddingBottom: `${paddingBottom}rem`,
@@ -13,7 +13,7 @@ const CocollabLogo = ({ width, paddingBottom, fontSize }) => {
 
     return (
         <div className='cocollabs-logo' style={logoSize}>
-            <a href="/">
+            <a href={href}>
                 <span style={{ color: '#58bcdb', fontFamily: 'Baron Neue, serif' }}>COC</span>
                 <span>
                 <a className="m-auto" href={() => false}>

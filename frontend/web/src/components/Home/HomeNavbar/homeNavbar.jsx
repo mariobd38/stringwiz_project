@@ -43,7 +43,7 @@ const HomeNavbar = () => {
             <Nav className="navbar navbar-expand-md" style={{height: "4.8rem" }}>
                 <Container fluid>
                     <div className='ps-3'>
-                        <CocollabLogo width={2.9} paddingBottom={0} fontSize={0}></CocollabLogo>
+                        <CocollabLogo width={2.9} paddingBottom={0} fontSize={0} href={() => false}></CocollabLogo>
 
                     </div>
                     <div

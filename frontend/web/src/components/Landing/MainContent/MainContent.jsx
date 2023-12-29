@@ -13,6 +13,10 @@ import addTask from '../../../images/add_task.png';
 import collaboration from '../../../images/collaboration.png';
 import computer_look from '../../../images/looking_at_computer.jpg';
 import coconut from '../../../images/coconut.png';
+import time_management from '../../../images/time_management.png';
+import sharing_ideas from '../../../images/sharing_ideas.png';
+import achievement from '../../../images/achievement.png';
+import CocollabLogo from '../../../components/Logo/logo';
 
 import './MainContent.css'
 
@@ -20,105 +24,82 @@ const MainContent = () => {
 
     return (
         <main>
-            <div className="header pb-5">
-                <Container className="pt-4">
-                    <div className='d-flex justify-content-center pt-5'>
-                        <div className="d-none d-lg-block left-header-block">
-                            <h1 className="left-header-text">Let's Plan.</h1>
-                            <h1 className="left-header-text">Let's Manage.</h1>
-                            <h1 className="left-header-text">Let's Collab.
-                            <span>
-                                <a className="m-auto" href={() => false}>
-                                    <img src={coconut} className="coconut mw-100 pb-3 ms-xl-2 w-100 text-center" alt="coconut" />
-                                </a>
-                            </span>
+            <div className="header">
+                <Container className="pt-5">
+                    <div className='row'>
+                        <div className='col-12 col-lg-6 m-auto'>
+                            <h1 className='fafafa-color top-left-header-text text-center'>Collab like never before
+                                <span>
+                                    <img src={coconut} className="coconut mw-100 ms-1 pb-3 ms-xl-2 w-100 text-center" alt="coconut" />
+                                </span>
                             </h1>
-                        </div>
-                        <div className="right-header-block pt-3 pb-4">
-                            <p className="description text-center">
-                                Achieve effective results individually and collectively
-                            </p>
-                            <p className="description text-center">
-                                Simple features. Simple solutions.
-                            </p>
-                            <p className="description text-center">
-                                Begin the journey today.
-                            </p>
-                            <div className="d-flex justify-content-center pt-2">
-                                <a href="/signup">
-                                    <Button className=" register-home-page mx-3 nunito-sans-font">
-                                        Get Started
-                                    </Button>
-                                </a>
-                                <a href="/signup">
-                                    <Button className="learn_more-home-page mx-3 nunito-sans-font">
-                                        Learn More
-                                    </Button>
-                                </a>
-                            </div>
-            
-                            <p className="description text-center pt-3" style={{ fontSize: '0.9em', color: '#fafafa' }}>
-                                No credit card needed · Start with a free plan
-                            </p>
-                        </div>
 
-                    </div>
-                    <div className='pt-5'>
-                        <div className='d-flex justify-content-center flex-column flex-lg-row'>
-                            <div className='col-lg-6 computer-look-div'>
-                                <a className="m-auto" href={() => false}>
-                                    <img src={computer_look} className="hp-screenshot w-100" alt="computer_look" />
-                                </a>
-                            </div>
-                            <div className='col-lg-6 m-auto mt-4 mt-lg-auto'>
-                                <h2 className='nunito-sans-font-600 fafafa-color computer-look-header text-center mb-3'>
-                                    The Productivity Hub
-                                    <HubIcon  className="mb-2 ms-1" style={{width:"2.1rem", height: "2.1rem"}}>
-                                    </HubIcon>
-                                </h2>
-                                <div className='ms-4 me-2 fafafa-color'>
-                                    <div>
-                                        <div className='nunito-sans-font-600 computer-look-description'>
-                                            <span>
-                                                <FolderIcon className='ms-2 me-3 computer-look-icon mb-2'>
-                                                </FolderIcon>
-                                            </span>
-                                            Stay organized with CocoBoards
-                                        </div>
-                                        <div className='ms-5'>
-                                            <p className='ms-2 nunito-sans-font computer-look-sub-description'>
-                                                Boards serve to allow your team members to see who is working on what, and for how long
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <div className='nunito-sans-font-600 computer-look-description'>
-                                            <span>
-                                                <AssignmentTurnedInIcon className='ms-2 me-3 computer-look-icon mb-2'>
-                                                </AssignmentTurnedInIcon>
-                                            </span>
-                                            Easily manage tasks and projects 
-                                        </div>
-                                        <div className='ms-5'>
-                                            <p className='ms-2 nunito-sans-font computer-look-sub-description'>
-                                                Tracking, managing, and completing your tasks has never been easier with Cocollabs
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className='text-center pt-2'>
+                            <div className='text-center'>
+                                <div className='fafafa-color description pt-3' style={{lineHeight: "1.3rem"}}>
+                                    <p>Achieve effective results individually and collectively. </p>
+                                    <p>Simple features. Simple solutions. </p>
+                                </div>
+                                
+                                <div className="right-header-block pt-2 pb-4">
+                                    <div className="d-flex justify-content-center pt-2">
                                         <a href="/signup">
-                                            <Button className='fafafa-color nunito-sans-font register p-2' style={{width: "9rem"}}>
-                                                Start cocollabin'
+                                            <Button className=" register-home-page nunito-sans-font">
+                                                Get Started
                                             </Button>
                                         </a>
                                     </div>
+                
+                                    <p className="description text-center pt-3" style={{ fontSize: '0.9em', color: '#fafafa' }}>
+                                        No credit card needed · Start with a free plan
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='col-12 col-lg-6'>
+                            <div className='d-flex justify-content-around'>
+                                <div >
+                                    <img src={time_management} className="illustration-landing" alt="" />
+                                </div>
+                                <div className='pt-4'>
+                                    <img src={achievement} className="illustration-landing" alt="" />
+                                </div>
+                            </div>
+                            <div className='d-flex justify-content-center '>
+                                <div>
+                                    <img src={sharing_ideas} className="illustration-landing" alt="" />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </Container>
+
+                <div className="row m-0 pt-5">
+                    <div className='col-1 col-md-2 d-flex align-items-center flex-column p-0'>
+                        <div className='top-half '></div>
+                        <div className='bottom-half'></div>
+                    </div>
+                    <div className='col-10 col-md-8 landing-info-div py-2 py-lg-3'>
+                        <div className="row m-auto pt-3">
+                            <div className='col-12 col-lg-6 col-xl-5 col-xxl-4 text-center m-auto'>
+                                <CocollabLogo width={2.2} paddingBottom={0.35} fontSize={2.9} href={() => false}></CocollabLogo>
+                            </div>
+                            <div className='col-12 col-lg-6 col-xl-7 col-xxl-8 text-center m-auto'>
+                                <h1 className='nunito-sans-font landing-info-header'>Better vision for better connections</h1>
+                                <p className='nunito-sans-font pb-0' >Discover unlimited possibilities across our powerful features</p>
+                                <p className='nunito-sans-font' style={{lineHeight:"0.2rem"}}>Plan, manage, and collab on the go.</p>                                
+                                <Button className='learn_more-home-page mt-2'>Learn More</Button>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                    <div className='col-1 col-md-2 d-flex align-items-center flex-column p-0'>
+                        <div className='top-half'></div>
+                        <div className='bottom-half'></div>
+                    </div>
+                </div>
             </div>
+            
             <div className='pt-5 pb-5 bg-illustrations-div '>
                 <div className='d-flex justify-content-around flex-column flex-lg-row align-items-center align-items-lg-stretch pb-5'>
                     <div className='d-flex flex-column align-items-center home-description-card mb-4 mb-lg-0 px-5 py-4 px-lg-0 py-lg-3  px-xl-4 py-xl-4 px-xxl-5'>

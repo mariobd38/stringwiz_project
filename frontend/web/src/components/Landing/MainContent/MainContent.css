@@ -1,31 +1,17 @@
-.left-header-block {
-    width: 24rem;
-}
-.left-header-text {
-    font-size: 3.66rem;
-    font-family: 'Lato', serif;
+.top-left-header-text {
+    font-size: 3rem;
     font-weight: 600;
-    color: #fafafa;
+
+    font-family: 'Nunito Sans', serif;
 }
 .coconut {
-    width: 3.3rem !important;
+    width: 2.8rem !important;
+    padding-top: 0.3rem;
 }
 .description {
     font-family: 'Montserrat', serif;
-    font-size: 1.2em;
+    font-size: 1.07rem;
     color: #fafafa;
-    font-weight: 600;
-}
-.how_it_works {
-    border: 2px solid #223654;
-    background-color: #223654;
-    color: #fafafa;
-}
-.how_it_works:hover {
-   background-color: #58bcdb;
-}
-.cocollabs_logo {
-    width: 21.3rem;
 }
 .header {
     background: #4e21d9; 
@@ -43,9 +29,9 @@ a {
     min-height: 100vh;
 }
 .circle {
-    width: 16.5rem; /* Adjust the width and height to change the circle size */
+    width: 16.5rem;
     height: 16.5rem;
-    border-radius: 13.5%; /* Creates a circle */
+    border-radius: 13.5%;
     background-color:  #39474e;   /* #3498db */
     display: flex;
     justify-content: center;
@@ -113,30 +99,47 @@ a {
     width: 2rem !important;
     height: 2rem !important;
 }
-.register-home-page, .learn_more-home-page {
-    color: #fafafa !important;
+.register-home-page {
+    color: #dbdbdb !important;
     text-transform: capitalize !important;
     font-size: 0.98rem !important;
-    font-weight: 500 !important;
-    border-radius: 30px !important;
+    font-weight: 600 !important;
+    border-radius: 10px !important;
     padding: 0.8rem 1.1rem !important;
 }
-.register-home-page {
-    background-color: #121212 !important;
-    border: 1px solid #121212 !important;
-}
-.register-home-page:hover {
-    background-color: #4296af !important;
-    color: #fafafa;
-    border: 1px solid #4296af !important;
-}
 .learn_more-home-page {
-    background-color: #4294af !important;
-    border: 1px solid #4294af !important;
-    color: #fafafa !important;
+    background-color: #101010 !important;
+    color: #dedede !important;
+    text-transform: capitalize !important;
+    font-size: 0.98rem !important;
+    font-weight: 600 !important;
+    border-radius: 10px !important;
+    padding: 0.6rem 1rem !important;
 }
-.learn_more-home-page:hover {
-    background-color: #5b25c1 !important;
-    color: #fafafa !important;
-    border: 1px solid #5b25c1 !important;
+.register-home-page {
+    background-color: rgb(9, 38, 105) !important;
+    border: none !important;
+}
+.register-home-page:hover, .learn_more-home-page:hover {
+    background-color: #4e21d9 !important;
+}
+.illustration-landing {
+    width: 15rem;
+}
+.bottom-half, .top-half {
+    height: 50%;
+    width: 100%;
+}
+.bottom-half {
+    background-color: #121212;
+}
+.landing-info-div {
+    background-color: #f1f3f4;
+    border-radius: 7px;
+}
+.landing-info-header {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #121212;
+    color: rgb(9, 38, 105);
 }
