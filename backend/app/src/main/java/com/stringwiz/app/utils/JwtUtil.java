@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,9 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
     private static final long JWT_TOKEN_VALIDITY = 30*24*60*60*60*60;
-    private static final String SECRET_KEY = "8EC736DF26FCC1EEDC919F5F1A715YSAD769219270D98012SHDKJHSDAH9UG54D";
+
+    @Value("${JWT_SECRET_KEY}")
+    private String SECRET_KEY;
 
     public String getUserEmailFromToken(String token) {
         return extractClaim(token, Claims::getSubject);

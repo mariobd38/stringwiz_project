@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import Button from '@mui/material/Button';
@@ -23,22 +23,22 @@ function NavbarContent () {
         setIsOffcanvasOpen(!isOffcanvasOpen);
     };
 
-    const closeOffcanvasIfLargeScreen = () => {
+    const closeOffcanvasIfLargeScreen = (() => {
         const screenWidth = window.innerWidth;
         const isLargeScreen = screenWidth > 992; // lg breakpoint is typically 992px in Bootstrap
 
         if (isLargeScreen && isOffcanvasOpen) {
             setIsOffcanvasOpen(false);
         }
-    };
+    }, []);
 
     // Listen to window resize events to check screen width
-    useEffect(() => {
+    useCallback(() => {
         window.addEventListener('resize', closeOffcanvasIfLargeScreen);
         return () => {
         window.removeEventListener('resize', closeOffcanvasIfLargeScreen);
         };
-    }, [isOffcanvasOpen]);
+    }, []);
   
     return (
         <nav className="navbar navbar-expand-lg sticky-top home-page-navbar" style={{ height: "6.2rem" }}>

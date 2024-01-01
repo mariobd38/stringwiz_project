@@ -1,12 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocalState } from "../../../utils/useLocalStorage";
 import Container from 'react-bootstrap/Container';
+
 import Nav from 'react-bootstrap/Nav';
 import Logout from '@mui/icons-material/Logout';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
+import ArchiveIcon from '@mui/icons-material/Archive';
 import Avatar from '@mui/material/Avatar';
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import AppsIcon from '@mui/icons-material/Apps';
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import HelpIcon from '@mui/icons-material/Help';
+import KeyboardCommandKeyRoundedIcon from '@mui/icons-material/KeyboardCommandKeyRounded';
+import PersonIcon from '@mui/icons-material/Person';
+import SearchIcon from '@mui/icons-material/Search';
+
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+
 import Divider from '@mui/material/Divider';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
@@ -14,11 +30,13 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import './homeNavbar.css';
 import CocollabLogo from '../../Logo/logo';
+import { Tooltip } from '@mui/material';
 
 
 const HomeNavbar = () => {
     //user button
     const [userBtnAnchorEl, setUserBtnAnchorEl] = useState(null);
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
     const openUserBtn = Boolean(userBtnAnchorEl);
 
     const handleUserBtnClick = (event) => {
@@ -30,6 +48,7 @@ const HomeNavbar = () => {
     };
 
     const [userFullName] = useLocalState('', 'userFullName');
+    const [userEmail] = useLocalState('', 'userEmail');
     const [firstName, lastName] = userFullName.split(' ');
     const initials = (firstName[0] + lastName[0]).toUpperCase();
     console.log("full name: " + lastName);
@@ -38,99 +57,185 @@ const HomeNavbar = () => {
         window.location.href = '/';
     };
 
+    const closeOffcanvasIfLargeScreen = () => {
+        const screenWidth = window.innerWidth;
+        if (screenWidth < 768) {
+            setIsSmallScreen(true);
+        } else {
+            setIsSmallScreen(false);
+        }
+    };
+    
+    useEffect(() => {
+        closeOffcanvasIfLargeScreen(); // Execute the function on initial load
+        window.addEventListener('resize', closeOffcanvasIfLargeScreen);
+    
+        // Cleanup the event listener when component unmounts
+        return () => {
+            window.removeEventListener('resize', closeOffcanvasIfLargeScreen);
+        };
+    }, [setIsSmallScreen]);
+
     return (
         <div>
-            <Nav className="navbar navbar-expand-md" style={{height: "4.8rem" }}>
+            <nav className="navbar" style={{height: "4.5rem", backgroundColor: "#222222" }}>
                 <Container fluid>
-                    <div className='ps-3'>
-                        <CocollabLogo width={2.9} paddingBottom={0} fontSize={0} href={() => false}></CocollabLogo>
-
-                    </div>
-                    <div
-                        className={`sidebar w-100 offcanvas offcanvas-end`}
-                        tabIndex="-1"
-                    >
-                        <div className="">
-                            <div className="d-flex p-4 p-md-0">
-                                <MenuList className="flex-grow-1"></MenuList>
-                                <div className="d-flex justify-content-center align-items-center gap-3 pe-4">
-                                    <div>
-                                        <div className='nav-side-button'>
-                                            <NotificationsIcon className='m-auto notis'></NotificationsIcon>
-                                        </div>
-                                    </div>
-                                    <div className='pe-md-5 me-md-2'>
-                                        <div className='nav-side-button'>
-                                            <MailIcon className='m-auto notis'></MailIcon>
-                                        </div>
-                                    </div>
-                                    <button className="px-0 px-md-1 py-1 py-md-0 user-button" onClick={handleUserBtnClick} aria-controls={openUserBtn ? 'account-menu' : undefined}
-                                        aria-haspopup="true"
-                                        aria-expanded={openUserBtn ? 'true' : undefined}>
-                                        <div className='m-auto'>
-                                            <p className='m-auto fafafa-color initials'>{initials}</p>
-                                        </div>
-                                    </button>
-                                    <Menu
-                                        anchorEl={userBtnAnchorEl}
-                                        id="account-menu"
-                                        open={openUserBtn}
-                                        onClose={handleUserBtnClose}
-                                        onClick={handleUserBtnClose}
-                                        PaperProps={{
-                                            elevation: 0,
-                                            sx: {
-                                                overflow: 'visible',
-                                                filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                                                mt: 1.5,
-                                                '& .MuiAvatar-root': {
-                                                    width: 32,
-                                                    height: 32,
-                                                    ml: -0.5,
-                                                    mr: 1,
-                                                },
-                                                '&:before': {
-                                                    content: '""',
-                                                    display: 'block',
-                                                    position: 'absolute',
-                                                    top: 0,
-                                                    right: 14,
-                                                    width: 10,
-                                                    height: 10,
-                                                    bgcolor: 'background.paper',
-                                                    transform: 'translateY(-50%) rotate(45deg)',
-                                                    zIndex: 0,
-                                                },
-                                            },
-                                        }}
-                                        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                                        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                                    >
-                                        <MenuItem onClick={handleUserBtnClose}>
-                                            <Avatar className="my-profile" /> Profile
-                                        </MenuItem>
-                                        <Divider />
-                                        <MenuItem onClick={handleUserBtnClose}>
-                                            <ListItemIcon>
-                                                <Settings fontSize="small" />
-                                            </ListItemIcon>
-                                            Settings
-                                        </MenuItem>
-                                        <button onClick={logout} className='logout'>
-                                            <MenuItem onClick={handleUserBtnClose} className='logout-menu'>
-                                                <ListItemIcon className='logout-menu-icon'>
-                                                    <Logout fontSize="small" />
-                                                </ListItemIcon>
-                                                Logout
-                                            </MenuItem>
-                                        </button>
-                                    </Menu>
-                                </div>
-                            </div>
+                        <div className='d-none d-md-inline ms-3'>
+                            <CocollabLogo width={2.5} paddingBottom={0} fontSize={0} href={() => false} />
+                        
                         </div>
-                    </div>
+
+                        <div className=''>
+                            <form className="home-navbar-search" role="search">
+                                <Input
+                                    className="form-control home-navbar-search-input me-2"
+                                    type="search"
+                                    placeholder="Search"
+                                    sx={{ fontFamily: 'Lato', backgroundColor: '#4b4c4e', border: "1px solid #b1b1b1", color: "white", borderRadius: "25px" }}
+                                    startAdornment={
+                                        <InputAdornment position="start">
+                                            <SearchIcon sx={{ color: '#e1e1e1'}} />
+                                        </InputAdornment>
+                                    }
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <div className='d-flex'>
+                                                <KeyboardCommandKeyRoundedIcon className='m-auto' sx={{ color: '#e1e1e1', width: "1.05rem", height: "1.05rem"}} />
+                                                <div className='m-auto' style={{color: '#e1e1e1', fontFamily:"Montserrat", fontWeight: "600", fontSize: "0.95rem"}}
+                                                    >K
+                                                </div>
+                                            </div>
+                                        </InputAdornment>
+                                    }
+                                    aria-label="Search"
+                                />
+                            </form>
+                        </div>
+
+                        <div className='d-flex'>
+                            <div>
+                                <Button className='upgrade-home-navbar-button me-3 d-none d-md-inline'>Upgrade</Button>
+                                <Tooltip title={<span className='nunito-sans-font'>{[`Create items`]}</span>} arrow className='menu-tooltip'>
+                                    {isSmallScreen ? 
+                                        <div className='me-4 m-auto'><AddCircleRoundedIcon className='only-add-icon-create-home-navbar' /></div>
+                                        : 
+                                        <Button className='create-home-navbar-button me-4 me-md-3'><AddCircleRoundedIcon className=' me-1 add-icon-create-home-navbar' />Create</Button>
+                                    }
+                                </Tooltip>
+
+                            </div>
+                            <div className='home-navbar-divider me-3'></div>
+                            <Tooltip title={<span className='nunito-sans-font'>{[`Action Menu`]}</span>} arrow className='menu-tooltip'>
+                                <AppsIcon className='menu-home-navbar me-2 d-none d-md-inline' />
+                            </Tooltip>
+
+                            <div className='text-white user-navbar-button ms-2 me-3' onClick={handleUserBtnClick} style={{cursor: "pointer"}}>
+                                <p className='m-0 d-flex justify-content-center align-items-center initials'>{initials}</p>
+                            </div>
+
+
+                            <Menu
+                                className='user-btn-navbar-menu'
+                                anchorEl={userBtnAnchorEl}
+                                id="account-menu"
+                                open={openUserBtn}
+                                onClose={handleUserBtnClose}
+                                onClick={handleUserBtnClose}
+                                PaperProps={{
+                                elevation: 0,
+                                sx: {
+                                    overflow: 'visible',
+                                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                    mt: 1.5,
+                                    width: "18rem",
+                                    '&::before': {
+                                        content: '""',
+                                        display: 'block',
+                                        position: 'absolute',
+                                        top: 0,
+                                        right: 14,
+                                        width: 10,
+                                        height: 10,
+                                        bgcolor: 'background.paper',
+                                        transform: 'translateY(-50%) rotate(45deg)',
+                                        zIndex: 0,
+                                    },
+                                },
+                                }}
+                                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                            >
+                                <div className='text-center' style={{fontSize: "1.05rem"}}>
+                                    <div className='m-auto text-center mt-2'>
+                                        <div className='text-white user-navbar-menu-button' onClick={handleUserBtnClick} style={{cursor: "pointer"}}>
+                                            <p className='m-0 d-flex justify-content-center align-items-center menu-initials'>{initials}</p>
+                                        </div>
+                                    </div>
+
+                                    <div className='my-3 lato-font'>
+                                        <div style={{fontWeight: '600'}}>
+                                            {userFullName}
+                                        </div>
+                                        <div>
+                                            {userEmail}
+                                        </div>
+                                    </div>
+                                </div>
+                                <MenuItem onClick={handleUserBtnClose} className='lato-font'>
+                                    <ListItemIcon>
+                                        <PersonIcon fontSize="small" />
+                                    </ListItemIcon>
+                                        Profile
+                                </MenuItem>
+
+                                <MenuItem onClick={handleUserBtnClose} className='lato-font'>
+                                    <ListItemIcon>
+                                        <Settings fontSize="small" />
+                                    </ListItemIcon>
+                                        Settings
+                                </MenuItem>
+                                
+                                <Divider />
+
+                                <MenuItem onClick={handleUserBtnClose} className='lato-font'>
+                                    <ListItemIcon>
+                                        <AddRoundedIcon fontSize="small" />
+                                    </ListItemIcon>
+                                        Add workspace
+                                </MenuItem>
+
+                                <MenuItem onClick={handleUserBtnClose} className='lato-font'>
+                                    <ListItemIcon>
+                                        <ArchiveIcon fontSize="small" />
+                                    </ListItemIcon>
+                                        Archive
+                                </MenuItem>
+
+                                <MenuItem onClick={handleUserBtnClose} className='lato-font'>
+                                    <ListItemIcon>
+                                        <DeleteIcon fontSize="small" />
+                                    </ListItemIcon>
+                                        Trash
+                                </MenuItem>
+
+                                <MenuItem onClick={handleUserBtnClose} className='lato-font'>
+                                    <ListItemIcon>
+                                        <HelpIcon fontSize="small" />
+                                    </ListItemIcon>
+                                        Help
+                                </MenuItem>
+
+                                <MenuItem onClick={logout} className='lato-font'>
+                                    <ListItemIcon>
+                                        <Logout fontSize="small" />
+                                    </ListItemIcon>
+                                    Logout
+                                </MenuItem>
+                                
+                            </Menu>
+                        </div>
                 </Container>
-            </Nav>
+            </nav>
         </div>
     );
 };

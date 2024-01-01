@@ -2,16 +2,11 @@ import React from 'react';
 
 import Container from 'react-bootstrap/Container';
 
-import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
-import FolderIcon from '@mui/icons-material/Folder';
-import HubIcon from '@mui/icons-material/Hub';
-
 import Button from '@mui/material/Button';
 
 import discover from '../../../images/discover.png';
 import addTask from '../../../images/add_task.png';
 import collaboration from '../../../images/collaboration.png';
-import computer_look from '../../../images/looking_at_computer.jpg';
 import coconut from '../../../images/coconut.png';
 import time_management from '../../../images/time_management.png';
 import sharing_ideas from '../../../images/sharing_ideas.png';
@@ -43,7 +38,7 @@ const MainContent = () => {
                                 <div className="right-header-block pt-2 pb-4">
                                     <div className="d-flex justify-content-center pt-2">
                                         <a href="/signup">
-                                            <Button className=" register-home-page nunito-sans-font">
+                                            <Button className="register-home-page">
                                                 Get Started
                                             </Button>
                                         </a>

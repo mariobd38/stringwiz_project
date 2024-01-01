@@ -362,8 +362,8 @@
     width: 0.9px; /* Width of the divider */
     height: 35px; /* Adjust the height as needed */
     background-color: #8a8a8a; /* Color of the line (black in this example) */
-    margin: 0 1.5rem; 
-    display: inline-block;
+    /* margin: 0 1.5rem;  */
+    /* display: inline-block; */
     vertical-align: middle;
 }
 .modal-header {

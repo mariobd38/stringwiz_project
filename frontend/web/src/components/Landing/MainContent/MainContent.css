@@ -31,14 +31,14 @@ a {
 .circle {
     width: 16.5rem;
     height: 16.5rem;
-    border-radius: 13.5%;
+    border-radius: 10px;
     background-color:  #39474e;   /* #3498db */
     display: flex;
     justify-content: center;
     align-items: center;
   }
 .home-illustration {
-    width: 15.9rem;
+    width: 14.3rem;
 } 
 .bg-illustrations-div {
     background-color: #121212;/*#192339;*/
@@ -54,7 +54,7 @@ a {
    color: #9153ed;
 }
 .home-description-card {
-    border-radius: 25px;
+    border-radius: 12px;
     transition: all .3s ease-in-out; 
     background-color: #263552;
 }
@@ -106,8 +106,12 @@ a {
     font-weight: 600 !important;
     border-radius: 10px !important;
     padding: 0.8rem 1.1rem !important;
+    font-family: 'Nunito Sans', serif !important;
+    background-color: rgb(9, 38, 105) !important;
+    border: none !important;
 }
 .learn_more-home-page {
+    font-family: 'Nunito Sans', serif !important;
     background-color: #101010 !important;
     color: #dedede !important;
     text-transform: capitalize !important;
@@ -115,10 +119,6 @@ a {
     font-weight: 600 !important;
     border-radius: 10px !important;
     padding: 0.6rem 1rem !important;
-}
-.register-home-page {
-    background-color: rgb(9, 38, 105) !important;
-    border: none !important;
 }
 .register-home-page:hover, .learn_more-home-page:hover {
     background-color: #4e21d9 !important;
