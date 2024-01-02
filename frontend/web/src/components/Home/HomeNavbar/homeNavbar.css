@@ -160,3 +160,9 @@
 .home-navbar-search-input::before, .home-navbar-search-input::after {
     border-bottom: none !important;
 }
+.home-navbar-menu-item {
+    color: #fafafa !important;
+}
+.home-navbar-menu-item:hover {
+    background-color: #202020 !important;
+}

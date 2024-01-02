@@ -2,14 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useLocalState } from "../../../utils/useLocalStorage";
 import Container from 'react-bootstrap/Container';
 
-import Nav from 'react-bootstrap/Nav';
 import Logout from '@mui/icons-material/Logout';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import ArchiveIcon from '@mui/icons-material/Archive';
-import Avatar from '@mui/material/Avatar';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import AppsIcon from '@mui/icons-material/Apps';
@@ -27,7 +22,6 @@ import Divider from '@mui/material/Divider';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
 import './homeNavbar.css';
 import CocollabLogo from '../../Logo/logo';
 import { Tooltip } from '@mui/material';
@@ -148,6 +142,7 @@ const HomeNavbar = () => {
                                     filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                                     mt: 1.5,
                                     width: "18rem",
+                                    backgroundColor: "#292929",
                                     '&::before': {
                                         content: '""',
                                         display: 'block',
@@ -156,7 +151,7 @@ const HomeNavbar = () => {
                                         right: 14,
                                         width: 10,
                                         height: 10,
-                                        bgcolor: 'background.paper',
+                                        bgcolor: '#292929',
                                         transform: 'translateY(-50%) rotate(45deg)',
                                         zIndex: 0,
                                     },
@@ -165,7 +160,7 @@ const HomeNavbar = () => {
                                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                             >
-                                <div className='text-center' style={{fontSize: "1.05rem"}}>
+                                <div className='text-center fafafa-color' style={{fontSize: "1.05rem"}}>
                                     <div className='m-auto text-center mt-2'>
                                         <div className='text-white user-navbar-menu-button' onClick={handleUserBtnClick} style={{cursor: "pointer"}}>
                                             <p className='m-0 d-flex justify-content-center align-items-center menu-initials'>{initials}</p>
@@ -181,52 +176,52 @@ const HomeNavbar = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <MenuItem onClick={handleUserBtnClose} className='lato-font'>
-                                    <ListItemIcon>
+                                <MenuItem onClick={handleUserBtnClose} className='lato-font home-navbar-menu-item'>
+                                    <ListItemIcon style={{color: "#fafafa"}}>
                                         <PersonIcon fontSize="small" />
                                     </ListItemIcon>
                                         Profile
                                 </MenuItem>
 
-                                <MenuItem onClick={handleUserBtnClose} className='lato-font'>
-                                    <ListItemIcon>
+                                <MenuItem onClick={handleUserBtnClose} className='lato-font home-navbar-menu-item'>
+                                    <ListItemIcon style={{color: "#fafafa"}}>
                                         <Settings fontSize="small" />
                                     </ListItemIcon>
                                         Settings
                                 </MenuItem>
                                 
-                                <Divider />
+                                <Divider style={{backgroundColor: "#fafafa"}} />
 
-                                <MenuItem onClick={handleUserBtnClose} className='lato-font'>
-                                    <ListItemIcon>
+                                <MenuItem onClick={handleUserBtnClose} className='lato-font home-navbar-menu-item'>
+                                    <ListItemIcon style={{color: "#fafafa"}}>
                                         <AddRoundedIcon fontSize="small" />
                                     </ListItemIcon>
                                         Add workspace
                                 </MenuItem>
 
-                                <MenuItem onClick={handleUserBtnClose} className='lato-font'>
-                                    <ListItemIcon>
+                                <MenuItem onClick={handleUserBtnClose} className='lato-font home-navbar-menu-item'>
+                                    <ListItemIcon style={{color: "#fafafa"}}>
                                         <ArchiveIcon fontSize="small" />
                                     </ListItemIcon>
                                         Archive
                                 </MenuItem>
 
-                                <MenuItem onClick={handleUserBtnClose} className='lato-font'>
-                                    <ListItemIcon>
+                                <MenuItem onClick={handleUserBtnClose} className='lato-font home-navbar-menu-item'>
+                                    <ListItemIcon style={{color: "#fafafa"}}>
                                         <DeleteIcon fontSize="small" />
                                     </ListItemIcon>
                                         Trash
                                 </MenuItem>
 
-                                <MenuItem onClick={handleUserBtnClose} className='lato-font'>
-                                    <ListItemIcon>
+                                <MenuItem onClick={handleUserBtnClose} className='lato-font home-navbar-menu-item'>
+                                    <ListItemIcon style={{color: "#fafafa"}}>
                                         <HelpIcon fontSize="small" />
                                     </ListItemIcon>
                                         Help
                                 </MenuItem>
 
-                                <MenuItem onClick={logout} className='lato-font'>
-                                    <ListItemIcon>
+                                <MenuItem onClick={logout} className='lato-font home-navbar-menu-item'>
+                                    <ListItemIcon style={{color: "#fafafa"}}>
                                         <Logout fontSize="small" />
                                     </ListItemIcon>
                                     Logout
