@@ -9,8 +9,8 @@
     border: none !important;
 }
 .home-text {
-    font-family: 'Lato', serif;
-    font-size: 1.7rem;
+    font-family: 'Nunito Sans', serif;
+    font-size: 1.9rem;
     font-weight: 600;
 }
 .today {
@@ -19,8 +19,8 @@
 
 }
 .greeting {
-    font-family: 'Nunito Sans', serif;
-    font-size: 2.1rem;
+    font-family: 'Lato', serif;
+    font-size: 1.8rem;
     font-weight: 600;
 }
 .customize-typography {
@@ -31,74 +31,64 @@
     width: 2.5rem;
     height: 2.5rem;
 }
-#black-btn {
-    background-color: #1e1f21 !important;
-}
 #white-btn {
     background-color: #e7e7e7 !important;
 }
 #blue-btn {
     background-color: #044863 !important;
 }
-#gradient1-btn {
+/* #gradient1-btn {
     background-color: #4158D0;
     background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
-}
-#gradient2-btn {
-    background-color: #0093E9;
-    background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
-}
-#gradient3-btn {
-    background-color: #00DBDE;
-    background-image: linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%);
-}
-#gradient4-btn {
-    background: #0F2027; 
-    background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
-#gradient5-btn {
-    background: #ff0099; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #ff0099, #493240); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #ff0099, #493240); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
-#gradient6-btn {
-    background: #355C7D;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #C06C84, #6C5B7B, #355C7D);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #C06C84, #6C5B7B, #355C7D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
-#gradient7-btn {
-    background: #000428;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #004e92, #000428);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #004e92, #000428); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
-#gradient8-btn {
-    background: #283048;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #859398, #283048);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #859398, #283048); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-}
-#gradient9-btn {
-    background: #73C8A9;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #373B44, #73C8A9);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #373B44, #73C8A9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
-#gradient10-btn {
-    background: #6441A5;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #2a0845, #6441A5);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #2a0845, #6441A5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
-#gradient11-btn {
-    background: #11998e;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #38ef7d, #11998e);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #38ef7d, #11998e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
-#gradient12-btn {
-    background: #BA8B02;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #181818, #BA8B02);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #181818, #BA8B02); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
+} */
 .background-color-check {
     width: 2.2rem !important;
     /* right: 2rem !important; */
+}
+.customize-customization-text, .customize-background-text {
+    font-family: 'Nunito Sans', serif;
+    font-weight: 600;
+    font-size: 1.7rem;
+    color: #fafafa
+}
+.customize-background-text {
+    font-size: 1.3rem;
+    color: #fafafa
+}
+.theme-color-div {
+    border: none !important;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    cursor: pointer;
+}
+#abestos-theme-btn {
+    background-color: #7f8c8d;
+}
+#turquoise-theme-btn {
+    background-color: #1abc9c;
+}
+#black-theme-btn {
+    background-color: #1e1f21;
+}
+#emerald-theme-btn {
+    background-color: #2ecc71;
+}
+#peter-river-theme-btn {
+    background-color: #233a79;
+}
+#amethyst-theme-btn {
+    background-color: #6a115a;
+}
+#sunflower-theme-btn {
+    background-color: #f1c40f;
+}
+#carrot-theme-btn {
+    background-color: #e67e22;
+}
+#alizarin-theme-btn {
+    background-color: #e74c3c;
+}
+.customization-day-night-theme-switch {
+    font-family: 'Nunito Sans', serif !important;
 }

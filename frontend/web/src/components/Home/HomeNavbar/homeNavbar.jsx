@@ -2,30 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { useLocalState } from "../../../utils/useLocalStorage";
 import Container from 'react-bootstrap/Container';
 
-import Logout from '@mui/icons-material/Logout';
-import Settings from '@mui/icons-material/Settings';
-import ArchiveIcon from '@mui/icons-material/Archive';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import AppsIcon from '@mui/icons-material/Apps';
+import ArchiveIcon from '@mui/icons-material/Archive';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HelpIcon from '@mui/icons-material/Help';
 import KeyboardCommandKeyRoundedIcon from '@mui/icons-material/KeyboardCommandKeyRounded';
+import Logout from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 import SearchIcon from '@mui/icons-material/Search';
+import Settings from '@mui/icons-material/Settings';
 
-import Input from '@mui/material/Input';
-import InputAdornment from '@mui/material/InputAdornment';
+import { Divider, Input, InputAdornment, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material';
 
-import Divider from '@mui/material/Divider';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import './homeNavbar.css';
 import CocollabLogo from '../../Logo/logo';
-import { Tooltip } from '@mui/material';
-
 
 const HomeNavbar = () => {
     //user button
@@ -61,14 +54,14 @@ const HomeNavbar = () => {
     };
     
     useEffect(() => {
-        closeOffcanvasIfLargeScreen(); // Execute the function on initial load
+        closeOffcanvasIfLargeScreen();
         window.addEventListener('resize', closeOffcanvasIfLargeScreen);
     
-        // Cleanup the event listener when component unmounts
         return () => {
             window.removeEventListener('resize', closeOffcanvasIfLargeScreen);
         };
     }, [setIsSmallScreen]);
+
 
     return (
         <div>
@@ -134,7 +127,7 @@ const HomeNavbar = () => {
                                 id="account-menu"
                                 open={openUserBtn}
                                 onClose={handleUserBtnClose}
-                                onClick={handleUserBtnClose}
+                                // onClick={handleUserBtnClose}
                                 PaperProps={{
                                 elevation: 0,
                                 sx: {
@@ -160,6 +153,7 @@ const HomeNavbar = () => {
                                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                             >
+
                                 <div className='text-center fafafa-color' style={{fontSize: "1.05rem"}}>
                                     <div className='m-auto text-center mt-2'>
                                         <div className='text-white user-navbar-menu-button' onClick={handleUserBtnClick} style={{cursor: "pointer"}}>
@@ -176,6 +170,7 @@ const HomeNavbar = () => {
                                         </div>
                                     </div>
                                 </div>
+
                                 <MenuItem onClick={handleUserBtnClose} className='lato-font home-navbar-menu-item'>
                                     <ListItemIcon style={{color: "#fafafa"}}>
                                         <PersonIcon fontSize="small" />
@@ -189,7 +184,7 @@ const HomeNavbar = () => {
                                     </ListItemIcon>
                                         Settings
                                 </MenuItem>
-                                
+
                                 <Divider style={{backgroundColor: "#fafafa"}} />
 
                                 <MenuItem onClick={handleUserBtnClose} className='lato-font home-navbar-menu-item'>
@@ -226,9 +221,9 @@ const HomeNavbar = () => {
                                     </ListItemIcon>
                                     Logout
                                 </MenuItem>
-                                
                             </Menu>
                         </div>
+                        
                 </Container>
             </nav>
         </div>

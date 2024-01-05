@@ -1,13 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { useLocalState } from "../../../utils/useLocalStorage";
+
 import Button from 'react-bootstrap/Button';
-import CheckIcon from '@mui/icons-material/Check';
+
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
-import Popover from '@mui/material/Popover';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import HomeIcon from '@mui/icons-material/Home';
+
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import MailIcon from '@mui/icons-material/Mail';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import Switch from '@mui/material/Switch';
+import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material';
+
+import { styled } from '@mui/material/styles';
+
 import './homeHeader.css';
 
 
+const getStoredColorMode = () => {
+    const storedMode = localStorage.getItem('colorMode');
+    return storedMode !== null ? storedMode : 'light'; // Set a default mode if none is stored
+};
 
 const HomeHeader = () => {
     const dayjs = require('dayjs');
@@ -49,519 +74,255 @@ const HomeHeader = () => {
 
     const [backgroundColor, setBackgroundColor] = useLocalState("#1e1f21", "backgroundColor");
     const [backgroundImage, setBackgroundImage] = useLocalState(null, "backgroundImage");
-    // const [topTextColor, setTopTextColor] = useLocalState("#000000", topTextColor);
 
+    const HandleBackgroundColor = (event, colorValue) => {
+        console.log("hey hey");
+        console.log(currentColorMode);
+        setBackgroundColor(colorValue);
+        if (currentColorMode === 'dark')
+            setBackgroundImage(`linear-gradient(to right, #1e1f21, ${colorValue})`);
+        else if (currentColorMode === 'light')
+            setBackgroundImage(`linear-gradient(to right, ${colorValue}, ${colorValue})`);
 
-
-    //customize popovers
-    const [customizePopoverAnchorEl, setCustomizePopoverAnchorEl] = useState(null);
-
-    const handleCustomizePopoverClick = (event) => {
-        setCustomizePopoverAnchorEl(event.currentTarget);
-    };
-
-    const handleCustomizePopoverClose = () => {
-        setCustomizePopoverAnchorEl(null);
-    };
-
-    const openCustomizePopover = Boolean(customizePopoverAnchorEl);
-    const customizePopOverId = openCustomizePopover ? 'customize-popover' : undefined;
-
-    const [isBlackBtnChecked, setIsBlackBtnChecked] = useState(false);
-    const [isWhiteBtnChecked, setIsWhiteBtnChecked] = useState(false);
-    const [isBlueBtnChecked, setIsBlueBtnChecked] = useState(false);
-    const [isGradient1BtnChecked, setIsGradient1BtnChecked] = useState(false);
-    const [isGradient2BtnChecked, setIsGradient2BtnChecked] = useState(false);
-    const [isGradient3BtnChecked, setIsGradient3BtnChecked] = useState(false);
-    const [isGradient4BtnChecked, setIsGradient4BtnChecked] = useState(false);
-    const [isGradient5BtnChecked, setIsGradient5BtnChecked] = useState(false);
-    const [isGradient6BtnChecked, setIsGradient6BtnChecked] = useState(false);
-    const [isGradient7BtnChecked, setIsGradient7BtnChecked] = useState(false);
-    const [isGradient8BtnChecked, setIsGradient8BtnChecked] = useState(false);
-    const [isGradient9BtnChecked, setIsGradient9BtnChecked] = useState(false);
-    const [isGradient10BtnChecked, setIsGradient10BtnChecked] = useState(false);
-    const [isGradient11BtnChecked, setIsGradient11BtnChecked] = useState(false);
-    const [isGradient12BtnChecked, setIsGradient12BtnChecked] = useState(false);
-    const [gradientButtonStates, setGradientButtonStates] = useState([
-        isBlackBtnChecked,
-        isWhiteBtnChecked,
-        isBlueBtnChecked,
-        isGradient1BtnChecked,
-        isGradient2BtnChecked,
-        isGradient3BtnChecked,
-        isGradient4BtnChecked,
-        isGradient5BtnChecked,
-        isGradient6BtnChecked,
-        isGradient7BtnChecked,
-        isGradient8BtnChecked,
-        isGradient9BtnChecked,
-        isGradient10BtnChecked,
-        isGradient11BtnChecked,
-        isGradient12BtnChecked,
-      ]);
-
-
-    const handleBackgroundColor = (event, colorValue, image1Value, image2Value) => {
-        const targetId = event.currentTarget.id;
-        if (targetId === "black-btn") {
-            // console.log(event.currentTarget.classList[0]);
-            setBackgroundColor(colorValue);
-            setBackgroundImage(image1Value);
-            setIsBlackBtnChecked(true);
-            setIsWhiteBtnChecked(false);
-            setIsBlueBtnChecked(false);
-            setIsGradient1BtnChecked(false);
-            setIsGradient2BtnChecked(false);
-            setIsGradient3BtnChecked(false);
-            setIsGradient4BtnChecked(false);
-            setIsGradient5BtnChecked(false);
-            setIsGradient6BtnChecked(false);
-            setIsGradient7BtnChecked(false);
-            setIsGradient8BtnChecked(false);
-            setIsGradient9BtnChecked(false);
-            setIsGradient10BtnChecked(false);
-            setIsGradient11BtnChecked(false);
-            setIsGradient12BtnChecked(false);
-
-        }  else if (targetId === "white-btn") {
-            setBackgroundColor("#e7e7e7");
-            setBackgroundImage(null);
-            setIsBlackBtnChecked(false);
-            setIsWhiteBtnChecked(true);
-            setIsBlueBtnChecked(false);
-            setIsGradient1BtnChecked(false);
-            setIsGradient2BtnChecked(false);
-            setIsGradient3BtnChecked(false);
-            setIsGradient4BtnChecked(false);
-            setIsGradient5BtnChecked(false);
-            setIsGradient6BtnChecked(false);
-            setIsGradient7BtnChecked(false);
-            setIsGradient8BtnChecked(false);
-            setIsGradient9BtnChecked(false);
-            setIsGradient10BtnChecked(false);
-            setIsGradient11BtnChecked(false);
-            setIsGradient12BtnChecked(false);
-
-        } else if (targetId === "blue-btn") {
-            setBackgroundColor("#044863");
-            setBackgroundImage(null);
-            setIsBlackBtnChecked(false);
-            setIsWhiteBtnChecked(false);
-            setIsBlueBtnChecked(true);
-            setIsGradient1BtnChecked(false);
-            setIsGradient2BtnChecked(false);
-            setIsGradient3BtnChecked(false);
-            setIsGradient4BtnChecked(false);
-            setIsGradient5BtnChecked(false);
-            setIsGradient6BtnChecked(false);
-            setIsGradient7BtnChecked(false);
-            setIsGradient8BtnChecked(false);
-            setIsGradient9BtnChecked(false);
-            setIsGradient10BtnChecked(false);
-            setIsGradient11BtnChecked(false);
-            setIsGradient12BtnChecked(false);
-
-        } else if (targetId === "gradient1-btn") {
-            setBackgroundColor("#4158D0");
-            setBackgroundImage("linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)");
-            setIsBlackBtnChecked(false);
-            setIsWhiteBtnChecked(false);
-            setIsBlueBtnChecked(false);
-            setIsGradient1BtnChecked(true);
-            setIsGradient2BtnChecked(false);
-            setIsGradient3BtnChecked(false);
-            setIsGradient4BtnChecked(false);
-            setIsGradient5BtnChecked(false);
-            setIsGradient6BtnChecked(false);
-            setIsGradient7BtnChecked(false);
-            setIsGradient8BtnChecked(false);
-            setIsGradient9BtnChecked(false);
-            setIsGradient10BtnChecked(false);
-            setIsGradient11BtnChecked(false);
-            setIsGradient12BtnChecked(false);
-
-        } else if (targetId === "gradient2-btn") {
-            setBackgroundColor("#0093E9");
-            setBackgroundImage("linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)");
-            setIsBlackBtnChecked(false);
-            setIsWhiteBtnChecked(false);
-            setIsBlueBtnChecked(false);
-            setIsGradient1BtnChecked(false);
-            setIsGradient2BtnChecked(true);
-            setIsGradient3BtnChecked(false);
-            setIsGradient4BtnChecked(false);
-            setIsGradient5BtnChecked(false);
-            setIsGradient6BtnChecked(false);
-            setIsGradient7BtnChecked(false);
-            setIsGradient8BtnChecked(false);
-            setIsGradient9BtnChecked(false);
-            setIsGradient10BtnChecked(false);
-            setIsGradient11BtnChecked(false);
-            setIsGradient12BtnChecked(false);
-
-        } else if (targetId === "gradient3-btn") {
-            setBackgroundColor("#00DBDE");
-            setBackgroundImage("linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%)");
-            setIsBlackBtnChecked(false);
-            setIsWhiteBtnChecked(false);
-
-            setIsBlueBtnChecked(false);
-            setIsGradient1BtnChecked(false);
-            setIsGradient2BtnChecked(false);
-            setIsGradient3BtnChecked(true);
-            setIsGradient4BtnChecked(false);
-            setIsGradient5BtnChecked(false);
-            setIsGradient6BtnChecked(false);
-            setIsGradient7BtnChecked(false);
-            setIsGradient8BtnChecked(false);
-            setIsGradient9BtnChecked(false);
-            setIsGradient10BtnChecked(false);
-            setIsGradient11BtnChecked(false);
-            setIsGradient12BtnChecked(false);
-
-        } else if (targetId === "gradient4-btn") {
-            setBackgroundColor("#0F2027");
-            setBackgroundImage("-webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027)");
-            setBackgroundImage("linear-gradient(to right, #2C5364, #203A43, #0F2027)");
-            setIsBlackBtnChecked(false);
-            setIsWhiteBtnChecked(false);
-
-            setIsBlueBtnChecked(false);
-            setIsGradient1BtnChecked(false);
-            setIsGradient2BtnChecked(false);
-            setIsGradient3BtnChecked(false);
-            setIsGradient4BtnChecked(true);
-            setIsGradient5BtnChecked(false);
-            setIsGradient6BtnChecked(false);
-            setIsGradient7BtnChecked(false);
-            setIsGradient8BtnChecked(false);
-            setIsGradient9BtnChecked(false);
-            setIsGradient10BtnChecked(false);
-            setIsGradient11BtnChecked(false);
-            setIsGradient12BtnChecked(false);
-
-        } else if (targetId === "gradient5-btn") {
-            setBackgroundColor("#ff0099");
-            setBackgroundImage("-webkit-linear-gradient(to right, #ff0099, #493240)");
-            setBackgroundImage("linear-gradient(to right, #ff0099, #493240)");
-            setIsBlackBtnChecked(false);
-            setIsWhiteBtnChecked(false);
-
-            setIsBlueBtnChecked(false);
-            setIsGradient1BtnChecked(false);
-            setIsGradient2BtnChecked(false);
-            setIsGradient3BtnChecked(false);
-            setIsGradient4BtnChecked(false);
-            setIsGradient5BtnChecked(true);
-            setIsGradient6BtnChecked(false);
-            setIsGradient7BtnChecked(false);
-            setIsGradient8BtnChecked(false);
-            setIsGradient9BtnChecked(false);
-            setIsGradient10BtnChecked(false);
-            setIsGradient11BtnChecked(false);
-            setIsGradient12BtnChecked(false);
-
-        } else if (targetId === "gradient6-btn") {
-            setBackgroundColor("#355C7D");
-            setBackgroundImage("-webkit-linear-gradient(to left, #C06C84, #6C5B7B, #355C7D)");
-            setBackgroundImage("linear-gradient(to left, #C06C84, #6C5B7B, #355C7D)");
-            setIsBlackBtnChecked(false);
-            setIsWhiteBtnChecked(false);
-
-            setIsBlueBtnChecked(false);
-            setIsGradient1BtnChecked(false);
-            setIsGradient2BtnChecked(false);
-            setIsGradient3BtnChecked(false);
-            setIsGradient4BtnChecked(false);
-            setIsGradient5BtnChecked(false);
-            setIsGradient6BtnChecked(true);
-            setIsGradient7BtnChecked(false);
-            setIsGradient8BtnChecked(false);
-            setIsGradient9BtnChecked(false);
-            setIsGradient10BtnChecked(false);
-            setIsGradient11BtnChecked(false);
-            setIsGradient12BtnChecked(false);
-
-        } else if (targetId === "gradient7-btn") {
-            setBackgroundColor("#000428");
-            setBackgroundImage("-webkit-linear-gradient(to left, #004e92, #000428)");
-            setBackgroundImage("linear-gradient(to left, #004e92, #000428)");
-            setIsBlackBtnChecked(false);
-            setIsWhiteBtnChecked(false);
-
-            setIsBlueBtnChecked(false);
-            setIsGradient1BtnChecked(false);
-            setIsGradient2BtnChecked(false);
-            setIsGradient3BtnChecked(false);
-            setIsGradient4BtnChecked(false);
-            setIsGradient5BtnChecked(false);
-            setIsGradient6BtnChecked(false);
-            setIsGradient7BtnChecked(true);
-            setIsGradient8BtnChecked(false);
-            setIsGradient9BtnChecked(false);
-            setIsGradient10BtnChecked(false);
-            setIsGradient11BtnChecked(false);
-            setIsGradient12BtnChecked(false);
-
-        } else if (targetId === "gradient8-btn") {
-            setBackgroundColor("#283048");
-            setBackgroundImage("-webkit-linear-gradient(to left, #283048, #859398)");
-            setBackgroundImage("linear-gradient(to left, #283048, #859398)");
-            setIsBlackBtnChecked(false);
-            setIsWhiteBtnChecked(false);
-
-            setIsBlueBtnChecked(false);
-            setIsGradient1BtnChecked(false);
-            setIsGradient2BtnChecked(false);
-            setIsGradient3BtnChecked(false);
-            setIsGradient4BtnChecked(false);
-            setIsGradient5BtnChecked(false);
-            setIsGradient6BtnChecked(false);
-            setIsGradient7BtnChecked(false);
-            setIsGradient8BtnChecked(true);
-            setIsGradient9BtnChecked(false);
-            setIsGradient10BtnChecked(false);
-            setIsGradient11BtnChecked(false);
-            setIsGradient12BtnChecked(false);
-
-        } else if (targetId === "gradient9-btn") {
-            setBackgroundColor("#73C8A9");
-            setBackgroundImage("-webkit-linear-gradient(to left, #373B44, #73C8A9)");
-            setBackgroundImage("linear-gradient(to left, #373B44, #73C8A9)");
-            setIsBlackBtnChecked(false);
-            setIsWhiteBtnChecked(false);
-            
-            setIsBlueBtnChecked(false);
-            setIsGradient1BtnChecked(false);
-            setIsGradient2BtnChecked(false);
-            setIsGradient3BtnChecked(false);
-            setIsGradient4BtnChecked(false);
-            setIsGradient5BtnChecked(false);
-            setIsGradient6BtnChecked(false);
-            setIsGradient7BtnChecked(false);
-            setIsGradient8BtnChecked(false);
-            setIsGradient9BtnChecked(true);
-            setIsGradient10BtnChecked(false);
-            setIsGradient11BtnChecked(false);
-            setIsGradient12BtnChecked(false);
-
-        } else if (targetId === "gradient10-btn") {
-            setBackgroundColor("#6441A5");
-            setBackgroundImage("-webkit-linear-gradient(to left, #2a0845, #6441A5)");
-            setBackgroundImage("linear-gradient(to left, #2a0845, #6441A5)");
-            setIsBlackBtnChecked(false);
-            setIsWhiteBtnChecked(false);
-
-            setIsBlueBtnChecked(false);
-            setIsGradient1BtnChecked(false);
-            setIsGradient2BtnChecked(false);
-            setIsGradient3BtnChecked(false);
-            setIsGradient4BtnChecked(false);
-            setIsGradient5BtnChecked(false);
-            setIsGradient6BtnChecked(false);
-            setIsGradient7BtnChecked(false);
-            setIsGradient8BtnChecked(false);
-            setIsGradient9BtnChecked(false);
-            setIsGradient10BtnChecked(true);
-            setIsGradient11BtnChecked(false);
-            setIsGradient12BtnChecked(false);
-
-        } else if (targetId === "gradient11-btn") {
-            setBackgroundColor("#11998e");
-            setBackgroundImage("-webkit-linear-gradient(to left, #38ef7d, #11998e)");
-            setBackgroundImage("linear-gradient(to left, #38ef7d, #11998e)");
-            setIsBlackBtnChecked(false);
-            setIsWhiteBtnChecked(false);
-
-            setIsBlueBtnChecked(false);
-            setIsGradient1BtnChecked(false);
-            setIsGradient2BtnChecked(false);
-            setIsGradient3BtnChecked(false);
-            setIsGradient4BtnChecked(false);
-            setIsGradient5BtnChecked(false);
-            setIsGradient6BtnChecked(false);
-            setIsGradient7BtnChecked(false);
-            setIsGradient8BtnChecked(false);
-            setIsGradient9BtnChecked(false);
-            setIsGradient10BtnChecked(false);
-            setIsGradient11BtnChecked(true);
-            setIsGradient12BtnChecked(false);
-
-        } else if (targetId === "gradient12-btn") {
-            setBackgroundColor("#BA8B02");
-            setBackgroundImage("-webkit-linear-gradient(to left, #181818, #BA8B02)");
-            setBackgroundImage("linear-gradient(to left, #181818, #BA8B02)");
-
-            setIsBlackBtnChecked(false);
-            setIsWhiteBtnChecked(false);
-
-            setIsBlueBtnChecked(false);
-            setIsGradient1BtnChecked(false);
-            setIsGradient2BtnChecked(false);
-            setIsGradient3BtnChecked(false);
-            setIsGradient4BtnChecked(false);
-            setIsGradient5BtnChecked(false);
-            setIsGradient6BtnChecked(false);
-            setIsGradient7BtnChecked(false);
-            setIsGradient8BtnChecked(false);
-            setIsGradient9BtnChecked(false);
-            setIsGradient10BtnChecked(false);
-            setIsGradient11BtnChecked(false);
-            setIsGradient12BtnChecked(true);
-
-        }
-        const gradientButtons = [
-            setIsBlackBtnChecked,
-            setIsWhiteBtnChecked,
-            setIsBlueBtnChecked,
-            setIsGradient1BtnChecked,
-            setIsGradient2BtnChecked,
-            setIsGradient3BtnChecked,
-            setIsGradient4BtnChecked,
-            setIsGradient5BtnChecked,
-            setIsGradient6BtnChecked,
-            setIsGradient7BtnChecked,
-            setIsGradient8BtnChecked,
-            setIsGradient9BtnChecked,
-            setIsGradient10BtnChecked,
-            setIsGradient11BtnChecked,
-            setIsGradient12BtnChecked,
-        ];
-
-        // gradientButtons.forEach((btn, index) => btn(index === colorValue ?  true : false));
-       
-
+        // setBackgroundImage(`linear-gradient(to right, #1e1f21, ${colorValue})`);
     }
-    useEffect(() => {
+    const theme = useTheme();
+    const [currentColorMode, setCurrentColorMode] = useState(getStoredColorMode());//useState(theme.palette.mode);
+    const handleSwitchChange = (event) => {
+        const newColorMode = currentColorMode === 'light' ? 'dark' : 'light';
+        setCurrentColorMode(newColorMode);
+        localStorage.setItem('colorMode', newColorMode); // Store the new mode in localStorage
+  
+        // setCurrentColorMode(event.target.checked ? 'dark' : 'light');
+    };
+
+    const MaterialUISwitch = styled(Switch)(({ theme }) => ({
+        width: 62,
+        height: 34,
+        padding: 7,
+        '& .MuiSwitch-switchBase': {
+          margin: 1,
+          padding: 0,
+          transform: 'translateX(6px)',
+          
+          '&.Mui-checked': {
+            color: '#fff',
+            transform: 'translateX(22px)',
+            transition: "5s ease-in-out",
+
+            '& .MuiSwitch-thumb:before': {
+              backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
+                '#fff',
+              )}" d="M4.2 2.5l-.7 1.8-1.8.7 1.8.7.7 1.8.6-1.8L6.7 5l-1.9-.7-.6-1.8zm15 8.3a6.7 6.7 0 11-6.6-6.6 5.8 5.8 0 006.6 6.6z"/></svg>')`,
+            },
+            '& + .MuiSwitch-track': {
+                opacity: 1,
+                backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#081d3a',
+
+                transition: "5s ease-in-out",
+            },
+          },
+          transition: '5s ease-out',
+        },
+        '& .MuiSwitch-thumb': {
+            backgroundColor: currentColorMode === 'light' ? '#f1c045' : '#121212',
+            width: 32,
+            height: 32,
+            
+            '&::before': {
+                content: "''",
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                left: 0,
+                top: 0,
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
+                '#fff',
+                )}" d="M9.305 1.667V3.75h1.389V1.667h-1.39zm-4.707 1.95l-.982.982L5.09 6.072l.982-.982-1.473-1.473zm10.802 0L13.927 5.09l.982.982 1.473-1.473-.982-.982zM10 5.139a4.872 4.872 0 00-4.862 4.86A4.872 4.872 0 0010 14.862 4.872 4.872 0 0014.86 10 4.872 4.872 0 0010 5.139zm0 1.389A3.462 3.462 0 0113.471 10a3.462 3.462 0 01-3.473 3.472A3.462 3.462 0 016.527 10 3.462 3.462 0 0110 6.528zM1.665 9.305v1.39h2.083v-1.39H1.666zm14.583 0v1.39h2.084v-1.39h-2.084zM5.09 13.928L3.616 15.4l.982.982 1.473-1.473-.982-.982zm9.82 0l-.982.982 1.473 1.473.982-.982-1.473-1.473zM9.305 16.25v2.083h1.389V16.25h-1.39z"/></svg>')`,
+            },
+        },
+        '& .MuiSwitch-track': {
+            opacity: 1,
+            backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#e7e7e7',
+            borderRadius: 10,
+
+        },
+    }));
+
+
+    useEffect((colorValue) => {
+        const storedMode = getStoredColorMode();
+    setCurrentColorMode(storedMode);
+        
+        if (currentColorMode === 'dark')
+            setBackgroundImage(`linear-gradient(to right, #1e1f21, ${backgroundColor})`);
+
+        else if (currentColorMode === 'light')
+            setBackgroundImage(`linear-gradient(to right, ${backgroundColor}, ${backgroundColor})`);
+
+        console.log(backgroundColor);
         document.body.style.backgroundColor = backgroundColor;
         document.body.style.backgroundImage = backgroundImage;
-
+        
         const homeHeaderText = document.querySelectorAll('.home-header-text');
         const textColor = backgroundColor === '#e7e7e7' ? '#000000' : '#ffffff';
 
         homeHeaderText.forEach(element => {
             element.style.color = textColor;
         });
-      }, [backgroundColor, backgroundImage]);
+    }, [backgroundColor, backgroundImage, setBackgroundColor, setBackgroundImage, currentColorMode]);
+
+
+
+    const [drawerState, setDrawerState] = useState(false);
+
+
+    const toggleDrawer = (anchor, open) => (event) => {
+        if (
+            event &&
+            event.type === 'keydown' &&
+            (event.key === 'Tab' || event.key === 'Shift')
+        ) {
+            return;
+        }
+
+        setDrawerState({ ...drawerState, [anchor]: open });
+    };
+
+    const list = (anchor) => (
+        <Box
+          sx={{ width: "25rem", height: '100%', backgroundColor: '#232323' }}
+          role="presentation"
+          className='pt-4'
+        //   onClick={toggleDrawer(anchor, false)}
+        //   onKeyDown={toggleDrawer(anchor, false)}
+        >
+            <div className='ms-3'>
+                <div className='d-flex'>
+                    <div className='customize-customization-text me-5'>Customization</div>
+                    <div className='m-auto fafafa-color '>
+                        <Tooltip title={<span className='nunito-sans-font'>{[`Exit customization panel`]}</span>} arrow className='menu-tooltip'>
+                            <ExitToAppIcon className='ms-5'onClick={toggleDrawer(anchor, false)} sx={{cursor: "pointer"}}/>                
+                        </Tooltip>
+                    </div>
+                </div>
+                <div className='customize-background-text mt-3'>Background</div>
+                <div className='container'>
+                <div className='row'>
+                    <div className='col-3'>
+                        <div onClick={(e) =>HandleBackgroundColor(e, "#566566")} className='me-2 theme-color-div mt-3' id="abestos-theme-btn"></div>
+                    </div>
+                    <div className='col-3'>
+                        <div onClick={(e) =>HandleBackgroundColor(e, "#086E5A")} className='mx-2 theme-color-div mt-3' id="turquoise-theme-btn"></div>
+                    </div>
+                    <div className='col-3'>
+                        <div onClick={(e) =>HandleBackgroundColor(e, "#14964a")} className='mx-2 theme-color-div mt-3' id="emerald-theme-btn"></div>
+                    </div>
+                    <div className='col-3'>
+                        <div onClick={(e) =>HandleBackgroundColor(e, "#1A3C7F")} className='mx-2 theme-color-div mt-3' id="peter-river-theme-btn"></div>
+                    </div>
+                </div>
+                <div className='row'>
+                    <div className='col-3'>
+                        <div onClick={(e) =>HandleBackgroundColor(e, "#74005D")} className='me-2 theme-color-div mt-3' id="amethyst-theme-btn"></div>
+                    </div>
+                    <div className='col-3'>
+                        <div onClick={(e) =>HandleBackgroundColor(e, "#b89413")} className='mx-2 theme-color-div mt-3' id="sunflower-theme-btn"></div>
+                    </div>
+                    <div className='col-3'>
+                        <div onClick={(e) =>HandleBackgroundColor(e, "#ad580c")} className='mx-2 theme-color-div mt-3' id="carrot-theme-btn"></div>
+                    </div>
+                    <div className='col-3'>
+                        <div onClick={(e) =>HandleBackgroundColor(e, "#a3291c")} className='mx-2 theme-color-div mt-3' id="alizarin-theme-btn"></div>
+                    </div>
+                </div>
+            </div>
+
+                <FormGroup className='mt-4 '>
+                    <FormControlLabel
+                        control={
+                            <MaterialUISwitch
+                                defaultChecked={currentColorMode === 'dark'}
+                                onChange={handleSwitchChange}
+                            />
+                        }
+                        label={
+                            <Typography
+                              variant="body1"
+                              sx={{
+                                fontFamily: 'Nunito Sans, sans-serif',
+                                color: '#fafafa',
+                              }}
+                              className='ps-2'
+                            >
+                              {currentColorMode === 'dark' ? 'Dark Mode' : 'Light Mode'}
+                            </Typography>
+                          }
+                        className='customization-day-night-theme-switch'
+                    />
+                </FormGroup>
+
+
+            </div>
+
+            <List>
+                <ListItem disablePadding sx={{color: "#fafafa"}}>
+                    <ListItemButton>
+                    <ListItemText  />
+                    </ListItemButton>
+                </ListItem>
+
+                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                <ListItem key={text} disablePadding sx={{color: "#fafafa"}}>
+                    <ListItemButton>
+                    <ListItemIcon sx={{color: "#fafafa"}}>
+                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    </ListItemIcon>
+                    <ListItemText primary={text} />
+                    </ListItemButton>
+                </ListItem>
+                ))}
+            </List>
+            <Divider />
+        </Box>
+    );
+
 
     return (
         <>
-            <div className='pt-4 d-none d-sm-block'>
-                <div className='d-flex justify-content-between'>
-                    <h2 className=' home-header-text home-text pt-2 m-0'> My Home</h2>
+            <div className='pt-5 d-none d-sm-block parentt'>
+                <div className='d-flex justify-content-between mb-4'>
+                    <div className='home-header-text home-text'>
+                        <HomeIcon className='me-1 mb-1' style={{width: "2rem",height: "2rem"}}/>
+                        <div className='d-inline'>Home</div>
+                    </div>          
+
+                    <div>
+                        <Button className='customize-bg' onClick={toggleDrawer('right', true)} /*onClick={(event) => handleCustomizePopoverClick(event, )}*/ >
+                            <DashboardCustomizeIcon></DashboardCustomizeIcon><span className='ps-1 lato-font'>Customize</span>
+                        </Button>
+                        <React.Fragment>
+                            <SwipeableDrawer
+                                anchor={'right'}
+                                open={drawerState['right']}
+                                onClose={toggleDrawer('right', false)}
+                                onOpen={toggleDrawer('right', true)}
+                            >
+                                {list('right')}
+                            </SwipeableDrawer>
+                        </React.Fragment>
+                    </div>
                     
-                    <Button className='customize-bg' onClick={(event) => handleCustomizePopoverClick(event, )}>
-                        <DashboardCustomizeIcon></DashboardCustomizeIcon><span className='ps-1'>Customize</span>
-                    </Button>
-                    <Popover
-                        id={customizePopOverId}
-                        open={openCustomizePopover}
-                        anchorEl={customizePopoverAnchorEl}
-                        onClose={handleCustomizePopoverClose}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        className='customize-popover'
-                        >
-                        <Typography className='customize-typography'>
-                            <div>
-                                <Button id="black-btn" className='customize-btn mx-1 ' onClick={(event) => handleBackgroundColor(event, "#1e1f21",null, null)}>
-                                    <div className='d-flex justify-content-center'>
-                                        {isBlackBtnChecked && <CheckIcon className=' background-color-check' id='black-btn-check' />}
-                                    </div>
-                                </Button>
-
-                                <Button id="white-btn" className='customize-btn mx-1' onClick={handleBackgroundColor}>
-                                    <div className="d-flex justify-content-center">
-                                        {isWhiteBtnChecked && <CheckIcon className='background-color-check text-black' id='white-btn-check' />}
-                                    </div>
-
-                                </Button>
-                                <Button id="blue-btn" className='customize-btn mx-1' onClick={handleBackgroundColor}>
-                                    <div className="d-flex justify-content-center">
-                                        {isBlueBtnChecked && <CheckIcon className='background-color-check' id='blue-btn-check' />}
-                                    </div>
-                                </Button>                        
-                            </div>
-                            <div className='mt-3'>
-                                <Button id="gradient1-btn" className='customize-btn mx-1' onClick={handleBackgroundColor}>
-                                    <div className="d-flex justify-content-center">
-                                        {isGradient1BtnChecked && <CheckIcon className='background-color-check' id='gradient1-btn-check' />}
-                                    </div>
-                                </Button>
-                                <Button id="gradient2-btn" className='customize-btn mx-1' onClick={handleBackgroundColor}>
-                                    <div className="d-flex justify-content-center">
-                                        {isGradient2BtnChecked && <CheckIcon className='background-color-check' id='gradient2-btn-check' />}
-                                    </div>
-                                </Button>
-                                <Button id="gradient3-btn" className='customize-btn mx-1' onClick={handleBackgroundColor}>
-                                    <div className="d-flex justify-content-center">
-                                        {isGradient3BtnChecked && <CheckIcon className='background-color-check' id='gradient3-btn-check' />}
-                                    </div>
-                                </Button>
-
-                            </div>
-                            <div className='mt-3'>
-                                <Button id="gradient4-btn" className='customize-btn mx-1' onClick={handleBackgroundColor}>
-                                    <div className="d-flex justify-content-center">
-                                        {isGradient4BtnChecked && <CheckIcon className='background-color-check' id='gradient4-btn-check' />}
-                                    </div>
-                                </Button>
-                                <Button id="gradient5-btn" className='customize-btn mx-1' onClick={handleBackgroundColor}>
-                                    <div className="d-flex justify-content-center">
-                                        {isGradient5BtnChecked && <CheckIcon className='background-color-check' id='gradient5-btn-check' />}
-                                    </div>
-                                </Button>
-                                <Button id="gradient6-btn" className='customize-btn mx-1' onClick={handleBackgroundColor}>
-                                    <div className="d-flex justify-content-center">
-                                        {isGradient6BtnChecked && <CheckIcon className='background-color-check' id='gradient6-btn-check' />}
-                                    </div>
-                                </Button>
-                            </div>
-                            <div className='mt-3'>
-                                <Button id="gradient7-btn" className='customize-btn mx-1' onClick={handleBackgroundColor}>
-                                    <div className="d-flex justify-content-center">
-                                        {isGradient7BtnChecked && <CheckIcon className='background-color-check' id='gradient7-btn-check' />}
-                                    </div>
-                                </Button>
-                                <Button id="gradient8-btn" className='customize-btn mx-1' onClick={handleBackgroundColor}>
-                                    <div className="d-flex justify-content-center">
-                                        {isGradient8BtnChecked && <CheckIcon className='background-color-check' id='gradient8-btn-check' />}
-                                    </div>
-                                </Button>
-                                <Button id="gradient9-btn" className='customize-btn mx-1' onClick={handleBackgroundColor}>
-                                    <div className="d-flex justify-content-center">
-                                        {isGradient9BtnChecked && <CheckIcon className='background-color-check' id='gradient9-btn-check' />}
-                                    </div>
-                                </Button>
-                            </div>
-                            <div className='mt-3'>
-                                <Button id="gradient10-btn" className='customize-btn mx-1' onClick={handleBackgroundColor}>
-                                    <div className="d-flex justify-content-center">
-                                        {isGradient10BtnChecked && <CheckIcon className='background-color-check' id='gradient10-btn-check' />}
-                                    </div>
-                                </Button>
-                                <Button id="gradient11-btn" className='customize-btn mx-1' onClick={handleBackgroundColor}>
-                                    <div className="d-flex justify-content-center">
-                                        {isGradient11BtnChecked && <CheckIcon className='background-color-check' id='gradient11-btn-check' />}
-                                    </div>
-                                </Button>
-                                <Button id="gradient12-btn" className='customize-btn mx-1' onClick={handleBackgroundColor}>
-                                <div className="d-flex justify-content-center">
-                                        {isGradient12BtnChecked && <CheckIcon className='background-color-check' id='gradient12-btn-check' />}
-                                    </div>
-                                </Button>
-                            </div>
-                            </Typography>
-                    </Popover>
                 </div>
-                <hr className='home-header-text '/>
-            </div>
-            <div className='pt-5 pt-sm-3 home-header-text text-center'>
-                <h2 className=' today'>{todays_date}</h2>
-                <h2 className=' greeting pt-1'>{greeting}, <span>{firstName}</span> {timeEmoji}</h2> 
-            </div>
+
+                <div className='pt-3 pt-sm-3 home-header-text text-center'>
+                    <h2 className=' today'>{todays_date}</h2>
+                    <h2 className=' greeting pt-1'>{greeting}, <span>{firstName}</span> {timeEmoji}</h2> 
+                </div>
+                <hr className='home-header-text'/>
+            </div> 
         </>
     )
 }
