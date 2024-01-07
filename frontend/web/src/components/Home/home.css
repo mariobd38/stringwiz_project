@@ -3,7 +3,7 @@
     font-weight: 800;
 }
 .my-card {
-    width:100%;
+    width:92.5%;
     border-radius: 20px !important;
 }
 @media(max-width: 1200px) {

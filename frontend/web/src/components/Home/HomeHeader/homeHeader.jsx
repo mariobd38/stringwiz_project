@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocalState } from "../../../utils/useLocalStorage";
+import { useCookies } from "../../../utils/useCookies";
 
 import Button from 'react-bootstrap/Button';
 
@@ -8,9 +9,9 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import HomeIcon from '@mui/icons-material/Home';
 
 import Box from '@mui/material/Box';
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import Divider from '@mui/material/Divider';
 import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -22,23 +23,14 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Switch from '@mui/material/Switch';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material';
 
 import { styled } from '@mui/material/styles';
 
 import './homeHeader.css';
 
-
-const getStoredColorMode = () => {
-    const storedMode = localStorage.getItem('colorMode');
-    return storedMode !== null ? storedMode : 'light'; // Set a default mode if none is stored
-};
-
 const HomeHeader = () => {
     const dayjs = require('dayjs');
-
     const [userFullName] = useLocalState("", "userFullName");
-
 
     var now = Intl.DateTimeFormat().resolvedOptions().timeZone;
     now = dayjs();
@@ -71,12 +63,28 @@ const HomeHeader = () => {
             timeEmoji = "🌅";
             break;
     }
+    
+    //color background
+    const abestosBg = "#384748";
+    const turquoiseBg = "#005A46";
+    const emeraldBg = "#00782C";
+    const peterRiverBg = "#16244A";
+    const amethystBg = "#4A174D";
+    const sunflowerBg = "#B89413";
+    const carrotBg = "#AD580C";
+    const alizarinBg = "#59211A";
 
-    const [backgroundColor, setBackgroundColor] = useLocalState("#1e1f21", "backgroundColor");
-    const [backgroundImage, setBackgroundImage] = useLocalState(null, "backgroundImage");
+    const [backgroundColor, setBackgroundColor] = useCookies("#1e1f21", "backgroundColor");
+    const [backgroundImage, setBackgroundImage] = useCookies(null, "backgroundImage");
 
     const HandleBackgroundColor = (event, colorValue) => {
-        console.log("hey hey");
+        if (colorValue === backgroundColor) {
+            if (currentColorMode === "dark")
+                setBackgroundColor("#1e1f21");
+            else 
+                setBackgroundColor("#fafafa");
+            return;
+        } 
         console.log(currentColorMode);
         setBackgroundColor(colorValue);
         if (currentColorMode === 'dark')
@@ -86,13 +94,19 @@ const HomeHeader = () => {
 
         // setBackgroundImage(`linear-gradient(to right, #1e1f21, ${colorValue})`);
     }
-    const theme = useTheme();
-    const [currentColorMode, setCurrentColorMode] = useState(getStoredColorMode());//useState(theme.palette.mode);
+    const [currentColorMode, setCurrentColorMode] = useCookies("dark", "colorMode");
     const handleSwitchChange = (event) => {
         const newColorMode = currentColorMode === 'light' ? 'dark' : 'light';
         setCurrentColorMode(newColorMode);
-        localStorage.setItem('colorMode', newColorMode); // Store the new mode in localStorage
-  
+        setCurrentColorMode(newColorMode);
+       
+        if (backgroundColor === "#fafafa" && newColorMode === "dark") {
+            console.log('mami chula');
+            setBackgroundColor("#1e1f21");
+        } else if (backgroundColor === "#1e1f21" && newColorMode === "light") {
+            setBackgroundColor("#fafafa");
+
+        }
         // setCurrentColorMode(event.target.checked ? 'dark' : 'light');
     };
 
@@ -153,8 +167,8 @@ const HomeHeader = () => {
 
 
     useEffect((colorValue) => {
-        const storedMode = getStoredColorMode();
-    setCurrentColorMode(storedMode);
+        const storedMode = currentColorMode;
+        setCurrentColorMode(storedMode);
         
         if (currentColorMode === 'dark')
             setBackgroundImage(`linear-gradient(to right, #1e1f21, ${backgroundColor})`);
@@ -163,11 +177,12 @@ const HomeHeader = () => {
             setBackgroundImage(`linear-gradient(to right, ${backgroundColor}, ${backgroundColor})`);
 
         console.log(backgroundColor);
-        document.body.style.backgroundColor = backgroundColor;
-        document.body.style.backgroundImage = backgroundImage;
+            document.body.style.backgroundColor = backgroundColor;
+            document.body.style.backgroundImage = backgroundImage;
+        
         
         const homeHeaderText = document.querySelectorAll('.home-header-text');
-        const textColor = backgroundColor === '#e7e7e7' ? '#000000' : '#ffffff';
+        const textColor = backgroundColor === '#fafafa' ? '#000000' : '#ffffff';
 
         homeHeaderText.forEach(element => {
             element.style.color = textColor;
@@ -201,70 +216,101 @@ const HomeHeader = () => {
         >
             <div className='ms-3'>
                 <div className='d-flex'>
-                    <div className='customize-customization-text me-5'>Customization</div>
+                    <div className='customize-customization-text me-5'>
+                        Customization
+                    </div>
                     <div className='m-auto fafafa-color '>
                         <Tooltip title={<span className='nunito-sans-font'>{[`Exit customization panel`]}</span>} arrow className='menu-tooltip'>
                             <ExitToAppIcon className='ms-5'onClick={toggleDrawer(anchor, false)} sx={{cursor: "pointer"}}/>                
                         </Tooltip>
                     </div>
                 </div>
-                <div className='customize-background-text mt-3'>Background</div>
+                <div className='customize-background-text mt-3'>
+                    Background
+                </div>
                 <div className='container'>
-                <div className='row'>
-                    <div className='col-3'>
-                        <div onClick={(e) =>HandleBackgroundColor(e, "#566566")} className='me-2 theme-color-div mt-3' id="abestos-theme-btn"></div>
+                    <div className='row'>
+                        <div className='col-3'>
+                            <div onClick={(e) =>HandleBackgroundColor(e, `${abestosBg}`)} className='me-2 theme-color-div mt-3' id="abestos-theme-btn">
+                                {backgroundColor === `${abestosBg}` && <div className='theme-color-div-inner'>
+                                    <CheckRoundedIcon />
+                                </div> }
+                            </div>
+                        </div>
+                        <div className='col-3'>
+                            <div onClick={(e) =>HandleBackgroundColor(e, `${turquoiseBg}`)} className='mx-2 theme-color-div mt-3' id="turquoise-theme-btn">
+                                {backgroundColor === `${turquoiseBg}` && <div className='theme-color-div-inner'>
+                                    <CheckRoundedIcon />
+                                </div> }
+                            </div>
+                        </div>
+                        <div className='col-3'>
+                            <div onClick={(e) =>HandleBackgroundColor(e, `${emeraldBg}`)} className='mx-2 theme-color-div mt-3' id="emerald-theme-btn">
+                                {backgroundColor === `${emeraldBg}` && <div className='theme-color-div-inner'>
+                                    <CheckRoundedIcon />
+                                </div> }
+                            </div>
+                        </div>
+                        <div className='col-3'>
+                            <div onClick={(e) =>HandleBackgroundColor(e, `${peterRiverBg}`)} className='mx-2 theme-color-div mt-3' id="peter-river-theme-btn">
+                                {backgroundColor === `${peterRiverBg}` && <div className='theme-color-div-inner'>
+                                    <CheckRoundedIcon />
+                                </div> }
+                            </div>
+                        </div>
                     </div>
-                    <div className='col-3'>
-                        <div onClick={(e) =>HandleBackgroundColor(e, "#086E5A")} className='mx-2 theme-color-div mt-3' id="turquoise-theme-btn"></div>
-                    </div>
-                    <div className='col-3'>
-                        <div onClick={(e) =>HandleBackgroundColor(e, "#14964a")} className='mx-2 theme-color-div mt-3' id="emerald-theme-btn"></div>
-                    </div>
-                    <div className='col-3'>
-                        <div onClick={(e) =>HandleBackgroundColor(e, "#1A3C7F")} className='mx-2 theme-color-div mt-3' id="peter-river-theme-btn"></div>
+                    <div className='row'>
+                        <div className='col-3'>
+                            <div onClick={(e) =>HandleBackgroundColor(e, `${amethystBg}`)} className='me-2 theme-color-div mt-3' id="amethyst-theme-btn">
+                                {backgroundColor === `${amethystBg}` && <div className='theme-color-div-inner'>
+                                    <CheckRoundedIcon />
+                                </div> }
+                            </div>
+                        </div>
+                        <div className='col-3'>
+                            <div onClick={(e) =>HandleBackgroundColor(e, `${sunflowerBg}`)} className='mx-2 theme-color-div mt-3' id="sunflower-theme-btn">
+                                {backgroundColor === `${sunflowerBg}` && <div className='theme-color-div-inner'>
+                                    <CheckRoundedIcon />
+                                </div> }
+                            </div>
+                        </div>
+                        <div className='col-3'>
+                            <div onClick={(e) =>HandleBackgroundColor(e, `${carrotBg}`)} className='mx-2 theme-color-div mt-3' id="carrot-theme-btn">
+                                {backgroundColor === `${carrotBg}` && <div className='theme-color-div-inner'>
+                                    <CheckRoundedIcon />
+                                </div> }
+                            </div>
+                        </div>
+                        <div className='col-3'>
+                            <div onClick={(e) =>HandleBackgroundColor(e, `${alizarinBg}`)} className='mx-2 theme-color-div mt-3' id="alizarin-theme-btn">
+                                {backgroundColor === `${alizarinBg}` && <div className='theme-color-div-inner'>
+                                    <CheckRoundedIcon />
+                                </div> }
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div className='row'>
-                    <div className='col-3'>
-                        <div onClick={(e) =>HandleBackgroundColor(e, "#74005D")} className='me-2 theme-color-div mt-3' id="amethyst-theme-btn"></div>
-                    </div>
-                    <div className='col-3'>
-                        <div onClick={(e) =>HandleBackgroundColor(e, "#b89413")} className='mx-2 theme-color-div mt-3' id="sunflower-theme-btn"></div>
-                    </div>
-                    <div className='col-3'>
-                        <div onClick={(e) =>HandleBackgroundColor(e, "#ad580c")} className='mx-2 theme-color-div mt-3' id="carrot-theme-btn"></div>
-                    </div>
-                    <div className='col-3'>
-                        <div onClick={(e) =>HandleBackgroundColor(e, "#a3291c")} className='mx-2 theme-color-div mt-3' id="alizarin-theme-btn"></div>
-                    </div>
-                </div>
-            </div>
-
-                <FormGroup className='mt-4 '>
-                    <FormControlLabel
-                        control={
+                <div>
+                    <FormGroup className='mt-4'>
+                        <div className='d-flex align-items-center'>
                             <MaterialUISwitch
+                                className='customization-day-night-theme-switch'
                                 defaultChecked={currentColorMode === 'dark'}
                                 onChange={handleSwitchChange}
                             />
-                        }
-                        label={
                             <Typography
-                              variant="body1"
-                              sx={{
-                                fontFamily: 'Nunito Sans, sans-serif',
-                                color: '#fafafa',
-                              }}
-                              className='ps-2'
-                            >
-                              {currentColorMode === 'dark' ? 'Dark Mode' : 'Light Mode'}
+                                variant="body1"
+                                sx={{
+                                    fontFamily: 'Nunito Sans, sans-serif',
+                                    color: '#fafafa',
+                                }}
+                                className='ps-2'
+                                >
+                                {currentColorMode === 'dark' ? 'Dark Mode' : 'Light Mode'}
                             </Typography>
-                          }
-                        className='customization-day-night-theme-switch'
-                    />
-                </FormGroup>
-
-
+                        </div>
+                    </FormGroup>
+                </div> 
             </div>
 
             <List>
@@ -274,7 +320,7 @@ const HomeHeader = () => {
                     </ListItemButton>
                 </ListItem>
 
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                {['Inbox'].map((text, index) => (
                 <ListItem key={text} disablePadding sx={{color: "#fafafa"}}>
                     <ListItemButton>
                     <ListItemIcon sx={{color: "#fafafa"}}>
@@ -292,12 +338,12 @@ const HomeHeader = () => {
 
     return (
         <>
-            <div className='pt-5 d-none d-sm-block parentt'>
+            <div className='pt-5 d-none d-sm-block'>
                 <div className='d-flex justify-content-between mb-4'>
                     <div className='home-header-text home-text'>
                         <HomeIcon className='me-1 mb-1' style={{width: "2rem",height: "2rem"}}/>
                         <div className='d-inline'>Home</div>
-                    </div>          
+                    </div>
 
                     <div>
                         <Button className='customize-bg' onClick={toggleDrawer('right', true)} /*onClick={(event) => handleCustomizePopoverClick(event, )}*/ >
@@ -318,8 +364,8 @@ const HomeHeader = () => {
                 </div>
 
                 <div className='pt-3 pt-sm-3 home-header-text text-center'>
-                    <h2 className=' today'>{todays_date}</h2>
-                    <h2 className=' greeting pt-1'>{greeting}, <span>{firstName}</span> {timeEmoji}</h2> 
+                    <h2 className='today'>{todays_date}</h2>
+                    <h2 className='greeting pt-1'>{greeting}, <span>{firstName}</span> {timeEmoji}</h2> 
                 </div>
                 <hr className='home-header-text'/>
             </div> 
