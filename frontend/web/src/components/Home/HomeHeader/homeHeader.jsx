@@ -4,9 +4,11 @@ import { useCookies } from "../../../utils/useCookies";
 
 import Button from 'react-bootstrap/Button';
 
+import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import HomeIcon from '@mui/icons-material/Home';
+import PublishedWithChangesRoundedIcon from '@mui/icons-material/PublishedWithChangesRounded';
 
 import Box from '@mui/material/Box';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
@@ -182,7 +184,7 @@ const HomeHeader = () => {
         
         
         const homeHeaderText = document.querySelectorAll('.home-header-text');
-        const textColor = backgroundColor === '#fafafa' ? '#000000' : '#ffffff';
+        const textColor = backgroundColor === '#fafafa' ? '#4B26CE' : '#ffffff';
 
         homeHeaderText.forEach(element => {
             element.style.color = textColor;
@@ -344,9 +346,12 @@ const HomeHeader = () => {
                         <HomeIcon className='me-1 mb-1' style={{width: "2rem",height: "2rem"}}/>
                         <div className='d-inline'>Home</div>
                     </div>
+                    <h2 className='today home-header-text m-auto d-none d-md-inline'>{todays_date}</h2>
 
                     <div>
-                        <Button className='customize-bg' onClick={toggleDrawer('right', true)} /*onClick={(event) => handleCustomizePopoverClick(event, )}*/ >
+                        <Button className={`${backgroundColor === '#fafafa' ? 'dark-customize-btn-bg' : 'customize-btn-bg'}`} onClick={toggleDrawer('right', true)} >
+                            
+                            
                             <DashboardCustomizeIcon></DashboardCustomizeIcon><span className='ps-1 lato-font'>Customize</span>
                         </Button>
                         <React.Fragment>
@@ -363,10 +368,33 @@ const HomeHeader = () => {
                     
                 </div>
 
-                <div className='pt-3 pt-sm-3 home-header-text text-center'>
-                    <h2 className='today'>{todays_date}</h2>
+                <div className='pt-1 pt-md-0 home-header-text text-center'>
+                    {/* <h2 className='today'>{todays_date}</h2> */}
                     <h2 className='greeting pt-1'>{greeting}, <span>{firstName}</span> {timeEmoji}</h2> 
                 </div>
+
+                <div className='d-flex justify-content-around pt-4 d-none d-lg-flex'>
+                    <div className='home-header-stat-block bg-primary d-inline'>
+                        <div className='d-flex justify-content-between pt-2 home-header-stat-block-top m-auto'>
+                            <div className='ms-3 home-header-stat-block-num'><span>0</span></div>
+                            <div className='me-3 home-header-stat-block-text '><PublishedWithChangesRoundedIcon className='mt-2 home-header-in-progress-icon'/></div>
+                        </div>
+                        <div className='d-flex align-items-start pt-1 bg-secondary home-header-stat-block-bottom'>
+                            <div className='ms-3'><span className='home-header-stat-block-text'>Tasks In Progress</span></div>
+                        </div>
+                        
+                    </div>
+                    <div className='home-header-stat-block'>
+                        <div className='d-flex justify-content-between pt-2 home-header-stat-block-top m-auto'>
+                            <div className='ms-3 home-header-stat-block-num'><span>0</span></div>
+                            <div className='me-3 home-header-stat-block-text '><CheckCircleOutlineRoundedIcon className='mt-2 home-header-in-progress-icon'/></div>
+                        </div>
+                        <div className='d-flex align-items-start pt-1 bg-secondary home-header-stat-block-bottom'>
+                            <div className='ms-3'><span className='home-header-stat-block-text'>Tasks Completed</span></div>
+                        </div>
+                    </div>
+                </div>
+
                 <hr className='home-header-text'/>
             </div> 
         </>

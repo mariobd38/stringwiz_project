@@ -1,9 +1,14 @@
-.customize-bg {
+.customize-btn-bg {
     background-color: #f8f8f8 !important;
     color: #1E1F21 !important;
     border: none !important;
 }
-.customize-bg:hover {
+.dark-customize-btn-bg {
+    background-color: #6FE3C2 !important;
+    color: #1E1F21 !important;
+    border: none !important;
+}
+.customize-btn-bg:hover, .dark-customize-btn-bg:hover {
     background-color: #4411c6 !important;
     color: #fafafa !important;
     border: none !important;
@@ -20,7 +25,7 @@
 }
 .greeting {
     font-family: 'Lato', serif;
-    font-size: 1.8rem;
+    font-size: 1.9rem;
     font-weight: 600;
 }
 .customize-btn {
@@ -86,4 +91,39 @@
 }
 .customization-day-night-theme-switch {
     font-family: 'Nunito Sans', serif !important;
+}
+.home-header-stat-block {
+    width: 18rem;
+    height: 10rem;
+    background-color: #222222;
+    border-radius: 9px;
+}
+.home-header-stat-block-top {
+    height: 70%;
+    background-color: #222222;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.home-header-stat-block-bottom {
+    height: 30%;
+    background-color: #222222 !important;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.home-header-stat-block-text {
+    font-family: 'Nunito Sans', serif !important;
+    font-size: 1.1rem;
+    color: #6FE3C2;
+    font-weight: 600;
+}
+.home-header-stat-block-num {
+    font-family: 'Nunito Sans', serif !important;
+    font-size: 2rem;
+    color: #6FE3C2;
+    font-weight: 600;
+}
+.home-header-in-progress-icon {
+    color: #6FE3C2;
+    width: 1.8rem !important;
+    height: 1.8rem !important;
 }
