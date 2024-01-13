@@ -24,14 +24,6 @@
     border: none !important ;
     margin: auto;
 }
-.nav-side-button {
-    display: flex; 
-    border-radius: 50%;
-    width:3.4rem;
-    height:3.4rem;
-    border: none !important ;
-    color: #fafafa;
-}
 .user-navbar-button:hover {
     border: none !important;
     background-color: #551de2;
@@ -48,31 +40,10 @@
     font-family: 'Lato', serif;
     text-transform: uppercase;
 }
-.notis {
-    border-radius: 30%;
-    padding: 0.5rem;
-    width: 75% !important;
-    height: 75% !important;
-}
-.notis:hover {
-    background-color: #d1d1d1;
-    border-radius: 30%;
-    transition: .3s;
-}
-.nav-top-link {
-    color: #223654 !important;
-    font-family: 'Lato', serif;
-    font-size: 1rem !important;
-}
-
 .logout {
     background-color: #fafafa;
     border: none;
     width: 100% !important;
-}
-
-.my-profile:hover {
-    background-color: #58bcdb !important;
 }
 .create-home-navbar-button {
     background-color: #444444 !important;
@@ -100,7 +71,7 @@
 .only-add-icon-create-home-navbar:hover {
     color: #3df8d2;
 }
-.upgrade-home-navbar-button {
+/* .upgrade-home-navbar-button {
     background: #4e21d9; 
     background: -webkit-linear-gradient(to right, #4e21d9, #cc655e); 
     background: linear-gradient(to right, #4e21d9, #cc655e);
@@ -121,7 +92,7 @@
     border: 1.3px solid #5f54e0 !important;
     color: #dadada !important;
     transition: ease-out !important;
-}
+} */
 .menu-home-navbar {
     width: 1.85rem !important;
     height: 1.85rem !important;
@@ -136,24 +107,22 @@
     margin: auto;
 }
 .home-navbar-search {
-    width: 28rem;
+    width: 27rem;
     transition: width 0.3s ease-in-out;
-
+}
+@media(max-width: 990px) {
+    .home-navbar-search {
+        width: 30rem;
+    }
 }
 @media(max-width: 900px) {
     .home-navbar-search {
-        width: 20rem;
-    }
-}
-@media(max-width: 767px) {
-    .home-navbar-search {
-        width: 25rem;
-
+        width: 28rem;
     }
 }
 @media(max-width: 600px) {
     .home-navbar-search {
-        width: 21rem;
+        width: 19rem;
 
     }
 }

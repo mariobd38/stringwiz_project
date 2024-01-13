@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useLocalState } from "../../../utils/useLocalStorage";
-import { useCookies } from "../../../utils/useCookies";
+import { useLocalState } from "../../utils/useLocalStorage";
+import { useCookies } from "../../utils/useCookies";
 
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 
+import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
 import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import FolderOpenRoundedIcon from '@mui/icons-material/FolderOpenRounded';
 import HomeIcon from '@mui/icons-material/Home';
 import PublishedWithChangesRoundedIcon from '@mui/icons-material/PublishedWithChangesRounded';
 
@@ -28,44 +31,48 @@ import Typography from '@mui/material/Typography';
 
 import { styled } from '@mui/material/styles';
 
-import './homeHeader.css';
+import HomeNavbar from './HomeNavbar/homeNavbar';
 
-const HomeHeader = () => {
-    const dayjs = require('dayjs');
+import './newHome.css';
+
+import scheduling from '../../images/scheduling.png';
+import task_management from '../../images/task_management.png';
+
+
+const NewHome = () => {
+    //greeting
     const [userFullName] = useLocalState("", "userFullName");
 
     var now = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const dayjs = require('dayjs');
     now = dayjs();
-    const date = new Date(now.year(), now.month(), now.date());  // 2009-11-10
-    const month = date.toLocaleString('default', { month: 'long' });
-    const dayOfWeek = date.toLocaleDateString('en-US',{weekday: 'long'});
-    const todays_date = dayOfWeek + ", " + month + " " + date.getDate();
 
     let hour = now.hour();
     let minute = now.minute();
     let greeting = "Good ";
-    const firstName = userFullName.split(' ')[0];
+    const [firstName, lastName] = userFullName.split(' ');
 
-    let timeEmoji = "";
     switch(true) {
         case (hour < 6):
             greeting += "night";
-            timeEmoji = "😴";
             break;
         case (hour >= 18 && (hour <= 23 && minute <= 59)):
             greeting += "evening";
-            timeEmoji = "🌙";
             break;
         case (hour >= 12):
             greeting += "afternoon";
-            timeEmoji = "☀️";
             break;  
         default:
             greeting += "morning";
-            timeEmoji = "🌅";
             break;
     }
-    
+
+    //todays date
+    const date = new Date(now.year(), now.month(), now.date());  // 2009-11-10
+    const month = date.toLocaleString('default', { month: 'long' });
+    const dayOfWeek = date.toLocaleDateString('en-US',{weekday: 'long'});
+    const todays_date = dayOfWeek + ", " + month + " " + date.getDate() + ', ' + date.getFullYear();
+
     //color background
     const abestosBg = "#384748";
     const turquoiseBg = "#005A46";
@@ -102,7 +109,6 @@ const HomeHeader = () => {
         setCurrentColorMode(newColorMode);
        
         if (backgroundColor === "#fafafa" && newColorMode === "dark") {
-            console.log('mami chula');
             setBackgroundColor("#1e1f21");
         } else if (backgroundColor === "#1e1f21" && newColorMode === "light") {
             setBackgroundColor("#fafafa");
@@ -165,7 +171,6 @@ const HomeHeader = () => {
 
         },
     }));
-
 
     useEffect((colorValue) => {
         const storedMode = currentColorMode;
@@ -337,15 +342,18 @@ const HomeHeader = () => {
 
     return (
         <>
-            <div className='pt-5 d-none d-sm-block'>
-                <div className='d-flex justify-content-between mb-4'>
-                    <div className='home-header-text home-text'>
-                        <HomeIcon className='me-1 mb-1' style={{width: "2rem",height: "2rem"}}/>
-                        <div className='d-inline'>Home</div>
+        <HomeNavbar></HomeNavbar>
+        {/* <Container> */}
+            <div className="row mx-5  user-home-all-content ">
+            <div className='d-flex justify-content-center justify-content-xl-around align-items-center m-auto greeting-block mt-4 pt-2 pb-3'>
+                <div className='ps-0 fafafa-color flex-column text-center'>
+                    <div className='greeting py-3 '>
+                        {greeting}, { firstName}
                     </div>
-                    <h2 className='today home-header-text m-auto d-none d-md-inline'>{todays_date}</h2>
-
-                    <div>
+                    <div className='today pb-3 m-0'>
+                        {todays_date}
+                    </div>
+                    {/* <div>
                         <Button className={`${backgroundColor === '#fafafa' ? 'dark-customize-btn-bg' : 'customize-btn-bg'}`} onClick={toggleDrawer('right', true)} >
                             
                             
@@ -361,36 +369,101 @@ const HomeHeader = () => {
                                 {list('right')}
                             </SwipeableDrawer>
                         </React.Fragment>
+                    </div> */}
+                </div>
+                <div className='text-center d-none d-xl-inline'>
+                        <img src={scheduling} className=" illustration-home-page pt-5 me-0 me-lg-4" alt="" />
+                        <img src={task_management} className="illustration-home-page pb-3" alt="" />
+
+                </div>
+            </div>
+
+                <div className='row pt-3 d-none d-md-flex px-5 m-0'> 
+                    <div className="col-6 col-xl-3 d-flex justify-content-center pb-4 pb-xxl-0">
+                        <div className='home-header-stat-block'>
+                            <div className='d-flex justify-content-between home-header-stat-block-top'>
+                                <div className='ms-3 home-header-stat-block-num pt-1'><span>0</span></div>
+                                <div className='me-3 home-header-stat-block-text pt-3'><FolderOpenRoundedIcon className='home-header-in-progress-icon'/></div>
+                            </div>
+                            <div className='d-flex align-items-start pt-1 bg-secondary home-header-stat-block-bottom'>
+                                <div className='ms-3'><span className='home-header-stat-block-text'>Active projects</span></div>
+                            </div>
+                        </div>
                     </div>
+
+                    <div className="col-6 col-xl-3 d-flex justify-content-center">
+                        <div className='home-header-stat-block'>
+                            <div className='d-flex justify-content-between home-header-stat-block-top'>
+                                <div className='ms-3 home-header-stat-block-num pt-1'><span>0</span></div>
+                                <div className='me-3 home-header-stat-block-text pt-3'><PublishedWithChangesRoundedIcon className='home-header-in-progress-icon'/></div>
+                            </div>
+                            <div className='d-flex align-items-start pt-1 bg-secondary home-header-stat-block-bottom'>
+                                <div className='ms-3'><span className='home-header-stat-block-text'>Ongoing tasks</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-6 col-xl-3 d-flex justify-content-center pb-4 pb-xxl-0">
+                        <div className='home-header-stat-block'>
+                            <div className='d-flex justify-content-between home-header-stat-block-top'>
+                                <div className='ms-3 home-header-stat-block-num pt-1'><span>0</span></div>
+                                <div className='me-3 home-header-stat-block-text pt-3'><CheckCircleOutlineRoundedIcon className='home-header-in-progress-icon'/></div>
+                            </div>
+                            <div className='d-flex align-items-start pt-1 bg-secondary home-header-stat-block-bottom'>
+                                <div className='ms-3'><span className='home-header-stat-block-text'>Tasks completed</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-6 col-xl-3 d-flex justify-content-center">
+                        <div className='home-header-stat-block'>
+                            <div className='d-flex justify-content-between home-header-stat-block-top'>
+                                <div className='ms-3 home-header-stat-block-num pt-1'><span>0:00</span></div>
+                                <div className='me-3 home-header-stat-block-text pt-3'><AccessTimeRoundedIcon className='home-header-in-progress-icon'/></div>
+                            </div>
+                            <div className='d-flex align-items-start pt-1 bg-secondary home-header-stat-block-bottom'>
+                                <div className='ms-3'><span className='home-header-stat-block-text'>Worked this week</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
                     
                 </div>
 
-                <div className='d-flex justify-content-around pt-4 d-none d-lg-flex'>
-                    <div className='home-header-stat-block bg-primary d-inline'>
-                        <div className='d-flex justify-content-between pt-2 home-header-stat-block-top m-auto'>
-                            <div className='ms-3 home-header-stat-block-num'><span>0</span></div>
-                            <div className='me-3 home-header-stat-block-text '><PublishedWithChangesRoundedIcon className='mt-2 home-header-in-progress-icon'/></div>
+                <div className='d-flex mt-4 px-4'>
+                    <div className='user-home-main-content px-4 py-3 bg-success'>
+                        <div className='d-flex justify-content-around pt-4 d-none d-lg-flex '>
+                            <div className='home-header-stat-block bg-primary d-inline'>
+                                <div className='d-flex justify-content-between pt-2 home-header-stat-block-top m-auto'>
+                                    <div className='ms-3 home-header-stat-block-num'><span>0</span></div>
+                                    <div className='me-3 home-header-stat-block-text '><PublishedWithChangesRoundedIcon className='mt-2 home-header-in-progress-icon'/></div>
+                                </div>
+                                <div className='d-flex align-items-start pt-1 bg-secondary home-header-stat-block-bottom'>
+                                    <div className='ms-3'><span className='home-header-stat-block-text'>Tasks In Progress</span></div>
+                                </div>
+                            </div>
                         </div>
-                        <div className='d-flex align-items-start pt-1 bg-secondary home-header-stat-block-bottom'>
-                            <div className='ms-3'><span className='home-header-stat-block-text'>Tasks In Progress</span></div>
-                        </div>
-                        
                     </div>
-                    <div className='home-header-stat-block'>
-                        <div className='d-flex justify-content-between pt-2 home-header-stat-block-top m-auto'>
-                            <div className='ms-3 home-header-stat-block-num'><span>0</span></div>
-                            <div className='me-3 home-header-stat-block-text '><CheckCircleOutlineRoundedIcon className='mt-2 home-header-in-progress-icon'/></div>
-                        </div>
-                        <div className='d-flex align-items-start pt-1 bg-secondary home-header-stat-block-bottom'>
-                            <div className='ms-3'><span className='home-header-stat-block-text'>Tasks Completed</span></div>
+                    <div className='user-home-right-content text-white bg-danger'>
+                        <div className='pt-5 ps-5 pe-5'>
+                            <div className='d-flex justify-content-between m-auto'>
+                                <div className='home-header-stat-block-text'>
+                                    Timer
+                                </div>
+                                <div><AccessTimeRoundedIcon className='home-header-in-progress-icon'/></div>
+                            </div>
+                            <div className='d-flex align-items-start pt-5'>
+                                    <div><span className='home-header-timer-time'>0:00</span></div>
+                                </div>
                         </div>
                     </div>
                 </div>
-
-                <hr className='home-header-text'/>
-            </div> 
+            </div>
+                
+        {/* </Container> */}
         </>
-    )
-}
+    );
+};
 
-export default HomeHeader;
+export default NewHome;

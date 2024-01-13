@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import React, { useEffect } from 'react';
 import './App.css';
 import Home from "./components/Home/home";
+import NewHome from "./components/Home/newHome";
 import LandingPage from "./components/Landing/LandingPage";
 import Login from "./components/Login/login";
 import SignUp from "./components/SignUp/signUp";
@@ -16,7 +17,8 @@ function App() {
     <Routes>
       <Route path="/home" element={
         <PrivateRoute>
-          <Home/> 
+          {/* <Home/>  */}
+          <NewHome/>
         </PrivateRoute>
       } />
 
