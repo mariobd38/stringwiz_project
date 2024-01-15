@@ -1,137 +1,29 @@
-.greeting-block {
-    background-color: #112565;
-    width: 80%;
-    border-radius: 12px;
-}
-@media(max-width: 750px) {
-    .greeting-block {
-        width: 100%;
-        transition: width 0.2s ease-in-out;
-    }
-    .greeting {
-        font-size: 1.8rem !important;
-    }
-    .today {
-        font-size: 1.1rem !important;
-    }
-}
-.greeting {
-    font-family: 'Nunito Sans', serif;
-    font-size: 2.1rem;
-    font-weight: 600;
-}
+
 .user-home-main-content {
-    width: 68%;
-    border-right: 1px solid #222222;
+    width: 52.5rem;
+    /* border-right: 1px solid #222222; */
 }
 .user-home-right-content {
-    width: 32%;
-    border-left: 1px solid #222222;
-}
-.illustration-home-page {
-    width: 12rem;
-}
-.customize-btn-bg {
-    background-color: #f8f8f8 !important;
-    color: #1E1F21 !important;
-    border: none !important;
-}
-.dark-customize-btn-bg {
-    background-color: #6FE3C2 !important;
-    color: #1E1F21 !important;
-    border: none !important;
-}
-.customize-btn-bg:hover, .dark-customize-btn-bg:hover {
-    background-color: #4411c6 !important;
-    color: #fafafa !important;
-    border: none !important;
-}
-.today {
-    font-family: 'Nunito Sans', serif;
-    font-size: 1.2rem;
-    /* padding-right: 10rem; */
-}
-.customize-btn {
-    border: none !important;
-    width: 2.5rem;
-    height: 2.5rem;
-}
-.background-color-check {
-    width: 2.2rem !important;
-}
-.customize-customization-text, .customize-background-text {
-    font-family: 'Nunito Sans', serif;
-    font-weight: 600;
-    font-size: 1.7rem;
-    color: #fafafa
-}
-.customize-background-text {
-    font-size: 1.3rem;
-    color: #fafafa
-}
-.theme-color-div {
-    border: none !important;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    cursor: pointer;
-}
-.theme-color-div-inner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%; 
-    height: 100%;
-
-    color: #e7e7e7; 
-}
-#abestos-theme-btn {
-    background-color: #7f8c8d;
-}
-#turquoise-theme-btn {
-    background-color: #1abc9c;
-}
-#black-theme-btn {
-    background-color: #1e1f21;
-}
-#emerald-theme-btn {
-    background-color: #2ecc71;
-}
-#peter-river-theme-btn {
-    background-color: #233a79;
-}
-#amethyst-theme-btn {
-    background-color: #6a115a;
-}
-#sunflower-theme-btn {
-    background-color: #f1c40f;
-}
-#carrot-theme-btn {
-    background-color: #e67e22;
-}
-#alizarin-theme-btn {
-    background-color: #e74c3c;
-}
-.customization-day-night-theme-switch {
-    font-family: 'Nunito Sans', serif !important;
+    width: 26.3rem;
+    border-radius: 10px !important;
+    /* border-left: 1px solid #222222; */
 }
 .home-header-stat-block {
     width: 16.4rem;
     height: 8rem;
-    background-color: #222222;
+    background-color: #1E1F21;
     border-radius: 9px;
     border: 1.5px solid #505050;
-
 }
 .home-header-stat-block-top {
     height: 70%;
-    background-color: #222222;
+    background-color: #1E1F21;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
 .home-header-stat-block-bottom {
     height: 30%;
-    background-color: #222222 !important;
+    background-color: #1E1F21 !important;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
@@ -152,16 +44,105 @@
     width: 1.8rem !important;
     height: 1.8rem !important;
 }
-.home-header-in-progress-icon2 {
-    width: 4rem !important;
-    height: 4rem !important;
-    padding: 0.7rem;
-    border: 1.2px solid #505050;
-    background-color: #303030;
-    border-radius: 50%;
-    color: #fafafa;
+.user-home-card-header {
+    font-weight: 600;
+    font-size: 1.5rem;
+    border-radius: 2px 2px 0 0 !important;
 }
-.home-header-timer-time {
+.user-home-checklist-icon {
+    border-radius: 50%;
+    border-style: dashed;
+    border-width: 1px !important;
+    width: 2.2rem !important;
+    height: 2.2rem  !important;
+    padding: 0.25rem;
+}
+.user-home-create-task-button-dark {
     font-family: 'Nunito Sans', serif !important;
-    font-size: 1.9rem;
+    text-transform: initial !important;
+    font-weight: 600 !important;
+    padding: 0.06rem 0.4rem !important;
+    border-radius: 7px !important;
+}
+.user-home-create-task-button-dark:hover {
+    background-color: #25262a !important;
+    color: #b7b7b7 !important;
+}
+.user-home-new-task-input {
+    background-color: #1e1f21 !important;
+
+}
+.table-row-dark:hover .user-home-new-task-input{
+    background-color: #2f3032 !important;
+}
+.table-container-wrapper {
+    max-height: 15.5rem; 
+    min-height: 15.5rem; 
+    overflow: auto;
+}
+.table-container {
+    width: 100%;
+    border-collapse: separate !important;
+}
+.table-row:hover, .tag-dropdown-item:hover {
+    background-color: #eeeeee !important;
+}
+.table-row-dark:hover, .tag-dropdown-item:hover {
+    background-color: #2f3032 !important;
+}
+/* .table-row:hover .table-cell-icon, .table-row:hover .user-home-task-check  {
+    display: block !important;
+} */
+.table-cell {
+    font-family: 'Nunito Sans', serif !important;
+    padding: 0.85rem 0rem !important;
+    margin: 0rem 1.7rem !important;
+    overflow: hidden !important;
+    border: none !important;
+}
+.table-cell-icon:hover {
+    display: inline !important;
+}
+.user-home-task-check-icon {
+    border: 1px solid #fafafa;
+    border-radius: 50%;
+    margin: auto;
+    width: 1rem !important;
+    height: 1rem !important;
+    padding: 0.08rem !important;
+}
+.user-home-task-check-icon:hover {
+    cursor: pointer;
+    color: #006A4E !important;
+    border-color: #006A4E !important;
+}
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+    color: #fafafa !important;
+    border: none !important;
+    outline: none !important;
+    background-color: #1e1f21;
+}
+.task-name-link {
+    color: inherit;
+    cursor: pointer;
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+.task-name-link:hover {
+    color: #3874CB;
+}
+.taskName-text {
+    font-size: 0.97rem !important;
+    padding: 0.3em 1em;
+    border: none !important;
+    font-family: 'Nunito Sans', serif;
+}
+.taskName-text.strikethrough {
+    text-decoration: line-through;
+}
+.user-home-milestones-description {
+    padding: 1rem 0rem;
+    border-radius: 10px;
 }

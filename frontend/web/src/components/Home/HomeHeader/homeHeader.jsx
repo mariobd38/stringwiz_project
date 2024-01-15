@@ -30,6 +30,9 @@ import { styled } from '@mui/material/styles';
 
 import './homeHeader.css';
 
+import scheduling from '../../../images/scheduling.png';
+import task_management from '../../../images/task_management.png';
+
 const HomeHeader = () => {
     const dayjs = require('dayjs');
     const [userFullName] = useLocalState("", "userFullName");
@@ -39,30 +42,25 @@ const HomeHeader = () => {
     const date = new Date(now.year(), now.month(), now.date());  // 2009-11-10
     const month = date.toLocaleString('default', { month: 'long' });
     const dayOfWeek = date.toLocaleDateString('en-US',{weekday: 'long'});
-    const todays_date = dayOfWeek + ", " + month + " " + date.getDate();
+    const todays_date = dayOfWeek + ", " + month + " " + date.getDate() + ', ' + date.getFullYear();
 
     let hour = now.hour();
     let minute = now.minute();
-    let greeting = "Good ";
+    let greeting = "Good";
     const firstName = userFullName.split(' ')[0];
 
-    let timeEmoji = "";
     switch(true) {
         case (hour < 6):
             greeting += "night";
-            timeEmoji = "😴";
             break;
         case (hour >= 18 && (hour <= 23 && minute <= 59)):
-            greeting += "evening";
-            timeEmoji = "🌙";
+            greeting += " evening";
             break;
         case (hour >= 12):
-            greeting += "afternoon";
-            timeEmoji = "☀️";
+            greeting += " afternoon";
             break;  
         default:
-            greeting += "morning";
-            timeEmoji = "🌅";
+            greeting += " morning";
             break;
     }
     
@@ -87,7 +85,6 @@ const HomeHeader = () => {
                 setBackgroundColor("#fafafa");
             return;
         } 
-        console.log(currentColorMode);
         setBackgroundColor(colorValue);
         if (currentColorMode === 'dark')
             setBackgroundImage(`linear-gradient(to right, #1e1f21, ${colorValue})`);
@@ -102,7 +99,6 @@ const HomeHeader = () => {
         setCurrentColorMode(newColorMode);
        
         if (backgroundColor === "#fafafa" && newColorMode === "dark") {
-            console.log('mami chula');
             setBackgroundColor("#1e1f21");
         } else if (backgroundColor === "#1e1f21" && newColorMode === "light") {
             setBackgroundColor("#fafafa");
@@ -177,7 +173,6 @@ const HomeHeader = () => {
         else if (currentColorMode === 'light')
             setBackgroundImage(`linear-gradient(to right, ${backgroundColor}, ${backgroundColor})`);
 
-        console.log(backgroundColor);
             document.body.style.backgroundColor = backgroundColor;
             document.body.style.backgroundImage = backgroundImage;
         
@@ -337,15 +332,15 @@ const HomeHeader = () => {
 
     return (
         <>
-            <div className='pt-5 d-none d-sm-block'>
-                <div className='d-flex justify-content-between mb-4'>
-                    <div className='home-header-text home-text'>
-                        <HomeIcon className='me-1 mb-1' style={{width: "2rem",height: "2rem"}}/>
-                        <div className='d-inline'>Home</div>
+            <div className='d-flex justify-content-center justify-content-xl-around align-items-center m-auto greeting-block mt-4 pt-2 pb-3'>
+                <div className='ps-0 fafafa-color flex-column text-center'>
+                    <div className='greeting py-3 '>
+                        {greeting}, { firstName}
                     </div>
-                    <h2 className='today home-header-text m-auto d-none d-md-inline'>{todays_date}</h2>
-
-                    <div>
+                    <div className='today pb-3 m-0'>
+                        {todays_date}
+                    </div>
+                    {/* <div>
                         <Button className={`${backgroundColor === '#fafafa' ? 'dark-customize-btn-bg' : 'customize-btn-bg'}`} onClick={toggleDrawer('right', true)} >
                             
                             
@@ -361,34 +356,14 @@ const HomeHeader = () => {
                                 {list('right')}
                             </SwipeableDrawer>
                         </React.Fragment>
-                    </div>
-                    
+                    </div> */}
                 </div>
+                <div className='text-center d-none d-xl-inline'>
+                        <img src={scheduling} className="illustration-home-page-header pt-5 me-0 me-lg-4" alt="" />
+                        <img src={task_management} className="illustration-home-page-header pb-3" alt="" />
 
-                <div className='d-flex justify-content-around pt-4 d-none d-lg-flex'>
-                    <div className='home-header-stat-block bg-primary d-inline'>
-                        <div className='d-flex justify-content-between pt-2 home-header-stat-block-top m-auto'>
-                            <div className='ms-3 home-header-stat-block-num'><span>0</span></div>
-                            <div className='me-3 home-header-stat-block-text '><PublishedWithChangesRoundedIcon className='mt-2 home-header-in-progress-icon'/></div>
-                        </div>
-                        <div className='d-flex align-items-start pt-1 bg-secondary home-header-stat-block-bottom'>
-                            <div className='ms-3'><span className='home-header-stat-block-text'>Tasks In Progress</span></div>
-                        </div>
-                        
-                    </div>
-                    <div className='home-header-stat-block'>
-                        <div className='d-flex justify-content-between pt-2 home-header-stat-block-top m-auto'>
-                            <div className='ms-3 home-header-stat-block-num'><span>0</span></div>
-                            <div className='me-3 home-header-stat-block-text '><CheckCircleOutlineRoundedIcon className='mt-2 home-header-in-progress-icon'/></div>
-                        </div>
-                        <div className='d-flex align-items-start pt-1 bg-secondary home-header-stat-block-bottom'>
-                            <div className='ms-3'><span className='home-header-stat-block-text'>Tasks Completed</span></div>
-                        </div>
-                    </div>
                 </div>
-
-                <hr className='home-header-text'/>
-            </div> 
+            </div>
         </>
     )
 }

@@ -1,385 +1,245 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocalState } from "../../utils/useLocalStorage";
 import { useCookies } from "../../utils/useCookies";
 
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
+import Card from 'react-bootstrap/Card';
 
-import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
-import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
-import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import FolderOpenRoundedIcon from '@mui/icons-material/FolderOpenRounded';
-import HomeIcon from '@mui/icons-material/Home';
-import PublishedWithChangesRoundedIcon from '@mui/icons-material/PublishedWithChangesRounded';
+import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 
 import Box from '@mui/material/Box';
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import Divider from '@mui/material/Divider';
-import FormGroup from '@mui/material/FormGroup';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import Switch from '@mui/material/Switch';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableRow from '@mui/material/TableRow';
+import TextField from '@mui/material/TextField';
 
-import { styled } from '@mui/material/styles';
+
+import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import ChecklistRtlRoundedIcon from '@mui/icons-material/ChecklistRtlRounded';
+import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
+import FolderOpenRoundedIcon from '@mui/icons-material/FolderOpenRounded';
+import LockIcon from '@mui/icons-material/Lock';
+import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
+import PublishedWithChangesRoundedIcon from '@mui/icons-material/PublishedWithChangesRounded';
+
 
 import HomeNavbar from './HomeNavbar/homeNavbar';
+import HomeHeader from '../Home/HomeHeader/homeHeader';
+
+import {getTaskInfo} from './../../DataManagement/Tasks/getTasks';
+
+import milestones from '../../images/milestones.png';
+
 
 import './newHome.css';
 
-import scheduling from '../../images/scheduling.png';
-import task_management from '../../images/task_management.png';
-
-
 const NewHome = () => {
-    //greeting
-    const [userFullName] = useLocalState("", "userFullName");
-
-    var now = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const dayjs = require('dayjs');
-    now = dayjs();
+    // const [month, setMonth] = useState(dayjs().format('MMMM'));
+    // const [dayOfWeek, setDayOfWeek] = useState(dayjs().format('dddd'));
+    const [jwt] = useLocalState("", "jwt");
+    const [currentIndex, setCurrentIndex] = useState(null);
 
-    let hour = now.hour();
-    let minute = now.minute();
-    let greeting = "Good ";
-    const [firstName, lastName] = userFullName.split(' ');
 
-    switch(true) {
-        case (hour < 6):
-            greeting += "night";
-            break;
-        case (hour >= 18 && (hour <= 23 && minute <= 59)):
-            greeting += "evening";
-            break;
-        case (hour >= 12):
-            greeting += "afternoon";
-            break;  
-        default:
-            greeting += "morning";
-            break;
-    }
 
-    //todays date
-    const date = new Date(now.year(), now.month(), now.date());  // 2009-11-10
-    const month = date.toLocaleString('default', { month: 'long' });
-    const dayOfWeek = date.toLocaleDateString('en-US',{weekday: 'long'});
-    const todays_date = dayOfWeek + ", " + month + " " + date.getDate() + ', ' + date.getFullYear();
+    const [taskData, setTaskData] = useState([]);
 
-    //color background
-    const abestosBg = "#384748";
-    const turquoiseBg = "#005A46";
-    const emeraldBg = "#00782C";
-    const peterRiverBg = "#16244A";
-    const amethystBg = "#4A174D";
-    const sunflowerBg = "#B89413";
-    const carrotBg = "#AD580C";
-    const alizarinBg = "#59211A";
+    const [upcomingTasks, setUpcomingTasks] = useState([]);
 
-    const [backgroundColor, setBackgroundColor] = useCookies("#1e1f21", "backgroundColor");
-    const [backgroundImage, setBackgroundImage] = useCookies(null, "backgroundImage");
+    useEffect(() => {
+        const fetchAndSetTabs = async () => {
+            // setMonth(dayjs().format('MMMM'));
+            // setDayOfWeek(dayjs().format('dddd'));
 
-    const HandleBackgroundColor = (event, colorValue) => {
-        if (colorValue === backgroundColor) {
-            if (currentColorMode === "dark")
-                setBackgroundColor("#1e1f21");
-            else 
-                setBackgroundColor("#fafafa");
-            return;
-        } 
-        console.log(currentColorMode);
-        setBackgroundColor(colorValue);
-        if (currentColorMode === 'dark')
-            setBackgroundImage(`linear-gradient(to right, #1e1f21, ${colorValue})`);
-        else if (currentColorMode === 'light')
-            setBackgroundImage(`linear-gradient(to right, ${colorValue}, ${colorValue})`);
+            // var now = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            var now = dayjs().format('YYYY-MM-DD');
 
-    }
-    const [currentColorMode, setCurrentColorMode] = useCookies("dark", "colorMode");
-    const handleSwitchChange = (event) => {
-        const newColorMode = currentColorMode === 'light' ? 'dark' : 'light';
-        setCurrentColorMode(newColorMode);
-        setCurrentColorMode(newColorMode);
-       
-        if (backgroundColor === "#fafafa" && newColorMode === "dark") {
-            setBackgroundColor("#1e1f21");
-        } else if (backgroundColor === "#1e1f21" && newColorMode === "light") {
-            setBackgroundColor("#fafafa");
+            const todays_date = now;
+            const upcoming = [];
+            const overdue = [];
+            const completed = [];
 
-        }
-        // setCurrentColorMode(event.target.checked ? 'dark' : 'light');
+            taskData.forEach((task) => {
+                
+                if ((task.dueDate == null || task.dueDate >= todays_date) && task.status !== 'Completed') {
+                    upcoming.push(task);
+                } else if (todays_date > task.dueDate && task.status !== 'Completed') {
+                    overdue.push(task);
+                }else if (task.status === 'Completed') {
+                    completed.push(task);
+                } 
+            });
+
+                setUpcomingTasks(upcoming);
+                // setOverdueTasks(overdue);
+                // setCompletedTasks(completed);
+            };
+        fetchAndSetTabs();
+        
+        // contentEditableRef.current.focus();
+    }, [taskData, upcomingTasks]);
+
+    useEffect(() => {
+        getTaskInfo(jwt, setTaskData, setUpcomingTasks);
+        setUpcomingTasks(taskData);
+
+        // const fetchTagsData = async () => {
+        //     try {
+        //         const data = await getTagInfo(jwt, tagData, setTagData, taskData[currentIndex].id);
+                
+        //         setTagData(data);
+                
+
+        //         getAllTagsInfo(jwt,setAllTagData);
+        //     } catch (e) {
+        //         console.log(e);
+        //     }
+        // };
+        //     fetchTagsData();
+    }, [currentIndex, upcomingTasks, setUpcomingTasks]);
+
+    const [showNewTaskRow, setShowNewTaskRow] = useState(false);
+    const [newTaskRowOpen, setNewTaskRowOpen] = useState(false);
+
+    const handleNewTaskClick = () => {
+        setNewTaskRowOpen((prev) => !prev);
+        console.log("hey hey");
     };
 
-    const MaterialUISwitch = styled(Switch)(({ theme }) => ({
-        width: 62,
-        height: 34,
-        padding: 7,
-        '& .MuiSwitch-switchBase': {
-          margin: 1,
-          padding: 0,
-          transform: 'translateX(6px)',
-          
-          '&.Mui-checked': {
-            color: '#fff',
-            transform: 'translateX(22px)',
-            transition: "5s ease-in-out",
-
-            '& .MuiSwitch-thumb:before': {
-              backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
-                '#fff',
-              )}" d="M4.2 2.5l-.7 1.8-1.8.7 1.8.7.7 1.8.6-1.8L6.7 5l-1.9-.7-.6-1.8zm15 8.3a6.7 6.7 0 11-6.6-6.6 5.8 5.8 0 006.6 6.6z"/></svg>')`,
-            },
-            '& + .MuiSwitch-track': {
-                opacity: 1,
-                backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#081d3a',
-
-                transition: "5s ease-in-out",
-            },
-          },
-          transition: '5s ease-out',
-        },
-        '& .MuiSwitch-thumb': {
-            backgroundColor: currentColorMode === 'light' ? '#f1c045' : '#121212',
-            width: 32,
-            height: 32,
-            
-            '&::before': {
-                content: "''",
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                left: 0,
-                top: 0,
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center',
-                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
-                '#fff',
-                )}" d="M9.305 1.667V3.75h1.389V1.667h-1.39zm-4.707 1.95l-.982.982L5.09 6.072l.982-.982-1.473-1.473zm10.802 0L13.927 5.09l.982.982 1.473-1.473-.982-.982zM10 5.139a4.872 4.872 0 00-4.862 4.86A4.872 4.872 0 0010 14.862 4.872 4.872 0 0014.86 10 4.872 4.872 0 0010 5.139zm0 1.389A3.462 3.462 0 0113.471 10a3.462 3.462 0 01-3.473 3.472A3.462 3.462 0 016.527 10 3.462 3.462 0 0110 6.528zM1.665 9.305v1.39h2.083v-1.39H1.666zm14.583 0v1.39h2.084v-1.39h-2.084zM5.09 13.928L3.616 15.4l.982.982 1.473-1.473-.982-.982zm9.82 0l-.982.982 1.473 1.473.982-.982-1.473-1.473zM9.305 16.25v2.083h1.389V16.25h-1.39z"/></svg>')`,
-            },
-        },
-        '& .MuiSwitch-track': {
-            opacity: 1,
-            backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#e7e7e7',
-            borderRadius: 10,
-
-        },
-    }));
-
-    useEffect((colorValue) => {
-        const storedMode = currentColorMode;
-        setCurrentColorMode(storedMode);
-        
-        if (currentColorMode === 'dark')
-            setBackgroundImage(`linear-gradient(to right, #1e1f21, ${backgroundColor})`);
-
-        else if (currentColorMode === 'light')
-            setBackgroundImage(`linear-gradient(to right, ${backgroundColor}, ${backgroundColor})`);
-
-        console.log(backgroundColor);
-            document.body.style.backgroundColor = backgroundColor;
-            document.body.style.backgroundImage = backgroundImage;
-        
-        
-        const homeHeaderText = document.querySelectorAll('.home-header-text');
-        const textColor = backgroundColor === '#fafafa' ? '#4B26CE' : '#ffffff';
-
-        homeHeaderText.forEach(element => {
-            element.style.color = textColor;
-        });
-    }, [backgroundColor, backgroundImage, setBackgroundColor, setBackgroundImage, currentColorMode]);
-
-
-
-    const [drawerState, setDrawerState] = useState(false);
-
-
-    const toggleDrawer = (anchor, open) => (event) => {
-        if (
-            event &&
-            event.type === 'keydown' &&
-            (event.key === 'Tab' || event.key === 'Shift')
-        ) {
-            return;
-        }
-
-        setDrawerState({ ...drawerState, [anchor]: open });
+    const handleNewTaskClickAway = () => {
+        setNewTaskRowOpen(false);
     };
 
-    const list = (anchor) => (
-        <Box
-          sx={{ width: "25rem", height: '100%', backgroundColor: '#232323' }}
-          role="presentation"
-          className='pt-4'
-        >
-            <div className='ms-3'>
-                <div className='d-flex'>
-                    <div className='customize-customization-text me-5'>
-                        Customization
-                    </div>
-                    <div className='m-auto fafafa-color '>
-                        <Tooltip title={<span className='nunito-sans-font'>{[`Exit customization panel`]}</span>} arrow className='menu-tooltip'>
-                            <ExitToAppIcon className='ms-5'onClick={toggleDrawer(anchor, false)} sx={{cursor: "pointer"}}/>                
-                        </Tooltip>
-                    </div>
-                </div>
-                <div className='customize-background-text mt-3'>
-                    Background
-                </div>
-                <div className='container'>
-                    <div className='row'>
-                        <div className='col-3'>
-                            <div onClick={(e) =>HandleBackgroundColor(e, `${abestosBg}`)} className='me-2 theme-color-div mt-3' id="abestos-theme-btn">
-                                {backgroundColor === `${abestosBg}` && <div className='theme-color-div-inner'>
-                                    <CheckRoundedIcon />
-                                </div> }
-                            </div>
-                        </div>
-                        <div className='col-3'>
-                            <div onClick={(e) =>HandleBackgroundColor(e, `${turquoiseBg}`)} className='mx-2 theme-color-div mt-3' id="turquoise-theme-btn">
-                                {backgroundColor === `${turquoiseBg}` && <div className='theme-color-div-inner'>
-                                    <CheckRoundedIcon />
-                                </div> }
-                            </div>
-                        </div>
-                        <div className='col-3'>
-                            <div onClick={(e) =>HandleBackgroundColor(e, `${emeraldBg}`)} className='mx-2 theme-color-div mt-3' id="emerald-theme-btn">
-                                {backgroundColor === `${emeraldBg}` && <div className='theme-color-div-inner'>
-                                    <CheckRoundedIcon />
-                                </div> }
-                            </div>
-                        </div>
-                        <div className='col-3'>
-                            <div onClick={(e) =>HandleBackgroundColor(e, `${peterRiverBg}`)} className='mx-2 theme-color-div mt-3' id="peter-river-theme-btn">
-                                {backgroundColor === `${peterRiverBg}` && <div className='theme-color-div-inner'>
-                                    <CheckRoundedIcon />
-                                </div> }
-                            </div>
-                        </div>
-                    </div>
-                    <div className='row'>
-                        <div className='col-3'>
-                            <div onClick={(e) =>HandleBackgroundColor(e, `${amethystBg}`)} className='me-2 theme-color-div mt-3' id="amethyst-theme-btn">
-                                {backgroundColor === `${amethystBg}` && <div className='theme-color-div-inner'>
-                                    <CheckRoundedIcon />
-                                </div> }
-                            </div>
-                        </div>
-                        <div className='col-3'>
-                            <div onClick={(e) =>HandleBackgroundColor(e, `${sunflowerBg}`)} className='mx-2 theme-color-div mt-3' id="sunflower-theme-btn">
-                                {backgroundColor === `${sunflowerBg}` && <div className='theme-color-div-inner'>
-                                    <CheckRoundedIcon />
-                                </div> }
-                            </div>
-                        </div>
-                        <div className='col-3'>
-                            <div onClick={(e) =>HandleBackgroundColor(e, `${carrotBg}`)} className='mx-2 theme-color-div mt-3' id="carrot-theme-btn">
-                                {backgroundColor === `${carrotBg}` && <div className='theme-color-div-inner'>
-                                    <CheckRoundedIcon />
-                                </div> }
-                            </div>
-                        </div>
-                        <div className='col-3'>
-                            <div onClick={(e) =>HandleBackgroundColor(e, `${alizarinBg}`)} className='mx-2 theme-color-div mt-3' id="alizarin-theme-btn">
-                                {backgroundColor === `${alizarinBg}` && <div className='theme-color-div-inner'>
-                                    <CheckRoundedIcon />
-                                </div> }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <FormGroup className='mt-4'>
-                        <div className='d-flex align-items-center'>
-                            <MaterialUISwitch
-                                className='customization-day-night-theme-switch'
-                                defaultChecked={currentColorMode === 'dark'}
-                                onChange={handleSwitchChange}
-                            />
-                            <Typography
-                                variant="body1"
-                                sx={{
-                                    fontFamily: 'Nunito Sans, sans-serif',
-                                    color: '#fafafa',
-                                }}
-                                className='ps-2'
-                                >
-                                {currentColorMode === 'dark' ? 'Dark Mode' : 'Light Mode'}
-                            </Typography>
-                        </div>
-                    </FormGroup>
-                </div> 
-            </div>
+    function userHomeCreateTask() {
+        // Show the new task row
+        setShowNewTaskRow(true);
+    }
+    const handleTaskCreate = (event) => {
 
-            <List>
-                <ListItem disablePadding sx={{color: "#fafafa"}}>
-                    <ListItemButton>
-                    <ListItemText  />
-                    </ListItemButton>
-                </ListItem>
+        // handleGetTags();
+        if (event.key === 'Enter') {
+            console.log("hello hello");
+        }
+    }
 
-                {['Inbox'].map((text, index) => (
-                <ListItem key={text} disablePadding sx={{color: "#fafafa"}}>
-                    <ListItemButton>
-                    <ListItemIcon sx={{color: "#fafafa"}}>
-                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                    </ListItemIcon>
-                    <ListItemText primary={text} />
-                    </ListItemButton>
-                </ListItem>
-                ))}
-            </List>
-            <Divider />
-        </Box>
-    );
+    const taskCard = 
+            <Card
+                style={{ width:'85%', fontFamily: 'Nunito Sans', border: "2.5px solid #505050" }}
+            >
+                <Card.Header 
+                    style={{
+                        backgroundColor: '#162561',
+                        borderBottom: "1px solid #505050",
+                        borderTopColor: "#505050"
+                    }} 
+                    className='d-flex align-items-center py-3 d-flex justify-content-between user-home-card-header' >
+                    <div className='d-flex align-items-center' style={{ color: '#fafafa' }}>
+                        <ChecklistRtlRoundedIcon className='me-3 user-home-checklist-icon'/>
+                        <span className='d-flex align-items-center'>
+                            Tasks
+                            <LockIcon className='ms-2' style={{ width: "1.1rem" }}/>
+                        </span>
+                    </div>
+                    <div className='me-2' style={{ color: "#fafafa" }}>
+                        <MoreHorizRoundedIcon />
+                    </div>
+                    
+                </Card.Header>
+                <Card.Body className='pt-3 ' style={{ padding: "0", backgroundColor: "#1E1F21" }}>
+                    {/* <Button className='user-home-create-task-button-dark d-flex align-items-center ms-2 mb-2'
+                        style={{ color: "#919191" }} onClick={handleClick}
+                    >
+                        <AddRoundedIcon className='me-1' style={{ width: "1rem", marginBottom: ".09rem" }}/>
+                        <span className='me-1' style={{ fontSize: '0.95rem' }}>Create task</span>
+                    </Button> */}
+                    
+                    <div className='table-container-wrapper'>
+                        <TableContainer className='table-container' >
+                            <Table>
+                                <TableBody >
+                                    <ClickAwayListener onClickAway={handleNewTaskClickAway}>
+                                        <Box sx={{ position: 'relative' }}>
+                                            <Button className='user-home-create-task-button-dark d-flex align-items-center ms-2 mb-2'
+                                                style={{ color: "#919191" }} onClick={handleNewTaskClick}
+                                            >
+                                                <AddRoundedIcon className='me-1' style={{ width: "1rem", marginBottom: ".09rem" }}/>
+                                                <span className='me-1' style={{ fontSize: '0.95rem' }}>Create task</span>
+                                            </Button>
+                                            {/* <button type="button" onClick={handleClick}>
+                                            Open menu dropdown
+                                            </button> */}
+                                            <div className='w-100 table-row-dark'>
+                                            {newTaskRowOpen ? (
+                                                <TableRow className='table-row-dark w-100' style={{backgroundColor: "#1E1F21", width: "100%"}} >
+                                                    <TableCell scope="row" className='d-flex align-items-center justify-content-between table-cell'>
+                                                        <div className='d-flex align-items-center mb-1' style={{color: "#fafafa"}}>
+                                                            <div>
+                                                                <CheckRoundedIcon className='user-home-task-check-icon' />
+                                                            </div>
+                                                            <div>
+                                                                <input onKeyDown={handleTaskCreate} placeholder='Task name' autoFocus="autofocus" className={`ps-2 taskName-text user-home-new-task-input fafafa-color`} contentEditable={true} /> 
+                                                            </div>
+                                                        </div>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ) : null}
+                                            </div>
+                                            
+                                        </Box>
+                                    {/* {showNewTaskRow && 
+                                    <TableRow className='table-row-dark' style={{backgroundColor: "#1E1F21"}}>
+                                    <TableCell scope="row" className='d-flex align-items-center justify-content-between table-cell'>
+                                        <div className='d-flex align-items-center mb-1' style={{color: "#fafafa"}}>
 
+                                            <div>
+                                                <CheckRoundedIcon className='user-home-task-check-icon' />
+
+                                            </div>
+                                            <div>
+                                               <input placeholder='Enter task name' autoFocus="autofocus" className={`ps-2 taskName-text user-home-new-task-input fafafa-color`} contentEditable={true} /> 
+                                            </div>
+                                        </div>
+                                    </TableCell>
+                                    </TableRow>
+                                } */}
+                                </ ClickAwayListener>
+                                    {upcomingTasks.map((row, index) => (
+                                    <TableRow key={index} className='table-row-dark' style={{backgroundColor: "#1E1F21"}}>
+                                        <TableCell scope="row" className='d-flex align-items-center justify-content-between table-cell'>
+                                            <div className='d-flex align-items-center mb-1' style={{color: "#fafafa"}}>
+                                                <div>
+                                                    <CheckRoundedIcon className='user-home-task-check-icon' />
+
+                                                </div>
+                                                <div>
+                                                    <button className='task-name-link ' >
+                                                        <span className={`ps-2 taskName-text ${row.status === 'Completed' ? ' strikethrough' : ''}`}>{row.name} </span> 
+                                                    </button>
+                                                </div>
+                                                
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                    ))}
+                                </TableBody> 
+                            </Table>
+                        </TableContainer>
+                    </div>
+                </Card.Body>
+            </Card>
 
     return (
         <>
-        <HomeNavbar></HomeNavbar>
-        {/* <Container> */}
-            <div className="row mx-5  user-home-all-content ">
-            <div className='d-flex justify-content-center justify-content-xl-around align-items-center m-auto greeting-block mt-4 pt-2 pb-3'>
-                <div className='ps-0 fafafa-color flex-column text-center'>
-                    <div className='greeting py-3 '>
-                        {greeting}, { firstName}
-                    </div>
-                    <div className='today pb-3 m-0'>
-                        {todays_date}
-                    </div>
-                    {/* <div>
-                        <Button className={`${backgroundColor === '#fafafa' ? 'dark-customize-btn-bg' : 'customize-btn-bg'}`} onClick={toggleDrawer('right', true)} >
-                            
-                            
-                            <DashboardCustomizeIcon></DashboardCustomizeIcon><span className='ps-1 lato-font'>Customize</span>
-                        </Button>
-                        <React.Fragment>
-                            <SwipeableDrawer
-                                anchor={'right'}
-                                open={drawerState['right']}
-                                onClose={toggleDrawer('right', false)}
-                                onOpen={toggleDrawer('right', true)}
-                            >
-                                {list('right')}
-                            </SwipeableDrawer>
-                        </React.Fragment>
-                    </div> */}
-                </div>
-                <div className='text-center d-none d-xl-inline'>
-                        <img src={scheduling} className=" illustration-home-page pt-5 me-0 me-lg-4" alt="" />
-                        <img src={task_management} className="illustration-home-page pb-3" alt="" />
+            <HomeNavbar></HomeNavbar>
+            <div className="row mx-5  user-home-all-content">
+                <HomeHeader />
 
-                </div>
-            </div>
-
-                <div className='row pt-3 d-none d-md-flex px-5 m-0'> 
-                    <div className="col-6 col-xl-3 d-flex justify-content-center pb-4 pb-xxl-0">
+                <div className='row pt-3 d-none d-md-flex px-0 m-0'> 
+                    <div className="col-6 col-lg-4 d-flex justify-content-center pb-4 pb-xxl-0">
                         <div className='home-header-stat-block'>
                             <div className='d-flex justify-content-between home-header-stat-block-top'>
                                 <div className='ms-3 home-header-stat-block-num pt-1'><span>0</span></div>
@@ -391,10 +251,10 @@ const NewHome = () => {
                         </div>
                     </div>
 
-                    <div className="col-6 col-xl-3 d-flex justify-content-center">
+                    <div className="col-6 col-lg-4 d-flex justify-content-center">
                         <div className='home-header-stat-block'>
                             <div className='d-flex justify-content-between home-header-stat-block-top'>
-                                <div className='ms-3 home-header-stat-block-num pt-1'><span>0</span></div>
+                                <div className='ms-3 home-header-stat-block-num pt-1'><span>{taskData.length}</span></div>
                                 <div className='me-3 home-header-stat-block-text pt-3'><PublishedWithChangesRoundedIcon className='home-header-in-progress-icon'/></div>
                             </div>
                             <div className='d-flex align-items-start pt-1 bg-secondary home-header-stat-block-bottom'>
@@ -403,65 +263,53 @@ const NewHome = () => {
                         </div>
                     </div>
 
-                    <div className="col-6 col-xl-3 d-flex justify-content-center pb-4 pb-xxl-0">
+                    <div className="col-12 col-lg-4 d-flex justify-content-center pb-4 pb-xxl-0">
                         <div className='home-header-stat-block'>
                             <div className='d-flex justify-content-between home-header-stat-block-top'>
                                 <div className='ms-3 home-header-stat-block-num pt-1'><span>0</span></div>
-                                <div className='me-3 home-header-stat-block-text pt-3'><CheckCircleOutlineRoundedIcon className='home-header-in-progress-icon'/></div>
+                                <div className='me-3 home-header-stat-block-text pt-3'><CheckRoundedIcon className='home-header-in-progress-icon'/></div>
                             </div>
                             <div className='d-flex align-items-start pt-1 bg-secondary home-header-stat-block-bottom'>
                                 <div className='ms-3'><span className='home-header-stat-block-text'>Tasks completed</span></div>
                             </div>
                         </div>
-                    </div>
-
-                    <div className="col-6 col-xl-3 d-flex justify-content-center">
-                        <div className='home-header-stat-block'>
-                            <div className='d-flex justify-content-between home-header-stat-block-top'>
-                                <div className='ms-3 home-header-stat-block-num pt-1'><span>0:00</span></div>
-                                <div className='me-3 home-header-stat-block-text pt-3'><AccessTimeRoundedIcon className='home-header-in-progress-icon'/></div>
-                            </div>
-                            <div className='d-flex align-items-start pt-1 bg-secondary home-header-stat-block-bottom'>
-                                <div className='ms-3'><span className='home-header-stat-block-text'>Worked this week</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-
-                    
+                    </div> 
                 </div>
 
-                <div className='d-flex mt-4 px-4'>
-                    <div className='user-home-main-content px-4 py-3 bg-success'>
-                        <div className='d-flex justify-content-around pt-4 d-none d-lg-flex '>
-                            <div className='home-header-stat-block bg-primary d-inline'>
-                                <div className='d-flex justify-content-between pt-2 home-header-stat-block-top m-auto'>
-                                    <div className='ms-3 home-header-stat-block-num'><span>0</span></div>
-                                    <div className='me-3 home-header-stat-block-text '><PublishedWithChangesRoundedIcon className='mt-2 home-header-in-progress-icon'/></div>
-                                </div>
-                                <div className='d-flex align-items-start pt-1 bg-secondary home-header-stat-block-bottom'>
-                                    <div className='ms-3'><span className='home-header-stat-block-text'>Tasks In Progress</span></div>
-                                </div>
-                            </div>
+                <div className='d-flex mt-4 px-5 user-home-data-content' >
+                    <div className='user-home-main-content py-3' style={{ paddingLeft: "3.5rem"}}>
+                        <div className='d-flex justify-content-between py-2'>
+                            {taskCard}
                         </div>
                     </div>
-                    <div className='user-home-right-content text-white bg-danger'>
-                        <div className='pt-5 ps-5 pe-5'>
-                            <div className='d-flex justify-content-between m-auto'>
+                    <div className='user-home-right-content mt-4 d-none d-md-block'>
+                        <div className='pt-3 pb-5 px-4 user-home-milestones-block ' style={{ backgroundColor: "#222529", borderRadius: "10px" }} >
+                            <div className='d-flex justify-content-between'>
                                 <div className='home-header-stat-block-text'>
-                                    Timer
+                                    Milestones
                                 </div>
-                                <div><AccessTimeRoundedIcon className='home-header-in-progress-icon'/></div>
+                                <div><EmojiEventsRoundedIcon className='home-header-in-progress-icon'/></div>
                             </div>
-                            <div className='d-flex align-items-start pt-5'>
-                                    <div><span className='home-header-timer-time'>0:00</span></div>
+                            <div className='d-flex justify-content-center pt-4'>
+                                <div className='fafafa-color user-home-milestones-description text-center nunito-sans-font' style={{ backgroundColor: "#2d3034", width: "80%" }}>
+                                    <div className=''>
+                                        <img src={milestones} className="illustration-home-page-milestones pt-1 pb-3 " alt="" style={{ width: "10rem" }} />
+                                    </div>
+                                    <div style={{ fontWeight: "600" }}>
+                                        Let your goals become a reality
+                                    </div>
+                                    <div className='pt-3'>
+                                        <Button className='user-home-create-task-button-dark' style={{ color: "#919191" }}>
+                                            <AddRoundedIcon className='me-1' style={{ width: "1rem", marginBottom: ".09rem" }}/>
+                                            <span className='me-1' style={{ fontSize: '0.95rem' }}>Add milestone</span>
+                                        </Button>
+                                    </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-                
-        {/* </Container> */}
         </>
     );
 };

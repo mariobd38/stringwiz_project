@@ -71,23 +71,6 @@
 .nav-item {
     border-radius: 4.5px !important;
 }
-.table-row:hover, .tag-dropdown-item:hover {
-    background-color: #eeeeee !important;
-}
-
-.task-check:hover {
-    cursor: pointer;
-    color: #006A4E !important;
-}
-.taskName-text {
-    font-size: 0.97rem !important;
-    padding: 0.3em 1em;
-    border: none !important;
-    font-family: 'Nunito Sans', serif;
-}
-.taskName-text.strikethrough {
-    text-decoration: line-through;
-}
 [contenteditable] {
     outline: 0px solid transparent;
 }
@@ -100,26 +83,9 @@
     border: none;
     color: #121212;
 }
-.table-cell-icon, .task-check {
-    color: #1E1F21 !important;
-    width: 1.18rem !important;
-    /* display: none !important; */
-    /* visibility: hidden; */
-    cursor: pointer;
-    position: relative;
-}
-.table-cell-icon:hover, .task-check:hover {
-    color: #4295af !important;
-}
-.table-row:hover .table-cell-icon, .table-row:hover .task-check  {
-    display: block !important;
-}
 .status-list-item-btn:hover, .priority-list-item-btn:hover  {
     background-color: rgb(86, 89, 215) !important;
     color: white !important;
-}
-.update-list-menu:active .table-row {
-    background-color: red !important;
 }
 .date-calendar-btn {
     background-color: white !important;
@@ -336,25 +302,6 @@
 .update-list-menu {
     width: 10rem !important;
 }
-.table-container-wrapper {
-    max-height: 16rem; 
-    /* 11.5 */
-    overflow: auto;
-}
-.table-container {
-    width: 100%;
-}
-.task-name-link {
-    color: inherit;
-    cursor: pointer;
-    background: none;
-    border: none;
-    margin: 0;
-    padding: 0;
-}
-.task-name-link:hover {
-    color: #3874CB;
-}
 .modal-body {
     overflow: auto; 
 }
@@ -479,15 +426,6 @@ iframe#webpack-dev-server-client-overlay{
 .delete-task-modal-icon {
     width: 1.15rem !important;
 }
-.table-cell-icon {
-    display: none !important;
-    transition: opacity 0.3s ease; /* Smooth transition */
-  }
-  
-  .table-cell-icon:hover,
-  .table-cell-icon-visible {
-    display: inline !important;
-  }
   /* .nav-item .nav-link {
     color: #121212 !important;
     border: 1px solid #dfd2e6 ;

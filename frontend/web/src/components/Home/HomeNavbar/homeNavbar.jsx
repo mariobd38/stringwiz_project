@@ -61,7 +61,6 @@ const HomeNavbar = () => {
 
     const [userEmail] = useLocalState('', 'userEmail');
     const initials = (firstName[0] + lastName[0]).toUpperCase();
-    console.log("full name: " + lastName);
     const logout = () => {
         localStorage.clear();
         window.location.href = '/';
@@ -144,7 +143,7 @@ const HomeNavbar = () => {
                                 <div className='home-navbar-divider me-3'>
                                 </div>
                                 <Tooltip title={<span className='nunito-sans-font'>{[`Action Menu`]}</span>} arrow className='menu-tooltip'>
-                                    <AppsIcon className='menu-home-navbar me-2 d-none d-md-inline' />
+                                    <AppsIcon className='menu-home-navbar me-3 d-none d-md-inline' />
                                 </Tooltip>
 
                                 <div className='text-white user-navbar-button' onClick={handleUserBtnClick} style={{cursor: "pointer"}}>

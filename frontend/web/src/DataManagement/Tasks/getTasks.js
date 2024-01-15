@@ -12,8 +12,12 @@ function getTaskInfo  (jwt, setTaskData, setUpcomingTasks) {
         return response.json();
     })
     .then((data) => {
-        setTaskData(data);
-        setUpcomingTasks(data);
+        const dataStack = [];
+        for (let i = data.length-1; i >= 0; i--) {
+            dataStack.push(data[i]);
+        }
+        setTaskData(dataStack);
+        setUpcomingTasks(dataStack);
         // setTaskData([...taskData, data]);
     })
     .catch((error) => {
