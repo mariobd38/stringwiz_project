@@ -141,10 +141,10 @@
     color: #3874CB;
 }
 .taskName-text {
-    font-size: 0.97rem !important;
+    font-size: 0.83rem !important;
     padding: 0.3em 1em;
     border: none !important;
-    font-family: 'Nunito Sans', serif;
+    font-family: 'Poppins', serif;
 }
 .taskName-text.strikethrough {
     text-decoration: line-through;

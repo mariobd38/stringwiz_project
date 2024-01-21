@@ -13,7 +13,6 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
-// import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
@@ -26,16 +25,15 @@ import LockIcon from '@mui/icons-material/Lock';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import PublishedWithChangesRoundedIcon from '@mui/icons-material/PublishedWithChangesRounded';
 
-import HomeNavbar from './HomeNavbar/homeNavbar';
-import HomeHeader from '../Home/HomeHeader/homeHeader';
-
 import {getTaskInfo} from './../../DataManagement/Tasks/getTasks';
 import {createTaskInfo} from './../../DataManagement/Tasks/createTask';
 import {updateTaskInfo} from './../../DataManagement/Tasks/updateTask';
 
 import milestones from '../../images/milestones.png';
-import NewHomeDueDatePopover from './newHomeDueDatePopover';
 
+import HomeNavbar from './HomeNavbar/homeNavbar';
+import HomeHeader from '../Home/HomeHeader/homeHeader';
+import NewHomeDueDatePopover from './newHomeDueDatePopover';
 
 import './newHome.css';
 
@@ -279,8 +277,8 @@ const NewHome = () => {
                                         <TableCell scope="row" className='d-flex align-items-center justify-content-between table-cell'>
                                             <div className='d-flex justify-content-between w-100'>
                                                 {/* Left Content */}
-                                                <div className='d-flex align-items-center mb-1 left' style={{ color: "#fafafa" }}>
-                                                    <div>
+                                                <div className='d-flex mb-2' style={{ color: "#fafafa" }}>
+                                                    <div className='m-auto d-flex '>
                                                         <CheckRoundedIcon className='user-home-task-check-icon' />
                                                     </div>
                                                     <div>
@@ -311,48 +309,6 @@ const NewHome = () => {
                                                     currentTaskDueDate={currentTaskDueDate} dueDatePopoverAnchorEl={dueDatePopoverAnchorEl} handleDueDatePopoverClose={handleDueDatePopoverClose} today={today} handleUpdateTask={handleUpdateTask}
                                                     selectedDate={selectedDate} setSelectedDate={setSelectedDate} setSelectedTime={setSelectedTime} setDueDateClockIsOpen={setDueDateClockIsOpen} dueDateClockIsOpen={dueDateClockIsOpen}
                                                 />
-                                                {/* <Popover
-                                                    id={dueDatePopOverId}
-                                                    open={openDueDatePopover}
-                                                    anchorEl={dueDatePopoverAnchorEl}
-                                                    onClose={handleDueDatePopoverClose}
-                                                    anchorOrigin={{
-                                                        vertical: 'top',
-                                                        horizontal: 'left',
-                                                    }} 
-                                                    >
-                                                        {!dueDateClockIsOpen ?
-                                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                            <DateCalendar onChange={handleDateSelection} className='user-home-date-picker' defaultValue={currentTaskDueDate ? dayjs(currentTaskDueDate) : dayjs(today)} style={{backgroundColor: "#121212", borderTopColor: "#121212", color: "#fafafa"}}/>
-                                                            <div className={`pb-2 d-flex justify-content-around m-auto`} style={{backgroundColor: "#121212"}}> 
-                                                                <div className='m-auto'>
-                                                                    <AccessTimeRoundedIcon className='date-time-picker-btn' onClick={openDueDateClock}/>
-                                                                </div>
-                                                                <div className='mx-5 me-4'>
-                                                                    <Button className='date-calendar-btn' onClick={handleDueDatePopoverClose}>CANCEL</Button>
-                                                                    <Button className='date-calendar-btn' disablePast onClick={handleUpdateTask}  >OK</Button>
-                                                            
-                                                                </div>
-                                                            </div>
-                                                            
-                                                        </LocalizationProvider> : 
-                                                        <LocalizationProvider dateAdapter={AdapterDayjs} >
-                                                            
-                                                            <StaticTimePicker className='user-home-time-picker' />
-                                                            <div className={`pb-2 d-flex justify-content-around m-auto`} style={{backgroundColor: "#121212"}}> 
-                                                                <div className='m-auto'>
-                                                                    <CalendarTodayRoundedIcon className='date-time-picker-btn' onClick={openDueDateClock}/>
-                                                                </div>
-                                                                <div className='mx-5 me-4'>
-                                                                    <Button className='date-calendar-btn' onClick={handleDueDatePopoverClose}>CANCEL</Button>
-                                                                    <Button className='date-calendar-btn' disabled={!selectedDate} >OK</Button>
-                                                            
-                                                                </div>
-                                                            </div>
-                                                        </LocalizationProvider>
-
-                                                        }
-                                                </Popover> */}
                                             </div>
                                         </TableCell>
                                     </TableRow>
@@ -370,8 +326,8 @@ const NewHome = () => {
             <div className="row mx-5  user-home-all-content">
                 <HomeHeader />
 
-                <div className='row pt-3 d-none d-md-flex px-0 m-0'> 
-                    <div className="col-6 col-lg-4 d-flex justify-content-center pb-4 pb-xxl-0">
+                <div className='row pt-3 d-flex px-0 m-0'> 
+                    <div className="col-12 col-sm-6 col-lg-4 d-flex justify-content-center pb-4 pb-xxl-0">
                         <div className='home-header-stat-block'>
                             <div className='d-flex justify-content-between home-header-stat-block-top'>
                                 <div className='ms-3 home-header-stat-block-num pt-1'><span>0</span></div>
@@ -383,7 +339,7 @@ const NewHome = () => {
                         </div>
                     </div>
 
-                    <div className="col-6 col-lg-4 d-flex justify-content-center">
+                    <div className="col-12 col-sm-6 col-lg-4 d-flex justify-content-center">
                         <div className='home-header-stat-block'>
                             <div className='d-flex justify-content-between home-header-stat-block-top'>
                                 <div className='ms-3 home-header-stat-block-num pt-1'><span>{upcomingTasks.length}</span></div>
@@ -423,7 +379,7 @@ const NewHome = () => {
                                 <div><EmojiEventsRoundedIcon className='home-header-in-progress-icon'/></div>
                             </div>
                             <div className='d-flex justify-content-center pt-4'>
-                                <div className='fafafa-color user-home-milestones-description text-center nunito-sans-font' style={{ backgroundColor: "#2d3034", width: "80%" }}>
+                                <div className='fafafa-color user-home-milestones-description text-center nunito-sans-font' style={{ backgroundColor: "#2d3034", width: "18rem" }}>
                                     <div className=''>
                                         <img src={milestones} className="illustration-home-page-milestones pt-1 pb-3 " alt="" style={{ width: "10rem" }} />
                                     </div>
