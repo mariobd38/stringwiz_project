@@ -75,6 +75,13 @@
 .table-row-dark:hover .user-home-new-task-input{
     background-color: #2f3032 !important;
 }
+.table-row-dark:hover .table-row-new-dark {
+    background-color: #2f3032 !important;
+}
+.table-row-dark:hover{
+    background-color: #2f3032 !important;
+    cursor: pointer;
+}
 .table-container-wrapper {
     max-height: 15.5rem; 
     min-height: 15.5rem; 
@@ -116,12 +123,12 @@
     color: #006A4E !important;
     border-color: #006A4E !important;
 }
-.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+/* .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
     color: #fafafa !important;
     border: none !important;
     outline: none !important;
     background-color: #1e1f21;
-}
+} */
 .task-name-link {
     color: inherit;
     cursor: pointer;
@@ -142,7 +149,20 @@
 .taskName-text.strikethrough {
     text-decoration: line-through;
 }
-.user-home-milestones-description {
-    padding: 1rem 0rem;
-    border-radius: 10px;
+.user-home-calendar-icon-div {
+    color: #e7e7e7;
+    border: 1px solid #8cdfc3;
+    padding: 0.12rem 0.1rem;
+    cursor: pointer;
+    border-radius: 50%;
+    visibility: hidden;
+}
+.table-row-dark:hover .user-home-calendar-icon-div {
+    display: block !important;
+    visibility:visible;
+}
+.user-home-calendar-icon {
+    color: #e7e7e7;
+    width: 1.3rem !important;
+    height: 1rem !important;
 }

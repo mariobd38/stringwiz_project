@@ -122,7 +122,13 @@
 }
 @media(max-width: 600px) {
     .home-navbar-search {
-        width: 19rem;
+        width: 14rem;
+
+    }
+}
+@media(max-width: 374px) {
+    .home-navbar-search {
+        width: 12rem;
 
     }
 }
@@ -135,3 +141,6 @@
 .home-navbar-menu-item:hover {
     background-color: #202020 !important;
 }
+/* .menu-tooltip {
+    width: 2rem !important
+} */

@@ -131,7 +131,7 @@ const HomeNavbar = () => {
                         <div className='text-white col-lg-2 col-md-3 col-2 m-auto d-flex justify-content-end'>
                             <div className='d-flex'>
                                 <div className=''>
-                                    <Tooltip title={<span className='nunito-sans-font'>{[`Create items`]}</span>} arrow className='menu-tooltip'>
+                                    <Tooltip title={<span className='nunito-sans-font' style={{ fontSize: '1rem', padding: "0.4rem", borderRadius: "45px" }}>{[`Create items`]}</span>} arrow className='menu-tooltip'>
                                         {isSmallScreen ? 
                                             <div className='me-2 m-auto'><AddCircleRoundedIcon className='only-add-icon-create-home-navbar' /></div>
                                             : 

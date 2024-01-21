@@ -5,7 +5,6 @@ function updateTaskInfo  (
         selectedDate,
         dayjs,
         moreTaskmodalOpen,
-        setCheckIconVisible,
         handleDueDatePopoverClose,
         setCurrentTaskDueDate,
         handlePriorityPopoverClose,
@@ -24,25 +23,26 @@ function updateTaskInfo  (
         }
         
         console.log(targetClassList);
-        
+        console.log(selectedDate + " is the selected date");
         if (targetClassList.includes('date-calendar-btn') && selectedDate !== null) {
             console.log("inside date calendar");
             const newDayString = selectedDate.format('D');
             const newMonthString = selectedDate.format('M');
             const newYearString = selectedDate.format('YYYY');
-            const newDate = dayjs(`${newYearString}-${newMonthString}-${newDayString}`).toDate();
+            console.log("selected date below");
+            console.log(dayjs(selectedDate));
+            // const newDate = dayjs(`${newYearString}-${newMonthString}-${newDayString}`).toDate();
+            const newDate = dayjs(selectedDate);
             task.dueDate = newDate;
 
             if (!moreTaskmodalOpen) {
-                setCheckIconVisible(true);
                 
-                setTimeout(function () {
-                    setCheckIconVisible(false);
+                // setTimeout(function () {
 
                     handleDueDatePopoverClose();
                     
 
-                }, 1800);
+                // }, 1800);
 
             } else {
                 setCurrentTaskDueDate(dayjs(task.dueDate).format(`MMM D`));
@@ -60,46 +60,43 @@ function updateTaskInfo  (
             setCurrentTaskDueDate(dayjs(task.dueDate).format(`MMM D`));
             console.log(dayjs(task.dueDate).format(`MMM D`));
             handleDueDatePopoverClose();
-        } else if (targetClassList.includes('priority-list-item-btn')) {
-            task.priority = event.target.textContent;
-            setOpenSnackbar(false);
+        } 
+        // else if (targetClassList.includes('priority-list-item-btn')) {
+        //     task.priority = event.target.textContent;
+        //     setOpenSnackbar(false);
             
-            setTimeout(function () {
-                setUpdatedTaskValue(task.priority);
-                setUpdatedTaskAttribute('Priority')
-                setOpenSnackbar(true);
-                handlePriorityPopoverClose();
+        //     setTimeout(function () {
+        //         setUpdatedTaskValue(task.priority);
+        //         setUpdatedTaskAttribute('Priority')
+        //         setOpenSnackbar(true);
+        //         handlePriorityPopoverClose();
 
-            }, 230);
-        } else if (targetClassList.includes('status-list-item-btn')) {
-            task.status = event.target.textContent;
-            setOpenSnackbar(false);
+        //     }, 230);
+        // } else if (targetClassList.includes('status-list-item-btn')) {
+        //     task.status = event.target.textContent;
+        //     setOpenSnackbar(false);
 
-            setTimeout(function () {
-                setUpdatedTaskValue(task.status);
-                setUpdatedTaskAttribute('Status')
-                setOpenSnackbar(true);
-                handleStatusPopoverClose();
+        //     setTimeout(function () {
+        //         setUpdatedTaskValue(task.status);
+        //         setUpdatedTaskAttribute('Status')
+        //         setOpenSnackbar(true);
+        //         handleStatusPopoverClose();
 
-            }, 230);
-        } else if (targetClassList.includes('remove-due-date-btn')) {
-            task.dueDate = null;
-        } else if (targetClassList.includes('menu-change-status-btn')) {
-            task.status = event.target.innerText;
-        } else if (targetClassList.includes('set-task-complete-btn')) {
-            task.status = 'Completed';
-        } else if (targetClassList.includes('menu-change-priority-btn')) {
-            task.priority = event.currentTarget.innerText;
-        }
-        else if (targetClassList.includes('more-task-description')) {
-            task.description = event.target.value;
-        } else if (targetClassList.includes('update-task-name-content')) {
-            // console.log("inside tc: " + event.currentTarget.textContent);
-            task.name = event.currentTarget.textContent;
-            // console.log("My task name " + task.name)
-        }
-
-
+        //     }, 230);
+        // } else if (targetClassList.includes('remove-due-date-btn')) {
+        //     task.dueDate = null;
+        // } else if (targetClassList.includes('menu-change-status-btn')) {
+        //     task.status = event.target.innerText;
+        // } else if (targetClassList.includes('set-task-complete-btn')) {
+        //     task.status = 'Completed';
+        // } else if (targetClassList.includes('menu-change-priority-btn')) {
+        //     task.priority = event.currentTarget.innerText;
+        // }
+        // else if (targetClassList.includes('more-task-description')) {
+        //     task.description = event.target.value;
+        // } else if (targetClassList.includes('update-task-name-content')) {
+        //     task.name = event.currentTarget.textContent;
+        // }
 
 
         const taskInfo = {

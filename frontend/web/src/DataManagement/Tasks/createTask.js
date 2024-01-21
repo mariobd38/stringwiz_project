@@ -9,21 +9,16 @@ function createTaskInfo(
     setMissingNameError,
     setTaskData,
     setUserTasks,
-    setTaskName,
-    setTaskDescription,
-    setTaskStatus,
-    setTaskPriority,
-    setTaskDueDate,
-    setCreateTaskModalOpen,
     jwt,
     taskData,
     userTasks) {
-    if (!taskName) {
-        setMissingNameError(true);
-        return;
-    } else {
-        setMissingNameError(false);
-    }
+        console.log(taskName)
+    // if (!taskName) {
+    //     setMissingNameError(true);
+    //     return;
+    // } else {
+    //     setMissingNameError(false);
+    // }
     let myDate = null;
     let dayString = null;
     let monthString = null;
@@ -90,12 +85,12 @@ function createTaskInfo(
         if(taskList === "") taskList = [];
         taskList.push(taskTableInfo);
         setUserTasks(JSON.parse(JSON.stringify(taskList)))
-        setTaskName(null);
-        setTaskDescription(null);
-        setTaskStatus(null);
-        setTaskPriority(null);
-        setTaskDueDate(null);
-        setCreateTaskModalOpen(false);
+        // setTaskName(null);
+        // setTaskDescription(null);
+        // setTaskStatus(null);
+        // setTaskPriority(null);
+        // setTaskDueDate(null);
+        // setCreateTaskModalOpen(false);
       })
       .catch((error) => {
         console.error(error); 

@@ -29,6 +29,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -71,9 +73,9 @@ public class Task {
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<Tag> tags = new LinkedHashSet<>();
 
-    @Temporal(TemporalType.DATE)
+//    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "due_date")
-    private Date dueDate;
+    private ZonedDateTime dueDate;
 
     @CreationTimestamp
     @Column(name="created_on", nullable = false)
@@ -83,7 +85,7 @@ public class Task {
     @Column(name="last_updated_on")
     private Timestamp lastUpdatedOn;
 
-    public Task(String name, String description, String status, String priority, User user, Date dueDate) {
+    public Task(String name, String description, String status, String priority, User user, ZonedDateTime dueDate) {
         setName(name);
         setDescription(description);
         setStatus(status);
