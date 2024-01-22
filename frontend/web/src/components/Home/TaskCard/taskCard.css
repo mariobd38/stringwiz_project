@@ -1,0 +1,121 @@
+.user-home-card-header {
+    font-weight: 600;
+    font-size: 1.5rem;
+    border-radius: 2px 2px 0 0 !important;
+}
+.user-home-checklist-icon {
+    border-radius: 50%;
+    border-style: dashed;
+    border-width: 1px !important;
+    width: 2.2rem !important;
+    height: 2.2rem  !important;
+    padding: 0.25rem;
+}
+.user-home-create-task-button-dark {
+    font-family: 'Nunito Sans', serif !important;
+    text-transform: initial !important;
+    font-weight: 600 !important;
+    padding: 0.06rem 0.4rem !important;
+    border-radius: 7px !important;
+}
+.user-home-create-task-button-dark:hover {
+    background-color: #25262a !important;
+    color: #b7b7b7 !important;
+}
+.user-home-new-task-input {
+    background-color: #1e1f21 !important;
+}
+.table-row-dark:hover .user-home-new-task-input{
+    background-color: #2f3032 !important;
+}
+.table-row-dark:hover .table-row-new-dark {
+    background-color: #2f3032 !important;
+}
+.table-row-dark:hover{
+    background-color: #2f3032 !important;
+    cursor: pointer;
+}
+.table-container-wrapper {
+    max-height: 19rem; 
+    min-height: 19rem; 
+    overflow: auto;
+}
+.table-container {
+    width: 100%;
+    border-collapse: separate !important;
+}
+.table-row:hover, .tag-dropdown-item:hover {
+    background-color: #eeeeee !important;
+}
+.table-row-dark:hover, .tag-dropdown-item:hover {
+    background-color: #2f3032 !important;
+}
+/* .table-row:hover .table-cell-icon, .table-row:hover .user-home-task-check  {
+    display: block !important;
+} */
+.table-cell {
+    font-family: 'Nunito Sans', serif !important;
+    padding: 0.85rem 0rem !important;
+    margin: 0rem 1.7rem !important;
+    overflow: hidden !important;
+    border: none !important;
+}
+.table-cell-icon:hover {
+    display: inline !important;
+}
+.user-home-task-check-icon {
+    border: 1px solid #fafafa;
+    border-radius: 50%;
+    margin: auto;
+    width: 1rem !important;
+    height: 1rem !important;
+    padding: 0.08rem !important;
+}
+.user-home-task-check-icon:hover {
+    cursor: pointer;
+    color: #006A4E !important;
+    border-color: #006A4E !important;
+}
+/* .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+    color: #fafafa !important;
+    border: none !important;
+    outline: none !important;
+    background-color: #1e1f21;
+} */
+.task-name-link {
+    color: inherit;
+    cursor: pointer;
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+.task-name-link:hover {
+    color: #3874CB;
+}
+.taskName-text {
+    font-size: 0.88rem !important;
+    padding: 0.3em 1em;
+    border: none !important;
+    font-family: 'Poppins', serif;
+}
+.taskName-text.strikethrough {
+    text-decoration: line-through;
+}
+.user-home-calendar-icon-div {
+    color: #e7e7e7;
+    border: 1px solid #8cdfc3;
+    padding: 0.12rem 0.1rem;
+    cursor: pointer;
+    border-radius: 50%;
+    visibility: hidden;
+}
+.table-row-dark:hover .user-home-calendar-icon-div {
+    display: block !important;
+    visibility:visible;
+}
+.user-home-calendar-icon {
+    color: #e7e7e7;
+    width: 1.3rem !important;
+    height: 1rem !important;
+}

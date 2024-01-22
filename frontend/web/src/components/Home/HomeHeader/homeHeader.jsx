@@ -2,14 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocalState } from "../../../utils/useLocalStorage";
 import { useCookies } from "../../../utils/useCookies";
 
-import Button from 'react-bootstrap/Button';
-
-import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
-import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import HomeIcon from '@mui/icons-material/Home';
-import PublishedWithChangesRoundedIcon from '@mui/icons-material/PublishedWithChangesRounded';
-
 import Box from '@mui/material/Box';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import Divider from '@mui/material/Divider';
@@ -21,7 +14,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MailIcon from '@mui/icons-material/Mail';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Switch from '@mui/material/Switch';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';

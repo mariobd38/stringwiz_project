@@ -14,7 +14,7 @@ import { StaticTimePicker } from '@mui/x-date-pickers/StaticTimePicker';
 
 import './newHomeDueDatePopover.css';
 
-const NewHomeDueDatePopover = ({currentTaskDueDate, dueDatePopoverAnchorEl, handleDueDatePopoverClose, today, handleUpdateTask, selectedDate, setSelectedDate, setSelectedTime, setDueDateClockIsOpen, dueDateClockIsOpen}) => {
+const NewHomeDueDatePopover = ({currentTaskDueDate, dueDatePopoverAnchorEl, handleDueDatePopoverClose, today, handleUpdateTask, selectedDate, setSelectedDate, setDueDateClockIsOpen, dueDateClockIsOpen}) => {
 
     const openDueDatePopover = Boolean(dueDatePopoverAnchorEl);
     const dueDatePopOverId = openDueDatePopover ? 'simple-popover' : undefined;
@@ -38,9 +38,8 @@ const NewHomeDueDatePopover = ({currentTaskDueDate, dueDatePopoverAnchorEl, hand
         console.log(currentlySelectedDate.hour(time.hour()).minute(time.minute()));
         setSelectedDate(currentlySelectedDate.hour(time.hour()).minute(time.minute()));
         
-        setSelectedTime(time);
 
-    }, [setSelectedDate, selectedDate, currentTaskDueDate, setSelectedTime, today]);
+    }, [setSelectedDate, selectedDate, currentTaskDueDate, today]);
 
 
     return (
