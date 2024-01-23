@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useLocalState } from "../../../utils/useLocalStorage";
 
 import dayjs from 'dayjs';
@@ -27,6 +28,7 @@ import {createTaskInfo} from './../../../DataManagement/Tasks/createTask';
 import {updateTaskInfo} from './../../../DataManagement/Tasks/updateTask';
 
 import NewHomeDueDatePopover from './../newHomeDueDatePopover';
+import TaskDetailsModal from '../TaskDetailsModal/taskDetailsModal';
 
 import './taskCard.css'
 
@@ -39,7 +41,6 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
     //const [missingNameError, setMissingNameError] = useState(false);
 
 
-
     const handleNewTaskClick = () => {
         setNewTaskRowOpen((prev) => !prev);
     };
@@ -49,8 +50,6 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
     };
 
     const handleTaskCreate = (event) => {
-
-        // handleGetTags();
         if (event.key === 'Enter' && event.target.value !== '') {
             createTaskInfo(
                 dayjs,
@@ -69,14 +68,16 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
         }
     };
 
-
     //due date popovers
     const [currentTaskDueDate, setCurrentTaskDueDate] = useState('');
+    const [currentTaskName, setCurrentTaskName] = useState('');
     const [dueDatePopoverAnchorEl, setDueDatePopoverAnchorEl] = useState(null);
     const [dueDateClockIsOpen, setDueDateClockIsOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
 
     const handleDueDatePopoverClick = (event, index) => {
+        // event.stopPropagation();
+        // event.preventDefault();
         console.log(dueDateClockIsOpen);
         setDueDatePopoverAnchorEl(event.currentTarget);
         setCurrentIndex(index);
@@ -84,9 +85,9 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
         setDueDateClockIsOpen(false);
     };
 
-
-
-    const handleDueDatePopoverClose = () => {
+    const handleDueDatePopoverClose = (event) => {
+        // event.stopPropagation();
+        // event.preventDefault();
         console.log("yol");
         setDueDatePopoverAnchorEl(null);
         setSelectedDate(false); 
@@ -122,10 +123,12 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
             setSelectedDate(currentTaskDueDate);
         }
 
+        console.log("index is " + currentIndex);
+
         updateTaskInfo(
             currentIndex, 
             event,
-            taskData,
+            upcomingTasks,
             selectedDate,
             dayjs,
             false,
@@ -138,14 +141,21 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
             null,
             null
             );
-        setUpcomingTasks(taskData);
-        console.log("UPCOMING!!");
-        console.log(upcomingTasks);
+        setUpcomingTasks(upcomingTasks);
         setDueDateClockIsOpen(false);
     };
     
+    //task details modal
+    const location = useLocation();
+    const [modalShow, setModalShow] = useState(false);
 
+    const openTaskDetailsModal = (event, index) => {
+        setModalShow(true);
+        setCurrentTaskName(upcomingTasks[index].name);
+        console.log(upcomingTasks[index].name);
+    }
 
+    
     return (
         <>
             <Card
@@ -184,13 +194,13 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
                                             </Button>
                                             <div className='w-100 table-row-dark'>
                                             {newTaskRowOpen ? (
-                                                <TableRow className='table-row-new-dark' style={{backgroundColor: "#1E1F21", width: "100%"}} >
-                                                    <TableCell scope="row" className='d-flex align-items-center justify-content-between table-cell'>
+                                                <TableRow className='table-row-new-dark ' style={{backgroundColor: "#1E1F21", width: "100%"}} >
+                                                    <TableCell scope="row" className=' d-flex align-items-center justify-content-between table-cell'>
                                                         <div className='d-flex align-items-center mb-1 m-0' style={{color: "#fafafa"}}>
                                                             <div>
                                                                 <CheckRoundedIcon className='user-home-task-check-icon' />
                                                             </div>
-                                                            <div>
+                                                            <div className='bg-danger' >
                                                                 <input onKeyDown={handleTaskCreate} placeholder='Task name' autoFocus="autofocus" className={`ps-2 taskName-text user-home-new-task-input fafafa-color`} contentEditable={true} /> 
                                                             </div>
                                                         </div>
@@ -203,21 +213,23 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
                                 </ ClickAwayListener>
                                     {upcomingTasks.map((row, index) => (
                                     <TableRow key={index} className='table-row-dark' style={{ backgroundColor: "#1E1F21" }}>
-                                        <TableCell scope="row" className='d-flex align-items-center justify-content-between table-cell'>
+                                        {/* <Link to='/home/modal' state={{ background: location }}> */}
+                                        <TableCell scope="row" className='d-flex align-items-center justify-content-between table-cell' >
                                             <div className='d-flex justify-content-between w-100'>
                                                 {/* Left Content */}
-                                                <div className='d-flex mb-2' style={{ color: "#fafafa" }}>
+                                                {/*   */}
+                                                <Link to='/home/modal' state={{ background: location }}  onClick={(e) => openTaskDetailsModal(e, index)}  className='d-flex mb-2' style={{ color: "#fafafa" }}>
                                                     <div className='m-auto d-flex '>
                                                         <CheckRoundedIcon className='user-home-task-check-icon' />
                                                     </div>
-                                                    <div>
+                                                    <div >
                                                         <button className='task-name-link '>
                                                         <span className={`ps-2 taskName-text ${row.status === 'Completed' ? ' strikethrough' : ''}`}>
                                                             {row.name}
                                                         </span>
                                                         </button>
                                                     </div>
-                                                </div>
+                                                </Link>
                                                 {!upcomingTasks[index].dueDate ? 
                                                     <Tooltip placement="top" title={<span className='nunito-sans-font ' style={{transition: "transition: width 1.2s ease-in-out"}}>{[`Add Due Date`]}</span>} arrow className='menu-tooltip'>
 
@@ -225,7 +237,7 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
                                                             <CalendarTodayRoundedIcon className='user-home-calendar-icon '/>
                                                         </div>
                                                     </Tooltip> :
-                                                    <div style={{ color: "#a7a7a7" }} className={`lato-font`} onClick={(event) => handleDueDatePopoverClick(event, index)}
+                                                    <div style={{ color: "#a7a7a7" }} className={`lato-font, user-home-chosen-due-date-text`} onClick={(event) => handleDueDatePopoverClick(event, index)}
                                                     >
                                                         {formatDate(upcomingTasks[index].dueDate) === 'Overdue' ? (
                                                             <span className='error-message'>Overdue</span>
@@ -240,6 +252,7 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
                                                 />
                                             </div>
                                         </TableCell>
+                                        {/* </Link> */}
                                     </TableRow>
                                     ))}
                                 </TableBody> 
@@ -248,6 +261,14 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
                     </div>
                 </Card.Body>
             </Card>
+
+            <TaskDetailsModal
+                show={modalShow}
+                onHide={() => 
+                    setModalShow(false)
+                }
+                currentTaskName={currentTaskName}
+            />
         </>
     );
 };

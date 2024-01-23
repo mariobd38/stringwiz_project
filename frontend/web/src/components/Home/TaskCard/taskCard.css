@@ -33,7 +33,6 @@
 }
 .table-row-dark:hover{
     background-color: #2f3032 !important;
-    cursor: pointer;
 }
 .table-container-wrapper {
     max-height: 19rem; 
@@ -91,13 +90,14 @@
     padding: 0;
 }
 .task-name-link:hover {
-    color: #3874CB;
+    color: #fafafa;
 }
 .taskName-text {
     font-size: 0.88rem !important;
     padding: 0.3em 1em;
     border: none !important;
     font-family: 'Poppins', serif;
+    color: #fafafa;
 }
 .taskName-text.strikethrough {
     text-decoration: line-through;
@@ -105,10 +105,13 @@
 .user-home-calendar-icon-div {
     color: #e7e7e7;
     border: 1px solid #8cdfc3;
-    padding: 0.12rem 0.1rem;
+    padding: 0.12rem 0.15rem;
     cursor: pointer;
     border-radius: 50%;
     visibility: hidden;
+}
+.user-home-chosen-due-date-text {
+    cursor: pointer;
 }
 .table-row-dark:hover .user-home-calendar-icon-div {
     display: block !important;

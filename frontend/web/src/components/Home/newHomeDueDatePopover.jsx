@@ -20,15 +20,21 @@ const NewHomeDueDatePopover = ({currentTaskDueDate, dueDatePopoverAnchorEl, hand
     const dueDatePopOverId = openDueDatePopover ? 'simple-popover' : undefined;
 
     const handleDateSelection = useMemo(() => (date) => {
+        // event.stopPropagation();
+        // event.preventDefault();
         console.log("date below");
         console.log(date);
         setSelectedDate(date);
     }, [setSelectedDate]);
     
-    const openDueDateCalendar = () => {
+    const openDueDateCalendar = (event) => {
+        // event.stopPropagation();
+        // event.preventDefault();
         setDueDateClockIsOpen(false);
     }
-    const openDueDateClock = () => {
+    const openDueDateClock = (event) => {
+        // event.stopPropagation();
+        // event.preventDefault();
         setDueDateClockIsOpen(true);
     }
 

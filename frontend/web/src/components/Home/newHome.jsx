@@ -14,8 +14,8 @@ import {getTaskInfo} from './../../DataManagement/Tasks/getTasks';
 
 import milestones from '../../images/milestones.png';
 
-import HomeNavbar from './HomeNavbar/homeNavbar';
 import HomeHeader from '../Home/HomeHeader/homeHeader';
+import HomeNavbar from './HomeNavbar/homeNavbar';
 import TaskCard from './TaskCard/taskCard';
 
 import './newHome.css';

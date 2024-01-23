@@ -1,7 +1,7 @@
 function updateTaskInfo  (
         currentRowIndex, 
         event,
-        taskData,
+        upcomingTasks,
         selectedDate,
         dayjs,
         moreTaskmodalOpen,
@@ -14,7 +14,7 @@ function updateTaskInfo  (
         setUpdatedTaskValue,
         setUpdatedTaskAttribute
         ) {
-        let task = taskData[currentRowIndex];
+        let task = upcomingTasks[currentRowIndex];
         let targetClassList = null;
         if (event.currentTarget.classList.length > 1) {
             targetClassList = event.currentTarget.getAttribute("class").split(' ');
@@ -123,7 +123,7 @@ function updateTaskInfo  (
             return response.json();
         })
         .then((newData) => {
-            taskData[currentRowIndex] = newData;
+            upcomingTasks[currentRowIndex] = newData;
             // setTaskData(newData);    
             console.log("updated task array!");
         })

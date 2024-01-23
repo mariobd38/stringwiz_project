@@ -1,0 +1,16 @@
+.resizable-modal-container {
+    transition: width 0.3s ease-in-out; /* Add a smooth transition effect on width changes */
+}
+.modal-dialog {
+    min-width: 80% !important;
+    /* max-width: 95%; */
+    margin: auto;
+    transition: width 0.3s ease-in-out;
+    overflow-y:auto !important;
+
+}
+@media (max-width: 1200px) {
+    .modal-dialog {
+        min-width: 95% !important;
+    }
+}
