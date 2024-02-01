@@ -7,12 +7,8 @@ function updateTaskInfo  (
         moreTaskmodalOpen,
         handleDueDatePopoverClose,
         setCurrentTaskDueDate,
-        handlePriorityPopoverClose,
-        handleStatusPopoverClose,
         jwt,
         setOpenSnackbar,
-        setUpdatedTaskValue,
-        setUpdatedTaskAttribute
         ) {
         let task = upcomingTasks[currentRowIndex];
         let targetClassList = null;
@@ -24,23 +20,17 @@ function updateTaskInfo  (
         
         console.log(targetClassList);
         console.log(selectedDate + " is the selected date");
+
+        //update task due date
         if (targetClassList.includes('date-calendar-btn') && selectedDate !== null) {
-            console.log("inside date calendar");
-            const newDayString = selectedDate.format('D');
-            const newMonthString = selectedDate.format('M');
-            const newYearString = selectedDate.format('YYYY');
-            console.log("selected date below");
             console.log(dayjs(selectedDate));
             // const newDate = dayjs(`${newYearString}-${newMonthString}-${newDayString}`).toDate();
             const newDate = dayjs(selectedDate);
             task.dueDate = newDate;
 
             if (!moreTaskmodalOpen) {
-                
                 // setTimeout(function () {
-
                     handleDueDatePopoverClose();
-                    
 
                 // }, 1800);
 
@@ -61,6 +51,11 @@ function updateTaskInfo  (
             console.log(dayjs(task.dueDate).format(`MMM D`));
             handleDueDatePopoverClose();
         } 
+        //update task description
+        else if (targetClassList.includes('user-home-task-details-modal-description-textarea')) {
+            task.description = event.target.value;
+        }
+
         // else if (targetClassList.includes('priority-list-item-btn')) {
         //     task.priority = event.target.textContent;
         //     setOpenSnackbar(false);

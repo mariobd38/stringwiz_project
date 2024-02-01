@@ -60,14 +60,14 @@ import { createTagInfo } from '../../DataManagement/Tags/createTag';
 import { addExistingTagInfo } from '../../DataManagement/Tags/addExistingTag';
 import { getTagInfo } from '../../DataManagement/Tags/getTags';
 import { getAllTagsInfo } from '../../DataManagement/Tags/getAllTags';
-import HomeMoreTaskInfo from './HomeMoreTaskInfo/homeMoreTaskInfo';
+import HomeMoreTaskInfo from './deprecated/HomeMoreTaskInfo/homeMoreTaskInfo';
 
 import relax from '../../images/stringwiz_relax.png';
 import completed from '../../images/cocollab_completed.png';
 
 // import { Editor } from '../tinymce-react-demo/node_modules/@tinymce/tinymce-react';
 
-import './home.css';
+import './deprecated/home.css';
 
 
 

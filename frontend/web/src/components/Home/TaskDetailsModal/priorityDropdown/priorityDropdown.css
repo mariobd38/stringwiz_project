@@ -1,0 +1,22 @@
+.user-home-task-details-modal-priority-menu-item {
+    background-color: #1e1f21 !important;
+    color: #b7b7b7;
+}
+.user-home-task-details-modal-priority-menu-item .dropdown-item {
+    color: #b7b7b7;
+    margin: 0.2rem 0;
+    padding: 0.5rem;
+}
+.user-home-task-details-modal-priority-menu-item .dropdown-item:hover {
+    background-color: #2a2b2d;
+}
+.user-home-task-details-modal-priority-search {
+    width: 10rem;
+}
+.user-home-task-details-modal-priority-search-input {
+    background-color: #1e1f21 !important;
+    border: none !important;
+    border-bottom: none !important;
+    z-index: 1 !important;
+    color: #fafafa !important;
+}

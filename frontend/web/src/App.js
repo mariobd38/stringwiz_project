@@ -1,7 +1,7 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import React, { useEffect } from 'react';
 import './App.css';
-import Home from "./components/Home/home";
+// import Home from "./components/Home/home";
 import NewHome from "./components/Home/newHome";
 import TaskDetailsModal from "./components/Home/TaskDetailsModal/taskDetailsModal";
 import LandingPage from "./components/Landing/LandingPage";

@@ -29,3 +29,7 @@ code {
 .nunito-sans-font-600 {
   font-weight: 600;
 }
+.error-message {
+  color: #c90825;
+  font-family: 'Nunito Sans', serif !important;
+}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useLocalState } from "../../../utils/useLocalStorage";
 
 import dayjs from 'dayjs';
@@ -68,16 +68,22 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
         }
     };
 
+    //task attributes
+    const [currentTaskName, setCurrentTaskName] = useState('');
+    const [currentTaskCreationDate, setCurrentTaskCreationDate] = useState('');
+    const [currentTaskLastUpdatedOn, setCurrentTaskLastUpdatedOn] = useState('');
+    const [currentTaskDescription, setCurrentTaskDescription] = useState('');
+    const [currentTaskIdNumber, setCurrentTaskIdNumber] = useState('');
+    const [currentTaskStatus, setCurrentTaskStatus] = useState('');
+    const [currentTaskPriority, setCurrentTaskPriority] = useState('');
+
     //due date popovers
     const [currentTaskDueDate, setCurrentTaskDueDate] = useState('');
-    const [currentTaskName, setCurrentTaskName] = useState('');
     const [dueDatePopoverAnchorEl, setDueDatePopoverAnchorEl] = useState(null);
     const [dueDateClockIsOpen, setDueDateClockIsOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
 
     const handleDueDatePopoverClick = (event, index) => {
-        // event.stopPropagation();
-        // event.preventDefault();
         console.log(dueDateClockIsOpen);
         setDueDatePopoverAnchorEl(event.currentTarget);
         setCurrentIndex(index);
@@ -86,9 +92,6 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
     };
 
     const handleDueDatePopoverClose = (event) => {
-        // event.stopPropagation();
-        // event.preventDefault();
-        console.log("yol");
         setDueDatePopoverAnchorEl(null);
         setSelectedDate(false); 
         setCurrentTaskDueDate(null);
@@ -134,11 +137,7 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
             false,
             handleDueDatePopoverClose,
             setCurrentTaskDueDate,
-            null,
-            null,
             jwt,
-            null,
-            null,
             null
             );
         setUpcomingTasks(upcomingTasks);
@@ -152,6 +151,14 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
     const openTaskDetailsModal = (event, index) => {
         setModalShow(true);
         setCurrentTaskName(upcomingTasks[index].name);
+        setCurrentTaskCreationDate(upcomingTasks[index].createdOn);
+        setCurrentTaskLastUpdatedOn(upcomingTasks[index].lastUpdatedOn);
+        setCurrentTaskDescription(upcomingTasks[index].description);
+        setCurrentTaskIdNumber(upcomingTasks[index].taskIdNumber);
+        setCurrentTaskDueDate(upcomingTasks[index].dueDate);
+        setCurrentTaskStatus(upcomingTasks[index].status);
+        setCurrentTaskPriority(upcomingTasks[index].priority);
+        setCurrentIndex(index);
         console.log(upcomingTasks[index].name);
     }
 
@@ -200,7 +207,7 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
                                                             <div>
                                                                 <CheckRoundedIcon className='user-home-task-check-icon' />
                                                             </div>
-                                                            <div className='bg-danger' >
+                                                            <div>
                                                                 <input onKeyDown={handleTaskCreate} placeholder='Task name' autoFocus="autofocus" className={`ps-2 taskName-text user-home-new-task-input fafafa-color`} contentEditable={true} /> 
                                                             </div>
                                                         </div>
@@ -267,7 +274,18 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
                 onHide={() => 
                     setModalShow(false)
                 }
+                currentIndex={currentIndex}
+                upcomingTasks={upcomingTasks}
+                selectedDate={selectedDate}
+                jwt={jwt}
                 currentTaskName={currentTaskName}
+                currentTaskCreationDate={currentTaskCreationDate}
+                currentTaskLastUpdatedOn={currentTaskLastUpdatedOn}
+                currentTaskDescription={currentTaskDescription}
+                currentTaskIdNumber={currentTaskIdNumber}
+                currentTaskDueDate={currentTaskDueDate}
+                currentTaskStatus={currentTaskStatus}
+                currentTaskPriority={currentTaskPriority}
             />
         </>
     );

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocalState } from "../../../utils/useLocalStorage";
+import { useLocalState } from "../../../../utils/useLocalStorage";
 
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -31,10 +31,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-import { updateTaskInfo } from '../../../DataManagement/Tasks/updateTask';
-import { createTagInfo } from '../../../DataManagement/Tags/createTag';
-import { removeTagInfo } from '../../../DataManagement/Tags/removeTag';
-import { deleteTagInfo } from '../../../DataManagement/Tags/deleteTag';
+import { updateTaskInfo } from '../../../../DataManagement/Tasks/updateTask';
+import { createTagInfo } from '../../../../DataManagement/Tags/createTag';
+import { removeTagInfo } from '../../../../DataManagement/Tags/removeTag';
+import { deleteTagInfo } from '../../../../DataManagement/Tags/deleteTag';
 import './homeMoreTaskInfo.css'
 
 

@@ -1,0 +1,7 @@
+.user-home-task-details-modal-item-type-menu .MuiPaper-root {
+    background-color: #1e1f21 !important;
+    color: #b7b7b7;
+}
+.user-home-task-details-modal-item-type-menu-item .MuiButtonBase-root:hover {
+    background-color: #2e2f31 !important;
+}
