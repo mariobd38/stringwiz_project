@@ -1,9 +1,8 @@
 .resizable-modal-container {
-    transition: width 0.3s ease-in-out; /* Add a smooth transition effect on width changes */
+    transition: width 0.3s ease-in-out; 
 }
 .modal-dialog {
     min-width: 80% !important;
-    /* max-width: 95%; */
     margin: auto;
     transition: width 0.3s ease-in-out;
     overflow-y:auto !important;
@@ -40,14 +39,10 @@
 .user-home-task-details-modal-header-right-btn {
     height: 2.2rem;
     margin: auto;
-    
 }
 .user-home-task-details-modal-header-right-btn:hover {
-    /* height: 2.8rem; */
     background-color: #292a2c;
     border-radius: 4px;
-    
-    /* border: 2px solid transparent; */
 }
 .user-home-task-details-modal-share-btn {
     background-color: #7730e2;
@@ -71,10 +66,20 @@
     font-family: 'Lato';
     font-size: 0.95rem;
 }
-.user-home-task-details-modal-assignee-div {
-    /* padding: 0.4rem 0.6rem; */
-    padding: 0.2rem 0.2rem;
+.user-home-task-details-modal-head-text {
+    cursor: pointer;
     border-radius: 6px;
+    padding: 0.45rem 0.6rem;
+    width: 8rem;
+}
+.user-home-task-details-modal-head-text:hover {
+    background-color: #2c2d2f;
+}
+.user-home-task-details-modal-assignee-div {
+    padding: 0.45rem 0.6rem;
+    /* padding: 0.2rem 0.2rem; */
+    border-radius: 6px;
+    /* background-color: green; */
 }
 .user-home-task-details-modal-assignee-div:hover {
     background-color: #2c2d2f;
@@ -83,7 +88,7 @@
     .user-home-task-details-modal-status-search-input::after {
     border: none !important;
 } */
-.user-home-task-details-modal-status-btn {
+.user-home-task-details-modal-status-btn, .user-home-task-details-modal-priority-btn {
     padding: 0.2rem 0.7rem;
     font-family: 'Nunito Sans' !important;
     color: #fafafa;
@@ -102,18 +107,20 @@
     background-color: #1e1f21 !important;
     transition: border 0.45s linear;
 }
-.user-home-task-details-modal-status-btn:hover, .user-home-task-details-modal-status-set-complete-btn:hover {
+.user-home-task-details-modal-status-btn:hover, .user-home-task-details-modal-status-set-complete-btn:hover,
+.user-home-task-details-modal-priority-btn:hover, .user-home-task-details-modal-no-status-btn:hover {
     border-color: #7730e2;
     transition: border 0.45s linear;
     /* background-color: none; */
 }
-.user-home-task-details-modal-no-status-btn {
+.user-home-task-details-modal-no-priority-btn {
     background-color: #1e1f21;
     border-radius: 50%;
     border: 1px dashed #898989;
     width: 2.5rem;
     height: 2.5rem;
     color: #898989;
+    transition: border 0.45s linear;
 }
 .user-home-task-details-modal-task-options-btn {
     color: #999999 !important;

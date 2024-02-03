@@ -98,6 +98,9 @@
     border: none !important;
     font-family: 'Poppins', serif;
     color: #fafafa;
+    overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .taskName-text.strikethrough {
     text-decoration: line-through;

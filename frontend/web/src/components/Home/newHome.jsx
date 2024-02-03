@@ -17,6 +17,7 @@ import milestones from '../../images/milestones.png';
 import HomeHeader from '../Home/HomeHeader/homeHeader';
 import HomeNavbar from './HomeNavbar/homeNavbar';
 import TaskCard from './TaskCard/taskCard';
+import ProjectCard from './ProjectCard/projectCard';
 
 import './newHome.css';
 
@@ -120,9 +121,12 @@ const NewHome = () => {
                         <div className="col-xl-8 col-8 p-0">
                             <div className=' py-3'>
                                 <div className='d-flex justify-content-between py-2'>
-                                    {/* {taskCard} */}
                                     <TaskCard today={today} upcomingTasks={upcomingTasks} setUpcomingTasks={setUpcomingTasks} />
                                 </div>
+                            </div>
+
+                            <div className='d-flex justify-content-between py-2'>
+                                <ProjectCard />
                             </div>
                         </div>
 
