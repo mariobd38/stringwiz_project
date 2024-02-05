@@ -1,104 +1,112 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { useClickAway } from 'react-use';
 
-import { ClickAwayListener } from '@mui/base/ClickAwayListener';
-
-import ChecklistRtlRoundedIcon from '@mui/icons-material/ChecklistRtlRounded';
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-import RadioButtonCheckedRoundedIcon from '@mui/icons-material/RadioButtonCheckedRounded';
-import SettingsIcon from '@mui/icons-material/Settings';
+import TourRoundedIcon from '@mui/icons-material/TourRounded';
 
 import "./testDropdown.css";
 
-const MenuButton = ({name,icon,index, onClick}) => {
+const MenuButton = ({name,icon,isActualOption,hasItemTypesOption,index,currentItemName, onClick}) => {
     return (
-        <button onClick={() => (onClick ? onClick(index) : null)} className="model-dropdown-item-menu-button">
-        <span className="model-dropdown-current-icon">{icon}</span>
-        {name}
+        <button onClick={() => (onClick ? onClick(index) : null)} 
+            className={`model-dropdown-item-menu-button ${hasItemTypesOption ? 'model-dropdown-item-menu-button-wTypeOption' : ''}`}>
+            <span className="model-dropdown-current-icon">{icon}</span>
+            {name} 
+            {isActualOption && currentItemName === name && <CheckRoundedIcon className="ms-auto"/>}
         </button>
     );
 };
 
-const MenuItem = ({ name, index, icon, onClick }) => {
+const MenuItem = ({ name, index, icon, isActualOption, hasItemTypesOption, currentItemName, onClick }) => {
     return (
         <>
             <MenuButton
                 onClick={onClick}
                 icon={icon}
                 name={name}
+                isActualOption={isActualOption}
+                hasItemTypesOption={hasItemTypesOption}
                 index={index}
+                currentItemName={currentItemName}
             />
         </>
     );
 };
 
 export const TestDropdown = (props) => {
-    const items = [
-        {
-            name: props.name1,
-            icon: props.icon1
-        },
-        {
-            name: props.name2,
-            icon: props.icon2
-        },
-        {
-            name: props.name3,
-            icon: props.icon3
-        },
-    ];
+    const { items, 
+        hasItemTypesOption, hasArrow, hasHeaderDescText, hasSearchBar,
+        initialNameValue, initialIconValue, isPriorityDropdown } = props;
 
-    const [isOpen, setIsOpen] = useState(false);
-    const [currentItemName, setCurrentItemName] = useState('Task');
-    const [currentItemIcon, setCurrentItemIcon] = useState(<ChecklistRtlRoundedIcon />);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [currentItem, setCurrentItem] = useState({ name: initialNameValue, icon: initialIconValue });
 
     const handleMenuItemClick = (item) => {
-        console.log(item);
-        setCurrentItemName(item.name);
-        setCurrentItemIcon(item.icon);
-        // console.log(index);
-        setIsOpen(!isOpen);
+        setCurrentItem(item);
+        setIsDropdownOpen(!isDropdownOpen);
     }
 
-    const handleNewTaskClickAway = () => {
-        console.log("clicked away");
-        setIsOpen(!isOpen);
-    };
+    const handleOpenDropdownMenu = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    }
+    
+    const ref = useRef(null);
+    useClickAway(ref, () => isDropdownOpen && setIsDropdownOpen(!isDropdownOpen));
 
     return (
-        <div
-            className={`dropdown ${isOpen ? "open" : ""}`}
+        <span
+            className={`dropdown ${isDropdownOpen ? "open" : ""}`} ref={ref}
         >
-
-            <button className={`selected-item-btn ${props.hasArrow ? '' : 'pe-3'}`} onClick={() => setIsOpen(!isOpen)} >
-                <span className={`model-dropdown-current-icon`}> {currentItemIcon} </span>
-                {currentItemName}
+            {
+            initialNameValue ?
+            <button className={`selected-item-btn ${hasArrow ? '' : 'pe-3'}`} onClick={handleOpenDropdownMenu} >
+                <span className={`model-dropdown-current-icon`}> {currentItem.icon} </span>
+                {currentItem.name}
                 {
-                    props.hasArrow &&
+                    hasArrow &&
                     <span className="model-dropdown-arrow-icon"> <KeyboardArrowDownRoundedIcon /> </span>
                 }
+            </button> :
+            <button  className="user-home-task-details-modal-no-priority-btn" onClick={handleOpenDropdownMenu}>
+                <TourRoundedIcon />
             </button>
+            }
 
-            <div className="modal-dropdown-menu">
-                <div>hry</div>
-            {/* <ClickAwayListener onClickAway={handleNewTaskClickAway}> */}
+            <div className="model-dropdown-menu" ref={ref} >
+                {hasHeaderDescText &&
+                <p className="m-0 pt-2 ps-2 pb-1 model-dropdown-desc-text">select the item type</p>
+                }
+
+                {hasSearchBar &&
+                <div className='d-flex align-items-center' style={{borderBottom: "1px solid #898989"}}>
+                    <form className="model-dropdown-search " role="search">
+                        <input
+                            className="form-control model-dropdown-search-input me-2"
+                            type="text"
+                            placeholder="Search"                                                
+                            aria-label="Search"
+                        />
+                    </form>
+                </div>}
+                
                 <div>
-                {items.map((item, index) => (
-
-                    <MenuItem
-                        key={item.name}
-                        name={item.name}
-                        icon={item.icon}
-                        index={index}
-                        onClick={() => handleMenuItemClick(item)}
-                        onHide={() => setIsOpen(!isOpen)}
-                    />
-
-                ))}
+                    {items.map((item, index) => (
+                        <MenuItem
+                            key={item.name}
+                            name={item.name}
+                            icon={item.icon}
+                            isActualOption={item.isActualOption}
+                            hasItemTypesOption={hasItemTypesOption}
+                            index={index}
+                            currentItemName={currentItem.name}
+                            onClick={() => handleMenuItemClick(item)}
+                            onHide={() => setIsDropdownOpen(!isDropdownOpen)}
+                        />
+                    ))}
                 </div>
-                    {/* </ClickAwayListener> */}
 
             </div>
-
-        </div>
+        </span>
     );
 };
