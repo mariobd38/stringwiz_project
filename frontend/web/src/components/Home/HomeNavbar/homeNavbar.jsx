@@ -185,7 +185,7 @@ const HomeNavbar = () => {
 
                                     <div className='text-center fafafa-color' style={{fontSize: "1.05rem"}}>
                                         <div className='m-auto text-center mt-3'>
-                                            <div className='text-white user-navbar-menu-button' onClick={handleUserBtnClick} style={{cursor: "pointer"}}>
+                                            <div className='text-white user-navbar-menu-button' style={{cursor: "pointer"}}>
                                                 <p className='m-0 d-flex justify-content-center align-items-center menu-initials'>{initials}</p>
                                             </div>
                                         </div>

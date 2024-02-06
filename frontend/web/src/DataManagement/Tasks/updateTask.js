@@ -54,6 +54,17 @@ function updateTaskInfo  (
         //update task description
         else if (targetClassList.includes('user-home-task-details-modal-description-textarea')) {
             task.description = event.target.value;
+        } 
+        //update task status
+        else if (targetClassList.includes('dropdown-status-property')) {
+            task.status = event.currentTarget.textContent;
+        }
+        //update task priority
+        else if (targetClassList.includes('model-dropdown-item-menu-button-clear')) {
+            task.priority = null;
+        }
+        else if (targetClassList.includes('dropdown-priority-property')) {
+            task.priority = event.currentTarget.textContent;
         }
 
         // else if (targetClassList.includes('priority-list-item-btn')) {

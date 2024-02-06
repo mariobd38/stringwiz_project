@@ -9,28 +9,26 @@ import Modal from 'react-bootstrap/Modal';
 
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 
-import { Breadcrumbs, Link, Radio, Tooltip, Typography } from '@mui/material';
+import { Breadcrumbs, Link, Tooltip, Typography } from '@mui/material';
 
+import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
 import ChecklistRtlRoundedIcon from '@mui/icons-material/ChecklistRtlRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
 import EventRoundedIcon from '@mui/icons-material/EventRounded';
 import ExtensionRoundedIcon from '@mui/icons-material/ExtensionRounded';
 import LockIcon from '@mui/icons-material/Lock';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
+import NotInterestedRoundedIcon from '@mui/icons-material/NotInterestedRounded';
 import RadioButtonCheckedRoundedIcon from '@mui/icons-material/RadioButtonCheckedRounded';
 import SellRoundedIcon from '@mui/icons-material/SellRounded';
+import TourRoundedIcon from '@mui/icons-material/TourRounded';
 
 import { updateTaskInfo } from '../../../DataManagement/Tasks/updateTask';
 
 import './taskDetailsModal.css';
-import StatusDropdown from './statusDropdown/statusDropdown';
-import PriorityDropdown from './priorityDropdown/priorityDropdown';
-import ItemOptionDropdown from './itemOptionDropdown/itemOptionDropdown';
-import {TestDropdown} from './TestDropdown/testDropdown';
-
+import { ModelDropdown } from '../../models/modelDropdown';
 
 function handleBreadcrumbClick(event) {
     event.preventDefault();
@@ -38,6 +36,10 @@ function handleBreadcrumbClick(event) {
 }
 
 const TaskDetailsModal = (props) => {
+    const { currentIndex, currentTaskIdNumber, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, upcomingTasks, selectedDate, 
+        currentTaskCreationDate, currentTaskDescription, currentTaskFormattedLastUpdatedOn, jwt,
+        onHide, show } = props;
+
     const [userFullName] = useLocalState("", "userFullName");
     const [firstName, lastName] = userFullName.split(' ');
     const initials = (firstName[0] + lastName[0]).toUpperCase();
@@ -73,30 +75,20 @@ const TaskDetailsModal = (props) => {
             modalBackdrop.remove();
         }
 
-        props.onHide();
+        onHide();
         navigate(-1);
     }
 
     useEffect(() => {
-        if (location.pathname === '/home/modal' && !props.show) {
+        if (location.pathname === '/home/modal' && !show) {
             const newUrl = '/home';
             window.history.replaceState(null, null, newUrl);
         }
-    }, [location.pathname, props.show]);
-
-    //task type
-    const [taskOptionMenuAnchorEl, setTaskOptionMenuAnchorEl] = React.useState(null);
-    const openTaskOptionMenu = Boolean(taskOptionMenuAnchorEl);
-    const handleTaskOptionMenuClick = (event) => {
-        setTaskOptionMenuAnchorEl(event.currentTarget);
-    };
-    const handleTaskOptionMenuClose = () => {
-        setTaskOptionMenuAnchorEl(null);
-    };
+    }, [location.pathname, show]);
 
     //task id number
     const handleTaskIdNumberClick = (event) => {
-        navigator.clipboard.writeText(props.currentTaskIdNumber);
+        navigator.clipboard.writeText(currentTaskIdNumber);
         const originalCurrentTaskIdNumber = event.target.innerText
         event.target.innerText = "Copied!";
         setTimeout(() => {
@@ -107,17 +99,17 @@ const TaskDetailsModal = (props) => {
     }
 
     //task description
-    const handleTaskDescriptionChange = (event) => {
+    const handleTaskUpdate = (event) => {
         updateTaskInfo(
-            props.currentIndex, 
+            currentIndex, 
             event,
-            props.upcomingTasks,
-            props.selectedDate,
+            upcomingTasks,
+            selectedDate,
             dayjs,
             false,
             null,
             null,
-            props.jwt,
+            jwt,
             null
         );
     }
@@ -125,12 +117,12 @@ const TaskDetailsModal = (props) => {
     return (
         <>
             <Modal
-                show={props.show}
+                show={show}
                 onHide={handleTaskDetailsModalClose}
                 size="xl"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
-                className='resizable-modal-container'
+                className='resizable-modal-container d-flex align-items-center'
             >
                 <div className='d-flex justify-content-between user-home-task-details-modal-header-parent'>
                     <Modal.Header style={{ backgroundColor: 'red !important' }} className='user-home-task-details-modal-header'>
@@ -143,8 +135,8 @@ const TaskDetailsModal = (props) => {
                     <div className='d-flex justify-content-end'>
                         <div className='m-auto d-flex me-3 my-3 my-sm-1'>
                             <div className='d-flex align-items-center flex-column d-none d-md-flex mx-2 lato-font'>
-                                <Tooltip title={<span className=' created-date-tooltip-text lato-font'>{[`Created by  ${userFullName} on ${currentTaskDateFormatter(props.currentTaskCreationDate)}`,<br />,`Last Updated on ${currentTaskDateFormatter(props.currentTaskFormattedLastUpdatedOn)}`]}</span>} arrow className='text-center menu-tooltip'>
-                                    <div className='m-auto user-home-task-details-created-on'>Created on {currentTaskDateFormatter(props.currentTaskCreationDate)}</div>
+                                <Tooltip title={<span className=' created-date-tooltip-text lato-font'>{[`Created by  ${userFullName} on ${currentTaskDateFormatter(currentTaskCreationDate)}`,<br />,`Last Updated on ${currentTaskDateFormatter(currentTaskFormattedLastUpdatedOn)}`]}</span>} arrow className='text-center menu-tooltip'>
+                                    <div className='m-auto user-home-task-details-created-on'>Created on {currentTaskDateFormatter(currentTaskCreationDate)}</div>
                                 </Tooltip>
                             </div>
                             <div className='divider m-auto mx-2 d-none d-md-flex'></div>
@@ -152,7 +144,7 @@ const TaskDetailsModal = (props) => {
                                 <Button className='user-home-task-details-modal-share-btn m-auto mx-1 mx-sm-2'>Share</Button>
                             </div>
                             <div className='user-home-task-details-modal-header-right-btn d-flex align-items-center'>
-                                <FavoriteBorderRoundedIcon className='mx-1 mx-sm-2 m-auto'/>
+                                <BookmarkBorderRoundedIcon className='mx-1 mx-sm-2 m-auto'/>
                             </div>
                             <div className='user-home-task-details-modal-header-right-btn d-flex align-items-center'>
                                 <MoreHorizRoundedIcon className='mx-1 mx-sm-2 m-auto'/>
@@ -164,27 +156,32 @@ const TaskDetailsModal = (props) => {
                     </div>
                 </div>
                 
-                <Modal.Body>
-                    <div className='d-flex gap-3'>
-                        <TestDropdown 
-                            // name1={"Task"} name2={"Milestone"} name3={"Event"}
-                            items={[
-                                { name: "Task", icon: <ChecklistRtlRoundedIcon />, isActualOption: true },
-                                { name: "Milestone", icon: <EmojiEventsRoundedIcon />, isActualOption: true },
-                                { name: "Event", icon: <EventRoundedIcon />, isActualOption: true },
-                                { name: 'Item types', icon: <ExtensionRoundedIcon />, isActualOption: false }
-                            ]}
-                            initialNameValue={"Task"} initialIconValue={<ChecklistRtlRoundedIcon />}
-                            hasArrow={true} hasSearchBar={false} hasHeaderDescText={true} hasItemTypesOption={true}
-                            isPriorityDropdown={false}
-                        />
-                        <span className=' user-home-task-details-modal-tag d-flex align-items-center' >
-                            <SellRoundedIcon />
-                        </span>
-                    </div>
+                <Modal.Body className='user-home-task-details-modal-body'>
                     
+                    <h2 className='py-2 nunito-sans-600-font' style={{fontSize: "2.5rem"}}>{currentTaskName}</h2>
 
-                    <h2 className='py-2 nunito-sans-600-font' style={{fontSize: "2.5rem"}}>{props.currentTaskName}</h2>
+                    {/* <div cl> */}
+
+                        <div className='d-flex gap-3 mb-3'>
+                            <ModelDropdown 
+                                items={[
+                                    { name: "Task", icon: <ChecklistRtlRoundedIcon />, isActualOption: true },
+                                    { name: "Milestone", icon: <EmojiEventsRoundedIcon />, isActualOption: true },
+                                    { name: "Event", icon: <EventRoundedIcon />, isActualOption: true },
+                                    { name: 'Item types', icon: <ExtensionRoundedIcon />, isActualOption: false }
+                                ]}
+                                initialNameValue={"Task"} initialIconValue={<ChecklistRtlRoundedIcon />}
+                                handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-item-type-property"}
+                                hasArrow={true} hasSearchBar={false} hasHeaderDescText={true} hasItemTypesOption={true} hasClearBtn={false}
+                                isPriorityDropdown={false} isModalOnRightSide={false}
+                            />
+                            <span className=' user-home-task-details-modal-tag d-flex align-items-center' >
+                                <SellRoundedIcon />
+                            </span>
+                        </div>
+                    
+                    {/* </div> */}
+
 
                     <div className='d-flex justify-content-between'>
                         <div>
@@ -204,174 +201,81 @@ const TaskDetailsModal = (props) => {
                                 <span className='user-home-task-details-modal-head-text ps-2 me-3'>Due Date</span>
                                 <div className='d-flex align-items-center user-home-task-details-modal-assignee-div'>
                                     <span className='lato-font'>
-                                        {currentTaskDateFormatter(props.currentTaskDueDate)}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className='d-flex gap-5 me-5 '>
-                            {/* <div className='d-flex align-items-center mb-3 lato-font' style={{fontSize: "1.06rem"}}>
-                                <span style={{width: "8rem"}}>Status</span>
-                                <div>
-                                    <span className='lato-font d-flex align-items-center'>
-                                        <button class="user-home-task-details-modal-status-btn " data-bs-toggle="dropdown" aria-expanded="false">
-                                            {props.currentTaskStatus}
-                                        </button>
-
-                                        <StatusDropdown 
-                                            currentTaskStatus={props.currentTaskStatus}
-                                        />
-                                
-                                        <Button className='user-home-task-details-modal-status-set-complete-btn'>
-                                            <CheckRoundedIcon />
-                                        </Button>
+                                        {currentTaskDateFormatter(currentTaskDueDate)}
                                     </span>
                                 </div>
                             </div>
 
-
-
-                            <div className='d-flex align-items-center mb-3 lato-font' style={{fontSize: "1.06rem"}}>
-                                <span style={{width: "8rem"}}>Priority</span>
-                                
+                            <div className='mb-3 d-flex me-4 lato-font' style={{fontSize: "1.06rem"}}>
+                                <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center'>Status</div>
                                 <div>
                                     <span className='lato-font d-flex align-items-center'>
-                                        {props.currentTaskPriority ?
-                                            <button className="user-home-task-details-modal-status-btn " data-bs-toggle="dropdown" aria-expanded="false">
-                                                {props.currentTaskPriority}
-                                            </button>
-                                            :
-                                            <button className='user-home-task-details-modal-no-status-btn' data-bs-toggle="dropdown" aria-expanded="false">
-                                                <TourRoundedIcon />
-                                            </button>
-                                        }
 
-                                        <PriorityDropdown 
-                                        currentTaskPriority={props.currentTaskPriority}
-                                        />
-                                    </span>
-                                </div>
-                            </div> */}
-                            <div className='d-flex flex-column align-items-start mb-3 lato-font' style={{fontSize: "1.06rem"}}>
-                                <div className='mb-2'>Status</div>
-                                <div>
-                                    <span className='lato-font d-flex align-items-center'>
-                                        {/* <button class="user-home-task-details-modal-status-btn " data-bs-toggle="dropdown" aria-expanded="false">
-                                            {props.currentTaskStatus}
-                                        </button> */}
-
-                                        {/* <StatusDropdown 
-                                            currentTaskStatus={props.currentTaskStatus}
-                                        /> */}
-                                        <TestDropdown 
+                                        <ModelDropdown 
                                             items={[
                                                 { name: "To Do", icon: <RadioButtonCheckedRoundedIcon />, isActualOption: true },
                                                 { name: "In Progress", icon: <RadioButtonCheckedRoundedIcon />, isActualOption: true },
                                                 { name: "Completed", icon: <CheckRoundedIcon />, isActualOption: true },
-                                                
-                                                // ...(hasItemTypesOption ? [{ name: 'Item types', icon: <ExtensionRoundedIcon />, isActualOption: false }] : [])
                                             ]}
-                                            // name1={"To Do"} name2={"In Progress"} name3={"Completed"}
-                                            // icon1={<RadioButtonCheckedRoundedIcon/>} icon2={<RadioButtonCheckedRoundedIcon/>} icon3={<CheckRoundedIcon />}
-                                            initialNameValue={props.currentTaskStatus} initialIconValue={<RadioButtonCheckedRoundedIcon />}
-                                            hasArrow={false} hasSearchBar={true} hasHeaderDescText={false} hasItemTypesOption={false} 
-                                            isPriorityDropdown={false}
+                                            initialNameValue={currentTaskStatus} initialIconValue={<RadioButtonCheckedRoundedIcon />}
+                                            handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-status-property"}
+                                            hasArrow={false} hasSearchBar={true} hasHeaderDescText={false} hasItemTypesOption={false} hasClearBtn={false}
+                                            isPriorityDropdown={false} isModalOnRightSide={false}
                                         />
-                                        
                                 
                                         <Button className='ms-2 user-home-task-details-modal-status-set-complete-btn'>
-                                            <CheckRoundedIcon />
+                                            <CheckRoundedIcon style={{width: "1.7rem", height: "1.7rem"}}/>
                                         </Button>
                                     </span>
                                 </div>
                             </div>
 
-                            <div className='d-flex flex-column align-items-start mb-3 lato-font' style={{fontSize: "1.06rem"}}>
-                                <div className='mb-2'>Priority</div>
+                            <div className='d-flex align-items-start lato-font' style={{fontSize: "1.06rem"}}>
+                                <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center'>Priority</div>
                                 <div>
                                     <span className='lato-font d-flex align-items-center'>
-                                        {/* {props.currentTaskPriority ?
-                                            <button className="user-home-task-details-modal-priority-btn " data-bs-toggle="dropdown" aria-expanded="false">
-                                                {props.currentTaskPriority}
-                                            </button>
-                                            :
-                                            <button className='user-home-task-details-modal-no-priority-btn' data-bs-toggle="dropdown" aria-expanded="false">
-                                                <TourRoundedIcon />
-                                            </button>
-                                        } */}
 
-                                        {/* <PriorityDropdown 
-                                        currentTaskPriority={props.currentTaskPriority}
-                                        /> */}
-
-                                        <TestDropdown 
+                                        <ModelDropdown 
                                             items={[
-                                                { name: "Critical", icon: <RadioButtonCheckedRoundedIcon />, isActualOption: true },
-                                                { name: "High", icon: <RadioButtonCheckedRoundedIcon />, isActualOption: true },
-                                                { name: "Medium", icon: <RadioButtonCheckedRoundedIcon />, isActualOption: true },
-                                                { name: "Low", icon: <RadioButtonCheckedRoundedIcon />, isActualOption: true },
-
-                                                // ...(hasItemTypesOption ? [{ name: 'Item types', icon: <ExtensionRoundedIcon />, isActualOption: false }] : [])
+                                                { name: "Critical", icon: <TourRoundedIcon /*style={{color: "#c90825"}}*//>, isActualOption: true },
+                                                { name: "High", icon: <TourRoundedIcon /*style={{color: "gold"}}*//>, isActualOption: true },
+                                                { name: "Medium", icon: <TourRoundedIcon /*style={{color: "#0976d6"}}*//>, isActualOption: true },
+                                                { name: "Low", icon: <TourRoundedIcon />, isActualOption: true },
+                                                { name: "Clear", icon: <NotInterestedRoundedIcon />, isActualOption: false },
                                             ]}
-                                            // name1={"Critical"} name2={"High"} name3={"Medium"}
-                                            // icon1={<RadioButtonCheckedRoundedIcon/>} icon2={<RadioButtonCheckedRoundedIcon/>} icon3={<CheckRoundedIcon />}
-                                            initialNameValue={props.currentTaskPriority} initialIconValue={<RadioButtonCheckedRoundedIcon />}
-                                            hasArrow={false} hasSearchBar={false} hasHeaderDescText={false} hasItemTypesOption={false} 
-                                            isPriorityDropdown={true}
+                                            initialNameValue={currentTaskPriority} initialIconValue={<TourRoundedIcon />}
+                                            handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-priority-property"}
+                                            hasArrow={false} hasSearchBar={false} hasHeaderDescText={false} hasItemTypesOption={false} hasClearBtn={true}
+                                            isPriorityDropdown={true} isModalOnRightSide={false}
                                         />
                                     </span>
                                 </div>
                             </div>
+
                         </div>
                     </div>
 
-                    <div className='d-flex'>
-                        {/* <Button
-                            id="demo-customized-button"
-                            aria-controls={openTaskOptionMenu ? 'demo-customized-menu' : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={openTaskOptionMenu ? 'true' : undefined}
-                            variant="contained"
-                            className='user-home-task-details-modal-task-options-btn p-1'
-                            disableElevation
-                            onClick={handleTaskOptionMenuClick}
-                        >
-                            <ChecklistRtlRoundedIcon className='me-1'/> Task
-                            <span className='m-auto ps-1'><KeyboardArrowDownIcon /></span>
-                        </Button>
-                        
-                        <ItemOptionDropdown 
-                            taskOptionMenuAnchorEl={taskOptionMenuAnchorEl}
-                            openTaskOptionMenu={openTaskOptionMenu}
-                            handleTaskOptionMenuClose={handleTaskOptionMenuClose}
-                        /> */}
+                    {/* <div className='d-flex'>
 
-                        {/* <Button className='mx-3 user-home-task-details-modal-taskIdNumber' onClick={handleTaskIdNumberClick}>
+                        <Button className='mx-3 user-home-task-details-modal-taskIdNumber' onClick={handleTaskIdNumberClick}>
                             {props.currentTaskIdNumber}
-                        </Button> */}
+                        </Button>
                             
-                    </div>
-
+                    </div> */}
 
                     <div className='mt-3'>
                         <div class="user-home-task-details-modal-description m-0 p-0">
                             <TextareaAutosize
                                 placeholder='Write a description for your task'
                                 className='form-control user-home-task-details-modal-description-textarea'
-                                onChange={handleTaskDescriptionChange}
+                                onChange={handleTaskUpdate}
                                 // onFocus={handleFocus}
                                 // onBlur={handleBlur}
                                 // onChange={handleInputTaskDescriptionChange}
-                                defaultValue={`${props.currentTaskDescription !== null ? props.currentTaskDescription : ''}`}
+                                defaultValue={`${currentTaskDescription !== null ? currentTaskDescription : ''}`}
                             />
                         </div>
-                    </div>
-
-                    {/* <div>
-                    <TestDropdown />
-                    </div> */}
-                    
+                    </div>                    
                 </Modal.Body>
                 
             </Modal>
