@@ -14,27 +14,20 @@ import { StaticTimePicker } from '@mui/x-date-pickers/StaticTimePicker';
 
 import './newHomeDueDatePopover.css';
 
-const NewHomeDueDatePopover = ({currentTaskDueDate, dueDatePopoverAnchorEl, handleDueDatePopoverClose, today, handleUpdateTask, selectedDate, setSelectedDate, setDueDateClockIsOpen, dueDateClockIsOpen}) => {
+const NewHomeDueDatePopover = ({currentTaskDueDate, dueDatePopoverAnchorEl, handleDueDatePopoverClose, today, handleTaskUpdate, selectedDate, setSelectedDate, setDueDateClockIsOpen, dueDateClockIsOpen}) => {
 
     const openDueDatePopover = Boolean(dueDatePopoverAnchorEl);
     const dueDatePopOverId = openDueDatePopover ? 'simple-popover' : undefined;
 
     const handleDateSelection = useMemo(() => (date) => {
-        // event.stopPropagation();
-        // event.preventDefault();
-        console.log("date below");
         console.log(date);
         setSelectedDate(date);
     }, [setSelectedDate]);
     
     const openDueDateCalendar = (event) => {
-        // event.stopPropagation();
-        // event.preventDefault();
         setDueDateClockIsOpen(false);
     }
     const openDueDateClock = (event) => {
-        // event.stopPropagation();
-        // event.preventDefault();
         setDueDateClockIsOpen(true);
     }
 
@@ -68,7 +61,7 @@ const NewHomeDueDatePopover = ({currentTaskDueDate, dueDatePopoverAnchorEl, hand
                         </div>
                         <div className='mx-5 me-4'>
                             <Button className='date-calendar-btn' onClick={handleDueDatePopoverClose}>CANCEL</Button>
-                            <Button className='date-calendar-btn' onClick={handleUpdateTask}  >OK</Button>
+                            <Button className='date-calendar-btn' onClick={handleTaskUpdate}  >OK</Button>
                     
                         </div>
                     </div>
@@ -83,7 +76,7 @@ const NewHomeDueDatePopover = ({currentTaskDueDate, dueDatePopoverAnchorEl, hand
                         </div>
                         <div className='mx-5 me-4'>
                             <Button className='date-calendar-btn' onClick={handleDueDatePopoverClose}>CANCEL</Button>
-                            <Button className='date-calendar-btn'  onClick={handleUpdateTask} >OK</Button>
+                            <Button className='date-calendar-btn'  onClick={handleTaskUpdate} >OK</Button>
                     
                         </div>
                     </div>

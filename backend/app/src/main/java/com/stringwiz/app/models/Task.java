@@ -63,7 +63,7 @@ public class Task {
     private String taskIdNumber;
 
     @JsonIgnore
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 

@@ -60,6 +60,7 @@
     transition: all 0.55s linear;
 }
 .user-home-task-details-modal-assignee-initials-circle {
+    position: relative;
     background-color: #72bad7;
     color: #fafafa;
     width: 2.1rem !important;
@@ -83,9 +84,33 @@
 .user-home-task-details-modal-assignee-div {
     padding: 0.45rem 0.6rem;
     border-radius: 6px;
+    cursor: pointer;
 }
 .user-home-task-details-modal-assignee-div:hover {
     background-color: #2c2d2f;
+}
+.assignee-circle-icon-hider, .assignee-circle-icon-remove {
+    display: none !important;
+}
+.user-home-task-details-modal-assignee-div:hover .assignee-circle-icon-hider {
+    color: #2c2d2f; 
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: -0.3rem; 
+    width: 1rem !important;
+    height: 1rem !important;
+    display:block !important;
+}
+.user-home-task-details-modal-assignee-div:hover .assignee-circle-icon-remove {
+    width: 1.4rem !important;
+    height: 1.4rem !important;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: -0.55rem;
+    display:block !important;
+    color: #5e5f61;
 }
 /* .user-home-task-details-modal-status-search-input::before, 
     .user-home-task-details-modal-status-search-input::after {
@@ -103,16 +128,26 @@
     transition: border 0.45s linear;
 }
 .user-home-task-details-modal-status-set-complete-btn {
-    padding: 0.5rem 0.5rem;
-    /* padding: auto; */
+    padding: 0.35rem 0.4rem;
     border-radius: 5px;
     border: 1.5px solid #323437;
     color: #fafafa;
     background-color: #1e1f21 !important;
     transition: border 0.45s linear;
 }
+.user-home-task-details-modal-next-status-btn {
+    padding: 0.35rem 0.4rem;
+    /* border-radius: 6px; */
+    border: 1.5px solid #323437;
+    color: #fafafa;
+    background-color: #1e1f21 !important;
+    transition: border 0.45s linear;
+    border-radius: 0px 6px 6px 0px;
+    width : 2rem;
+}
 .user-home-task-details-modal-status-btn:hover, .user-home-task-details-modal-status-set-complete-btn:hover,
-.user-home-task-details-modal-priority-btn:hover, .user-home-task-details-modal-no-status-btn:hover {
+.user-home-task-details-modal-priority-btn:hover, .user-home-task-details-modal-no-status-btn:hover,
+.user-home-task-details-modal-next-status-btn:hover {
     border-color: #7730e2;
     transition: border 0.45s linear;
 }

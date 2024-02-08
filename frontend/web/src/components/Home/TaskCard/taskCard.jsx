@@ -119,8 +119,8 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
     };
 
     //update task call
-    const handleUpdateTask = (event) => {
-        console.log("inside update");
+    const handleTaskUpdate = (event) => {
+        console.log("inside update!!");
         console.log(selectedDate);
         if (selectedDate === null && currentTaskDueDate !== null) {
             setSelectedDate(currentTaskDueDate);
@@ -178,7 +178,7 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
                     <div className='d-flex align-items-center' style={{ color: '#fafafa' }}>
                         <ChecklistRtlRoundedIcon className='me-3 user-home-checklist-icon'/>
                         <span className='d-flex align-items-center'>
-                            Tasks
+                            My Tasks
                             <LockIcon className='ms-2' style={{ width: "1.1rem" }}/>
                         </span>
                     </div>
@@ -254,7 +254,7 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
                                                     </div>
                                                 }
                                                 <NewHomeDueDatePopover 
-                                                    currentTaskDueDate={currentTaskDueDate} dueDatePopoverAnchorEl={dueDatePopoverAnchorEl} handleDueDatePopoverClose={handleDueDatePopoverClose} today={today} handleUpdateTask={handleUpdateTask}
+                                                    currentTaskDueDate={currentTaskDueDate} dueDatePopoverAnchorEl={dueDatePopoverAnchorEl} handleDueDatePopoverClose={handleDueDatePopoverClose} today={today} handleTaskUpdate={handleTaskUpdate}
                                                     selectedDate={selectedDate} setSelectedDate={setSelectedDate} setDueDateClockIsOpen={setDueDateClockIsOpen} dueDateClockIsOpen={dueDateClockIsOpen}
                                                 />
                                             </div>
@@ -286,6 +286,11 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
                 currentTaskDueDate={currentTaskDueDate}
                 currentTaskStatus={currentTaskStatus}
                 currentTaskPriority={currentTaskPriority}
+                setCurrentTaskDueDate={setCurrentTaskDueDate}
+                setCurrentIndex={setCurrentIndex}
+                setSelectedDate={setSelectedDate}
+                today={today}
+                handleTaskUpdate={(event) => handleTaskUpdate(event)}
             />
         </>
     );

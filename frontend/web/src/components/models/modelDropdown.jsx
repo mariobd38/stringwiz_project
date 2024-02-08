@@ -1,8 +1,11 @@
 import { useState, useRef } from "react";
 import { useClickAway } from 'react-use';
 
+import Button from 'react-bootstrap/Button';
+
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
+import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import TourRoundedIcon from '@mui/icons-material/TourRounded';
 
 import "./modelDropdown.css";
@@ -40,7 +43,7 @@ export const ModelDropdown = (props) => {
     const { items, 
         hasItemTypesOption, hasClearBtn, hasArrow, hasHeaderDescText, hasSearchBar,
         initialNameValue, initialIconValue, isPriorityDropdown, isModalOnRightSide,
-        menuItemProperty } = props;
+        menuItemProperty,isStatusBtn, upcomingTasks, currentIndex } = props;
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [currentItem, setCurrentItem] = useState({ name: initialNameValue, icon: initialIconValue });
@@ -70,17 +73,28 @@ export const ModelDropdown = (props) => {
     const handleOpenDropdownMenu = () => {
         setIsDropdownOpen(!isDropdownOpen);
     }
+
+    const handleNextStatusClick = (event) => {
+        props.handleTaskUpdate(event)
+        console.log("new status below");
+        console.log(upcomingTasks[currentIndex].status);
+        const nextStatusName = upcomingTasks[currentIndex].status;
+        const nextStatusIcon = items.find(item => item.name === nextStatusName).icon;
+        setCurrentItem({name: nextStatusName, icon: nextStatusIcon});
+        // setCurrentItem({name:})
+    }
     
     const ref = useRef(null);
     useClickAway(ref, () => isDropdownOpen && setIsDropdownOpen(!isDropdownOpen));
 
     return (
+        <div className="d-flex">
         <span
             className={`dropdown ${isDropdownOpen ? "open" : ""}`} ref={ref}
         >
             {
             (currentItem.name) ?
-                <button className={`selected-item-btn ${hasArrow ? '' : 'pe-3'}`} onClick={handleOpenDropdownMenu} >
+                <button className={`${isStatusBtn ? 'selected-item-half-rounded-btn' : 'selected-item-btn'} ${hasArrow ? '' : 'pe-3'}`} onClick={handleOpenDropdownMenu} >
                     <span className={`model-dropdown-current-icon`}> {currentItem.icon} </span>
                     {currentItem.name}
                     {
@@ -130,6 +144,15 @@ export const ModelDropdown = (props) => {
                 </div>
 
             </div>
+            
         </span>
+       
+        { isStatusBtn &&
+        <Button className='user-home-task-details-modal-next-status-btn d-flex justify-content-center' onClick={handleNextStatusClick}>
+            <PlayArrowRoundedIcon style={{width: "1.45rem", height: "1.7rem", color: "#989898"}}/>
+        </Button>
+        }
+        </div>
+        
     );
 };

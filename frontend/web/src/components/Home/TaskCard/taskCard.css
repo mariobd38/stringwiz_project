@@ -25,6 +25,9 @@
 .user-home-new-task-input {
     background-color: #1e1f21 !important;
 }
+.user-home-new-task-input:focus {
+    outline: none !important;
+}
 .table-row-dark:hover .user-home-new-task-input{
     background-color: #2f3032 !important;
 }

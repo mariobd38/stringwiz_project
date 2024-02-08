@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLocalState } from "../../../utils/useLocalStorage";
 
@@ -12,8 +12,10 @@ import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import { Breadcrumbs, Link, Tooltip, Typography } from '@mui/material';
 
 import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import ChecklistRtlRoundedIcon from '@mui/icons-material/ChecklistRtlRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import CircleRoundedIcon from '@mui/icons-material/CircleRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
 import EventRoundedIcon from '@mui/icons-material/EventRounded';
@@ -29,6 +31,9 @@ import { updateTaskInfo } from '../../../DataManagement/Tasks/updateTask';
 
 import './taskDetailsModal.css';
 import { ModelDropdown } from '../../models/modelDropdown';
+import NewHomeDueDatePopover from '../newHomeDueDatePopover';
+// import ProfileCard from './ProfileCard/ProfileCard.jsx';
+import { ProfileCard } from './ProfileCard/profileCard';
 
 function handleBreadcrumbClick(event) {
     event.preventDefault();
@@ -36,9 +41,11 @@ function handleBreadcrumbClick(event) {
 }
 
 const TaskDetailsModal = (props) => {
-    const { currentIndex, currentTaskIdNumber, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, upcomingTasks, selectedDate, 
-        currentTaskCreationDate, currentTaskDescription, currentTaskFormattedLastUpdatedOn, jwt,
-        onHide, show } = props;
+    const { 
+            currentIndex, currentTaskIdNumber, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskFormattedLastUpdatedOn,
+            setCurrentTaskDueDate, setCurrentIndex, setSelectedDate,
+            upcomingTasks, selectedDate, jwt, today,
+            onHide, show } = props;
 
     const [userFullName] = useLocalState("", "userFullName");
     const [firstName, lastName] = userFullName.split(' ');
@@ -107,12 +114,68 @@ const TaskDetailsModal = (props) => {
             selectedDate,
             dayjs,
             false,
-            null,
-            null,
+            handleDueDatePopoverClose,
+            setCurrentTaskDueDate,
             jwt,
             null
         );
     }
+
+    //task due date
+    const [dueDatePopoverAnchorEl, setDueDatePopoverAnchorEl] = useState(null);
+    const [dueDateClockIsOpen, setDueDateClockIsOpen] = useState(false);
+
+    const handleDueDatePopoverClick = (event, index) => {
+        console.log(dueDateClockIsOpen);
+        setDueDatePopoverAnchorEl(event.currentTarget);
+        setCurrentIndex(index);
+        setCurrentTaskDueDate(upcomingTasks[index].dueDate);
+        setDueDateClockIsOpen(false);
+    };
+
+    const handleDueDatePopoverClose = (event) => {
+        setDueDatePopoverAnchorEl(null);
+        setSelectedDate(false); 
+        console.log("within due date close");
+        console.log(upcomingTasks);
+        setCurrentTaskDueDate(upcomingTasks[currentIndex].dueDate);
+        setDueDateClockIsOpen(false);
+    };
+
+    //assignee profile card
+    const [openAssigneeProfileCard, setOpenAssigneeProfileCard] = useState(false);
+    const hoverTimeoutRef = useRef(null);
+
+    const handleAssigneeProfileCardHover = (isHovering) => {
+        clearTimeout(hoverTimeoutRef.current); // Clear any existing timeout
+    
+        if (isHovering) {
+            // Show the profile card after a slight delay
+            const hoverTimeout = setTimeout(() => {
+                setOpenAssigneeProfileCard(true);
+            }, 0); 
+            hoverTimeoutRef.current = hoverTimeout;
+        } else {
+            setOpenAssigneeProfileCard(false);
+        }
+    };
+
+    const assigneeContent = (
+        // <div className='example d-flex align-items-center lato-font' style={{ fontSize: "1.06rem" }}>
+        //     <span className='user-home-task-details-modal-head-text ps-2 p-auto me-3'>Assignee</span>
+            <div className='d-flex align-items-center user-home-task-details-modal-assignee-div'>
+                <div className='me-2 user-home-task-details-modal-assignee-initials-circle'>
+                    <CircleRoundedIcon className="assignee-circle-icon-hider" />
+                        <CancelRoundedIcon className="assignee-circle-icon-remove"/>
+                    {initials}
+
+                </div>
+                <span className='lato-font'>
+                    {userFullName}
+                </span>
+            </div>
+        // </div>
+    );
 
     return (
         <>
@@ -160,7 +223,7 @@ const TaskDetailsModal = (props) => {
                     
                     <h2 className='py-2 nunito-sans-600-font' style={{fontSize: "2.5rem"}}>{currentTaskName}</h2>
 
-                    {/* <div cl> */}
+                    {/* <div > */}
 
                         <div className='d-flex gap-3 mb-3'>
                             <ModelDropdown 
@@ -173,7 +236,8 @@ const TaskDetailsModal = (props) => {
                                 initialNameValue={"Task"} initialIconValue={<ChecklistRtlRoundedIcon />}
                                 handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-item-type-property"}
                                 hasArrow={true} hasSearchBar={false} hasHeaderDescText={true} hasItemTypesOption={true} hasClearBtn={false}
-                                isPriorityDropdown={false} isModalOnRightSide={false}
+                                isPriorityDropdown={false} isModalOnRightSide={false} isStatusBtn={false}
+                                upcomingTasks={upcomingTasks} currentIndex={currentIndex}
                             />
                             <span className=' user-home-task-details-modal-tag d-flex align-items-center' >
                                 <SellRoundedIcon />
@@ -185,7 +249,9 @@ const TaskDetailsModal = (props) => {
 
                     <div className='d-flex justify-content-between'>
                         <div>
-                            <div className='d-flex align-items-center mb-3 lato-font' style={{fontSize: "1.06rem"}}>
+                            {/* <div className='d-flex align-items-center mb-3 lato-font' style={{fontSize: "1.06rem"}} 
+                                onMouseEnter={(e) => handleAssigneeProfileCardHover(true)}
+                                onMouseLeave={(e) => handleAssigneeProfileCardHover(false)}>
                                 <span className='user-home-task-details-modal-head-text ps-2 p-auto me-3'>Assignee</span>
                                 <div className='d-flex align-items-center user-home-task-details-modal-assignee-div'>
                                     <div className=' me-2 user-home-task-details-modal-assignee-initials-circle'>
@@ -197,14 +263,50 @@ const TaskDetailsModal = (props) => {
                                 </div>
                             </div>
 
+                            <ProfileCard
+                                showProfileCard={openAssigneeProfileCard}
+                            /> */}
+                            <div className='example mb-3 d-flex align-items-center lato-font' style={{ fontSize: "1.06rem" }}>
+                                <span className='user-home-task-details-modal-head-text ps-2 p-auto me-3'>Assignee</span>
+                                <div
+                                    className=''
+                                    onMouseEnter={() => handleAssigneeProfileCardHover(true)}
+                                    onMouseLeave={() => handleAssigneeProfileCardHover(false)}
+                                >
+                                    <ProfileCard
+                                        showProfileCard={openAssigneeProfileCard}
+                                        assigneeContent={assigneeContent}
+                                        initials={initials}
+                                        userFullName={userFullName}
+                                    />
+                                </div>
+                            </div>
+
+                            {/* <div
+                                className='mb-3'
+                                onMouseEnter={() => handleAssigneeProfileCardHover(true)}
+                                onMouseLeave={() => handleAssigneeProfileCardHover(false)}
+                            >
+                                <ProfileCard
+                                    showProfileCard={openAssigneeProfileCard}
+                                    assigneeContent={assigneeContent}
+                                />
+                            </div> */}
+
                             <div className='d-flex align-items-center mb-3 lato-font' style={{fontSize: "1.06rem"}}>
                                 <span className='user-home-task-details-modal-head-text ps-2 me-3'>Due Date</span>
-                                <div className='d-flex align-items-center user-home-task-details-modal-assignee-div'>
+                                <div className='d-flex align-items-center user-home-task-details-modal-assignee-div' onClick={(event) => handleDueDatePopoverClick(event, currentIndex)}>
                                     <span className='lato-font'>
                                         {currentTaskDateFormatter(currentTaskDueDate)}
                                     </span>
                                 </div>
                             </div>
+
+                            <NewHomeDueDatePopover 
+                                currentTaskDueDate={currentTaskDueDate} dueDatePopoverAnchorEl={dueDatePopoverAnchorEl} handleDueDatePopoverClose={handleDueDatePopoverClose} today={today} 
+                                handleTaskUpdate={handleTaskUpdate} selectedDate={selectedDate} setSelectedDate={setSelectedDate} setDueDateClockIsOpen={setDueDateClockIsOpen} 
+                                dueDateClockIsOpen={dueDateClockIsOpen}
+                            />
 
                             <div className='mb-3 d-flex me-4 lato-font' style={{fontSize: "1.06rem"}}>
                                 <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center'>Status</div>
@@ -220,11 +322,16 @@ const TaskDetailsModal = (props) => {
                                             initialNameValue={currentTaskStatus} initialIconValue={<RadioButtonCheckedRoundedIcon />}
                                             handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-status-property"}
                                             hasArrow={false} hasSearchBar={true} hasHeaderDescText={false} hasItemTypesOption={false} hasClearBtn={false}
-                                            isPriorityDropdown={false} isModalOnRightSide={false}
+                                            isPriorityDropdown={false} isModalOnRightSide={false} isStatusBtn={true}
+                                            upcomingTasks={upcomingTasks} currentIndex={currentIndex}
                                         />
+
+                                        {/* <Button className='user-home-task-details-modal-next-status-btn d-flex justify-content-center' onClick={handleTaskUpdate}>
+                                            <PlayArrowRoundedIcon style={{width: "1.45rem", height: "1.7rem", color: "#989898"}}/>
+                                        </Button> */}
                                 
                                         <Button className='ms-2 user-home-task-details-modal-status-set-complete-btn'>
-                                            <CheckRoundedIcon style={{width: "1.7rem", height: "1.7rem"}}/>
+                                            <CheckRoundedIcon style={{width: "1.7rem", height: "1.7rem", color: "#989898"}}/>
                                         </Button>
                                     </span>
                                 </div>
@@ -246,7 +353,8 @@ const TaskDetailsModal = (props) => {
                                             initialNameValue={currentTaskPriority} initialIconValue={<TourRoundedIcon />}
                                             handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-priority-property"}
                                             hasArrow={false} hasSearchBar={false} hasHeaderDescText={false} hasItemTypesOption={false} hasClearBtn={true}
-                                            isPriorityDropdown={true} isModalOnRightSide={false}
+                                            isPriorityDropdown={true} isModalOnRightSide={false} isStatusBtn={false}
+                                            upcomingTasks={upcomingTasks} currentIndex={currentIndex}
                                         />
                                     </span>
                                 </div>
