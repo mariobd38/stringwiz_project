@@ -159,7 +159,9 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
         setCurrentTaskStatus(upcomingTasks[index].status);
         setCurrentTaskPriority(upcomingTasks[index].priority);
         setCurrentIndex(index);
-        console.log(upcomingTasks[index].name);
+        // console.log(upcomingTasks[index].name);
+        console.log("heloooooo");
+        console.log(upcomingTasks[index].lastUpdatedOn);
     }
 
     
@@ -229,8 +231,8 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
                                                     <div className='m-auto d-flex '>
                                                         <CheckRoundedIcon className='user-home-task-check-icon' />
                                                     </div>
-                                                    <div >
-                                                        <button className='task-name-link '>
+                                                    <div style={{outline: "none"}}>
+                                                        <button className='task-name-link' style={{outline: "none"}}>
                                                         <span className={`ps-2 taskName-text ${row.status === 'Completed' ? ' strikethrough' : ''}`}>
                                                             {row.name}
                                                         </span>

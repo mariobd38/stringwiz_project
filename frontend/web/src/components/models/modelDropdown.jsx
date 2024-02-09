@@ -3,9 +3,9 @@ import { useClickAway } from 'react-use';
 
 import Button from 'react-bootstrap/Button';
 
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import TourRoundedIcon from '@mui/icons-material/TourRounded';
 
 import "./modelDropdown.css";
@@ -149,7 +149,7 @@ export const ModelDropdown = (props) => {
        
         { isStatusBtn &&
         <Button className='user-home-task-details-modal-next-status-btn d-flex justify-content-center' onClick={handleNextStatusClick}>
-            <PlayArrowRoundedIcon style={{width: "1.45rem", height: "1.7rem", color: "#989898"}}/>
+            <ArrowForwardIosRoundedIcon style={{width: "1.2rem", height: "1.7rem", color: "#989898"}}/>
         </Button>
         }
         </div>

@@ -9,7 +9,7 @@ import Modal from 'react-bootstrap/Modal';
 
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 
-import { Breadcrumbs, Link, Tooltip, Typography } from '@mui/material';
+import { Breadcrumbs, Link, Typography } from '@mui/material';
 
 import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
@@ -32,8 +32,9 @@ import { updateTaskInfo } from '../../../DataManagement/Tasks/updateTask';
 import './taskDetailsModal.css';
 import { ModelDropdown } from '../../models/modelDropdown';
 import NewHomeDueDatePopover from '../newHomeDueDatePopover';
-// import ProfileCard from './ProfileCard/ProfileCard.jsx';
 import { ProfileCard } from './ProfileCard/profileCard';
+
+import { Tooltip } from 'react-tooltip';
 
 function handleBreadcrumbClick(event) {
     event.preventDefault();
@@ -42,7 +43,7 @@ function handleBreadcrumbClick(event) {
 
 const TaskDetailsModal = (props) => {
     const { 
-            currentIndex, currentTaskIdNumber, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskFormattedLastUpdatedOn,
+            currentIndex, currentTaskIdNumber, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskLastUpdatedOn,
             setCurrentTaskDueDate, setCurrentIndex, setSelectedDate,
             upcomingTasks, selectedDate, jwt, today,
             onHide, show } = props;
@@ -198,9 +199,17 @@ const TaskDetailsModal = (props) => {
                     <div className='d-flex justify-content-end'>
                         <div className='m-auto d-flex me-3 my-3 my-sm-1'>
                             <div className='d-flex align-items-center flex-column d-none d-md-flex mx-2 lato-font'>
-                                <Tooltip title={<span className=' created-date-tooltip-text lato-font'>{[`Created by  ${userFullName} on ${currentTaskDateFormatter(currentTaskCreationDate)}`,<br />,`Last Updated on ${currentTaskDateFormatter(currentTaskFormattedLastUpdatedOn)}`]}</span>} arrow className='text-center menu-tooltip'>
-                                    <div className='m-auto user-home-task-details-created-on'>Created on {currentTaskDateFormatter(currentTaskCreationDate)}</div>
-                                </Tooltip>
+                                {/* <div href={() => false} data-tooltip-id="my-tooltip" className='m-auto' data-tooltip-content={<span className='created-date-tooltip-text lato-font'>{[`Created by  ${userFullName} on ${currentTaskDateFormatter(currentTaskCreationDate)}`,<br />,`Last Updated on ${currentTaskDateFormatter(currentTaskFormattedLastUpdatedOn)}`]}</span>} arrow >
+                                    <div className='m-auto user-home-task-details-created-on d-flex align-items-center'>Created on {currentTaskDateFormatter(currentTaskCreationDate)}</div>
+                                </div>
+                                <Tooltip id="my-tooltip"/> */}
+                                <div data-tooltip-id="my-tooltip-multiline" className='m-auto' 
+                                    data-tooltip-html={`Created by  ${userFullName} on ${currentTaskDateFormatter(currentTaskCreationDate)}<br />
+                                                        Last Updated on ${currentTaskDateFormatter(currentTaskLastUpdatedOn)}`}>
+                                    <div className='m-auto user-home-task-details-created-on d-flex align-items-center'>Created on {currentTaskDateFormatter(currentTaskCreationDate)}</div>
+                                </div>
+                                <Tooltip id="my-tooltip-multiline" className='task-details-modal-tooltip' style={{backgroundColor: "#4700b2", color: "#fafafa", fontSize: "0.8rem", borderRadius: "10px" }}/>
+
                             </div>
                             <div className='divider m-auto mx-2 d-none d-md-flex'></div>
                             <div className='d-flex align-items-center'>

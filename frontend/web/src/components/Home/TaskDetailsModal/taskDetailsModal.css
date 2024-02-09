@@ -218,3 +218,9 @@
 .user-home-task-details-modal-description-textarea::placeholder {
     color: #898989 !important;
 }
+.task-details-modal-tooltip {
+    opacity: 1 !important;
+    z-index: 1 !important;
+    font-family: 'Lato' !important;
+    text-align: center;
+}
