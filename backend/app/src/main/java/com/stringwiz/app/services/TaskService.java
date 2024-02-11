@@ -55,8 +55,6 @@ public class TaskService {
             existingTask.setPriority(task.getPriority());
             existingTask.setStatus(task.getStatus());
             existingTask.setLastUpdatedOn(new Timestamp(new Date().getTime()));
-
-            System.out.println(existingTask.getDueDate());
             return taskRepository.save(existingTask);
         } catch (NullPointerException npe) {
             throw new NullPointerException("Task does not exist");

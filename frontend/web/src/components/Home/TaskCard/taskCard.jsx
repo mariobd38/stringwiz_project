@@ -15,7 +15,7 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
-import Tooltip from '@mui/material/Tooltip';
+// import Tooltip from '@mui/material/Tooltip';
 
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded';
@@ -29,6 +29,8 @@ import {updateTaskInfo} from './../../../DataManagement/Tasks/updateTask';
 
 import NewHomeDueDatePopover from './../newHomeDueDatePopover';
 import TaskDetailsModal from '../TaskDetailsModal/taskDetailsModal';
+
+import { Tooltip } from 'react-tooltip';
 
 import './taskCard.css'
 
@@ -240,12 +242,21 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
                                                     </div>
                                                 </Link>
                                                 {!upcomingTasks[index].dueDate ? 
-                                                    <Tooltip placement="top" title={<span className='nunito-sans-font ' style={{transition: "transition: width 1.2s ease-in-out"}}>{[`Add Due Date`]}</span>} arrow className='menu-tooltip'>
+                                                    // <Tooltip placement="top" title={<span className='nunito-sans-font ' style={{transition: "transition: width 1.2s ease-in-out"}}>{[`Add Due Date`]}</span>} arrow className='menu-tooltip'>
 
-                                                        <div className='d-flex align-items-center user-home-calendar-icon-div' onClick={(event) => handleDueDatePopoverClick(event, index)}>
-                                                            <CalendarTodayRoundedIcon className='user-home-calendar-icon '/>
+                                                    //     <div className='d-flex align-items-center user-home-calendar-icon-div' onClick={(event) => handleDueDatePopoverClick(event, index)}>
+                                                    //         <CalendarTodayRoundedIcon className='user-home-calendar-icon '/>
+                                                    //     </div>
+                                                    // </Tooltip>
+                                                    <span>
+                                                        <div data-tooltip-id="my-tooltip" className='m-auto' data-tooltip-content={`Add due date`} style={{transition: "transition: width 1.2s ease-in-out"}}>
+                                                            <div className='d-flex align-items-center user-home-calendar-icon-div' onClick={(event) => handleDueDatePopoverClick(event, index)}>
+                                                                <CalendarTodayRoundedIcon className='user-home-calendar-icon'/>
+                                                            </div>                                                    
                                                         </div>
-                                                    </Tooltip> :
+                                                        <Tooltip id="my-tooltip" className='home-navbar-tooltip' style={{backgroundColor: "#444444", color: "#fafafa", fontSize: "0.85rem", borderRadius: "10px" }}/>
+                                                    </span>
+                                                    :
                                                     <div style={{ color: "#a7a7a7" }} className={`lato-font, user-home-chosen-due-date-text`} onClick={(event) => handleDueDatePopoverClick(event, index)}
                                                     >
                                                         {formatDate(upcomingTasks[index].dueDate) === 'Overdue' ? (

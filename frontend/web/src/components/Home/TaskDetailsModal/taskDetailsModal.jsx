@@ -108,6 +108,7 @@ const TaskDetailsModal = (props) => {
 
     //task description
     const handleTaskUpdate = (event) => {
+        console.log('wah hwa');
         updateTaskInfo(
             currentIndex, 
             event,
@@ -154,7 +155,7 @@ const TaskDetailsModal = (props) => {
             // Show the profile card after a slight delay
             const hoverTimeout = setTimeout(() => {
                 setOpenAssigneeProfileCard(true);
-            }, 0); 
+            }, 850); 
             hoverTimeoutRef.current = hoverTimeout;
         } else {
             setOpenAssigneeProfileCard(false);
@@ -162,20 +163,17 @@ const TaskDetailsModal = (props) => {
     };
 
     const assigneeContent = (
-        // <div className='example d-flex align-items-center lato-font' style={{ fontSize: "1.06rem" }}>
-        //     <span className='user-home-task-details-modal-head-text ps-2 p-auto me-3'>Assignee</span>
-            <div className='d-flex align-items-center user-home-task-details-modal-assignee-div'>
-                <div className='me-2 user-home-task-details-modal-assignee-initials-circle'>
-                    <CircleRoundedIcon className="assignee-circle-icon-hider" />
-                        <CancelRoundedIcon className="assignee-circle-icon-remove"/>
-                    {initials}
+        <div className='d-flex align-items-center user-home-task-details-modal-assignee-div'>
+            <div className='me-2 user-home-task-details-modal-assignee-initials-circle'>
+                <CircleRoundedIcon className="assignee-circle-icon-hider" />
+                    <CancelRoundedIcon className="assignee-circle-icon-remove"/>
+                {initials}
 
-                </div>
-                <span className='lato-font'>
-                    {userFullName}
-                </span>
             </div>
-        // </div>
+            <span className='lato-font'>
+                {userFullName}
+            </span>
+        </div>
     );
 
     return (
@@ -199,10 +197,6 @@ const TaskDetailsModal = (props) => {
                     <div className='d-flex justify-content-end'>
                         <div className='m-auto d-flex me-3 my-3 my-sm-1'>
                             <div className='d-flex align-items-center flex-column d-none d-md-flex mx-2 lato-font'>
-                                {/* <div href={() => false} data-tooltip-id="my-tooltip" className='m-auto' data-tooltip-content={<span className='created-date-tooltip-text lato-font'>{[`Created by  ${userFullName} on ${currentTaskDateFormatter(currentTaskCreationDate)}`,<br />,`Last Updated on ${currentTaskDateFormatter(currentTaskFormattedLastUpdatedOn)}`]}</span>} arrow >
-                                    <div className='m-auto user-home-task-details-created-on d-flex align-items-center'>Created on {currentTaskDateFormatter(currentTaskCreationDate)}</div>
-                                </div>
-                                <Tooltip id="my-tooltip"/> */}
                                 <div data-tooltip-id="my-tooltip-multiline" className='m-auto' 
                                     data-tooltip-html={`Created by  ${userFullName} on ${currentTaskDateFormatter(currentTaskCreationDate)}<br />
                                                         Last Updated on ${currentTaskDateFormatter(currentTaskLastUpdatedOn)}`}>
@@ -229,156 +223,161 @@ const TaskDetailsModal = (props) => {
                 </div>
                 
                 <Modal.Body className='user-home-task-details-modal-body'>
-                    
-                    <h2 className='py-2 nunito-sans-600-font' style={{fontSize: "2.5rem"}}>{currentTaskName}</h2>
-
-                    {/* <div > */}
-
-                        <div className='d-flex gap-3 mb-3'>
-                            <ModelDropdown 
-                                items={[
-                                    { name: "Task", icon: <ChecklistRtlRoundedIcon />, isActualOption: true },
-                                    { name: "Milestone", icon: <EmojiEventsRoundedIcon />, isActualOption: true },
-                                    { name: "Event", icon: <EventRoundedIcon />, isActualOption: true },
-                                    { name: 'Item types', icon: <ExtensionRoundedIcon />, isActualOption: false }
-                                ]}
-                                initialNameValue={"Task"} initialIconValue={<ChecklistRtlRoundedIcon />}
-                                handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-item-type-property"}
-                                hasArrow={true} hasSearchBar={false} hasHeaderDescText={true} hasItemTypesOption={true} hasClearBtn={false}
-                                isPriorityDropdown={false} isModalOnRightSide={false} isStatusBtn={false}
-                                upcomingTasks={upcomingTasks} currentIndex={currentIndex}
-                            />
-                            <span className=' user-home-task-details-modal-tag d-flex align-items-center' >
-                                <SellRoundedIcon />
-                            </span>
-                        </div>
-                    
-                    {/* </div> */}
-
-
-                    <div className='d-flex justify-content-between'>
+                    <div className='d-flex justify-content-between pb-4' style={{height: "auto"}}>
                         <div>
-                            {/* <div className='d-flex align-items-center mb-3 lato-font' style={{fontSize: "1.06rem"}} 
-                                onMouseEnter={(e) => handleAssigneeProfileCardHover(true)}
-                                onMouseLeave={(e) => handleAssigneeProfileCardHover(false)}>
-                                <span className='user-home-task-details-modal-head-text ps-2 p-auto me-3'>Assignee</span>
-                                <div className='d-flex align-items-center user-home-task-details-modal-assignee-div'>
-                                    <div className=' me-2 user-home-task-details-modal-assignee-initials-circle'>
-                                        {initials}
-                                    </div>
-                                    <span className='lato-font'>
-                                        {userFullName}
-                                    </span>
-                                </div>
-                            </div>
+                            <h2 className='py-3 nunito-sans-600-font user-home-task-details-modal-name' suppressContentEditableWarning={true} contentEditable={true} style={{fontSize: "2.5rem", width: "32rem"}} onInput={handleTaskUpdate}>
+                                {currentTaskName}
+                            </h2>
 
-                            <ProfileCard
-                                showProfileCard={openAssigneeProfileCard}
-                            /> */}
-                            <div className='example mb-3 d-flex align-items-center lato-font' style={{ fontSize: "1.06rem" }}>
-                                <span className='user-home-task-details-modal-head-text ps-2 p-auto me-3'>Assignee</span>
-                                <div
-                                    className=''
-                                    onMouseEnter={() => handleAssigneeProfileCardHover(true)}
-                                    onMouseLeave={() => handleAssigneeProfileCardHover(false)}
-                                >
-                                    <ProfileCard
-                                        showProfileCard={openAssigneeProfileCard}
-                                        assigneeContent={assigneeContent}
-                                        initials={initials}
-                                        userFullName={userFullName}
+                            {/* <div > */}
+
+                                <div className='d-flex gap-3 my-3'>
+                                    <ModelDropdown 
+                                        items={[
+                                            { name: "Task", icon: <ChecklistRtlRoundedIcon />, isActualOption: true },
+                                            { name: "Milestone", icon: <EmojiEventsRoundedIcon />, isActualOption: true },
+                                            { name: "Event", icon: <EventRoundedIcon />, isActualOption: true },
+                                            { name: 'Item types', icon: <ExtensionRoundedIcon />, isActualOption: false }
+                                        ]}
+                                        initialNameValue={"Task"} initialIconValue={<ChecklistRtlRoundedIcon />}
+                                        handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-item-type-property"}
+                                        hasArrow={true} hasSearchBar={false} hasHeaderDescText={true} hasItemTypesOption={true} hasClearBtn={false}
+                                        isPriorityDropdown={false} isModalOnRightSide={false} isStatusBtn={false}
+                                        upcomingTasks={upcomingTasks} currentIndex={currentIndex}
                                     />
-                                </div>
-                            </div>
-
-                            {/* <div
-                                className='mb-3'
-                                onMouseEnter={() => handleAssigneeProfileCardHover(true)}
-                                onMouseLeave={() => handleAssigneeProfileCardHover(false)}
-                            >
-                                <ProfileCard
-                                    showProfileCard={openAssigneeProfileCard}
-                                    assigneeContent={assigneeContent}
-                                />
-                            </div> */}
-
-                            <div className='d-flex align-items-center mb-3 lato-font' style={{fontSize: "1.06rem"}}>
-                                <span className='user-home-task-details-modal-head-text ps-2 me-3'>Due Date</span>
-                                <div className='d-flex align-items-center user-home-task-details-modal-assignee-div' onClick={(event) => handleDueDatePopoverClick(event, currentIndex)}>
-                                    <span className='lato-font'>
-                                        {currentTaskDateFormatter(currentTaskDueDate)}
+                                    <span className=' user-home-task-details-modal-tag d-flex align-items-center' >
+                                        <SellRoundedIcon />
                                     </span>
                                 </div>
-                            </div>
-
-                            <NewHomeDueDatePopover 
-                                currentTaskDueDate={currentTaskDueDate} dueDatePopoverAnchorEl={dueDatePopoverAnchorEl} handleDueDatePopoverClose={handleDueDatePopoverClose} today={today} 
-                                handleTaskUpdate={handleTaskUpdate} selectedDate={selectedDate} setSelectedDate={setSelectedDate} setDueDateClockIsOpen={setDueDateClockIsOpen} 
-                                dueDateClockIsOpen={dueDateClockIsOpen}
-                            />
-
-                            <div className='mb-3 d-flex me-4 lato-font' style={{fontSize: "1.06rem"}}>
-                                <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center'>Status</div>
-                                <div>
-                                    <span className='lato-font d-flex align-items-center'>
-
-                                        <ModelDropdown 
-                                            items={[
-                                                { name: "To Do", icon: <RadioButtonCheckedRoundedIcon />, isActualOption: true },
-                                                { name: "In Progress", icon: <RadioButtonCheckedRoundedIcon />, isActualOption: true },
-                                                { name: "Completed", icon: <CheckRoundedIcon />, isActualOption: true },
-                                            ]}
-                                            initialNameValue={currentTaskStatus} initialIconValue={<RadioButtonCheckedRoundedIcon />}
-                                            handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-status-property"}
-                                            hasArrow={false} hasSearchBar={true} hasHeaderDescText={false} hasItemTypesOption={false} hasClearBtn={false}
-                                            isPriorityDropdown={false} isModalOnRightSide={false} isStatusBtn={true}
-                                            upcomingTasks={upcomingTasks} currentIndex={currentIndex}
-                                        />
-
-                                        {/* <Button className='user-home-task-details-modal-next-status-btn d-flex justify-content-center' onClick={handleTaskUpdate}>
-                                            <PlayArrowRoundedIcon style={{width: "1.45rem", height: "1.7rem", color: "#989898"}}/>
-                                        </Button> */}
-                                
-                                        <Button className='ms-2 user-home-task-details-modal-status-set-complete-btn'>
-                                            <CheckRoundedIcon style={{width: "1.7rem", height: "1.7rem", color: "#989898"}}/>
-                                        </Button>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className='d-flex align-items-start lato-font' style={{fontSize: "1.06rem"}}>
-                                <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center'>Priority</div>
-                                <div>
-                                    <span className='lato-font d-flex align-items-center'>
-
-                                        <ModelDropdown 
-                                            items={[
-                                                { name: "Critical", icon: <TourRoundedIcon /*style={{color: "#c90825"}}*//>, isActualOption: true },
-                                                { name: "High", icon: <TourRoundedIcon /*style={{color: "gold"}}*//>, isActualOption: true },
-                                                { name: "Medium", icon: <TourRoundedIcon /*style={{color: "#0976d6"}}*//>, isActualOption: true },
-                                                { name: "Low", icon: <TourRoundedIcon />, isActualOption: true },
-                                                { name: "Clear", icon: <NotInterestedRoundedIcon />, isActualOption: false },
-                                            ]}
-                                            initialNameValue={currentTaskPriority} initialIconValue={<TourRoundedIcon />}
-                                            handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-priority-property"}
-                                            hasArrow={false} hasSearchBar={false} hasHeaderDescText={false} hasItemTypesOption={false} hasClearBtn={true}
-                                            isPriorityDropdown={true} isModalOnRightSide={false} isStatusBtn={false}
-                                            upcomingTasks={upcomingTasks} currentIndex={currentIndex}
-                                        />
-                                    </span>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    {/* <div className='d-flex'>
-
-                        <Button className='mx-3 user-home-task-details-modal-taskIdNumber' onClick={handleTaskIdNumberClick}>
-                            {props.currentTaskIdNumber}
-                        </Button>
                             
-                    </div> */}
+                            {/* </div> */}
+
+
+                            <div className='d-flex justify-content-between'>
+                                <div>
+                                    <div className='example mb-3 d-flex align-items-center lato-font' style={{ fontSize: "1.06rem" }}>
+                                        <span className='user-home-task-details-modal-head-text ps-2 p-auto me-3'>Assignee</span>
+                                        <div
+                                            className=''
+                                            onMouseEnter={() => handleAssigneeProfileCardHover(true)}
+                                            onMouseLeave={() => handleAssigneeProfileCardHover(false)}
+                                        >
+                                            <ProfileCard
+                                                showProfileCard={openAssigneeProfileCard}
+                                                assigneeContent={assigneeContent}
+                                                initials={initials}
+                                                userFullName={userFullName}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className='d-flex align-items-center mb-3 lato-font' style={{fontSize: "1.06rem"}}>
+                                        <span className='user-home-task-details-modal-head-text ps-2 me-3'>Due Date</span>
+                                        <div className='d-flex align-items-center user-home-task-details-modal-due-date-div' onClick={(event) => handleDueDatePopoverClick(event, currentIndex)}>
+                                            <span className='lato-font user-home-task-details-modal-due-date-actual'>
+                                                {currentTaskDateFormatter(currentTaskDueDate)}
+                                            </span>
+                                            {currentTaskDateFormatter(currentTaskDueDate) !== 'None' &&
+                                            <span className='user-home-task-details-modal-due-date-remove d-flex justify-content-center ms-4 me-3' onClick={(event) => { event.stopPropagation(); handleTaskUpdate(event); }}>
+                                                <CloseRoundedIcon className='user-home-task-details-modal-due-date-remove-icon'/>
+                                            </span>}
+                                        </div>
+                                    </div>
+
+                                    <NewHomeDueDatePopover 
+                                        currentTaskDueDate={currentTaskDueDate} dueDatePopoverAnchorEl={dueDatePopoverAnchorEl} handleDueDatePopoverClose={handleDueDatePopoverClose} today={today} 
+                                        handleTaskUpdate={handleTaskUpdate} selectedDate={selectedDate} setSelectedDate={setSelectedDate} setDueDateClockIsOpen={setDueDateClockIsOpen} 
+                                        dueDateClockIsOpen={dueDateClockIsOpen}
+                                    />
+
+                                    <div className='mb-3 d-flex me-4 lato-font' style={{fontSize: "1.06rem"}}>
+                                        <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center'>Status</div>
+                                        <div>
+                                            <span className='lato-font d-flex align-items-center'>
+
+                                                <ModelDropdown 
+                                                    items={[
+                                                        { name: "To Do", icon: <RadioButtonCheckedRoundedIcon />, isActualOption: true },
+                                                        { name: "In Progress", icon: <RadioButtonCheckedRoundedIcon />, isActualOption: true },
+                                                        { name: "Completed", icon: <CheckRoundedIcon />, isActualOption: true },
+                                                    ]}
+                                                    initialNameValue={currentTaskStatus} initialIconValue={<RadioButtonCheckedRoundedIcon />}
+                                                    handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-status-property"}
+                                                    hasArrow={false} hasSearchBar={true} hasHeaderDescText={false} hasItemTypesOption={false} hasClearBtn={false}
+                                                    isPriorityDropdown={false} isModalOnRightSide={false} isStatusBtn={true}
+                                                    upcomingTasks={upcomingTasks} currentIndex={currentIndex}
+                                                />
+
+                                                {/* <Button className='user-home-task-details-modal-next-status-btn d-flex justify-content-center' onClick={handleTaskUpdate}>
+                                                    <PlayArrowRoundedIcon style={{width: "1.45rem", height: "1.7rem", color: "#989898"}}/>
+                                                </Button> */}
+                                        
+                                                <Button className='ms-2 user-home-task-details-modal-status-set-complete-btn'>
+                                                    <CheckRoundedIcon style={{width: "1.7rem", height: "1.7rem", color: "#989898"}}/>
+                                                </Button>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div className='d-flex align-items-start lato-font pb-4' style={{fontSize: "1.06rem"}}>
+                                        <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center'>Priority</div>
+                                        <div>
+                                            <span className='lato-font d-flex align-items-center'>
+
+                                                <ModelDropdown 
+                                                    items={[
+                                                        { name: "Critical", icon: <TourRoundedIcon /*style={{color: "#c90825"}}*//>, isActualOption: true },
+                                                        { name: "High", icon: <TourRoundedIcon /*style={{color: "gold"}}*//>, isActualOption: true },
+                                                        { name: "Medium", icon: <TourRoundedIcon /*style={{color: "#0976d6"}}*//>, isActualOption: true },
+                                                        { name: "Low", icon: <TourRoundedIcon />, isActualOption: true },
+                                                        { name: "Clear", icon: <NotInterestedRoundedIcon />, isActualOption: false },
+                                                    ]}
+                                                    initialNameValue={currentTaskPriority} initialIconValue={<TourRoundedIcon />}
+                                                    handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-priority-property"}
+                                                    hasArrow={false} hasSearchBar={false} hasHeaderDescText={false} hasItemTypesOption={false} hasClearBtn={true}
+                                                    isPriorityDropdown={true} isModalOnRightSide={false} isStatusBtn={false}
+                                                    upcomingTasks={upcomingTasks} currentIndex={currentIndex}
+                                                />
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        {/* <div className='d-flex'>
+
+                            <Button className='mx-3 user-home-task-details-modal-taskIdNumber' onClick={handleTaskIdNumberClick}>
+                                {props.currentTaskIdNumber}
+                            </Button>
+                                
+                        </div> */}
+                        </div>
+
+                        {/* <div className='user-home-task-details-modal-comment-section-div lato-font mt-3'>
+                            <div className="ms-3" style={{height: "90%"}}>
+                                <div className='user-home-task-details-modal-comment-section-text mb-2'>
+                                    Comments
+                                </div>
+                                
+                                <div className='user-home-task-details-modal-comment-section  d-flex align-items-end'>
+                                    
+                                    <div className='user-home-task-details-modal-comment-section-typing d-flex justify-content-between'>
+                                        
+                                        <TextareaAutosize
+                                        placeholder='Type something...'
+                                        className='mx-3 form-control user-home-task-details-modal-comment-section-textarea'
+                                        defaultValue=''
+                                        />
+                                        
+                                    </div>
+                                    <Button>Send</Button>
+                                </div>
+
+                            </div>
+                            
+                        </div> */}
+                    </div> 
 
                     <div className='mt-3'>
                         <div class="user-home-task-details-modal-description m-0 p-0">
@@ -392,7 +391,9 @@ const TaskDetailsModal = (props) => {
                                 defaultValue={`${currentTaskDescription !== null ? currentTaskDescription : ''}`}
                             />
                         </div>
-                    </div>                    
+                    </div>   
+
+                                        
                 </Modal.Body>
                 
             </Modal>

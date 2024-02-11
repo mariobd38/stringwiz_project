@@ -39,7 +39,7 @@ public class Tag {
 
     private String color;
 
-    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
     private Set<Task> tasks = new LinkedHashSet<>();
 
     @CreationTimestamp

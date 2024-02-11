@@ -111,8 +111,8 @@
 }
 .user-home-calendar-icon-div {
     color: #e7e7e7;
-    border: 1px solid #8cdfc3;
-    padding: 0.12rem 0.15rem;
+    border: 1px dashed #8cdfc3;
+    padding: 0.35rem 0.2rem;
     cursor: pointer;
     border-radius: 50%;
     visibility: hidden;
@@ -121,7 +121,7 @@
     cursor: pointer;
 }
 .table-row-dark:hover .user-home-calendar-icon-div {
-    display: block !important;
+    display: flex !important;
     visibility:visible;
 }
 .user-home-calendar-icon {

@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -33,6 +34,7 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -67,11 +69,14 @@ public class Task {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "task_tags_dim",
             joinColumns = @JoinColumn(name = "task_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<Tag> tags = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments;
 
 //    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "due_date")

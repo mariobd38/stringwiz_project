@@ -17,12 +17,14 @@ function updateTaskInfo  (
         } else {
             targetClassList = event.currentTarget.getAttribute("class");
         }
-        
         console.log(targetClassList);
         console.log(selectedDate + " is the selected date");
 
+        if (targetClassList.includes('user-home-task-details-modal-name')) {
+            task.name = event.currentTarget.textContent;
+        }
         //update task due date
-        if (targetClassList.includes('date-calendar-btn') && selectedDate !== null) {
+        else if (targetClassList.includes('date-calendar-btn') && selectedDate !== null) {
             console.log(dayjs(selectedDate));
             // const newDate = dayjs(`${newYearString}-${newMonthString}-${newDayString}`).toDate();
             const newDate = dayjs(selectedDate);
@@ -39,6 +41,12 @@ function updateTaskInfo  (
                 console.log(dayjs(task.dueDate).format(`MMM D`));
                 handleDueDatePopoverClose();
             }
+        }
+        //remove task due date 
+        if (targetClassList.includes('user-home-task-details-modal-due-date-remove')) {
+            task.dueDate = null;
+            setCurrentTaskDueDate(null);
+            // handleDueDatePopoverClose();
         }
         //update task description
         else if (targetClassList.includes('user-home-task-details-modal-description-textarea')) {
