@@ -63,7 +63,7 @@ const NewHome = () => {
         fetchAndSetTabs();
         
         // contentEditableRef.current.focus();
-    }, [taskData, upcomingTasks]);
+    }, [dayjs, taskData, upcomingTasks]);
 
     useEffect(() => {
         getTaskInfo(jwt, setTaskData, setUpcomingTasks);

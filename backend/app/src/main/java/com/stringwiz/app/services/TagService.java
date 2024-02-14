@@ -27,6 +27,49 @@ public class TagService {
     private TagRepository tagRepository;
     @Autowired
     private TaskRepository taskRepository;
+
+    public Tag create(Tag tag, Long task_id) {
+        try {
+            Optional<Task> optionalTask = taskRepository.findById(task_id);
+            if (optionalTask.isPresent()) {
+                Task currentTask = optionalTask.get();
+                Tag newTag = new Tag(tag.getName(), tag.getColor());
+
+                currentTask.getTags().add(newTag);
+                taskRepository.save(currentTask);
+
+                return tagRepository.save(newTag);
+
+            }
+        } catch(IllegalArgumentException e) {
+            throw new IllegalArgumentException("Tag '" + tag.getName() + "' already exists.");
+        }
+        throw new NoSuchElementException("Task not found");
+    }
+
+    public Set<Tag> getByTask(Long task_id) {
+        Optional<Task> optionalTask = taskRepository.findById(task_id);
+        if(optionalTask.isPresent()) {
+            return tagRepository.findByTasks(optionalTask.get());
+        }
+        throw new IllegalArgumentException("Task not found for the given task_id: " + task_id);
+    }
+
+    public Set<Tag> getAllTags(User user) {
+        List<Task> tasks = taskRepository.findByUser(user);
+        Set<Tag> allTags = new LinkedHashSet<>();
+        for(Task task : tasks) {
+            Set<Tag> tags = getByTask(task.getId());
+            allTags.addAll(tags);
+        }
+        return allTags;
+    }
+
+    /*
+    @Autowired
+    private TagRepository tagRepository;
+    @Autowired
+    private TaskRepository taskRepository;
     @Autowired
     private UserRepository userRepository;
     @PersistenceContext
@@ -120,17 +163,6 @@ public class TagService {
 
     public void delete(Tag tag) {
         tagRepository.delete(tag);
-    }
+    }*/
 
-//    private Set<String> getAllTagNames(User user) {
-//        List<Task> tasks = taskRepository.findByUser(user);
-//        Set<String> allTagNames = new LinkedHashSet<>();
-//        for(Task task : tasks) {
-//            Set<Tag> tags = getByTask(task.getId());
-//            for(Tag tag : tags) {
-//                allTagNames.add(tag.getName());
-//            }
-//        }
-//        return allTagNames;
-//    }
 }

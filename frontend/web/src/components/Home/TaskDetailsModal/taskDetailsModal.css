@@ -76,7 +76,7 @@
     cursor: pointer;
     border-radius: 6px;
     padding: 0.45rem 0.6rem;
-    width: 8rem;
+    /* width: 8rem; */
 }
 .user-home-task-details-modal-head-text:hover {
     background-color: #2c2d2f;
@@ -237,49 +237,10 @@
 [contenteditable] {
     outline: none !important;
 }
-
-
-
-/* comment section */
-.user-home-task-details-modal-comment-section-div {
-    border-left: 0.5px solid #898989;
-    width: 50%;
-}
-.user-home-task-details-modal-comment-section-text {
-    font-size: 1.3rem;
-}
-.user-home-task-details-modal-comment-section {
-    padding: 10px 15px;
-    width: 100%;
-    background-color: #0e0f11;
-    border-radius: 10px;
-    height:100%;
-}
-.user-home-task-details-modal-comment-section-typing {
-    /* background-color: red; */
-    width: 100%;
+.user-home-task-details-modal-tags-group {
+    margin-left: 0.45rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
     border-radius: 6px;
-    min-height: 2rem;
-}
-.user-home-task-details-modal-comment-section-textarea {
-background-color: #1e1f21;
-    border: 1px solid #1e1f21 !important;
-    resize: none;
-    color: #e8e8e8;
-    min-height: 30px !important;
-    padding: 0.5rem 1rem;
-    overflow: auto;
-    border: 1px solid #898989 !important;
-    transition: border 0.65s linear;
-    border-radius: 8px !important;
-    margin: 0 auto;
-}
-.user-home-task-details-modal-comment-section-textarea:focus {
-    background-color: #1e1f21;
-    color: #e8e8e8 !important;
-    border-color: #7730e2 !important;
-    transition: border 0.65s linear;
-}
-.user-home-task-details-modal-comment-section-textarea::placeholder {
-    color: #898989 !important;
+    background-color: #333437;
 }

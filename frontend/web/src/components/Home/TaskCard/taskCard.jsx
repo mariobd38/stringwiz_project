@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useLocalState } from "../../../utils/useLocalStorage";
 
@@ -15,7 +15,6 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
-// import Tooltip from '@mui/material/Tooltip';
 
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded';
@@ -161,9 +160,6 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
         setCurrentTaskStatus(upcomingTasks[index].status);
         setCurrentTaskPriority(upcomingTasks[index].priority);
         setCurrentIndex(index);
-        // console.log(upcomingTasks[index].name);
-        console.log("heloooooo");
-        console.log(upcomingTasks[index].lastUpdatedOn);
     }
 
     

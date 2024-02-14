@@ -1,24 +1,20 @@
 
 function createTagInfo(
-    jwt, taskData, currentIndex, tagName, currTask, tagData, setTagData, allTagData, setAllTagData) {
+    jwt, taskData, currentIndex, tagName, tagData, setTagData, allTagData, setAllTagData) {
     
     const tagInfo = {
-        name: tagName
+        name: tagName,
+        color: null
     };
+    const task = taskData[currentIndex];
 
-    const requestPayload = {
-        task: currTask,
-        tagInfo: tagInfo
-    }
-
-    fetch("/api/tags/create", {
+    fetch(`/api/tags/create?taskId=${task.id}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             Authorization: 'Bearer ' + jwt
         },
-        // body: JSON.stringify(tagInfo),
-        body: JSON.stringify(requestPayload),
+        body: JSON.stringify(tagInfo),
     }).then((response) => {
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -30,7 +26,6 @@ function createTagInfo(
         const createdTag = {
             id: data.id, 
             name: data.name,
-            description: data.description,
             dateCreated: data.createdOn,
             color: data.color,
         };
@@ -39,6 +34,7 @@ function createTagInfo(
         setAllTagData([...allTagData, createdTag]);
 
         taskData[currentIndex].tags = newTagData;
+        console.log(taskData[currentIndex].tags);
       })
       .catch((error) => {
         console.error(error); 

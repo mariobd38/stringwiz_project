@@ -28,6 +28,8 @@ import SellRoundedIcon from '@mui/icons-material/SellRounded';
 import TourRoundedIcon from '@mui/icons-material/TourRounded';
 
 import { updateTaskInfo } from '../../../DataManagement/Tasks/updateTask';
+import { getTagInfo } from '../../../DataManagement/Tags/getTags';
+import { getAllTagsInfo } from '../../../DataManagement/Tags/getAllTags';
 
 import './taskDetailsModal.css';
 import { ModelDropdown } from '../../models/modelDropdown';
@@ -108,7 +110,6 @@ const TaskDetailsModal = (props) => {
 
     //task description
     const handleTaskUpdate = (event) => {
-        console.log('wah hwa');
         updateTaskInfo(
             currentIndex, 
             event,
@@ -176,6 +177,48 @@ const TaskDetailsModal = (props) => {
         </div>
     );
 
+    const [tagData, setTagData] = useState([]);
+    const [allTagData, setAllTagData] = useState([]);
+
+    // useEffect(() => {
+    //     const fetchTagsData =  async () => {
+    //       try {
+    //         if (upcomingTasks !== undefined && upcomingTasks[currentIndex] !== undefined) {
+    //             await getTagInfo(jwt, setTagData, upcomingTasks[currentIndex].id);
+    //             getAllTagsInfo(jwt,setAllTagData);
+    //         }
+
+    //       } catch (e) {
+    //         return;
+    //       }
+    //     };
+    //     if (show)
+    //         fetchTagsData();
+    //   },[tagData, upcomingTasks]);
+    useEffect(() => {
+        // Ensure that 'upcomingTasks' and 'currentIndex' are defined
+        if (upcomingTasks && upcomingTasks[currentIndex]) {
+            const fetchTagsData = async () => {
+                try {
+                    // Fetch tag info for the current task
+                    const tagInfo = await getTagInfo(jwt, upcomingTasks[currentIndex].id);
+                    // Update tag data state
+                    setTagData(tagInfo);
+    
+                    // Fetch all tags info
+                    const allTagsInfo = await getAllTagsInfo(jwt);
+                    // Update all tag data state
+                    setAllTagData(allTagsInfo);
+                } catch (error) {
+                    console.error('Error fetching tag data:', error);
+                }
+            };
+    
+            // Call fetchTagsData only when the component is mounted or when 'upcomingTasks' or 'currentIndex' change
+            fetchTagsData();
+        }
+    }, [currentIndex, upcomingTasks, jwt]);
+
     return (
         <>
             <Modal
@@ -224,12 +267,10 @@ const TaskDetailsModal = (props) => {
                 
                 <Modal.Body className='user-home-task-details-modal-body'>
                     <div className='d-flex justify-content-between pb-4' style={{height: "auto"}}>
-                        <div>
-                            <h2 className='py-3 nunito-sans-600-font user-home-task-details-modal-name' suppressContentEditableWarning={true} contentEditable={true} style={{fontSize: "2.5rem", width: "32rem"}} onInput={handleTaskUpdate}>
+                        <div style={{width: "100%"}}>
+                            <h2 className='py-3 nunito-sans-600-font user-home-task-details-modal-name' suppressContentEditableWarning={true} contentEditable={true} style={{fontSize: "2.5rem", width: "80%"}} onInput={handleTaskUpdate}>
                                 {currentTaskName}
                             </h2>
-
-                            {/* <div > */}
 
                                 <div className='d-flex gap-3 my-3'>
                                     <ModelDropdown 
@@ -241,38 +282,45 @@ const TaskDetailsModal = (props) => {
                                         ]}
                                         initialNameValue={"Task"} initialIconValue={<ChecklistRtlRoundedIcon />}
                                         handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-item-type-property"}
-                                        hasArrow={true} hasSearchBar={false} hasHeaderDescText={true} hasItemTypesOption={true} hasClearBtn={false}
-                                        isPriorityDropdown={false} isModalOnRightSide={false} isStatusBtn={false}
+                                        hasArrow={true} hasHeaderDescText={true} hasItemTypesOption={true}
                                         upcomingTasks={upcomingTasks} currentIndex={currentIndex}
                                     />
-                                    <span className=' user-home-task-details-modal-tag d-flex align-items-center' >
+                                    {/* <span className=' user-home-task-details-modal-tag d-flex align-items-center' >
                                         <SellRoundedIcon />
-                                    </span>
+
+                                        
+                                    </span> */}
+                                    <ModelDropdown 
+                                        // items={[{}]}
+                                        items={allTagData.map((tag) => ({ name: tag.name, icon: null }))}
+                                        initialNameValue={""} initialIconValue={<SellRoundedIcon />}
+                                        handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-item-type-property"}
+                                        hasSearchBar={true} 
+                                        upcomingTasks={upcomingTasks} currentIndex={currentIndex} jwt={jwt} tagData={tagData} setTagData={setTagData} allTagData={allTagData} setAllTagData={setAllTagData}
+                                    />
                                 </div>
-                            
-                            {/* </div> */}
 
-
-                            <div className='d-flex justify-content-between'>
-                                <div>
-                                    <div className='example mb-3 d-flex align-items-center lato-font' style={{ fontSize: "1.06rem" }}>
-                                        <span className='user-home-task-details-modal-head-text ps-2 p-auto me-3'>Assignee</span>
-                                        <div
-                                            className=''
-                                            onMouseEnter={() => handleAssigneeProfileCardHover(true)}
-                                            onMouseLeave={() => handleAssigneeProfileCardHover(false)}
-                                        >
-                                            <ProfileCard
-                                                showProfileCard={openAssigneeProfileCard}
-                                                assigneeContent={assigneeContent}
-                                                initials={initials}
-                                                userFullName={userFullName}
-                                            />
-                                        </div>
+                            {/* NEW CONTENT*/}
+                            <div className='d-flex flex-wrap column-gap-5 row-gap-2 lato-font'>
+                                {/* <div> */}
+                                <div className='example d-flex flex-column' style={{ fontSize: "1.06rem" }}>
+                                    <span className='user-home-task-details-modal-head-text'>Assignee</span>
+                                    <div
+                                        onMouseEnter={() => handleAssigneeProfileCardHover(true)}
+                                        onMouseLeave={() => handleAssigneeProfileCardHover(false)}
+                                    >
+                                        <ProfileCard
+                                            showProfileCard={openAssigneeProfileCard}
+                                            assigneeContent={assigneeContent}
+                                            initials={initials}
+                                            userFullName={userFullName}
+                                        />
                                     </div>
+                                </div>
+                                {/* </div> */}
 
-                                    <div className='d-flex align-items-center mb-3 lato-font' style={{fontSize: "1.06rem"}}>
-                                        <span className='user-home-task-details-modal-head-text ps-2 me-3'>Due Date</span>
+                                <div className='d-flex flex-column' style={{ fontSize: "1.06rem" }}>
+                                    <span className='user-home-task-details-modal-head-text ps-2 me-3'>Due Date</span>
                                         <div className='d-flex align-items-center user-home-task-details-modal-due-date-div' onClick={(event) => handleDueDatePopoverClick(event, currentIndex)}>
                                             <span className='lato-font user-home-task-details-modal-due-date-actual'>
                                                 {currentTaskDateFormatter(currentTaskDueDate)}
@@ -281,7 +329,6 @@ const TaskDetailsModal = (props) => {
                                             <span className='user-home-task-details-modal-due-date-remove d-flex justify-content-center ms-4 me-3' onClick={(event) => { event.stopPropagation(); handleTaskUpdate(event); }}>
                                                 <CloseRoundedIcon className='user-home-task-details-modal-due-date-remove-icon'/>
                                             </span>}
-                                        </div>
                                     </div>
 
                                     <NewHomeDueDatePopover 
@@ -289,69 +336,74 @@ const TaskDetailsModal = (props) => {
                                         handleTaskUpdate={handleTaskUpdate} selectedDate={selectedDate} setSelectedDate={setSelectedDate} setDueDateClockIsOpen={setDueDateClockIsOpen} 
                                         dueDateClockIsOpen={dueDateClockIsOpen}
                                     />
-
-                                    <div className='mb-3 d-flex me-4 lato-font' style={{fontSize: "1.06rem"}}>
-                                        <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center'>Status</div>
-                                        <div>
-                                            <span className='lato-font d-flex align-items-center'>
-
-                                                <ModelDropdown 
-                                                    items={[
-                                                        { name: "To Do", icon: <RadioButtonCheckedRoundedIcon />, isActualOption: true },
-                                                        { name: "In Progress", icon: <RadioButtonCheckedRoundedIcon />, isActualOption: true },
-                                                        { name: "Completed", icon: <CheckRoundedIcon />, isActualOption: true },
-                                                    ]}
-                                                    initialNameValue={currentTaskStatus} initialIconValue={<RadioButtonCheckedRoundedIcon />}
-                                                    handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-status-property"}
-                                                    hasArrow={false} hasSearchBar={true} hasHeaderDescText={false} hasItemTypesOption={false} hasClearBtn={false}
-                                                    isPriorityDropdown={false} isModalOnRightSide={false} isStatusBtn={true}
-                                                    upcomingTasks={upcomingTasks} currentIndex={currentIndex}
-                                                />
-
-                                                {/* <Button className='user-home-task-details-modal-next-status-btn d-flex justify-content-center' onClick={handleTaskUpdate}>
-                                                    <PlayArrowRoundedIcon style={{width: "1.45rem", height: "1.7rem", color: "#989898"}}/>
-                                                </Button> */}
-                                        
-                                                <Button className='ms-2 user-home-task-details-modal-status-set-complete-btn'>
-                                                    <CheckRoundedIcon style={{width: "1.7rem", height: "1.7rem", color: "#989898"}}/>
-                                                </Button>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div className='d-flex align-items-start lato-font pb-4' style={{fontSize: "1.06rem"}}>
-                                        <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center'>Priority</div>
-                                        <div>
-                                            <span className='lato-font d-flex align-items-center'>
-
-                                                <ModelDropdown 
-                                                    items={[
-                                                        { name: "Critical", icon: <TourRoundedIcon /*style={{color: "#c90825"}}*//>, isActualOption: true },
-                                                        { name: "High", icon: <TourRoundedIcon /*style={{color: "gold"}}*//>, isActualOption: true },
-                                                        { name: "Medium", icon: <TourRoundedIcon /*style={{color: "#0976d6"}}*//>, isActualOption: true },
-                                                        { name: "Low", icon: <TourRoundedIcon />, isActualOption: true },
-                                                        { name: "Clear", icon: <NotInterestedRoundedIcon />, isActualOption: false },
-                                                    ]}
-                                                    initialNameValue={currentTaskPriority} initialIconValue={<TourRoundedIcon />}
-                                                    handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-priority-property"}
-                                                    hasArrow={false} hasSearchBar={false} hasHeaderDescText={false} hasItemTypesOption={false} hasClearBtn={true}
-                                                    isPriorityDropdown={true} isModalOnRightSide={false} isStatusBtn={false}
-                                                    upcomingTasks={upcomingTasks} currentIndex={currentIndex}
-                                                />
-                                            </span>
-                                        </div>
-                                    </div>
-
                                 </div>
+
+                                <div className='me-3 d-flex flex-column' style={{ fontSize: "1.06rem" }}>
+                                    <div className=' user-home-task-details-modal-head-text'>Status</div>
+                                    <div>
+                                        <span className='lato-font d-flex align-items-center' style={{marginLeft: "0.45rem"}}>
+
+                                            <ModelDropdown 
+                                                items={[
+                                                    { name: "To Do", icon: <RadioButtonCheckedRoundedIcon />, isActualOption: true },
+                                                    { name: "In Progress", icon: <RadioButtonCheckedRoundedIcon />, isActualOption: true },
+                                                    { name: "Completed", icon: <CheckRoundedIcon />, isActualOption: true },
+                                                ]}
+                                                initialNameValue={currentTaskStatus} initialIconValue={<RadioButtonCheckedRoundedIcon />}
+                                                handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-status-property"}
+                                                hasSearchBar={true}
+                                                upcomingTasks={upcomingTasks} currentIndex={currentIndex}
+                                            />
+
+                                    
+                                            <Button className='ms-2 user-home-task-details-modal-status-set-complete-btn'>
+                                                <CheckRoundedIcon style={{width: "1.7rem", height: "1.7rem", color: "#989898"}}/>
+                                            </Button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div className='d-flex flex-column' style={{ fontSize: "1.06rem" }}>
+                                    <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center'>Priority</div>
+                                    <div>
+                                        <span className='lato-font d-flex align-items-center' style={{marginLeft: "0.45rem"}}>
+
+                                            <ModelDropdown 
+                                                items={[
+                                                    { name: "Critical", icon: <TourRoundedIcon /*style={{color: "#c90825"}}*//>, isActualOption: true },
+                                                    { name: "High", icon: <TourRoundedIcon /*style={{color: "gold"}}*//>, isActualOption: true },
+                                                    { name: "Medium", icon: <TourRoundedIcon /*style={{color: "#0976d6"}}*//>, isActualOption: true },
+                                                    { name: "Low", icon: <TourRoundedIcon />, isActualOption: true },
+                                                    { name: "Clear", icon: <NotInterestedRoundedIcon />, isActualOption: false },
+                                                ]}
+                                                initialNameValue={currentTaskPriority} initialIconValue={<TourRoundedIcon />}
+                                                handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-priority-property"}
+                                                hasClearBtn={true}
+                                                isPriorityDropdown={true} 
+                                                upcomingTasks={upcomingTasks} currentIndex={currentIndex}
+                                            />
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {tagData !== null && tagData !== undefined && tagData.length > 0 &&
+                                <div className='d-flex flex-column' style={{ fontSize: "1.06rem" }}>
+                                    <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center'>Tags</div>
+                                    <div>
+                                        <span className='lato-font d-flex align-items-cente user-home-task-details-modal-tags-group'>
+                                            {tagData.map((tag, index) => (
+                                                <Button key={index} className='mx-1'>
+                                                    {tag.name}
+                                                </Button>
+                                            ))}
+                                        </span>
+                                    </div>
+                                </div>}
                             </div>
 
-                        {/* <div className='d-flex'>
 
-                            <Button className='mx-3 user-home-task-details-modal-taskIdNumber' onClick={handleTaskIdNumberClick}>
-                                {props.currentTaskIdNumber}
-                            </Button>
-                                
-                        </div> */}
+                            {/* NEW CONTENT*/}
+                        
                         </div>
 
                         {/* <div className='user-home-task-details-modal-comment-section-div lato-font mt-3'>

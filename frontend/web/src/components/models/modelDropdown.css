@@ -92,6 +92,7 @@
   opacity: 1;
   transform: translateY(0);
   visibility: visible;
+  min-height: 12rem;
 }
 .model-dropdown-menu button:hover {
   background: #1d1e1f;
@@ -106,8 +107,7 @@
 .model-dropdown-item-menu-button-wTypeOption:last-child, 
 .model-dropdown-item-menu-button-clear:last-child{
   border-top: 1px solid rgb(137,137,137);
-}
-  
+} 
 .dropdown button .model-dropdown-current-icon:first-child {
   background-color: #454f64;
   color: #afb3b5;
@@ -143,6 +143,20 @@
   height: 2.5rem !important;
   color: #898989 !important;
   transition: border 0.45s linear !important;
+}
+.user-home-task-details-modal-tag-btn {
+  /* background-color: #1e1f21 !important;
+  border-radius: 50% !important;
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  color: #898989 !important;
+  transition: border 0.45s linear !important; */
+  padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    color: #999999 !important;
+}
+.user-home-task-details-modal-tag-btn:hover {
+  background-color: #292a2c;
 }
 .user-home-task-details-modal-next-status-btn {
   padding: 0.35rem 0.4rem;

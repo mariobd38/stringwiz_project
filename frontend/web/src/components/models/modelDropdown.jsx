@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useClickAway } from 'react-use';
 
 import Button from 'react-bootstrap/Button';
@@ -7,6 +7,8 @@ import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRound
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import TourRoundedIcon from '@mui/icons-material/TourRounded';
+
+import { createTagInfo } from "../../DataManagement/Tags/createTag";
 
 import "./modelDropdown.css";
 
@@ -43,15 +45,18 @@ export const ModelDropdown = (props) => {
     const { items, 
         hasItemTypesOption, hasClearBtn, hasArrow, hasHeaderDescText, hasSearchBar,
         initialNameValue, initialIconValue, isPriorityDropdown, isModalOnRightSide,
-        menuItemProperty,isStatusBtn, upcomingTasks, currentIndex } = props;
+        menuItemProperty,isStatusBtn, upcomingTasks, currentIndex, jwt, tagData, setTagData,
+        allTagData, setAllTagData
+    } = props;
+
+    const isTagDropdown = initialNameValue === '';
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [currentItem, setCurrentItem] = useState({ name: initialNameValue, icon: initialIconValue });
+        
 
     const handleMenuItemClick = (event,item) => {
         setCurrentItem(item);
-        // console.log(event.currentTarget.getAttribute("class"));
-        // console.log(event.currentTarget.textContent);
         
         props.handleTaskUpdate(event);
 
@@ -71,21 +76,59 @@ export const ModelDropdown = (props) => {
     }
 
     const handleOpenDropdownMenu = () => {
+        if (isTagDropdown) {
+            setTagInputValue('');
+        }
         setIsDropdownOpen(!isDropdownOpen);
     }
 
     const handleNextStatusClick = (event) => {
         props.handleTaskUpdate(event)
-        console.log("new status below");
-        console.log(upcomingTasks[currentIndex].status);
         const nextStatusName = upcomingTasks[currentIndex].status;
         const nextStatusIcon = items.find(item => item.name === nextStatusName).icon;
         setCurrentItem({name: nextStatusName, icon: nextStatusIcon});
-        // setCurrentItem({name:})
     }
     
     const ref = useRef(null);
     useClickAway(ref, () => isDropdownOpen && setIsDropdownOpen(!isDropdownOpen));
+
+    //tag related
+    const [tagInputValue, setTagInputValue] = useState('');
+    const [tagItems, setTagItems] = useState(items);
+
+    function handleTagSearch(event) {
+        const tagName = event.target.value;
+        if (event.key === 'Enter') {
+            console.log(tagName);
+            createTagInfo(
+                jwt,
+                upcomingTasks, 
+                currentIndex,
+                tagName,
+                tagData,
+                setTagData,
+                allTagData,
+                setAllTagData
+            );
+            setIsDropdownOpen(!isDropdownOpen);
+
+        }
+
+        setTagInputValue(tagName);
+    }
+    
+    useEffect(() => {
+        let filteredItems;
+        if (tagInputValue === "") { 
+            filteredItems = items; 
+        } else {
+            filteredItems = items.filter((item) => {
+                return item.name.toLowerCase().startsWith(tagInputValue.toLowerCase());
+            });
+        }
+        setTagItems(filteredItems);
+    }, [tagInputValue, items]);
+
 
     return (
         <div className="d-flex">
@@ -102,9 +145,13 @@ export const ModelDropdown = (props) => {
                         <span className="model-dropdown-arrow-icon"> <KeyboardArrowDownRoundedIcon /> </span>
                     }
                 </button> :
-                
+                isPriorityDropdown ?
                 <button  className="user-home-task-details-modal-no-priority-btn" onClick={handleOpenDropdownMenu}>
                     <TourRoundedIcon />
+                </button> : 
+
+                <button  className="user-home-task-details-modal-tag-btn" onClick={handleOpenDropdownMenu}>
+                    {initialIconValue}
                 </button>
             }
 
@@ -114,23 +161,27 @@ export const ModelDropdown = (props) => {
                 }
 
                 {hasSearchBar &&
-                <div className='d-flex align-items-center' style={{borderBottom: "1px solid #898989"}}>
-                    <form className="model-dropdown-search " role="search">
-                        <input
-                            className="form-control model-dropdown-search-input me-2"
-                            type="text"
-                            placeholder="Search"                                                
-                            aria-label="Search"
-                        />
-                    </form>
-                </div>}
+                    <div className='d-flex align-items-center' style={{borderBottom: "1px solid #898989"}}>
+                        <form className="model-dropdown-search" role='search' onSubmit={(event) => {event.preventDefault(); return false;}}>
+                            <input
+                                className="form-control model-dropdown-search-input me-2"
+                                type="text"
+                                placeholder={`${isTagDropdown ? 'Search or create new..' : 'search'}`}                                               
+                                aria-label="Search"
+                                onChange={isTagDropdown ? handleTagSearch : undefined}
+                                onKeyDown={isTagDropdown ? handleTagSearch : undefined}
+                                value={isTagDropdown ? tagInputValue : ''}
+                            />
+                        </form>
+                    </div>
+                }
                 
                 <div>
-                    {items.map((item, index) => (
+                    {!isTagDropdown ? items.map((item, index) => (
                         <MenuItem
                             key={item.name}
                             name={item.name}
-                            icon={item.icon}
+                            icon={item.icon ? item.icon : ''}
                             isActualOption={item.isActualOption}
                             hasItemTypesOption={hasItemTypesOption}
                             hasClearBtn={hasClearBtn}
@@ -140,7 +191,23 @@ export const ModelDropdown = (props) => {
                             onClick={(event) => handleMenuItemClick(event,item)}
                             onHide={() => setIsDropdownOpen(!isDropdownOpen)}
                         />
-                    ))}
+                    )) : 
+                    tagItems.map((item, index) => (
+                        <MenuItem
+                            key={item.name}
+                            name={item.name}
+                            icon={item.icon ? item.icon : ''}
+                            isActualOption={item.isActualOption}
+                            hasItemTypesOption={hasItemTypesOption}
+                            hasClearBtn={hasClearBtn}
+                            index={index}
+                            currentItemName={currentItem.name}
+                            menuItemProperty={menuItemProperty}
+                            onClick={(event) => handleMenuItemClick(event,item)}
+                            onHide={() => setIsDropdownOpen(!isDropdownOpen)}
+                        />
+                    ))
+                    }
                 </div>
 
             </div>
