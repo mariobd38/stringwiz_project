@@ -26,10 +26,11 @@ const NewHome = () => {
     // const [month, setMonth] = useState(dayjs().format('MMMM'));
     // const [dayOfWeek, setDayOfWeek] = useState(dayjs().format('dddd'));
     const [jwt] = useLocalState("", "jwt");
-    const [currentIndex, setCurrentIndex] = useState(null);
     const [taskData, setTaskData] = useState([]);
     const [upcomingTasks, setUpcomingTasks] = useState([]);
     const [today, setToday] = useState(null);
+    const [tagData, setTagData] = useState([]);
+    const [allTagData, setAllTagData] = useState([]);
 
     useEffect(() => {
         const fetchAndSetTabs = async () => {
@@ -42,7 +43,6 @@ const NewHome = () => {
 
             const todays_date = now;
             const upcoming = [];
-            const overdue = [];
             const completed = [];
 
             taskData.forEach((task) => {
@@ -56,20 +56,16 @@ const NewHome = () => {
                 } 
             });
 
-                setUpcomingTasks(upcoming);
-                // setOverdueTasks(overdue);
-                // setCompletedTasks(completed);
+                // setUpcomingTasks(upcoming);
             };
         fetchAndSetTabs();
         
-        // contentEditableRef.current.focus();
     }, [dayjs, taskData, upcomingTasks]);
-
+    
     useEffect(() => {
         getTaskInfo(jwt, setTaskData, setUpcomingTasks);
         setUpcomingTasks(taskData);
-    }, [currentIndex, upcomingTasks, setUpcomingTasks]);
-    //const [missingNameError, setMissingNameError] = useState(false);
+    }, [jwt, taskData]);
 
 
     return (
@@ -121,7 +117,8 @@ const NewHome = () => {
                         <div className="col-xl-8 col-8 p-0">
                             <div className=' py-3'>
                                 <div className='d-flex justify-content-between py-2'>
-                                    <TaskCard today={today} upcomingTasks={upcomingTasks} setUpcomingTasks={setUpcomingTasks} />
+                                    <TaskCard taskData={taskData} setTaskData={setTaskData} today={today} upcomingTasks={upcomingTasks} setUpcomingTasks={setUpcomingTasks} tagData={tagData} setTagData={setTagData}
+                                    allTagData={allTagData} setAllTagData={setAllTagData}/>
                                 </div>
                             </div>
 

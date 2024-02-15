@@ -25,6 +25,9 @@ import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 
 import {createTaskInfo} from './../../../DataManagement/Tasks/createTask';
 import {updateTaskInfo} from './../../../DataManagement/Tasks/updateTask';
+import { getTagInfo } from '../../../DataManagement/Tags/getTags';
+import { getAllTagsInfo } from '../../../DataManagement/Tags/getAllTags';
+import { createTagInfo } from '../../../DataManagement/Tags/createTag';
 
 import NewHomeDueDatePopover from './../newHomeDueDatePopover';
 import TaskDetailsModal from '../TaskDetailsModal/taskDetailsModal';
@@ -33,14 +36,11 @@ import { Tooltip } from 'react-tooltip';
 
 import './taskCard.css'
 
-const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
+const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks, tagData, setTagData, allTagData, setAllTagData}) => {
     const [jwt] = useLocalState("", "jwt");
     const [currentIndex, setCurrentIndex] = useState(null);
-    const [taskData, setTaskData] = useState([]);
     const [newTaskRowOpen, setNewTaskRowOpen] = useState(false);
     const [userTasks, setUserTasks] = useLocalState([], "userTasks");
-    //const [missingNameError, setMissingNameError] = useState(false);
-
 
     const handleNewTaskClick = () => {
         setNewTaskRowOpen((prev) => !prev);
@@ -77,6 +77,7 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
     const [currentTaskIdNumber, setCurrentTaskIdNumber] = useState('');
     const [currentTaskStatus, setCurrentTaskStatus] = useState('');
     const [currentTaskPriority, setCurrentTaskPriority] = useState('');
+    const [currentTaskTags, setCurrentTaskTags] = useState([]);
 
     //due date popovers
     const [currentTaskDueDate, setCurrentTaskDueDate] = useState('');
@@ -121,13 +122,9 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
 
     //update task call
     const handleTaskUpdate = (event) => {
-        console.log("inside update!!");
-        console.log(selectedDate);
         if (selectedDate === null && currentTaskDueDate !== null) {
             setSelectedDate(currentTaskDueDate);
         }
-
-        console.log("index is " + currentIndex);
 
         updateTaskInfo(
             currentIndex, 
@@ -149,7 +146,81 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
     const location = useLocation();
     const [modalShow, setModalShow] = useState(false);
 
-    const openTaskDetailsModal = (event, index) => {
+    
+    //tag related info
+
+    // const [tagData, setTagData] = useState([]);
+    // const [allTagData, setAllTagData] = useState([]);
+
+    // const fetchTagsData = useCallback(async () => {
+
+    //     try {
+    //         const tagInfo = await getTagInfo(jwt, upcomingTasks[currentIndex].id);
+    //         setTagData(tagInfo);
+    
+    //         if (!upcomingTasks[currentIndex].tags.some(tag => tag.id === tagInfo.id)) {
+    //             const updatedTask = {
+    //                 ...upcomingTasks[currentIndex],
+    //                 tags: [...upcomingTasks[currentIndex].tags, tagInfo]
+    //             };
+
+    //             const updatedTasks = [...upcomingTasks];
+    //             updatedTasks[currentIndex] = updatedTask;
+    //             setUpcomingTasks(updatedTasks);
+    //             if (!currentTaskTags.some(tag => tag.id === tagInfo.id)) {
+    //                 setCurrentTaskTags(updatedTasks[currentIndex].tags[0])
+    //             }
+    //         }
+    
+    //         const allTagsInfo = await getAllTagsInfo(jwt);
+    //         setAllTagData(allTagsInfo);
+    //     } catch (error) {
+    //         console.error('Error fetching tag data:', error);
+    // }}, [currentTaskTags,jwt, currentIndex, upcomingTasks, setTagData, setUpcomingTasks, setAllTagData]);
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            
+            try {
+                const allTagsData =  await getAllTagsInfo(jwt, setAllTagData);
+                setAllTagData(allTagsData);
+
+                const tagsData =  await getTagInfo(jwt, upcomingTasks[currentIndex].id);
+                setTagData(tagsData);
+                setCurrentTaskTags(tagsData);
+
+            } catch(error) {
+            }
+        };
+    
+        fetchData();
+    }, [setTagData, upcomingTasks, currentIndex]);
+
+
+
+    const updateTaskTags = (updatedTags) => {
+        const updatedTasks = [...upcomingTasks];
+        updatedTasks[currentIndex].tags = updatedTags;
+        setUpcomingTasks(updatedTasks);
+    };
+
+    const handleTagCreation = (tagName) => {
+        createTagInfo(
+            jwt,
+            upcomingTasks, 
+            setUpcomingTasks,
+            updateTaskTags,
+            currentIndex,
+            tagName,
+            tagData,
+            setTagData,
+            allTagData,
+            setAllTagData
+        );
+    }
+
+    const openTaskDetailsModal = async (event, index) => {
         setModalShow(true);
         setCurrentTaskName(upcomingTasks[index].name);
         setCurrentTaskCreationDate(upcomingTasks[index].createdOn);
@@ -159,10 +230,12 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
         setCurrentTaskDueDate(upcomingTasks[index].dueDate);
         setCurrentTaskStatus(upcomingTasks[index].status);
         setCurrentTaskPriority(upcomingTasks[index].priority);
+         await   setCurrentTaskTags(currentTaskTags);
+        
+        // setPastIndex(currentIndex);
         setCurrentIndex(index);
+        
     }
-
-    
     return (
         <>
             <Card
@@ -199,7 +272,7 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
                                                 <AddRoundedIcon className='me-1' style={{ width: "1rem", marginBottom: ".09rem" }}/>
                                                 <span className='me-1' style={{ fontSize: '0.95rem' }}>Create task</span>
                                             </Button>
-                                            <div className='w-100 table-row-dark'>
+                                            {/* <div className='w-100 table-row-dark'> */}
                                             {newTaskRowOpen ? (
                                                 <TableRow className='table-row-new-dark ' style={{backgroundColor: "#1E1F21", width: "100%"}} >
                                                     <TableCell scope="row" className=' d-flex align-items-center justify-content-between table-cell'>
@@ -214,10 +287,10 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
                                                     </TableCell>
                                                 </TableRow>
                                             ) : null}
-                                            </div>
+                                            {/* </div> */}
                                             
                                         </Box>
-                                </ ClickAwayListener>
+                                    </ ClickAwayListener>
                                     {upcomingTasks.map((row, index) => (
                                     <TableRow key={index} className='table-row-dark' style={{ backgroundColor: "#1E1F21" }}>
                                         {/* <Link to='/home/modal' state={{ background: location }}> */}
@@ -238,12 +311,6 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
                                                     </div>
                                                 </Link>
                                                 {!upcomingTasks[index].dueDate ? 
-                                                    // <Tooltip placement="top" title={<span className='nunito-sans-font ' style={{transition: "transition: width 1.2s ease-in-out"}}>{[`Add Due Date`]}</span>} arrow className='menu-tooltip'>
-
-                                                    //     <div className='d-flex align-items-center user-home-calendar-icon-div' onClick={(event) => handleDueDatePopoverClick(event, index)}>
-                                                    //         <CalendarTodayRoundedIcon className='user-home-calendar-icon '/>
-                                                    //     </div>
-                                                    // </Tooltip>
                                                     <span>
                                                         <div data-tooltip-id="my-tooltip" className='m-auto' data-tooltip-content={`Add due date`} style={{transition: "transition: width 1.2s ease-in-out"}}>
                                                             <div className='d-flex align-items-center user-home-calendar-icon-div' onClick={(event) => handleDueDatePopoverClick(event, index)}>
@@ -280,11 +347,13 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
 
             <TaskDetailsModal
                 show={modalShow}
-                onHide={() => 
-                    setModalShow(false)
-                }
+                onHide={() => {
+                    setModalShow(false);
+                    setCurrentTaskTags([]);
+                }}
                 currentIndex={currentIndex}
                 upcomingTasks={upcomingTasks}
+                setUpcomingTasks={setUpcomingTasks}
                 selectedDate={selectedDate}
                 jwt={jwt}
                 currentTaskName={currentTaskName}
@@ -295,11 +364,18 @@ const TaskCard = ({today, upcomingTasks, setUpcomingTasks}) => {
                 currentTaskDueDate={currentTaskDueDate}
                 currentTaskStatus={currentTaskStatus}
                 currentTaskPriority={currentTaskPriority}
+                currentTaskTags={currentTaskTags}
                 setCurrentTaskDueDate={setCurrentTaskDueDate}
                 setCurrentIndex={setCurrentIndex}
                 setSelectedDate={setSelectedDate}
                 today={today}
                 handleTaskUpdate={(event) => handleTaskUpdate(event)}
+                tagData={tagData}
+                allTagData={allTagData}
+                setTagData={setTagData}
+                setAllTagData={setAllTagData}
+                updateTaskTags={updateTaskTags}
+                handleTagCreation={handleTagCreation}
             />
         </>
     );

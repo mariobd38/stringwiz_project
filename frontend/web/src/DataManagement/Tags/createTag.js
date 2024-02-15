@@ -1,6 +1,6 @@
 
 function createTagInfo(
-    jwt, taskData, currentIndex, tagName, tagData, setTagData, allTagData, setAllTagData) {
+    jwt, taskData, setTaskData, updateTaskTags, currentIndex, tagName, tagData, setTagData, allTagData, setAllTagData) {
     
     const tagInfo = {
         name: tagName,
@@ -29,12 +29,22 @@ function createTagInfo(
             dateCreated: data.createdOn,
             color: data.color,
         };
-        const newTagData = [...tagData, createdTag]
+        // const newTagData = [...tagData, createdTag]
+        // setTagData(newTagData);
+        // setAllTagData([...allTagData, createdTag]);
+
+        // const updatedTaskData = [...taskData];
+        // updatedTaskData[currentIndex].tags = [...tagData, createdTag];
+        // setTaskData(updatedTaskData);
+        // console.log(updatedTaskData);
+
+        const updatedTags = [...taskData[currentIndex].tags, createdTag];
+        updateTaskTags(updatedTags);
+
+        // Update local tag data state
+        const newTagData = [...tagData, createdTag];
         setTagData(newTagData);
         setAllTagData([...allTagData, createdTag]);
-
-        taskData[currentIndex].tags = newTagData;
-        console.log(taskData[currentIndex].tags);
       })
       .catch((error) => {
         console.error(error); 

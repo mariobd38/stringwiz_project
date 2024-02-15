@@ -43,10 +43,9 @@ const MenuItem = ({ name, index, icon, isActualOption, hasItemTypesOption, hasCl
 
 export const ModelDropdown = (props) => {
     const { items, 
-        hasItemTypesOption, hasClearBtn, hasArrow, hasHeaderDescText, hasSearchBar,
+        hasItemTypesOption, hasClearBtn, hasArrow, hasHeaderDescText, hasSearchBar,handleTagCreation,
         initialNameValue, initialIconValue, isPriorityDropdown, isModalOnRightSide,
-        menuItemProperty,isStatusBtn, upcomingTasks, currentIndex, jwt, tagData, setTagData,
-        allTagData, setAllTagData
+        menuItemProperty,isStatusBtn, upcomingTasks, currentIndex
     } = props;
 
     const isTagDropdown = initialNameValue === '';
@@ -75,6 +74,18 @@ export const ModelDropdown = (props) => {
         setIsDropdownOpen(!isDropdownOpen);
     }
 
+    const handleTagMenuItemClick = (event,item) => {
+        // console.log(item.name);
+        /*
+        add clicked menu item to tag list
+        */
+        // handleTagCreation(item.name);
+
+
+        setIsDropdownOpen(!isDropdownOpen);
+
+    }
+
     const handleOpenDropdownMenu = () => {
         if (isTagDropdown) {
             setTagInputValue('');
@@ -100,16 +111,7 @@ export const ModelDropdown = (props) => {
         const tagName = event.target.value;
         if (event.key === 'Enter') {
             console.log(tagName);
-            createTagInfo(
-                jwt,
-                upcomingTasks, 
-                currentIndex,
-                tagName,
-                tagData,
-                setTagData,
-                allTagData,
-                setAllTagData
-            );
+            handleTagCreation(tagName);
             setIsDropdownOpen(!isDropdownOpen);
 
         }
@@ -170,7 +172,7 @@ export const ModelDropdown = (props) => {
                                 aria-label="Search"
                                 onChange={isTagDropdown ? handleTagSearch : undefined}
                                 onKeyDown={isTagDropdown ? handleTagSearch : undefined}
-                                value={isTagDropdown ? tagInputValue : ''}
+                                defaultValue={isTagDropdown ? tagInputValue : ''}
                             />
                         </form>
                     </div>
@@ -203,7 +205,7 @@ export const ModelDropdown = (props) => {
                             index={index}
                             currentItemName={currentItem.name}
                             menuItemProperty={menuItemProperty}
-                            onClick={(event) => handleMenuItemClick(event,item)}
+                            onClick={(event) => handleTagMenuItemClick(event,item)}
                             onHide={() => setIsDropdownOpen(!isDropdownOpen)}
                         />
                     ))

@@ -28,8 +28,8 @@ import SellRoundedIcon from '@mui/icons-material/SellRounded';
 import TourRoundedIcon from '@mui/icons-material/TourRounded';
 
 import { updateTaskInfo } from '../../../DataManagement/Tasks/updateTask';
-import { getTagInfo } from '../../../DataManagement/Tags/getTags';
-import { getAllTagsInfo } from '../../../DataManagement/Tags/getAllTags';
+// import { getTagInfo } from '../../../DataManagement/Tags/getTags';
+// import { getAllTagsInfo } from '../../../DataManagement/Tags/getAllTags';
 
 import './taskDetailsModal.css';
 import { ModelDropdown } from '../../models/modelDropdown';
@@ -46,9 +46,9 @@ function handleBreadcrumbClick(event) {
 const TaskDetailsModal = (props) => {
     const { 
             currentIndex, currentTaskIdNumber, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskLastUpdatedOn,
-            setCurrentTaskDueDate, setCurrentIndex, setSelectedDate,
-            upcomingTasks, selectedDate, jwt, today,
-            onHide, show } = props;
+            setCurrentTaskDueDate, setCurrentIndex, setSelectedDate, currentTaskTags,
+            upcomingTasks, setUpcomingTasks, selectedDate, jwt, today,
+            onHide, show, tagData, allTagData, setTagData, setAllTagData,updateTaskTags,handleTagCreation } = props;
 
     const [userFullName] = useLocalState("", "userFullName");
     const [firstName, lastName] = userFullName.split(' ');
@@ -87,6 +87,7 @@ const TaskDetailsModal = (props) => {
 
         onHide();
         navigate(-1);
+        setCurrentTaskDueDate([]);
     }
 
     useEffect(() => {
@@ -129,7 +130,7 @@ const TaskDetailsModal = (props) => {
     const [dueDateClockIsOpen, setDueDateClockIsOpen] = useState(false);
 
     const handleDueDatePopoverClick = (event, index) => {
-        console.log(dueDateClockIsOpen);
+        // console.log(dueDateClockIsOpen);
         setDueDatePopoverAnchorEl(event.currentTarget);
         setCurrentIndex(index);
         setCurrentTaskDueDate(upcomingTasks[index].dueDate);
@@ -176,48 +177,6 @@ const TaskDetailsModal = (props) => {
             </span>
         </div>
     );
-
-    const [tagData, setTagData] = useState([]);
-    const [allTagData, setAllTagData] = useState([]);
-
-    // useEffect(() => {
-    //     const fetchTagsData =  async () => {
-    //       try {
-    //         if (upcomingTasks !== undefined && upcomingTasks[currentIndex] !== undefined) {
-    //             await getTagInfo(jwt, setTagData, upcomingTasks[currentIndex].id);
-    //             getAllTagsInfo(jwt,setAllTagData);
-    //         }
-
-    //       } catch (e) {
-    //         return;
-    //       }
-    //     };
-    //     if (show)
-    //         fetchTagsData();
-    //   },[tagData, upcomingTasks]);
-    useEffect(() => {
-        // Ensure that 'upcomingTasks' and 'currentIndex' are defined
-        if (upcomingTasks && upcomingTasks[currentIndex]) {
-            const fetchTagsData = async () => {
-                try {
-                    // Fetch tag info for the current task
-                    const tagInfo = await getTagInfo(jwt, upcomingTasks[currentIndex].id);
-                    // Update tag data state
-                    setTagData(tagInfo);
-    
-                    // Fetch all tags info
-                    const allTagsInfo = await getAllTagsInfo(jwt);
-                    // Update all tag data state
-                    setAllTagData(allTagsInfo);
-                } catch (error) {
-                    console.error('Error fetching tag data:', error);
-                }
-            };
-    
-            // Call fetchTagsData only when the component is mounted or when 'upcomingTasks' or 'currentIndex' change
-            fetchTagsData();
-        }
-    }, [currentIndex, upcomingTasks, jwt]);
 
     return (
         <>
@@ -292,17 +251,16 @@ const TaskDetailsModal = (props) => {
                                     </span> */}
                                     <ModelDropdown 
                                         // items={[{}]}
-                                        items={allTagData.map((tag) => ({ name: tag.name, icon: null }))}
+                                        items={allTagData ? allTagData.map((tag) => ({ name: tag.name, icon: null })) : { name: "Task", icon: null, isActualOption: true }}
+                                        handleTagCreation={handleTagCreation}
                                         initialNameValue={""} initialIconValue={<SellRoundedIcon />}
                                         handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-item-type-property"}
                                         hasSearchBar={true} 
-                                        upcomingTasks={upcomingTasks} currentIndex={currentIndex} jwt={jwt} tagData={tagData} setTagData={setTagData} allTagData={allTagData} setAllTagData={setAllTagData}
+                                        upcomingTasks={upcomingTasks} currentIndex={currentIndex}
                                     />
                                 </div>
 
-                            {/* NEW CONTENT*/}
                             <div className='d-flex flex-wrap column-gap-5 row-gap-2 lato-font'>
-                                {/* <div> */}
                                 <div className='example d-flex flex-column' style={{ fontSize: "1.06rem" }}>
                                     <span className='user-home-task-details-modal-head-text'>Assignee</span>
                                     <div
@@ -317,7 +275,6 @@ const TaskDetailsModal = (props) => {
                                         />
                                     </div>
                                 </div>
-                                {/* </div> */}
 
                                 <div className='d-flex flex-column' style={{ fontSize: "1.06rem" }}>
                                     <span className='user-home-task-details-modal-head-text ps-2 me-3'>Due Date</span>
@@ -339,7 +296,7 @@ const TaskDetailsModal = (props) => {
                                 </div>
 
                                 <div className='me-3 d-flex flex-column' style={{ fontSize: "1.06rem" }}>
-                                    <div className=' user-home-task-details-modal-head-text'>Status</div>
+                                    <div className=' user-home-task-details-modal-head-text' style={{width: "7rem"}}>Status</div>
                                     <div>
                                         <span className='lato-font d-flex align-items-center' style={{marginLeft: "0.45rem"}}>
 
@@ -386,7 +343,7 @@ const TaskDetailsModal = (props) => {
                                     </div>
                                 </div>
 
-                                {tagData !== null && tagData !== undefined && tagData.length > 0 &&
+                                {/* {tagData !== null && tagData !== undefined && tagData.length > 0 &&
                                 <div className='d-flex flex-column' style={{ fontSize: "1.06rem" }}>
                                     <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center'>Tags</div>
                                     <div>
@@ -398,41 +355,28 @@ const TaskDetailsModal = (props) => {
                                             ))}
                                         </span>
                                     </div>
+                                </div>} */}
+
+                                {currentTaskTags !== null && currentTaskTags !== undefined && currentTaskTags.length > 0 &&
+                                <div className='d-flex flex-column' style={{ fontSize: "1.06rem" }}>
+                                    <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center' style={{width: "5rem"}}>Tags</div>
+                                    <div>
+                                        <span className='lato-font d-flex align-items-cente user-home-task-details-modal-tags-group'>
+                                            {currentTaskTags.map((tag, index) => (
+                                                <Button key={index} className='mx-1 user-home-task-details-modal-tags-button'>
+                                                    {tag.name}
+                                                </Button>
+                                            ))}
+                                        </span>
+                                    </div>
                                 </div>}
                             </div>
-
-
-                            {/* NEW CONTENT*/}
                         
                         </div>
-
-                        {/* <div className='user-home-task-details-modal-comment-section-div lato-font mt-3'>
-                            <div className="ms-3" style={{height: "90%"}}>
-                                <div className='user-home-task-details-modal-comment-section-text mb-2'>
-                                    Comments
-                                </div>
-                                
-                                <div className='user-home-task-details-modal-comment-section  d-flex align-items-end'>
-                                    
-                                    <div className='user-home-task-details-modal-comment-section-typing d-flex justify-content-between'>
-                                        
-                                        <TextareaAutosize
-                                        placeholder='Type something...'
-                                        className='mx-3 form-control user-home-task-details-modal-comment-section-textarea'
-                                        defaultValue=''
-                                        />
-                                        
-                                    </div>
-                                    <Button>Send</Button>
-                                </div>
-
-                            </div>
-                            
-                        </div> */}
                     </div> 
 
                     <div className='mt-3'>
-                        <div class="user-home-task-details-modal-description m-0 p-0">
+                        <div className="user-home-task-details-modal-description m-0 p-0">
                             <TextareaAutosize
                                 placeholder='Write a description for your task'
                                 className='form-control user-home-task-details-modal-description-textarea'
