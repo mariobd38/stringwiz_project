@@ -8,8 +8,6 @@ import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import TourRoundedIcon from '@mui/icons-material/TourRounded';
 
-import { createTagInfo } from "../../DataManagement/Tags/createTag";
-
 import "./modelDropdown.css";
 
 const MenuButton = ({name,icon,isActualOption,hasItemTypesOption,hasClearBtn,index,currentItemName,onClick,menuItemProperty}) => {
@@ -172,7 +170,7 @@ export const ModelDropdown = (props) => {
                                 aria-label="Search"
                                 onChange={isTagDropdown ? handleTagSearch : undefined}
                                 onKeyDown={isTagDropdown ? handleTagSearch : undefined}
-                                defaultValue={isTagDropdown ? tagInputValue : ''}
+                                value={isTagDropdown ? tagInputValue : ''}
                             />
                         </form>
                     </div>

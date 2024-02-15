@@ -74,7 +74,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
     const [currentTaskCreationDate, setCurrentTaskCreationDate] = useState('');
     const [currentTaskLastUpdatedOn, setCurrentTaskLastUpdatedOn] = useState('');
     const [currentTaskDescription, setCurrentTaskDescription] = useState('');
-    const [currentTaskIdNumber, setCurrentTaskIdNumber] = useState('');
+    // const [currentTaskIdNumber, setCurrentTaskIdNumber] = useState('');
     const [currentTaskStatus, setCurrentTaskStatus] = useState('');
     const [currentTaskPriority, setCurrentTaskPriority] = useState('');
     const [currentTaskTags, setCurrentTaskTags] = useState([]);
@@ -185,17 +185,15 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
             try {
                 const allTagsData =  await getAllTagsInfo(jwt, setAllTagData);
                 setAllTagData(allTagsData);
-
-                const tagsData =  await getTagInfo(jwt, upcomingTasks[currentIndex].id);
-                setTagData(tagsData);
-                setCurrentTaskTags(tagsData);
+            
+                // console.log(currentTaskTags);
+                
 
             } catch(error) {
             }
         };
-    
         fetchData();
-    }, [setTagData, upcomingTasks, currentIndex]);
+    }, [setTagData, upcomingTasks, currentIndex, currentTaskTags]);
 
 
 
@@ -203,37 +201,65 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
         const updatedTasks = [...upcomingTasks];
         updatedTasks[currentIndex].tags = updatedTags;
         setUpcomingTasks(updatedTasks);
+        setCurrentTaskTags([...updatedTags]);
     };
 
-    const handleTagCreation = (tagName) => {
-        createTagInfo(
-            jwt,
-            upcomingTasks, 
-            setUpcomingTasks,
-            updateTaskTags,
-            currentIndex,
-            tagName,
-            tagData,
-            setTagData,
-            allTagData,
-            setAllTagData
-        );
-    }
+    // const handleTagCreation = (tagName) => {
+    //     createTagInfo(
+    //         jwt,
+    //         upcomingTasks, 
+    //         setUpcomingTasks,
+    //         updateTaskTags,
+    //         currentIndex,
+    //         tagName,
+    //         tagData,
+    //         setTagData,
+    //         allTagData,
+    //         setAllTagData
+    //     );
+    // }
+    const handleTagCreation = async (tagName) => {
+        try {
+            const newTag = await createTagInfo(jwt, upcomingTasks[currentIndex].id, tagName);
+    
+            if (newTag) {
+                const updatedTags = [...currentTaskTags, newTag];
+                setCurrentTaskTags(updatedTags);
+                console.log("new tag created!!");
+                updateTaskTags(updatedTags);
+            } else {
+                console.error('Error creating tag: Tag data is null');
+            }
+        } catch (error) {
+            console.error('Error creating tag:', error);
+        }
+    };
 
-    const openTaskDetailsModal = async (event, index) => {
-        setModalShow(true);
-        setCurrentTaskName(upcomingTasks[index].name);
-        setCurrentTaskCreationDate(upcomingTasks[index].createdOn);
-        setCurrentTaskLastUpdatedOn(upcomingTasks[index].lastUpdatedOn);
-        setCurrentTaskDescription(upcomingTasks[index].description);
-        setCurrentTaskIdNumber(upcomingTasks[index].taskIdNumber);
-        setCurrentTaskDueDate(upcomingTasks[index].dueDate);
-        setCurrentTaskStatus(upcomingTasks[index].status);
-        setCurrentTaskPriority(upcomingTasks[index].priority);
-         await   setCurrentTaskTags(currentTaskTags);
+    const OpenTaskDetailsModal = async (event, index) => {
+        try {
+
+            const currentTags = await getTagInfo(jwt, upcomingTasks[index].id);
+            setCurrentTaskTags(currentTags);
+
+            setModalShow(true);
+            setCurrentTaskName(upcomingTasks[index].name);
+            setCurrentTaskCreationDate(upcomingTasks[index].createdOn);
+            setCurrentTaskLastUpdatedOn(upcomingTasks[index].lastUpdatedOn);
+            setCurrentTaskDescription(upcomingTasks[index].description);
+            setCurrentTaskDueDate(upcomingTasks[index].dueDate);
+            setCurrentTaskStatus(upcomingTasks[index].status);
+            setCurrentTaskPriority(upcomingTasks[index].priority);
+            
         
-        // setPastIndex(currentIndex);
-        setCurrentIndex(index);
+            setCurrentIndex(index);
+
+            // upcomingTasks[currentIndex].tags = tagsData;
+
+        } catch(error) {
+            console.error('Error opening task details modal:', error);
+        }
+
+
         
     }
     return (
@@ -298,7 +324,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                                             <div className='d-flex justify-content-between w-100'>
                                                 {/* Left Content */}
                                                 {/*   */}
-                                                <Link to='/home/modal' state={{ background: location }}  onClick={(e) => openTaskDetailsModal(e, index)}  className='d-flex mb-2' style={{ color: "#fafafa" }}>
+                                                <Link to='/home/modal' state={{ background: location }}  onClick={(e) => OpenTaskDetailsModal(e, index)}  className='d-flex mb-2' style={{ color: "#fafafa" }}>
                                                     <div className='m-auto d-flex '>
                                                         <CheckRoundedIcon className='user-home-task-check-icon' />
                                                     </div>
@@ -347,20 +373,17 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
 
             <TaskDetailsModal
                 show={modalShow}
-                onHide={() => {
-                    setModalShow(false);
-                    setCurrentTaskTags([]);
-                }}
+                onHide={() => 
+                    setModalShow(false)
+                }
                 currentIndex={currentIndex}
                 upcomingTasks={upcomingTasks}
-                setUpcomingTasks={setUpcomingTasks}
                 selectedDate={selectedDate}
                 jwt={jwt}
                 currentTaskName={currentTaskName}
                 currentTaskCreationDate={currentTaskCreationDate}
                 currentTaskLastUpdatedOn={currentTaskLastUpdatedOn}
                 currentTaskDescription={currentTaskDescription}
-                currentTaskIdNumber={currentTaskIdNumber}
                 currentTaskDueDate={currentTaskDueDate}
                 currentTaskStatus={currentTaskStatus}
                 currentTaskPriority={currentTaskPriority}
@@ -370,11 +393,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                 setSelectedDate={setSelectedDate}
                 today={today}
                 handleTaskUpdate={(event) => handleTaskUpdate(event)}
-                tagData={tagData}
                 allTagData={allTagData}
-                setTagData={setTagData}
-                setAllTagData={setAllTagData}
-                updateTaskTags={updateTaskTags}
                 handleTagCreation={handleTagCreation}
             />
         </>

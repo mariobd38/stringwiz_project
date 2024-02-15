@@ -27,13 +27,11 @@ import RadioButtonCheckedRoundedIcon from '@mui/icons-material/RadioButtonChecke
 import SellRoundedIcon from '@mui/icons-material/SellRounded';
 import TourRoundedIcon from '@mui/icons-material/TourRounded';
 
-import { updateTaskInfo } from '../../../DataManagement/Tasks/updateTask';
-// import { getTagInfo } from '../../../DataManagement/Tags/getTags';
-// import { getAllTagsInfo } from '../../../DataManagement/Tags/getAllTags';
-
 import './taskDetailsModal.css';
-import { ModelDropdown } from '../../models/modelDropdown';
+
 import NewHomeDueDatePopover from '../newHomeDueDatePopover';
+import { updateTaskInfo } from '../../../DataManagement/Tasks/updateTask';
+import { ModelDropdown } from '../../models/modelDropdown';
 import { ProfileCard } from './ProfileCard/profileCard';
 
 import { Tooltip } from 'react-tooltip';
@@ -45,10 +43,10 @@ function handleBreadcrumbClick(event) {
 
 const TaskDetailsModal = (props) => {
     const { 
-            currentIndex, currentTaskIdNumber, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskLastUpdatedOn,
+            currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskLastUpdatedOn,
             setCurrentTaskDueDate, setCurrentIndex, setSelectedDate, currentTaskTags,
-            upcomingTasks, setUpcomingTasks, selectedDate, jwt, today,
-            onHide, show, tagData, allTagData, setTagData, setAllTagData,updateTaskTags,handleTagCreation } = props;
+            upcomingTasks, selectedDate, jwt, today,
+            onHide, show, allTagData,handleTagCreation } = props;
 
     const [userFullName] = useLocalState("", "userFullName");
     const [firstName, lastName] = userFullName.split(' ');
@@ -87,7 +85,6 @@ const TaskDetailsModal = (props) => {
 
         onHide();
         navigate(-1);
-        setCurrentTaskDueDate([]);
     }
 
     useEffect(() => {
@@ -96,18 +93,6 @@ const TaskDetailsModal = (props) => {
             window.history.replaceState(null, null, newUrl);
         }
     }, [location.pathname, show]);
-
-    //task id number
-    const handleTaskIdNumberClick = (event) => {
-        navigator.clipboard.writeText(currentTaskIdNumber);
-        const originalCurrentTaskIdNumber = event.target.innerText
-        event.target.innerText = "Copied!";
-        setTimeout(() => {
-            if (event.target.innerText === "Copied!") {
-                event.target.innerText = originalCurrentTaskIdNumber;
-            }
-        }, 1500); 
-    }
 
     //task description
     const handleTaskUpdate = (event) => {
@@ -343,20 +328,6 @@ const TaskDetailsModal = (props) => {
                                     </div>
                                 </div>
 
-                                {/* {tagData !== null && tagData !== undefined && tagData.length > 0 &&
-                                <div className='d-flex flex-column' style={{ fontSize: "1.06rem" }}>
-                                    <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center'>Tags</div>
-                                    <div>
-                                        <span className='lato-font d-flex align-items-cente user-home-task-details-modal-tags-group'>
-                                            {tagData.map((tag, index) => (
-                                                <Button key={index} className='mx-1'>
-                                                    {tag.name}
-                                                </Button>
-                                            ))}
-                                        </span>
-                                    </div>
-                                </div>} */}
-
                                 {currentTaskTags !== null && currentTaskTags !== undefined && currentTaskTags.length > 0 &&
                                 <div className='d-flex flex-column' style={{ fontSize: "1.06rem" }}>
                                     <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center' style={{width: "5rem"}}>Tags</div>
@@ -381,9 +352,6 @@ const TaskDetailsModal = (props) => {
                                 placeholder='Write a description for your task'
                                 className='form-control user-home-task-details-modal-description-textarea'
                                 onChange={handleTaskUpdate}
-                                // onFocus={handleFocus}
-                                // onBlur={handleBlur}
-                                // onChange={handleInputTaskDescriptionChange}
                                 defaultValue={`${currentTaskDescription !== null ? currentTaskDescription : ''}`}
                             />
                         </div>
