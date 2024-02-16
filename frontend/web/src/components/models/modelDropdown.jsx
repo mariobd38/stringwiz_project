@@ -8,6 +8,8 @@ import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import TourRoundedIcon from '@mui/icons-material/TourRounded';
 
+import { addExistingTagInfo } from "../../DataManagement/Tags/addExistingTag";
+
 import "./modelDropdown.css";
 
 const MenuButton = ({name,icon,isActualOption,hasItemTypesOption,hasClearBtn,index,currentItemName,onClick,menuItemProperty}) => {
@@ -43,7 +45,7 @@ export const ModelDropdown = (props) => {
     const { items, 
         hasItemTypesOption, hasClearBtn, hasArrow, hasHeaderDescText, hasSearchBar,handleTagCreation,
         initialNameValue, initialIconValue, isPriorityDropdown, isModalOnRightSide,
-        menuItemProperty,isStatusBtn, upcomingTasks, currentIndex
+        menuItemProperty,isStatusBtn, upcomingTasks, currentIndex, jwt, allTagData
     } = props;
 
     const isTagDropdown = initialNameValue === '';
@@ -79,6 +81,11 @@ export const ModelDropdown = (props) => {
         */
         // handleTagCreation(item.name);
 
+        // console.log(item.id);
+        // console.log(upcomingTasks[currentIndex].id)
+        const tagClicked = allTagData.find(atd => atd.name === item.name);
+        // console.log(tagClicked);
+        addExistingTagInfo(jwt,upcomingTasks[currentIndex].id,tagClicked.id);
 
         setIsDropdownOpen(!isDropdownOpen);
 

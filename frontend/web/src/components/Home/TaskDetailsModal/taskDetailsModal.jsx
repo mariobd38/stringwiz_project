@@ -241,7 +241,7 @@ const TaskDetailsModal = (props) => {
                                         initialNameValue={""} initialIconValue={<SellRoundedIcon />}
                                         handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-item-type-property"}
                                         hasSearchBar={true} 
-                                        upcomingTasks={upcomingTasks} currentIndex={currentIndex}
+                                        upcomingTasks={upcomingTasks} currentIndex={currentIndex} jwt={jwt} allTagData={allTagData}
                                     />
                                 </div>
 

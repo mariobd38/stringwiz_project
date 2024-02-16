@@ -9,12 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -26,6 +25,18 @@ public class TagController {
         try {
             Tag newTag = tagService.create(tag, task_id);
             return ResponseEntity.ok(newTag);
+        }
+        catch (IllegalArgumentException iae) {
+            System.out.println("Tag already exists!!");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Tag already exists");
+        }
+    }
+
+    @PutMapping("/api/tags/addTag")
+    public ResponseEntity<?> addTagToTask(@RequestParam("taskId") Long task_id, @RequestParam("tagId") Long tag_id) {
+        try {
+            Tag addedTag = tagService.add(task_id, tag_id);
+            return ResponseEntity.ok(addedTag);
         }
         catch (IllegalArgumentException iae) {
             System.out.println("Tag already exists!!");

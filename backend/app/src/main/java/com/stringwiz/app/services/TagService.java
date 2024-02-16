@@ -10,6 +10,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.hibernate.Hibernate;
+import org.hibernate.proxy.HibernateProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,39 @@ public class TagService {
             }
         } catch(IllegalArgumentException e) {
             throw new IllegalArgumentException("Tag '" + tag.getName() + "' already exists.");
+        }
+        throw new NoSuchElementException("Task not found");
+    }
+
+    public Tag add(Long task_id, Long tag_id) {
+        try {
+            Optional<Task> optionalTask = taskRepository.findById(task_id);
+            if (optionalTask.isPresent()) {
+                Task currentTask = optionalTask.get();
+
+                System.out.println(currentTask.getTags().size());
+                //try to get getTags
+                List<Task> tt = taskRepository.findAll();
+                for(Task t : tt) {
+                    System.out.println(t.getTags().size());
+                }
+
+                //
+
+                Tag tag = tagRepository.getReferenceById(tag_id);
+
+                if (tag instanceof HibernateProxy) {
+                    tag = (Tag) ((HibernateProxy) tag).getHibernateLazyInitializer()
+                            .getImplementation();
+                }
+
+//                currentTask.getTags().add(tag);
+//                taskRepository.save(currentTask);
+
+                return tag;
+            }
+        } catch(IllegalArgumentException e) {
+//            throw new IllegalArgumentException("Tag '" + tag.getName() + "' already exists.");
         }
         throw new NoSuchElementException("Task not found");
     }
