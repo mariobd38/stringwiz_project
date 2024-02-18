@@ -62,16 +62,16 @@ public class Task {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "task_tags_dim",
             joinColumns = {@JoinColumn(name = "task_id")},
             inverseJoinColumns = {@JoinColumn(name = "tag_id")})
-    private Set<Tag> tags;
+    private Set<Tag> tags = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
-//    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "due_date")
     private ZonedDateTime dueDate;
 
@@ -94,5 +94,22 @@ public class Task {
         Timestamp currentTime = new Timestamp(new Date().getTime());
         setCreatedOn(currentTime);
         setLastUpdatedOn(currentTime);
+    }
+
+    public void addTag(Tag tag) {
+        tags.add(tag);
+        tag.getTasks().add(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Task)) return false;
+        return id != null && id.equals(((Task) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

@@ -38,16 +38,13 @@ public class TagService {
                 Task currentTask = optionalTask.get();
                 Tag newTag = new Tag(tag.getName(), tag.getColor());
 
-
-                //currentTask.getTags().add(newTag);
-                //taskRepository.save(currentTask);
-
-                Set<Tag> tags = currentTask.getTags();
-                tags.add(tag);
-                currentTask.setTags(tags);
-
+                currentTask.addTag(newTag);
                 taskRepository.save(currentTask);
 
+
+                for(Tag t : currentTask.getTags()) {
+                    System.out.println(t.getName());
+                }
 
                 return newTag;
             }

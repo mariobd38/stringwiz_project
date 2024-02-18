@@ -1,7 +1,7 @@
 package com.stringwiz.app.models;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,6 +19,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
@@ -39,8 +40,9 @@ public class Tag {
 
     private String color;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
-    private Set<Task> tasks;
+    private Set<Task> tasks = new LinkedHashSet<>();
 
     @CreationTimestamp
     @Column(name="created_on",nullable = false)
@@ -51,5 +53,18 @@ public class Tag {
         setColor(color);
         Timestamp currentTime = new Timestamp(new Date().getTime());
         setCreatedOn(currentTime);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tag tag = (Tag) o;
+        return Objects.equals(name, tag.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

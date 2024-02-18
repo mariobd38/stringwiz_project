@@ -51,15 +51,15 @@ const MainContent = () => {
                             </div>
                         </div>
                         <div className='col-12 col-lg-6'>
-                            <div className='d-flex justify-content-around'>
-                                <div >
+                            <div className='d-md-flex justify-content-md-around'>
+                                <div className='text-center'>
                                     <img src={time_management} className="illustration-landing" alt="" />
                                 </div>
-                                <div className='pt-4'>
+                                <div className='py-4 text-center'>
                                     <img src={achievement} className="illustration-landing" alt="" />
                                 </div>
                             </div>
-                            <div className='d-flex justify-content-center '>
+                            <div className='d-flex justify-content-center'>
                                 <div>
                                     <img src={sharing_ideas} className="illustration-landing" alt="" />
                                 </div>
