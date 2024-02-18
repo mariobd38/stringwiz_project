@@ -40,7 +40,7 @@ public class Tag {
     private String color;
 
     @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
-    private Set<Task> tasks = new LinkedHashSet<>();
+    private Set<Task> tasks;
 
     @CreationTimestamp
     @Column(name="created_on",nullable = false)

@@ -10,6 +10,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.proxy.HibernateProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,11 +38,18 @@ public class TagService {
                 Task currentTask = optionalTask.get();
                 Tag newTag = new Tag(tag.getName(), tag.getColor());
 
-                currentTask.getTags().add(newTag);
+
+                //currentTask.getTags().add(newTag);
+                //taskRepository.save(currentTask);
+
+                Set<Tag> tags = currentTask.getTags();
+                tags.add(tag);
+                currentTask.setTags(tags);
+
                 taskRepository.save(currentTask);
 
-                return tagRepository.save(newTag);
 
+                return newTag;
             }
         } catch(IllegalArgumentException e) {
             throw new IllegalArgumentException("Tag '" + tag.getName() + "' already exists.");
@@ -48,20 +57,17 @@ public class TagService {
         throw new NoSuchElementException("Task not found");
     }
 
+    @Transactional
     public Tag add(Long task_id, Long tag_id) {
         try {
             Optional<Task> optionalTask = taskRepository.findById(task_id);
+            Optional<Tag> optionalTag = tagRepository.findById(tag_id);
             if (optionalTask.isPresent()) {
                 Task currentTask = optionalTask.get();
 
-                System.out.println(currentTask.getTags().size());
-                //try to get getTags
-                List<Task> tt = taskRepository.findAll();
-                for(Task t : tt) {
-                    System.out.println(t.getTags().size());
-                }
-
-                //
+                //Hibernate.initialize(currentTask.getTags());
+                //Set<Tag> tags = currentTask.getTags();
+                //System.out.println(tags.size());
 
                 Tag tag = tagRepository.getReferenceById(tag_id);
 
@@ -97,6 +103,37 @@ public class TagService {
             allTags.addAll(tags);
         }
         return allTags;
+    }
+
+    private String printTagData(Set<Tag> tags) {
+        StringBuilder sb = new StringBuilder();
+        for(Tag tag : tags) {
+            sb.append("Tag #").append(tag.getId()).append("\n");
+            sb.append("\tName: ").append(tag.getName()).append("\n");
+            sb.append("\tTasks:").append("\n");
+            Set<Task> tasks = tag.getTasks();
+            for(Task task : tasks) {
+                sb.append("\t\t").append(task.getName()).append("\n");
+            }
+        }
+        return sb.toString();
+    }
+
+    private String printTaskData(Task task) {
+        StringBuilder sb = new StringBuilder();
+//        for(Task task : tasks) {
+            sb.append("Tag #").append(task.getId()).append("\n");
+            sb.append("\tName: ").append(task.getName()).append("\n");
+            sb.append("\tPriority: ").append(task.getPriority()).append("\n");
+            sb.append("\tStatus: ").append(task.getStatus()).append("\n");
+            sb.append("\tTags:").append("\n");
+            Set<Tag> tags = task.getTags();
+            for(Tag tag : tags) {
+                sb.append("\t\t").append(tag.getId()).append("\n");
+                sb.append("\t\t").append(tag.getName()).append("\n");
+            }
+//        }
+        return sb.toString();
     }
 
     /*
