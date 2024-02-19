@@ -54,7 +54,6 @@ public class TagService {
         throw new NoSuchElementException("Task not found");
     }
 
-    @Transactional
     public Tag add(Long task_id, Long tag_id) {
         try {
             Optional<Task> optionalTask = taskRepository.findById(task_id);
@@ -63,8 +62,7 @@ public class TagService {
                 Task currentTask = optionalTask.get();
 
                 //Hibernate.initialize(currentTask.getTags());
-                //Set<Tag> tags = currentTask.getTags();
-                //System.out.println(tags.size());
+                Set<Tag> tags = currentTask.getTags();
 
                 Tag tag = tagRepository.getReferenceById(tag_id);
 

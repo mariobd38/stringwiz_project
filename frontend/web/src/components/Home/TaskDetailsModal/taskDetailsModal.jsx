@@ -46,7 +46,7 @@ const TaskDetailsModal = (props) => {
             currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskLastUpdatedOn,
             setCurrentTaskDueDate, setCurrentIndex, setSelectedDate, currentTaskTags,
             upcomingTasks, selectedDate, jwt, today,
-            onHide, show, allTagData,handleTagCreation } = props;
+            onHide, show, setModalShow, allTagData,handleTagCreation } = props;
 
     const [userFullName] = useLocalState("", "userFullName");
     const [firstName, lastName] = userFullName.split(' ');
@@ -89,10 +89,17 @@ const TaskDetailsModal = (props) => {
 
     useEffect(() => {
         if (location.pathname === '/home/modal' && !show) {
-            const newUrl = '/home';
-            window.history.replaceState(null, null, newUrl);
+            // const newUrl = '/home';
+            // window.history.replaceState(null, null, newUrl);
+
+            const timeout = setTimeout(() => {
+                const newUrl = '/home';
+                window.history.replaceState(null, null, newUrl);
+                // setModalShow(true);
+            }, 300); // Adjust the delay as needed
+            return () => clearTimeout(timeout);
         }
-    }, [location.pathname, show]);
+    }, [location.pathname, show, setModalShow]);
 
     //task description
     const handleTaskUpdate = (event) => {
@@ -115,7 +122,6 @@ const TaskDetailsModal = (props) => {
     const [dueDateClockIsOpen, setDueDateClockIsOpen] = useState(false);
 
     const handleDueDatePopoverClick = (event, index) => {
-        // console.log(dueDateClockIsOpen);
         setDueDatePopoverAnchorEl(event.currentTarget);
         setCurrentIndex(index);
         setCurrentTaskDueDate(upcomingTasks[index].dueDate);
@@ -243,6 +249,21 @@ const TaskDetailsModal = (props) => {
                                         hasSearchBar={true} 
                                         upcomingTasks={upcomingTasks} currentIndex={currentIndex} jwt={jwt} allTagData={allTagData}
                                     />
+
+                                    <ModelDropdown 
+                                        items={[
+                                            { name: "Critical", icon: <TourRoundedIcon /*style={{color: "#c90825"}}*//>, isActualOption: true },
+                                            { name: "High", icon: <TourRoundedIcon /*style={{color: "gold"}}*//>, isActualOption: true },
+                                            { name: "Medium", icon: <TourRoundedIcon /*style={{color: "#0976d6"}}*//>, isActualOption: true },
+                                            { name: "Low", icon: <TourRoundedIcon />, isActualOption: true },
+                                            { name: "Clear", icon: <NotInterestedRoundedIcon />, isActualOption: false },
+                                        ]}
+                                        initialNameValue={currentTaskPriority} initialIconValue={<TourRoundedIcon />}
+                                        handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-priority-property"}
+                                        hasClearBtn={true}
+                                        isPriorityDropdown={true} 
+                                        upcomingTasks={upcomingTasks} currentIndex={currentIndex}
+                                    />
                                 </div>
 
                             <div className='d-flex flex-wrap column-gap-5 row-gap-2 lato-font'>
@@ -293,7 +314,7 @@ const TaskDetailsModal = (props) => {
                                                 ]}
                                                 initialNameValue={currentTaskStatus} initialIconValue={<RadioButtonCheckedRoundedIcon />}
                                                 handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-status-property"}
-                                                hasSearchBar={true}
+                                                hasSearchBar={true} isStatusBtn={true}
                                                 upcomingTasks={upcomingTasks} currentIndex={currentIndex}
                                             />
 

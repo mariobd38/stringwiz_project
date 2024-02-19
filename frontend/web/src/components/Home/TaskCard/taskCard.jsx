@@ -324,7 +324,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                                             <div className='d-flex justify-content-between w-100'>
                                                 {/* Left Content */}
                                                 {/*   */}
-                                                <Link to='/home/modal' state={{ background: location }}  onClick={(e) => OpenTaskDetailsModal(e, index)}  className='d-flex mb-2' style={{ color: "#fafafa" }}>
+                                                <Link to={{pathname: '/home/modal'}} state={{ background: location }}  onClick={(e) => OpenTaskDetailsModal(e, index)}  className='d-flex mb-2' style={{ color: "#fafafa" }}>
                                                     <div className='m-auto d-flex '>
                                                         <CheckRoundedIcon className='user-home-task-check-icon' />
                                                     </div>
