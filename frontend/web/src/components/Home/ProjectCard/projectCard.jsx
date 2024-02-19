@@ -44,7 +44,7 @@ const ProjectCard = () => {
                     <div className='d-flex align-items-center' style={{ color: '#fafafa' }}>
                         <AccountTree className='me-3 user-home-checklist-icon'/>
                         <span className='d-flex align-items-center'>
-                            Projects
+                            My Projects
                             <LockIcon className='ms-2' style={{ width: "1.1rem" }}/>
                         </span>
                     </div>

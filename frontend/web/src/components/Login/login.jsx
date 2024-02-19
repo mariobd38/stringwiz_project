@@ -33,6 +33,7 @@ const Login = () => {
 
 
     function sendLoginRequest () {
+        console.log("inside login");
         setErrorMessage(null);
         const reqBody = {
             email: email,
