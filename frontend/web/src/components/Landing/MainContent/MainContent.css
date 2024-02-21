@@ -14,9 +14,9 @@
     color: #fafafa;
 }
 .header {
-    background: #4e21d9; 
-    background: -webkit-linear-gradient(to right, #4e21d9, #cc655e); 
-    background: linear-gradient(to right, #4e21d9, #cc655e);
+    background: #8510e6; 
+    background: -webkit-linear-gradient(to right, #8510e6, #cc655e); 
+    background: linear-gradient(to right, #8510e6, #cc655e);
 }
 a {
     text-decoration: none;
@@ -28,77 +28,6 @@ a {
     text-align: center;
     min-height: 100vh;
 }
-.circle {
-    width: 16.5rem;
-    height: 16.5rem;
-    border-radius: 10px;
-    background-color:  #39474e;   /* #3498db */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-.home-illustration {
-    width: 14.3rem;
-} 
-.bg-illustrations-div {
-    background-color: #121212;/*#192339;*/
-}
-.circle-text {
-    width: 18.5rem;
-    font-size: 1.16rem;
-    font-weight: 500;
-    font-family: 'Nunito Sans', serif;
-    color: #fafafa;
-}
-.main-key-words {
-   color: #9153ed;
-}
-.home-description-card {
-    border-radius: 12px;
-    transition: all .3s ease-in-out; 
-    background-color: #263552;
-}
-.home-description-card:hover {
-    transform: scale(1.05); 
-}
-.feature-number {
-    width: 6rem; 
-    height: 6rem;
-    border-radius: 50%;
-    background-color:  #8956e5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.feature-number-text {
-    font-size: 2.1rem;
-}
-.feature-desc {
-    display: flex;
-    align-items: center;
-    font-size: 1.3rem;
-    max-width:34rem;
-}
-.features-header {
-    font-size: 2.4rem;
-}
-.hp-screenshot {
-    border-radius: 35px;
-}
-.computer-look-header {
-    font-size: 2.45rem !important;
-}
-.computer-look-description {
-    font-size: 1.36rem !important;
-}
-.computer-look-sub-description {
-    font-size: 1.1rem !important;
-
-}
-.computer-look-icon {
-    width: 2rem !important;
-    height: 2rem !important;
-}
 .register-home-page {
     color: #dbdbdb !important;
     text-transform: capitalize !important;
@@ -107,12 +36,12 @@ a {
     border-radius: 10px !important;
     padding: 0.8rem 1.1rem !important;
     font-family: 'Nunito Sans', serif !important;
-    background-color: rgb(9, 38, 105) !important;
+    background-color: #092669 !important;
     border: none !important;
 }
 .learn_more-home-page {
     font-family: 'Nunito Sans', serif !important;
-    background-color: #101010 !important;
+    background-color: #161616 !important;
     color: #dedede !important;
     text-transform: capitalize !important;
     font-size: 0.98rem !important;
@@ -121,7 +50,7 @@ a {
     padding: 0.6rem 1rem !important;
 }
 .register-home-page:hover, .learn_more-home-page:hover {
-    background-color: #4e21d9 !important;
+    background-color: #1d3a7d !important;
 }
 .illustration-landing {
     width: 15rem;
@@ -131,15 +60,90 @@ a {
     width: 100%;
 }
 .bottom-half {
-    background-color: #121212;
+    background-color: #161616;
 }
 .landing-info-div {
-    background-color: #f1f3f4;
-    border-radius: 7px;
+    background-color: #f1f3f4 !important;
+    border-radius: 8px !important;
 }
 .landing-info-header {
     font-size: 2rem;
     font-weight: 600;
     color: #121212;
-    color: rgb(9, 38, 105);
+}
+.landing-page-features-div {
+    background-color: #161616;
+    color: #fafafa;
+}
+.landing-page-features-div-header {
+    font-size: 2.3rem;
+    width: 65%;
+    margin: auto;
+    /* font-weight: 600; */
+}
+.landing-page-features-card-container {
+    /* width: 2rem;
+    height: 2rem; */
+    width: 80%;
+    margin: auto;
+    background-color: #fafafa;
+    color: #121212;
+    border-radius: 10px;
+}
+.landing-page-features-card-container-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    font-family: 'Nunito Sans';
+}
+.landing-page-features-card-container-icon {
+    width: 2rem !important;
+    height: 2rem !important;
+}
+.landing-page-features-card-container {
+	/* background-color: #fafafa;
+	min-width: 350px;
+	max-width: 600px;
+	height: auto;
+	border-radius: 10px; */
+    background-color: #fafafa;
+    min-width: 350px;
+    height: 270px;
+    /* margin: 20px; */
+    border-radius: 10px;   
+
+}
+.landing-page-features-card-container-bkg {
+    height: 70px;
+    border-radius: 10px 10px 0px 0px;
+}
+.landing-page-features-card-profile .landing-page-features-card-icon {
+    height: 60px;
+    width: 65px;
+    border-radius: 50%;
+    margin-top: -35px;
+    padding: 7px;
+    background-color: #fafafa;
+}
+.landing-page-features-card-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: 'Nunito Sans';
+    color: #202020;
+}
+.landing-page-features-card-desc {
+    font-size: 1.05rem;
+    /* font-weight: 600; */
+    font-family: 'Nunito Sans';
+    color: #202020;
+    height: 90px !important;
+}
+.landing-page-features-card-button {
+    /* color: #07d3de; */
+    font-family: 'Nunito Sans' !important;
+    background-color: none !important;
+    font-size: 1.07rem !important;
+    text-transform: capitalize !important;
+}
+.landing-page-features-card-button:hover, .landing-page-features-card-button:focus {
+    background-color: #fafafa !important;
 }

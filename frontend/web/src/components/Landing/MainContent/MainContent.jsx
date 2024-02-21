@@ -4,14 +4,18 @@ import Container from 'react-bootstrap/Container';
 
 import Button from '@mui/material/Button';
 
-import discover from '../../../images/discover.png';
-import addTask from '../../../images/add_task.png';
-import collaboration from '../../../images/collaboration.png';
 import coconut from '../../../images/coconut.png';
 import time_management from '../../../images/time_management.png';
 import sharing_ideas from '../../../images/sharing_ideas.png';
 import achievement from '../../../images/achievement.png';
 import CocollabLogo from '../../../components/Logo/logo';
+
+import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
+import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import EventRoundedIcon from '@mui/icons-material/EventRounded';
+import FolderRoundedIcon from '@mui/icons-material/FolderRounded';
+import SubjectRoundedIcon from '@mui/icons-material/SubjectRounded';
 
 import './MainContent.css'
 
@@ -74,7 +78,7 @@ const MainContent = () => {
                         <div className='bottom-half'></div>
                     </div>
                     <div className='col-10 col-md-8 landing-info-div py-2 py-lg-3'>
-                        <div className="row m-auto pt-3">
+                        <div className="row m-auto pt-3" >
                             <div className='col-12 col-lg-6 col-xl-5 col-xxl-4 text-center m-auto'>
                                 <CocollabLogo width={2.2} paddingBottom={0.35} fontSize={2.9} href={() => false}></CocollabLogo>
                             </div>
@@ -84,9 +88,7 @@ const MainContent = () => {
                                 <p className='nunito-sans-font' style={{lineHeight:"0.2rem"}}>Plan, manage, and collab on the go.</p>                                
                                 <Button className='learn_more-home-page mt-2'>Learn More</Button>
                             </div>
-                        </div>
-                        
-                        
+                        </div>                        
                     </div>
                     <div className='col-1 col-md-2 d-flex align-items-center flex-column p-0'>
                         <div className='top-half'></div>
@@ -94,67 +96,94 @@ const MainContent = () => {
                     </div>
                 </div>
             </div>
-            
-            <div className='pt-5 pb-5 bg-illustrations-div '>
-                <div className='d-flex justify-content-around flex-column flex-lg-row align-items-center align-items-lg-stretch pb-5'>
-                    <div className='d-flex flex-column align-items-center home-description-card mb-4 mb-lg-0 px-5 py-4 px-lg-0 py-lg-3  px-xl-4 py-xl-4 px-xxl-5'>
-                        <div className='circle mb-4'>
-                            <a className="m-auto" href={() => false}>
-                                <img src={collaboration} className="home-illustration" alt="collaboration" />
-                            </a>
-                        </div>
-                        <div className='text-center circle-text'>
-                            <p>Unleash your team's full potential:<span className='main-key-words'> Simplify</span>,<span className='main-key-words'> Organize</span>, and <span className='main-key-words'>Achieve with Ease</span></p>
-                        </div>
-                    </div>
-                    <div className='d-flex flex-column align-items-center home-description-card mb-4 mb-lg-0 px-5 py-4 px-lg-0 py-lg-3 px-xl-4 py-xl-4 px-xxl-5'>
-                        <div className='circle mb-4'>
-                            <a className="m-auto" href={() => false}>
-                                <img src={discover} className="home-illustration" alt="discover" />
-                            </a>
-                        </div>
-                        <div className='text-center circle-text'>
-                            <p>Embark on a journey into the world <span className='main-key-words'>planning</span> and <span className='main-key-words'>scheduling</span>, optimizing productivity and efficiency</p>
-                        </div>
-                    </div>
-                    <div className='d-flex pt-3 flex-column align-items-center home-description-card mb-4 mb-lg-0 px-5 py-4 px-lg-0 py-lg-3  px-xl-4 py-xl-4 px-xxl-5 '>
-                        <div className='circle mb-4'>
-                            <a className="m-auto" href={() => false}>
-                                <img src={addTask} className="home-illustration" alt="addTask" />
-                            </a>
-                        </div>
-                        <div className='text-center circle-text'>
-                            <p>We <span className='main-key-words'>empower</span> you to focus on scaling your company by efficiently <span className='main-key-words'>managing</span> time-consuming tasks
-                            </p>
-                        </div>
-                    </div>
+            <div className='landing-page-features-div text-center py-5'>
+                <div className='landing-page-features-div-header lato-font'>
+                    All-in-one products to manage every aspect of your business
                 </div>
-                <div className='pt-lg-4'>
-                    <h3 className='text-center fafafa-color lato-font-600 features-header pt-5'>Our features</h3>
-                    <div className='m-auto pt-5'>
-                        <div className='d-flex justify-content-center'>
-                            <div className='feature-number mx-4'>
-                                <div className='fafafa-color nunito-sans-font feature-number-text '>
-                                    1
+                <Container>
+                    <div className='row d-flex mt-5 justify-content-center'>
+                        <div className='col-12 col-md-6 col-xl-4'>
+                            <div className='landing-page-features-card-container m-auto mb-4 mb-md-0'>
+                                <div className="landing-page-features-card-container-bkg" style={{backgroundColor: "#e63946"}}>
                                 </div>
-                            </div>
-                            <div className='feature-desc fafafa-color mx-4 nunito-sans-font'>
-                                Feature 1
-                            </div>
+                                <div className="landing-page-features-card-profile">
+                                    <AssignmentRoundedIcon className='landing-page-features-card-icon' style={{color: "#e63946"}}/>
+                                    <div className='landing-page-features-card-name'>Task Management</div>
+                                    <div className='landing-page-features-card-desc pt-2'v>Stay organized, set priorities, and track progress with ease.</div>
+                                    <Button className='landing-page-features-card-button'>Discover</Button>
+
+                                </div>
+                            </div>  
                         </div>
-                        <div className='d-flex justify-content-center pt-5'>
-                            <div className='feature-number mx-4'>
-                                <div className='fafafa-color nunito-sans-font feature-number-text'>
-                                    2
+                        <div className='col-12 col-md-6 col-xl-4'>
+                            <div className='landing-page-features-card-container m-auto mb-4 mb-xl-0'>
+                                <div className="landing-page-features-card-container-bkg" style={{backgroundColor: "#ffb703"}}>
                                 </div>
-                            </div>
-                            <div className='feature-desc fafafa-color mx-4 nunito-sans-font'>
-                                Feature 2
-                            </div>
+                                <div className="landing-page-features-card-profile">
+                                    <FolderRoundedIcon className='landing-page-features-card-icon' style={{color: "#ffb703"}}/>
+                                    <div className='landing-page-features-card-name'>Project Management</div>
+                                    <div className='landing-page-features-card-desc mx-3 pt-2'v>Streamline your projects with our comprehensive project management tools.</div>
+                                    <Button className='landing-page-features-card-button'>Discover</Button>
+
+                                </div>
+                            </div>  
+                        </div>
+                        <div className='col-12 col-md-6 col-xl-4'>
+                            <div className='landing-page-features-card-container m-auto '>
+                                <div className="landing-page-features-card-container-bkg" style={{backgroundColor: "#2a9d8f"}}>
+                                </div>
+                                <div className="landing-page-features-card-profile">
+                                    <EventRoundedIcon className='landing-page-features-card-icon' style={{color: "#2a9d8f"}}/>
+                                    <div className='landing-page-features-card-name'>Calendar</div>
+                                    <div className='landing-page-features-card-desc mx-3 pt-2'v>Easily manage your time, schedule meetings, and track important events.</div>
+                                    <Button className='landing-page-features-card-button'>Discover</Button>
+
+                                </div>
+                            </div>  
+                        </div>
+                         <div className='col-12 col-md-6 col-xl-4'>
+                            <div className='landing-page-features-card-container mt-4 mt-md-0 mt-xl-5'>
+                                <div className="landing-page-features-card-container-bkg" style={{backgroundColor: "#560bad"}}>
+                                </div>
+                                <div className="landing-page-features-card-profile">
+                                    <DashboardIcon className='landing-page-features-card-icon' style={{color: "#560bad"}}/>
+                                    <div className='landing-page-features-card-name'>Boards</div>
+                                    <div className='landing-page-features-card-desc mx-3 pt-2'v>Effortlessly organize tasks and projects with customizable CocoBoards.</div>
+                                    <Button className='landing-page-features-card-button'>Discover</Button>
+                                </div>
+                            </div>  
+                        </div>
+                        
+                        <div className='col-12 col-md-6 col-xl-4'>
+                            <div className='landing-page-features-card-container mt-4 mt-xl-5'>
+                                <div className="landing-page-features-card-container-bkg" style={{backgroundColor: "#4cc9f0"}}>
+                                </div>
+                                <div className="landing-page-features-card-profile">
+                                    <SubjectRoundedIcon className='landing-page-features-card-icon' style={{color: "#4cc9f0"}}/>
+                                    <div className='landing-page-features-card-name'>Documentation</div>
+                                    <div className='landing-page-features-card-desc mx-4 pt-2'v>Manage and collaborate on documents with advanced version control and access management.</div>
+                                    <Button className='landing-page-features-card-button'>Discover</Button>
+                                </div>
+                            </div>  
+                        </div>
+                        
+                        <div className='col-12 col-md-6 col-xl-4'>
+                            <div className='landing-page-features-card-container mt-4 mt-xl-5'>
+                                <div className="landing-page-features-card-container-bkg" style={{backgroundColor: "#03045e"}}>
+                                </div>
+                                <div className="landing-page-features-card-profile">
+                                    <GroupsRoundedIcon className='landing-page-features-card-icon' style={{color: "#03045e"}}/>
+                                    <div className='landing-page-features-card-name'>Meetings</div>
+                                    <div className='landing-page-features-card-desc mx-1 pt-2'v>Conduct meetings with integrated scheduling, agenda management, and seamless video conferencing.</div>
+                                    <Button className='landing-page-features-card-button'>Discover</Button>
+
+                                </div>
+                            </div>  
                         </div>
                     </div>
-                </div>
+                </Container>
             </div>
+            
         </main>
     );
 };

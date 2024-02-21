@@ -1,0 +1,14 @@
+.landing-footer-content-footer {
+    /* border-top: 0.8px solid #898989; */
+    background-color: #fafafa;
+    color: #404040;
+    font-family: 'Lato';
+}
+.landing-footer-content-footer-header {
+    font-size: 1.22rem;
+    font-weight: 600;
+}
+.landing-footer-content-footer-text {
+    font-size: 1.05rem;
+
+}

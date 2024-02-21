@@ -1,7 +1,8 @@
 .user-home-task-details-modal-body {
     max-height: 700px !important;
     min-height: 630px !important;
-    overflow: auto;
+    overflow-y: auto;
+    max-width: 100% !important;
 }
 .resizable-modal-container {
     transition: width 0.3s ease-in-out; 
@@ -85,6 +86,7 @@
     padding: 0.45rem 0.6rem;
     border-radius: 6px;
     cursor: pointer;
+    height: 100%;
 }
 .user-home-task-details-modal-assignee-div:hover, .user-home-task-details-modal-due-date-div:hover {
     background-color: #2c2d2f;
@@ -113,12 +115,12 @@
     color: #5e5f61;
 }
 .user-home-task-details-modal-due-date-remove {
-    display: none !important;
+    opacity: 0;
     width: fit-content !important;
     width: 0 !important;
 }
 .user-home-task-details-modal-due-date-div:hover .user-home-task-details-modal-due-date-remove {
-    display: flex !important;
+    opacity: 1;
     color: #898989;
     background-color: red;
 }

@@ -58,7 +58,7 @@ ul li ul li {
   font-size: 1.1rem;
 }
 .login:hover {
-  color: #4e21d9 !important;
+  color: #8510e6 !important;
 }
 .navbar-brand {
   text-align: center;
@@ -66,16 +66,16 @@ ul li ul li {
   display: inline-block;
 }
 .home-page-navbar {
-    background: #4e21d9; 
-    background: -webkit-linear-gradient(to right, #4e21d9, #cc655e); 
-    background: linear-gradient(to right, #4e21d9, #cc655e);
+    background: #8510e6; 
+    background: -webkit-linear-gradient(to right, #8510e6, #cc655e); 
+    background: linear-gradient(to right, #8510e6, #cc655e);
 }
 
 .nav-top-link-offcanvas {
     color: #121212 !important;
 }
 .offCanvasOpen {
-    background: #4e21d9; 
-    background: -webkit-linear-gradient(to right, #4e21d9, #cc655e); 
-    background: linear-gradient(to right, #4e21d9, #cc655e);
+    background: #8510e6; 
+    background: -webkit-linear-gradient(to right, #8510e6, #cc655e); 
+    background: linear-gradient(to right, #8510e6, #cc655e);
 }

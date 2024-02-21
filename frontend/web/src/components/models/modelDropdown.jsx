@@ -44,7 +44,7 @@ const MenuItem = ({ name, index, icon, isActualOption, hasItemTypesOption, hasCl
 export const ModelDropdown = (props) => {
     const { items, 
         hasItemTypesOption, hasClearBtn, hasArrow, hasHeaderDescText, hasSearchBar,handleTagCreation,
-        initialNameValue, initialIconValue, isPriorityDropdown, isModalOnRightSide,
+        initialNameValue, initialIconValue, isPriorityDropdown, setCurrentTaskPriority, isModalOnRightSide,
         menuItemProperty,isStatusBtn, upcomingTasks, currentIndex, jwt, allTagData
     } = props;
 
@@ -66,8 +66,10 @@ export const ModelDropdown = (props) => {
             if (priorities.includes(item.name)) {
                 console.log(item.name);
                 setCurrentItem({name: item.name, icon: item.icon});
+                setCurrentTaskPriority(item.name);
             } else if(item.name === 'Clear') {
                 setCurrentItem({name: null, icon: null});
+                setCurrentTaskPriority(null);
             }
         } 
         
@@ -173,7 +175,7 @@ export const ModelDropdown = (props) => {
                             <input
                                 className="form-control model-dropdown-search-input me-2"
                                 type="text"
-                                placeholder={`${isTagDropdown ? 'Search or create new..' : 'search'}`}                                               
+                                placeholder={`${isTagDropdown ? 'Search or create new..' : 'Search'}`}                                               
                                 aria-label="Search"
                                 onChange={isTagDropdown ? handleTagSearch : undefined}
                                 onKeyDown={isTagDropdown ? handleTagSearch : undefined}

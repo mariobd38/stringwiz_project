@@ -44,7 +44,7 @@ function handleBreadcrumbClick(event) {
 const TaskDetailsModal = (props) => {
     const { 
             currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskLastUpdatedOn,
-            setCurrentTaskDueDate, setCurrentIndex, setSelectedDate, currentTaskTags,
+            setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, setSelectedDate, currentTaskTags,
             upcomingTasks, selectedDate, jwt, today,
             onHide, show, setModalShow, allTagData,handleTagCreation } = props;
 
@@ -235,11 +235,7 @@ const TaskDetailsModal = (props) => {
                                         hasArrow={true} hasHeaderDescText={true} hasItemTypesOption={true}
                                         upcomingTasks={upcomingTasks} currentIndex={currentIndex}
                                     />
-                                    {/* <span className=' user-home-task-details-modal-tag d-flex align-items-center' >
-                                        <SellRoundedIcon />
-
-                                        
-                                    </span> */}
+                                    <div data-tooltip-id="my-tooltip" data-tooltip-content={`Add tags`}>
                                     <ModelDropdown 
                                         // items={[{}]}
                                         items={allTagData ? allTagData.map((tag) => ({ name: tag.name, icon: null })) : { name: "Task", icon: null, isActualOption: true }}
@@ -249,25 +245,33 @@ const TaskDetailsModal = (props) => {
                                         hasSearchBar={true} 
                                         upcomingTasks={upcomingTasks} currentIndex={currentIndex} jwt={jwt} allTagData={allTagData}
                                     />
+                                    </div>
+                                    <Tooltip id="my-tooltip" className='task-details-modal-tooltip' style={{backgroundColor: "#2454d6", color: "#fafafa", fontSize: "0.8rem", borderRadius: "10px" }}/>
 
-                                    <ModelDropdown 
-                                        items={[
-                                            { name: "Critical", icon: <TourRoundedIcon /*style={{color: "#c90825"}}*//>, isActualOption: true },
-                                            { name: "High", icon: <TourRoundedIcon /*style={{color: "gold"}}*//>, isActualOption: true },
-                                            { name: "Medium", icon: <TourRoundedIcon /*style={{color: "#0976d6"}}*//>, isActualOption: true },
-                                            { name: "Low", icon: <TourRoundedIcon />, isActualOption: true },
-                                            { name: "Clear", icon: <NotInterestedRoundedIcon />, isActualOption: false },
-                                        ]}
-                                        initialNameValue={currentTaskPriority} initialIconValue={<TourRoundedIcon />}
-                                        handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-priority-property"}
-                                        hasClearBtn={true}
-                                        isPriorityDropdown={true} 
-                                        upcomingTasks={upcomingTasks} currentIndex={currentIndex}
-                                    />
+
+                                    {!currentTaskPriority &&
+                                    <div data-tooltip-id="my-tooltip" data-tooltip-content={`Add priority`}>
+                                        <ModelDropdown 
+                                            items={[
+                                                { name: "Critical", icon: <TourRoundedIcon /*style={{color: "#c90825"}}*//>, isActualOption: true },
+                                                { name: "High", icon: <TourRoundedIcon /*style={{color: "gold"}}*//>, isActualOption: true },
+                                                { name: "Medium", icon: <TourRoundedIcon /*style={{color: "#0976d6"}}*//>, isActualOption: true },
+                                                { name: "Low", icon: <TourRoundedIcon />, isActualOption: true },
+                                                { name: "Clear", icon: <NotInterestedRoundedIcon />, isActualOption: false },
+                                            ]}
+                                            initialNameValue={currentTaskPriority} initialIconValue={<TourRoundedIcon />}
+                                            handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-priority-property"}
+                                            hasClearBtn={true}
+                                            isPriorityDropdown={true} setCurrentTaskPriority={setCurrentTaskPriority}
+                                            upcomingTasks={upcomingTasks} currentIndex={currentIndex}
+                                        />
+                                    </div>}
+                                    <Tooltip id="my-tooltip" className='task-details-modal-tooltip' style={{backgroundColor: "#2454d6", color: "#fafafa", fontSize: "0.8rem", borderRadius: "10px" }}/>
+
                                 </div>
 
                             <div className='d-flex flex-wrap column-gap-5 row-gap-2 lato-font'>
-                                <div className='example d-flex flex-column' style={{ fontSize: "1.06rem" }}>
+                                <div className='example d-flex flex-column' style={{ fontSize: "1.06rem"}} >
                                     <span className='user-home-task-details-modal-head-text'>Assignee</span>
                                     <div
                                         onMouseEnter={() => handleAssigneeProfileCardHover(true)}
@@ -282,7 +286,7 @@ const TaskDetailsModal = (props) => {
                                     </div>
                                 </div>
 
-                                <div className='d-flex flex-column' style={{ fontSize: "1.06rem" }}>
+                                <div className='d-flex flex-column' style={{ fontSize: "1.06rem"}}>
                                     <span className='user-home-task-details-modal-head-text ps-2 me-3'>Due Date</span>
                                         <div className='d-flex align-items-center user-home-task-details-modal-due-date-div' onClick={(event) => handleDueDatePopoverClick(event, currentIndex)}>
                                             <span className='lato-font user-home-task-details-modal-due-date-actual'>
@@ -326,11 +330,12 @@ const TaskDetailsModal = (props) => {
                                     </div>
                                 </div>
 
+                                {currentTaskPriority &&
                                 <div className='d-flex flex-column' style={{ fontSize: "1.06rem" }}>
                                     <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center'>Priority</div>
                                     <div>
                                         <span className='lato-font d-flex align-items-center' style={{marginLeft: "0.45rem"}}>
-
+                                            
                                             <ModelDropdown 
                                                 items={[
                                                     { name: "Critical", icon: <TourRoundedIcon /*style={{color: "#c90825"}}*//>, isActualOption: true },
@@ -342,12 +347,12 @@ const TaskDetailsModal = (props) => {
                                                 initialNameValue={currentTaskPriority} initialIconValue={<TourRoundedIcon />}
                                                 handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-priority-property"}
                                                 hasClearBtn={true}
-                                                isPriorityDropdown={true} 
+                                                isPriorityDropdown={true} setCurrentTaskPriority={setCurrentTaskPriority}
                                                 upcomingTasks={upcomingTasks} currentIndex={currentIndex}
                                             />
                                         </span>
                                     </div>
-                                </div>
+                                </div>}
 
                                 {currentTaskTags !== null && currentTaskTags !== undefined && currentTaskTags.length > 0 &&
                                 <div className='d-flex flex-column' style={{ fontSize: "1.06rem" }}>

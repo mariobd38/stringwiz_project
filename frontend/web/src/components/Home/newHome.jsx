@@ -94,7 +94,7 @@ const NewHome = () => {
                                 <div className='me-3 home-header-stat-block-text pt-3'><PublishedWithChangesRoundedIcon className='home-header-in-progress-icon'/></div>
                             </div>
                             <div className='d-flex align-items-start pt-1 bg-secondary home-header-stat-block-bottom'>
-                                <div className='ms-3'><span className='home-header-stat-block-text'>Ongoisdng tasks</span></div>
+                                <div className='ms-3'><span className='home-header-stat-block-text'>Ongoing tasks</span></div>
                             </div>
                         </div>
                     </div>

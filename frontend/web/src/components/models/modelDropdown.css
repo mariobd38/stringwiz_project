@@ -25,7 +25,7 @@
   border-radius: 6px 0px 0px 6px !important;
 }
 .selected-item-btn:hover, .selected-item-half-rounded-btn:hover, 
-.user-home-task-details-modal-no-priority-btn:hover, .user-home-task-details-modal-next-status-btn:hover {
+.user-home-task-details-modal-next-status-btn:hover {
   border-color: #7730e2 !important;
   transition: border 0.45s linear;
 }
@@ -136,26 +136,18 @@
   padding: 2.9px;
 }
 .user-home-task-details-modal-no-priority-btn {
-  background-color: #1e1f21 !important;
-  border-radius: 50% !important;
-  border: 2px dashed #898989 !important;
+  background-color: #1e1f21;
+  border-radius: 4px !important;
   width: 2.5rem !important;
   height: 2.5rem !important;
   color: #898989 !important;
-  transition: border 0.45s linear !important;
 }
 .user-home-task-details-modal-tag-btn {
-  /* background-color: #1e1f21 !important;
-  border-radius: 50% !important;
-  width: 2.5rem !important;
-  height: 2.5rem !important;
-  color: #898989 !important;
-  transition: border 0.45s linear !important; */
   padding: 0.2rem 0.4rem;
-    border-radius: 4px;
-    color: #999999 !important;
+  border-radius: 4px;
+  color: #999999 !important;
 }
-.user-home-task-details-modal-tag-btn:hover {
+.user-home-task-details-modal-tag-btn:hover, .user-home-task-details-modal-no-priority-btn:hover {
   background-color: #292a2c;
 }
 .user-home-task-details-modal-next-status-btn {

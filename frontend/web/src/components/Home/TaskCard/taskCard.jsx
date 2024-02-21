@@ -390,6 +390,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                 currentTaskTags={currentTaskTags}
                 setCurrentTaskDueDate={setCurrentTaskDueDate}
                 setCurrentIndex={setCurrentIndex}
+                setCurrentTaskPriority={setCurrentTaskPriority}
                 setSelectedDate={setSelectedDate}
                 today={today}
                 handleTaskUpdate={(event) => handleTaskUpdate(event)}
