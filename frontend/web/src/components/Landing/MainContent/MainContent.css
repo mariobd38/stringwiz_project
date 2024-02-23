@@ -14,9 +14,9 @@
     color: #fafafa;
 }
 .header {
-    background: #8510e6; 
-    background: -webkit-linear-gradient(to right, #8510e6, #cc655e); 
-    background: linear-gradient(to right, #8510e6, #cc655e);
+    background: #0ebbcf; 
+    background: -webkit-linear-gradient(to right, #0ebbcf, #2a54fd); 
+    background: linear-gradient(to right, #0ebbcf, #2a54fd);
 }
 a {
     text-decoration: none;

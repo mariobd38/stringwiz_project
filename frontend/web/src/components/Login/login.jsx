@@ -19,9 +19,9 @@ const Login = () => {
     const [userEmail, setUserEmail] = useLocalState("", "userEmail");
     const [userFullName, setUserFullName] = useLocalState("", "userFullName");
 
-    document.body.style.background = "#4e21d9";
-    document.body.style.background = "-webkit-linear-gradient(to right, #4e21d9, #cc655e)";
-    document.body.style.background = "linear-gradient(to right, #4e21d9, #cc655e)";
+    document.body.style.background = "#0ebbcf";
+    document.body.style.background = "-webkit-linear-gradient(to right, #0ebbcf, #d6c7d3)";
+    document.body.style.background = "linear-gradient(to right, #0ebbcf, #d6c7d3)";
 
 
     const [showPassword, setShowPassword] = useState(false);
@@ -85,9 +85,7 @@ const Login = () => {
       };
 
     return (
-        // <>
         <Container className="container center-screen text-center flex-column d-flex align-items-center gap-3">
-        {/* <div className="container center-screen text-center flex-column d-flex align-items-center gap-3"> */}
         <div className="sign-in m-auto">
             <div className="sign-in-header">
                 <div className='d-flex justify-content-center'>
@@ -95,16 +93,8 @@ const Login = () => {
 
                 </div>
             <h1 className="text-center login-header-text pt-5">
-                Login 
+                Login
             </h1>
-            {/* <p className="text-center login-req text-white">Please enter your personal/company email address</p> */}
-
-
-            {/* {errorMessage &&  
-                <div className='error-message pt-0'>
-                  <p>{errorMessage}</p>
-                </div>
-            } */}
             {errorMessage && <Alert severity="error" style={{fontFamily: 'Nunito Sans'}}>{errorMessage}</Alert>}
             <form onSubmit={handleSubmit}>
                 <div className={`input-group mb-3 ${errorMessage} ? pt-4 : pt-1`}>
@@ -153,9 +143,7 @@ const Login = () => {
                 </p>
             </div>
         </div>
-    {/* </div> */}
     </Container>
-        // </>
     );
 };
 

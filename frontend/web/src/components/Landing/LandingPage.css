@@ -1,17 +1,16 @@
-.register {
+.landing-register-link {
     background-color: #121212 !important;
-    border: 2px solid #121212 !important;
-    border-radius: 14px !important;
+    border: none;
+    border-radius: 8px !important;
     color: #fafafa !important;
     text-transform: capitalize !important;
 }
-.register:hover {
-    background-color: #551de2 !important;
-    border-color: #551de2 !important;
+.landing-register-link:hover {
+    background-color: #0e8b9f !important;
+    border-color: #0e8b9f !important;
     color: #fafafa !important;
 }
-.register:focus {
-    background-color: #222222 !important;
+.landing-register-link:focus {
+    background-color: #0e8b9f !important;
     color: #fafafa !important;
-    border: 2px solid #222222 !important;
 }

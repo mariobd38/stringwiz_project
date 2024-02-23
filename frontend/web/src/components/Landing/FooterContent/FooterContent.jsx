@@ -13,7 +13,7 @@ const FooterContent = () => {
                 <div className='row pb-3' style={{borderBottom: "0.8px solid #898989"}}>
                     <div className='d-flex gap-5 flex-md-row flex-column'>
                         <div> 
-                            <CocollabLogo width={2.2} paddingBottom={0.35} fontSize={2.9} href={() => false}></CocollabLogo>
+                            <CocollabLogo width={2.2} paddingBottom={0.35} fontSize={2.9} href={() => false} textColor={'4296af'}></CocollabLogo>
                         </div>
                         <div className='pt-3 d-flex flex-row gap-5'>
                             <div className='landing-footer-content-footer-text'>

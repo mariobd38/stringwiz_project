@@ -6,7 +6,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 
-import './signUp.css'
+import './SignUp.css'
 import CocollabLogo from '../Logo/logo';
 
 
@@ -25,41 +25,41 @@ const SignUp = () => {
   
 
     function sendSignUpRequest() {
-      setErrorMessages([]);
-      const reqBody = {
-        fullName: fullName,
-        email: email,
-        password: password,
-        confirmPassword: confirmPassword
-      };
-      const userFullNameInfo = {
-        userFullName: userFullName
-      };
+        setErrorMessages([]);
+        const reqBody = {
+            fullName: fullName,
+            email: email,
+            password: password,
+            confirmPassword: confirmPassword
+        };
+        const userFullNameInfo = {
+            userFullName: userFullName
+        };
     
-      fetch("api/auth/signup", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "post",
-        body: JSON.stringify(reqBody),
-        userFullName: JSON.stringify(userFullNameInfo),
-      })
+        fetch("api/auth/signup", {
+            headers: {
+            "Content-Type": "application/json",
+            },
+            method: "post",
+            body: JSON.stringify(reqBody),
+            userFullName: JSON.stringify(userFullNameInfo),
+        })
         .then((response) => {
-          if (!response.ok) {
-            return response.json().then((data) => {
-              throw new Error(data.join("\n"));
-            });
-          }
-          return Promise.all([response.headers]);
+            if (!response.ok) {
+                return response.json().then((data) => {
+                throw new Error(data.join("\n"));
+                });
+            }
+            return Promise.all([response.headers]);
         })
         .then(([headers]) => {
-          setUserEmail(email);
-          setUserFullName(fullName.replace(/\s+/g, ' '));
-          setJwt(headers.get("authorization"));
-          window.location.href = '/home';
+            setUserEmail(email);
+            setUserFullName(fullName.replace(/\s+/g, ' '));
+            setJwt(headers.get("authorization"));
+            window.location.href = '/home';
         })
         .catch((error) => {
-          setErrorMessages(error.message.split("\n"));
+            setErrorMessages(error.message.split("\n"));
         });
     }
       
@@ -80,19 +80,21 @@ const SignUp = () => {
     };
 
     return (
-      <div className="signup-center-screen flex-column flex-lg-row d-flex justify-content-between align-items-center gap-3">
-        <div className="sign-up m-auto">
-          <div className="sign-up-header ">
-            <h1 className="text-center signup-top-text nunito-sans-font-600">
-              Welcome to{' '}
-              <CocollabLogo width={2.75} paddingBottom={0.55} fontSize={3.5} href={'/'}></CocollabLogo>
-            </h1>
-          <h4 className="text-center bottom-description lato-font">Get started - it's free. No credit card needed.</h4>
-        </div>
+        <div className="signup-center-screen flex-column flex-lg-row d-flex justify-content-between align-items-center gap-3">
+            <div className="sign-up m-auto">
+            <div className="sign-up-header ">
+                <h1 className="text-center signup-top-text nunito-sans-font-600">
+                Welcome to{' '}
+                <CocollabLogo width={2.75} paddingBottom={0.55} fontSize={3.5} href={'/'} textColor='4296af'></CocollabLogo>
+                </h1>
+            <h4 className="text-center bottom-description lato-font">Get started - it's free. No credit card needed.</h4>
+            </div>
 
         <div className="pt-4 pb-1">
           <form onSubmit={handleSubmit}>
+            <div className="input-div m-auto" >
 
+            
             <div className="input-label">
               <label htmlFor="fullName" className="text-start">
                 Full Name *
@@ -117,6 +119,7 @@ const SignUp = () => {
                 value={fullName} onChange={(e) => {setFullName(e.target.value);} }
                 autoComplete="off"
               />
+            </div>
             </div>
 
             <div className="input-label">

@@ -69,19 +69,19 @@ public class CustomUserService implements UserService {
     public List<String> userRegistrationValidation(UserRegistrationDto request) {
         List<String> errorMessages = new ArrayList<>();
         if (!registrationDataValidation.validateNewUser(request.getEmail())) { //user already exists
-            errorMessages.add("This account is already registered. Please login");
+            errorMessages.add("This account is already registered. Please login.");
         } else {
-            if (!registrationDataValidation.validateEmail(request.getEmail())) { //email format is invalid/missing
-                errorMessages.add("Email is invalid or missing");
-            }
             if (!registrationDataValidation.validateFullName(request.getFullName())) { //user did not enter a first and last name
-                errorMessages.add("First and last name are required");
+                errorMessages.add("First and last name are required.");
+            }
+            if (!registrationDataValidation.validateEmail(request.getEmail())) { //email format is invalid/missing
+                errorMessages.add("Email is invalid or missing.");
             }
             if (!registrationDataValidation.validatePasswords(request.getPassword(), request.getConfirmPassword())) {
-                errorMessages.add("Passwords do not match");
+                errorMessages.add("Passwords do not match.");
             }
             if (!registrationDataValidation.passwordsMatch(request.getPassword(), request.getConfirmPassword())) {
-                errorMessages.add("Password is less than 8 characters long");
+                errorMessages.add("Password must be at least 8 characters long.");
             }
         }
         return errorMessages;

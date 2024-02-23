@@ -6,7 +6,7 @@ import NewHome from "./components/Home/newHome";
 import TaskDetailsModal from "./components/Home/TaskDetailsModal/taskDetailsModal";
 import LandingPage from "./components/Landing/LandingPage";
 import Login from "./components/Login/login";
-import SignUp from "./components/SignUp/signUp";
+import NewSignUp from "./components/NewSignUp/NewSignUp";
 import PrivateRoute from "./PrivateRoute/privateRoute";
 
 function App() {
@@ -36,7 +36,7 @@ function App() {
 
       <Route path="/login" element={<Login/> } />
 
-      <Route path="/signUp" element={<SignUp/> } />
+      <Route path="/signUp" element={<NewSignUp/> } />
 
       <Route path="/" element={<LandingPage/> } />
 

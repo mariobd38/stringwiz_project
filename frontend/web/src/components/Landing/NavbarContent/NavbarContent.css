@@ -1,20 +1,24 @@
+.landing-navbar {
+  background: #0ebbcf; 
+  background: -webkit-linear-gradient(to right, #0ebbcf, #2a54fd); 
+  background: linear-gradient(to right, #0ebbcf, #2a54fd);
+  height: 6.2rem;
+}
 @media (max-width: 991px) {
-  .navbar-brand {
-    text-align: center;
-    margin: auto;
-    display: inline-block;
-  }
-  .sidebar {
+  .landing-sidebar {
     backdrop-filter: blur(40px);
   }
 }
-/* @media (width < 1200px) {
-  .dropdown-menu {
-    width: 60%;
-  }
-} */
 .offcanvas-header {
   border-bottom-color: #4296af;
+}
+.nav-top-link-offcanvas {
+  color: #121212 !important;
+}
+.offCanvasOpen {
+background: #0ebbcf; 
+background: -webkit-linear-gradient(to right, #0ebbcf, #2a54fd); 
+background: linear-gradient(to right, #0ebbcf, #2a54fd);
 }
 ul li:hover > ul,
 ul li:focus-within > ul,
@@ -29,15 +33,16 @@ ul li ul li {
   clear: both;
   width: 100%;
 }
-.nav-top-link {
+.landing-nav-top-link {
   font-size: 0.92em !important;
   color: #fafafa !important;
   display: inline-block;
   position: relative;
   text-decoration: none;
+  font-weight: 600;
 }
 
-.nav-top-link:after {
+.landing-nav-top-link:after {
   font-size: 0.92em !important;
   color: #fafafa !important;
   position: absolute;
@@ -50,32 +55,14 @@ ul li ul li {
   transition: width 0.3s ease-in-out;
 }
 
-.nav-top-link:hover:after {
+.landing-nav-top-link:hover:after {
   width: 100%;
 }
-.login {
+.landing-login-link {
   color: #fafafa !important;
   font-size: 1.1rem;
+  font-weight: 600;
 }
-.login:hover {
-  color: #8510e6 !important;
-}
-.navbar-brand {
-  text-align: center;
-  margin: auto;
-  display: inline-block;
-}
-.home-page-navbar {
-    background: #8510e6; 
-    background: -webkit-linear-gradient(to right, #8510e6, #cc655e); 
-    background: linear-gradient(to right, #8510e6, #cc655e);
-}
-
-.nav-top-link-offcanvas {
-    color: #121212 !important;
-}
-.offCanvasOpen {
-    background: #8510e6; 
-    background: -webkit-linear-gradient(to right, #8510e6, #cc655e); 
-    background: linear-gradient(to right, #8510e6, #cc655e);
+.landing-login-link:hover {
+  color: #0ebbcf !important;
 }

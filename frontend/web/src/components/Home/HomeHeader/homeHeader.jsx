@@ -71,7 +71,7 @@ const HomeHeader = () => {
             <div className='d-flex justify-content-center justify-content-xl-around align-items-center m-auto greeting-block mt-4 pt-2 pb-3'>
                 <div className='ps-0 fafafa-color flex-column text-center'>
                     <div className='greeting py-3 '>
-                        {greeting}, { firstName}
+                        {greeting}, <span style={{textTransform: "capitalize"}}>{ firstName}</span>
                     </div>
                     <div className='today pb-3 m-0'>
                         {todays_date}

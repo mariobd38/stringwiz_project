@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 
 import Container from 'react-bootstrap/Container';
 
@@ -20,6 +21,12 @@ import SubjectRoundedIcon from '@mui/icons-material/SubjectRounded';
 import './MainContent.css'
 
 const MainContent = () => {
+    let navigate = useNavigate(); 
+
+    const routeChange = (route) =>{ 
+        navigate(route);
+    }
+
 
     return (
         <main>
@@ -41,7 +48,7 @@ const MainContent = () => {
                                 
                                 <div className="right-header-block pt-2 pb-4">
                                     <div className="d-flex justify-content-center pt-2">
-                                        <a href="/signup">
+                                        <a onClick={() => routeChange('/signup')}>
                                             <Button className="register-home-page">
                                                 Get Started
                                             </Button>
@@ -80,7 +87,7 @@ const MainContent = () => {
                     <div className='col-10 col-md-8 landing-info-div py-2 py-lg-3'>
                         <div className="row m-auto pt-3" >
                             <div className='col-12 col-lg-6 col-xl-5 col-xxl-4 text-center m-auto'>
-                                <CocollabLogo width={2.2} paddingBottom={0.35} fontSize={2.9} href={() => false}></CocollabLogo>
+                                <CocollabLogo width={2.2} paddingBottom={0.35} fontSize={2.9} href={() => false} textColor={'4296af'}></CocollabLogo>
                             </div>
                             <div className='col-12 col-lg-6 col-xl-7 col-xxl-8 text-center m-auto'>
                                 <h1 className='nunito-sans-font landing-info-header'>Better vision for better connections</h1>

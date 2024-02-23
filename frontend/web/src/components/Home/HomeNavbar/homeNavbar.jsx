@@ -24,7 +24,7 @@ import CocollabLogo from '../../Logo/logo';
 
 const HomeNavbar = () => {
     const dayjs = require('dayjs');
-    const [userFullName] = useLocalState("", "userFullName");
+    let [userFullName] = useLocalState("", "userFullName");
 
     var now = Intl.DateTimeFormat().resolvedOptions().timeZone;
     now = dayjs();
@@ -213,7 +213,7 @@ const HomeNavbar = () => {
                                             <div className='pb-2 nunito-sans-font' style={{fontSize: '1.3rem'}}>
                                                 Personal Workspace
                                             </div>
-                                            <div className='lato-font' style={{fontWeight: '600'}}>
+                                            <div className='lato-font' style={{fontWeight: '600', textTransform: "capitalize"}}>
                                                 {userFullName}
                                             </div>
                                             <div className='lato-font'>
