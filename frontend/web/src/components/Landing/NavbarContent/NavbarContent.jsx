@@ -1,7 +1,9 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import Button from '@mui/material/Button';
+
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 
 import Container from 'react-bootstrap/Container';
 import './NavbarContent.css';
@@ -39,14 +41,14 @@ function NavbarContent () {
     return (
         <nav className="navbar navbar-expand-lg sticky-top landing-navbar">
             <Container fluid>
-                <CocollabLogo width={2.1} paddingBottom={0.4} fontSize={2.6} href={'/'} textColor={'fafafa'}></CocollabLogo>
+                <CocollabLogo width={2.1} paddingBottom={0.4} fontSize={2.6} textColor={'fafafa'}></CocollabLogo>
                     <button
                     className="navbar-toggler shadow-none border-0"
                     type="button"
                     onClick={toggleOffcanvas}
                     aria-label="Toggle navigation"
                     >
-                        <span className="navbar-toggler-icon"></span>
+                        <MenuRoundedIcon className='fafafa-color' style={{width: "2.2rem", height: "2.2rem"}}/>
                     </button>
 
                 <div

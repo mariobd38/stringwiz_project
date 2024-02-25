@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import { useLocalState } from '../../utils/useLocalStorage';
-import teamwork from '../../images/teamwork_high_five.png';
+import teamwork from '../../assets/illustrations/signup/teamwork_high_five.png';
 
 import TextField from '@mui/material/TextField';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -34,7 +34,6 @@ const NewSignUp = () => {
     function sendSignUpRequest() {
         setErrorMessages([]);
         const reqBody = {
-
             fullName: fullName.split(' ')
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' '),
@@ -104,7 +103,7 @@ const NewSignUp = () => {
                             <div className="text-center signup-top-text">
                                 Welcome to{' '}
                                 <a onClick={() => routeChange('/')} style={{cursor: "pointer"}}>
-                                <CocollabLogo width={2.75} paddingBottom={0.55} fontSize={3.5}  textColor='4296af'></CocollabLogo> 
+                                    <CocollabLogo width={2.75} paddingBottom={0.55} fontSize={3.5}  textColor='4296af'></CocollabLogo> 
                                 </a>
                             </div>
                             <div className="text-center signup-bottom-description lato-font">Get started - it's free. No credit card needed.</div>
@@ -167,14 +166,15 @@ const NewSignUp = () => {
                                         }}/>
                                     </div>
                                 </div>
-                                
-                                <button className="btn register-continue text-center mt-2" type="submit" onClick={() => sendSignUpRequest()}>
-                                    Continue
-                                </button>
+                                <div className='d-flex justify-content-center'>
+                                    <button className="btn register-continue text-center mt-2" type="submit" onClick={() => sendSignUpRequest()}>
+                                        Continue
+                                    </button>
+                                </div>
                             </form>
 
                         </div>
-                        <div className="pt-4 pb-3">
+                        <div className="py-3">
                             <p className="input-label text-center lato-font">
                                 Already a member? <a onClick={() => routeChange('/login')} className="signup-login-link ps-1">Sign In</a>
                             </p>

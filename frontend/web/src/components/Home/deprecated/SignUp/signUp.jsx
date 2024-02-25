@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocalState } from '../../utils/useLocalStorage';
+import { useLocalState } from '../../../../utils/useLocalStorage';
 import teamwork from '../../images/teamwork_high_five.png';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -7,7 +7,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 
 import './SignUp.css'
-import CocollabLogo from '../Logo/logo';
+import CocollabLogo from '../../../Logo/logo';
 
 
 
@@ -85,7 +85,7 @@ const SignUp = () => {
             <div className="sign-up-header ">
                 <h1 className="text-center signup-top-text nunito-sans-font-600">
                 Welcome to{' '}
-                <CocollabLogo width={2.75} paddingBottom={0.55} fontSize={3.5} href={'/'} textColor='4296af'></CocollabLogo>
+                <CocollabLogo width={2.75} paddingBottom={0.55} fontSize={3.5} textColor='4296af'></CocollabLogo>
                 </h1>
             <h4 className="text-center bottom-description lato-font">Get started - it's free. No credit card needed.</h4>
             </div>

@@ -12,7 +12,7 @@ import PublishedWithChangesRoundedIcon from '@mui/icons-material/PublishedWithCh
 
 import {getTaskInfo} from './../../DataManagement/Tasks/getTasks';
 
-import milestones from '../../images/milestones.png';
+import milestones from '../../assets/milestones.png';
 
 import HomeHeader from '../Home/HomeHeader/homeHeader';
 import HomeNavbar from './HomeNavbar/homeNavbar';

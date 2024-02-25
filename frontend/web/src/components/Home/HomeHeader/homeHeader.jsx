@@ -4,8 +4,8 @@ import { useCookies } from "../../../utils/useCookies";
 
 import './homeHeader.css';
 
-import scheduling from '../../../images/scheduling.png';
-import task_management from '../../../images/task_management.png';
+import scheduling from '../../../assets/scheduling.png';
+import task_management from '../../../assets/task_management.png';
 
 const HomeHeader = () => {
     const dayjs = require('dayjs');

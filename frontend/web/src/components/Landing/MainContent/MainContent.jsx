@@ -5,10 +5,10 @@ import Container from 'react-bootstrap/Container';
 
 import Button from '@mui/material/Button';
 
-import coconut from '../../../images/coconut.png';
-import time_management from '../../../images/time_management.png';
-import sharing_ideas from '../../../images/sharing_ideas.png';
-import achievement from '../../../images/achievement.png';
+import coconut from '../../../assets/coconut.png';
+import time_management from '../../../assets/illustrations/landing/time_management.png';
+import sharing_ideas from '../../../assets/illustrations/landing/sharing_ideas.png';
+import achievement from '../../../assets/illustrations/landing/achievement.png';
 import CocollabLogo from '../../../components/Logo/logo';
 
 import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
@@ -87,7 +87,9 @@ const MainContent = () => {
                     <div className='col-10 col-md-8 landing-info-div py-2 py-lg-3'>
                         <div className="row m-auto pt-3" >
                             <div className='col-12 col-lg-6 col-xl-5 col-xxl-4 text-center m-auto'>
-                                <CocollabLogo width={2.2} paddingBottom={0.35} fontSize={2.9} href={() => false} textColor={'4296af'}></CocollabLogo>
+                                <a href={() => false}>
+                                    <CocollabLogo width={2.2} paddingBottom={0.35} fontSize={2.9} href={() => false} textColor={'4296af'}></CocollabLogo>
+                                </a>
                             </div>
                             <div className='col-12 col-lg-6 col-xl-7 col-xxl-8 text-center m-auto'>
                                 <h1 className='nunito-sans-font landing-info-header'>Better vision for better connections</h1>

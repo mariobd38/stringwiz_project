@@ -94,7 +94,9 @@ const HomeNavbar = () => {
                     <div className="row w-100 m-0">
                         <div className='text-white col-0 col-xl-1 ps-3 pt-1'>
                             <div className='d-none d-xl-inline'>
-                                <CocollabLogo width={2.5} paddingBottom={0} fontSize={0} href={() => false} />
+                                <a href={() => false}>
+                                <CocollabLogo width={2.5} paddingBottom={0} fontSize={0} />
+                                </a>
                             </div>
                         </div>
                         <div className='col-10 col-md-9 col-lg-8  d-flex justify-content-start align-items-center m-auto'>

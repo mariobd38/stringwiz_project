@@ -2,7 +2,7 @@ import React from 'react';
 import './FooterContent.css';
 import { Container } from 'react-bootstrap';
 import CocollabLogo from '../../../components/Logo/logo';
-import coconut from '../../../images/coconut.png';
+import coconut from '../../../assets/coconut.png';
 
 
 
@@ -13,7 +13,9 @@ const FooterContent = () => {
                 <div className='row pb-3' style={{borderBottom: "0.8px solid #898989"}}>
                     <div className='d-flex gap-5 flex-md-row flex-column'>
                         <div> 
-                            <CocollabLogo width={2.2} paddingBottom={0.35} fontSize={2.9} href={() => false} textColor={'4296af'}></CocollabLogo>
+                            <a href={() => false}>
+                                <CocollabLogo width={2.2} paddingBottom={0.35} fontSize={2.9} textColor={'4296af'}></CocollabLogo>
+                            </a>
                         </div>
                         <div className='pt-3 d-flex flex-row gap-5'>
                             <div className='landing-footer-content-footer-text'>

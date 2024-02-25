@@ -100,15 +100,9 @@ a {
     height: 2rem !important;
 }
 .landing-page-features-card-container {
-	/* background-color: #fafafa;
-	min-width: 350px;
-	max-width: 600px;
-	height: auto;
-	border-radius: 10px; */
     background-color: #fafafa;
     min-width: 350px;
     height: 270px;
-    /* margin: 20px; */
     border-radius: 10px;   
 
 }

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import coconut from '../../images/coconut.png';
+import coconut from '../../assets/coconut.png';
 import './logo.css';
 
-const CocollabLogo = ({ width, paddingBottom, fontSize, href, textColor }) => {
+const CocollabLogo = ({ width, paddingBottom, fontSize, textColor }) => {
     const coconutWidth = {
         width: `${width}rem`,
         paddingBottom: `${paddingBottom}rem`,
@@ -14,7 +14,7 @@ const CocollabLogo = ({ width, paddingBottom, fontSize, href, textColor }) => {
 
     return (
         <div className='cocollabs-logo' style={logoProperties}>
-            <a href={href}>
+            <a>
                 <span style={{ fontFamily: 'Baron Neue, serif', color: `#${textColor}` }}>COC</span>
                 <span>
                 <a className="m-auto" href={() => false}>

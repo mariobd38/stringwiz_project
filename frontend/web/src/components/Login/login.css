@@ -1,4 +1,4 @@
-.login-header-text {
+/* .login-header-text {
     font-size: 2.5rem;
     font-family: 'Nunito Sans', serif;
     font-weight: 700;
@@ -29,10 +29,11 @@
 .login-btn:focus {
     background-color: #121212;
 }
-.sign-up {
+.signup-route-link {
     color: #4296af;
+    cursor: pointer;
 }
-.sign-up:hover {
+.signup-route-link:hover {
     color: #1a738d;
 }
 .form-control {
@@ -42,4 +43,43 @@
     padding: 1.5rem 2.5rem 4rem 2.5rem;
     border-radius: 20px;
     background-color: #f7f7f7;
+} */
+.login-screen {
+    height: 100vh;
+    background-color: #f1f3f3;
+    background-image: url(../../assets/backgrounds/wave.svg);
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-position-x: left;
+}
+.login-container {
+    margin: auto;
+    background-color: #fafafa;
+    border-radius: 7px;
+    padding: 20px 45px 40px 45px;
+    box-shadow: rgba(100,100,111,0.2) 0px 7px 29px 0px;
+    transition: padding 0.35s ease-in-out;
+}
+@media(max-width: 506px) {
+    .login-container {
+        padding: 15px 15px 35px 15px;
+        transition: padding 0.35s ease-in-out;
+    }
+}
+.illustration-login-container {
+    width: 20%;
+}
+.illustration-login {
+    max-width: 85.5%;
+}
+.login-welcome-header-text {
+    font-size: 1.6rem;
+}
+.login-welcome-subheader-text {
+    font-size: 1.03rem;
+}
+.login-req {
+    font-family: 'Lato', serif;
+    font-size: 1rem;
+    color: #121212 !important;
 }
