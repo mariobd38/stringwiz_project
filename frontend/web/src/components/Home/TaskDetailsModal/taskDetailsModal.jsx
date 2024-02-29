@@ -31,6 +31,7 @@ import './taskDetailsModal.css';
 
 import NewHomeDueDatePopover from '../newHomeDueDatePopover';
 import { updateTaskInfo } from '../../../DataManagement/Tasks/updateTask';
+import { removeTagInfo } from '../../../DataManagement/Tags/removeTag';
 import { ModelDropdown } from '../../models/modelDropdown';
 import { ProfileCard } from './ProfileCard/profileCard';
 
@@ -44,7 +45,7 @@ function handleBreadcrumbClick(event) {
 const TaskDetailsModal = (props) => {
     const { 
             currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskLastUpdatedOn,
-            setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, setSelectedDate, currentTaskTags,
+            setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, setSelectedDate, currentTaskTags, setCurrentTaskTags,
             upcomingTasks, selectedDate, jwt, today,
             onHide, show, setModalShow, allTagData,handleTagCreation } = props;
 
@@ -169,6 +170,13 @@ const TaskDetailsModal = (props) => {
         </div>
     );
 
+    const handleTagRemoval = (currentTagIndex) => {
+        console.log("delete!");
+        console.log(currentTaskTags[currentTagIndex]);
+        // console.log(upcomingTasks[currentIndex]);
+        removeTagInfo(jwt,currentTaskTags[currentTagIndex].id,upcomingTasks[currentIndex].id,currentTaskTags, setCurrentTaskTags);
+    }
+
     return (
         <>
             <Modal
@@ -243,7 +251,7 @@ const TaskDetailsModal = (props) => {
                                         initialNameValue={""} initialIconValue={<SellRoundedIcon />}
                                         handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-item-type-property"}
                                         hasSearchBar={true} 
-                                        upcomingTasks={upcomingTasks} currentIndex={currentIndex} jwt={jwt} allTagData={allTagData}
+                                        upcomingTasks={upcomingTasks} currentIndex={currentIndex} jwt={jwt} allTagData={allTagData} currentTaskTags={currentTaskTags} setCurrentTaskTags={setCurrentTaskTags}
                                     />
                                     </div>
                                     <Tooltip id="my-tooltip" className='task-details-modal-tooltip' style={{backgroundColor: "#2454d6", color: "#fafafa", fontSize: "0.8rem", borderRadius: "10px" }}/>
@@ -356,17 +364,23 @@ const TaskDetailsModal = (props) => {
 
                                 {currentTaskTags !== null && currentTaskTags !== undefined && currentTaskTags.length > 0 &&
                                 <div className='d-flex flex-column' style={{ fontSize: "1.06rem" }}>
-                                    <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center' style={{width: "5rem"}}>Tags</div>
+                                    <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center' style={{width: "5rem"}}>
+                                        Tags
+                                    </div>
+
                                     <div>
-                                        <span className='lato-font d-flex align-items-cente user-home-task-details-modal-tags-group'>
+                                        <span className='lato-font d-flex align-items-center user-home-task-details-modal-tags-group'>
                                             {currentTaskTags.map((tag, index) => (
                                                 <Button key={index} className='mx-1 user-home-task-details-modal-tags-button'>
-                                                    {tag.name}
+                                                    <span className='d-flex'><SellRoundedIcon className='pe-2'/><span className="align-middle user-home-task-details-modal-tags-button-text">{tag.name}</span></span>
+                                                    <span className='user-home-task-details-modal-tags-button-options'><MoreHorizRoundedIcon style={{width: "1.2rem"}}/></span>
+                                                    <span className='user-home-task-details-modal-tags-button-close' onClick={() => handleTagRemoval(index)}><CloseRoundedIcon style={{width: "1.2rem"}}/></span>
                                                 </Button>
                                             ))}
                                         </span>
                                     </div>
-                                </div>}
+                                </div>
+                                }
                             </div>
                         
                         </div>

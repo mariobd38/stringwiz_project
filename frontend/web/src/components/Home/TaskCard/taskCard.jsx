@@ -145,55 +145,23 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
     //task details modal
     const location = useLocation();
     const [modalShow, setModalShow] = useState(false);
-
     
     //tag related info
-
-    // const [tagData, setTagData] = useState([]);
-    // const [allTagData, setAllTagData] = useState([]);
-
-    // const fetchTagsData = useCallback(async () => {
-
-    //     try {
-    //         const tagInfo = await getTagInfo(jwt, upcomingTasks[currentIndex].id);
-    //         setTagData(tagInfo);
-    
-    //         if (!upcomingTasks[currentIndex].tags.some(tag => tag.id === tagInfo.id)) {
-    //             const updatedTask = {
-    //                 ...upcomingTasks[currentIndex],
-    //                 tags: [...upcomingTasks[currentIndex].tags, tagInfo]
-    //             };
-
-    //             const updatedTasks = [...upcomingTasks];
-    //             updatedTasks[currentIndex] = updatedTask;
-    //             setUpcomingTasks(updatedTasks);
-    //             if (!currentTaskTags.some(tag => tag.id === tagInfo.id)) {
-    //                 setCurrentTaskTags(updatedTasks[currentIndex].tags[0])
-    //             }
-    //         }
-    
-    //         const allTagsInfo = await getAllTagsInfo(jwt);
-    //         setAllTagData(allTagsInfo);
-    //     } catch (error) {
-    //         console.error('Error fetching tag data:', error);
-    // }}, [currentTaskTags,jwt, currentIndex, upcomingTasks, setTagData, setUpcomingTasks, setAllTagData]);
-
 
     useEffect(() => {
         const fetchData = async () => {
             
             try {
                 const allTagsData =  await getAllTagsInfo(jwt, setAllTagData);
-                setAllTagData(allTagsData);
-            
-                // console.log(currentTaskTags);
-                
-
+                // const filteredTags = allTagsData.filter(tag => !currentTaskTags.includes(tag.name));
+                const currentTaskTagsSet = new Set(currentTaskTags.map(tag => tag.name));
+                const filteredTags = allTagsData.filter(tag => !currentTaskTagsSet.has(tag.name));
+                setAllTagData(filteredTags);
             } catch(error) {
             }
         };
         fetchData();
-    }, [setTagData, upcomingTasks, currentIndex, currentTaskTags]);
+    }, [upcomingTasks, currentIndex, currentTaskTags]);
 
 
 
@@ -204,20 +172,6 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
         setCurrentTaskTags([...updatedTags]);
     };
 
-    // const handleTagCreation = (tagName) => {
-    //     createTagInfo(
-    //         jwt,
-    //         upcomingTasks, 
-    //         setUpcomingTasks,
-    //         updateTaskTags,
-    //         currentIndex,
-    //         tagName,
-    //         tagData,
-    //         setTagData,
-    //         allTagData,
-    //         setAllTagData
-    //     );
-    // }
     const handleTagCreation = async (tagName) => {
         try {
             const newTag = await createTagInfo(jwt, upcomingTasks[currentIndex].id, tagName);
@@ -249,19 +203,12 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
             setCurrentTaskDueDate(upcomingTasks[index].dueDate);
             setCurrentTaskStatus(upcomingTasks[index].status);
             setCurrentTaskPriority(upcomingTasks[index].priority);
-            
-        
             setCurrentIndex(index);
-
-            // upcomingTasks[currentIndex].tags = tagsData;
-
         } catch(error) {
             console.error('Error opening task details modal:', error);
-        }
-
-
-        
+        } 
     }
+
     return (
         <>
             <Card
@@ -391,6 +338,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                 setCurrentTaskDueDate={setCurrentTaskDueDate}
                 setCurrentIndex={setCurrentIndex}
                 setCurrentTaskPriority={setCurrentTaskPriority}
+                setCurrentTaskTags={setCurrentTaskTags}
                 setSelectedDate={setSelectedDate}
                 today={today}
                 handleTaskUpdate={(event) => handleTaskUpdate(event)}

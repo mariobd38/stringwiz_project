@@ -12,7 +12,7 @@ import { addExistingTagInfo } from "../../DataManagement/Tags/addExistingTag";
 
 import "./modelDropdown.css";
 
-const MenuButton = ({name,icon,isActualOption,hasItemTypesOption,hasClearBtn,index,currentItemName,onClick,menuItemProperty}) => {
+const MenuButton = ({name,icon,isActualOption,hasItemTypesOption,index,currentItemName,onClick,menuItemProperty}) => {
     return (
         <button onClick={(event) => (onClick ? onClick(event,index) : null)} 
             className={`model-dropdown-item-menu-button ${menuItemProperty} ${hasItemTypesOption ? 'model-dropdown-item-menu-button-wTypeOption' : (name==='Clear') ? 'model-dropdown-item-menu-button-clear' : '' }`}>
@@ -23,7 +23,7 @@ const MenuButton = ({name,icon,isActualOption,hasItemTypesOption,hasClearBtn,ind
     );
 };
 
-const MenuItem = ({ name, index, icon, isActualOption, hasItemTypesOption, hasClearBtn, currentItemName, onClick, menuItemProperty }) => {
+const MenuItem = ({ name, index, icon, isActualOption, hasItemTypesOption, currentItemName, onClick, menuItemProperty }) => {
     return (
         <>
             <MenuButton
@@ -32,7 +32,6 @@ const MenuItem = ({ name, index, icon, isActualOption, hasItemTypesOption, hasCl
                 name={name}
                 isActualOption={isActualOption}
                 hasItemTypesOption={hasItemTypesOption}
-                hasClearBtn={hasClearBtn}
                 index={index}
                 menuItemProperty={menuItemProperty}
                 currentItemName={currentItemName}
@@ -43,9 +42,9 @@ const MenuItem = ({ name, index, icon, isActualOption, hasItemTypesOption, hasCl
 
 export const ModelDropdown = (props) => {
     const { items, 
-        hasItemTypesOption, hasClearBtn, hasArrow, hasHeaderDescText, hasSearchBar,handleTagCreation,
+        hasItemTypesOption, hasArrow, hasHeaderDescText, hasSearchBar,handleTagCreation,
         initialNameValue, initialIconValue, isPriorityDropdown, setCurrentTaskPriority, isModalOnRightSide,
-        menuItemProperty,isStatusBtn, upcomingTasks, currentIndex, jwt, allTagData
+        menuItemProperty,isStatusBtn, upcomingTasks, currentIndex, jwt, allTagData,currentTaskTags,setCurrentTaskTags
     } = props;
 
     const isTagDropdown = initialNameValue === '';
@@ -76,7 +75,7 @@ export const ModelDropdown = (props) => {
         setIsDropdownOpen(!isDropdownOpen);
     }
 
-    const handleTagMenuItemClick = (event,item) => {
+    const handleTagMenuItemClick = async (event,item) => {
         // console.log(item.name);
         /*
         add clicked menu item to tag list
@@ -87,7 +86,21 @@ export const ModelDropdown = (props) => {
         // console.log(upcomingTasks[currentIndex].id)
         const tagClicked = allTagData.find(atd => atd.name === item.name);
         // console.log(tagClicked);
-        addExistingTagInfo(jwt,upcomingTasks[currentIndex].id,tagClicked.id);
+
+        try {
+            const newTag =  await addExistingTagInfo(jwt,upcomingTasks[currentIndex].id,tagClicked.id);
+
+    
+            if (newTag) {
+                const updatedTags = [...currentTaskTags, newTag];
+                setCurrentTaskTags(updatedTags);
+                // updateTaskTags(updatedTags);
+            } else {
+                console.error('Error creating tag: Tag data is null');
+            }
+        } catch (error) {
+            console.error('Error creating tag:', error);
+        }
 
         setIsDropdownOpen(!isDropdownOpen);
 
@@ -193,7 +206,6 @@ export const ModelDropdown = (props) => {
                             icon={item.icon ? item.icon : ''}
                             isActualOption={item.isActualOption}
                             hasItemTypesOption={hasItemTypesOption}
-                            hasClearBtn={hasClearBtn}
                             index={index}
                             currentItemName={currentItem.name}
                             menuItemProperty={menuItemProperty}
@@ -208,7 +220,6 @@ export const ModelDropdown = (props) => {
                             icon={item.icon ? item.icon : ''}
                             isActualOption={item.isActualOption}
                             hasItemTypesOption={hasItemTypesOption}
-                            hasClearBtn={hasClearBtn}
                             index={index}
                             currentItemName={currentItem.name}
                             menuItemProperty={menuItemProperty}

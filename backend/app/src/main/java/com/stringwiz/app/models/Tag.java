@@ -8,7 +8,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,11 +46,17 @@ public class Tag {
     @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
     private Set<Task> tasks = new LinkedHashSet<>();
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
     @CreationTimestamp
     @Column(name="created_on",nullable = false)
     private Timestamp createdOn;
 
-    public Tag(String name, String color) {
+    public Tag(String name, String color, User user) {
+        setUser(user);
         setName(name);
         setColor(color);
         Timestamp currentTime = new Timestamp(new Date().getTime());

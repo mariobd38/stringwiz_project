@@ -60,11 +60,12 @@ a {
     width: 100%;
 }
 .bottom-half {
-    background-color: #161616;
+    background-color: #fafafa;
 }
 .landing-info-div {
     background-color: #f1f3f4 !important;
     border-radius: 8px !important;
+    box-shadow: rgba(100,100,111,0.2) 0px 7px 29px 0px;
 }
 .landing-info-header {
     font-size: 2rem;
@@ -72,14 +73,16 @@ a {
     color: #121212;
 }
 .landing-page-features-div {
-    background-color: #161616;
+    background-color: #fafafa;
     color: #fafafa;
 }
 .landing-page-features-div-header {
     font-size: 2.3rem;
-    width: 65%;
+    width: 85%;
     margin: auto;
-    /* font-weight: 600; */
+    color: #161616;
+    font-family: 'Open Sans';
+    font-weight: 600;
 }
 .landing-page-features-card-container {
     /* width: 2rem;
@@ -87,6 +90,7 @@ a {
     width: 80%;
     margin: auto;
     background-color: #fafafa;
+    box-shadow: rgba(100,100,111,0.2) 0px 7px 39px 5px;
     color: #121212;
     border-radius: 10px;
 }

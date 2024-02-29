@@ -105,12 +105,12 @@ const MainContent = () => {
                     </div>
                 </div>
             </div>
-            <div className='landing-page-features-div text-center py-5'>
-                <div className='landing-page-features-div-header lato-font'>
+            <div className='landing-page-features-div  py-5'>
+                <div className='landing-page-features-div-header text-center'>
                     All-in-one products to manage every aspect of your business
                 </div>
-                <Container>
-                    <div className='row d-flex mt-5 justify-content-center'>
+                <Container >
+                    <div className='row d-flex mt-5 justify-content-center text-center'>
                         <div className='col-12 col-md-6 col-xl-4'>
                             <div className='landing-page-features-card-container m-auto mb-4 mb-md-0'>
                                 <div className="landing-page-features-card-container-bkg" style={{backgroundColor: "#e63946"}}>

@@ -122,7 +122,6 @@
 .user-home-task-details-modal-due-date-div:hover .user-home-task-details-modal-due-date-remove {
     opacity: 1;
     color: #898989;
-    background-color: red;
 }
 .user-home-task-details-modal-due-date-remove-icon:hover {
     color: #c90825 !important;
@@ -233,7 +232,7 @@
 .task-details-modal-tooltip {
     opacity: 1 !important;
     z-index: 1 !important;
-    font-family: 'Lato' !important;
+    font-family: 'Open Sans' !important;
     text-align: center;
 }
 [contenteditable] {
@@ -248,4 +247,43 @@
 }
 .user-home-task-details-modal-tags-button {
     padding: 0.3rem 0.4rem !important;
+    position: relative; 
+    /* overflow: hidden; 
+    white-space: nowrap;
+    text-overflow: ellipsis !important; */
+    /* max-width: 100%;  */
+}
+.user-home-task-details-modal-tags-button-options {
+    display: none;
+    position: absolute;
+    right: 20px;
+    /* padding-left: 10px; */
+    top: 50%;
+    transform: translateY(-50%); 
+    color: rgb(255,255,255,0.75);
+}
+.user-home-task-details-modal-tags-button-close {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%); 
+    color: rgb(255,255,255,0.75);
+}
+.user-home-task-details-modal-tags-button-close:hover,
+.user-home-task-details-modal-tags-button-options:hover {
+    color: #ffffff;
+}
+.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-close, 
+.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-options {
+    display: inline-block;
+}
+.user-home-task-details-modal-tags-button-text {
+    display: flex;
+}
+.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-text {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: calc(100% - 60px) !important;
 }

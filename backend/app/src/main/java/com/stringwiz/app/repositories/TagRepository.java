@@ -10,4 +10,5 @@ import java.util.Set;
 
 public interface TagRepository extends JpaRepository<Tag, Long> {
     Set<Tag> findByTasks(Task task);
+    List<Tag> findByUser(User user);
 }
