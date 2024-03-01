@@ -109,7 +109,7 @@ const HomeNavbar = () => {
                                             className="form-control home-navbar-search-input me-2"
                                             type="search"
                                             placeholder="Search"
-                                            sx={{ fontFamily: 'Lato', backgroundColor: '#4b4c4e', border: "1px solid #b1b1b1", color: "white", borderRadius: "25px" }}
+                                            sx={{ fontFamily: 'Lato', backgroundColor: '#4b4c4e', border: "1px solid #b1b1b1", color: "#fafafa", borderRadius: "7px" }}
                                             startAdornment={
                                                 <InputAdornment position="start">
                                                     <SearchIcon sx={{ color: '#e1e1e1'}} />

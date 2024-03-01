@@ -45,7 +45,7 @@ function handleBreadcrumbClick(event) {
 const TaskDetailsModal = (props) => {
     const { 
             currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskLastUpdatedOn,
-            setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, setSelectedDate, currentTaskTags, setCurrentTaskTags,
+            nonIncludedTaskTags, setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, setSelectedDate, currentTaskTags, setCurrentTaskTags,
             upcomingTasks, selectedDate, jwt, today,
             onHide, show, setModalShow, allTagData,handleTagCreation } = props;
 
@@ -170,6 +170,7 @@ const TaskDetailsModal = (props) => {
         </div>
     );
 
+
     const handleTagRemoval = (currentTagIndex) => {
         console.log("delete!");
         console.log(currentTaskTags[currentTagIndex]);
@@ -246,11 +247,11 @@ const TaskDetailsModal = (props) => {
                                     <div data-tooltip-id="my-tooltip" data-tooltip-content={`Add tags`}>
                                     <ModelDropdown 
                                         // items={[{}]}
-                                        items={allTagData ? allTagData.map((tag) => ({ name: tag.name, icon: null })) : { name: "Task", icon: null, isActualOption: true }}
+                                        items={allTagData ? nonIncludedTaskTags.map((tag) => ({ name: tag.name, icon: null })) : { name: "Task", icon: null, isActualOption: true }}
                                         handleTagCreation={handleTagCreation}
                                         initialNameValue={""} initialIconValue={<SellRoundedIcon />}
                                         handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-item-type-property"}
-                                        hasSearchBar={true} 
+                                        hasSearchBar={true}
                                         upcomingTasks={upcomingTasks} currentIndex={currentIndex} jwt={jwt} allTagData={allTagData} currentTaskTags={currentTaskTags} setCurrentTaskTags={setCurrentTaskTags}
                                     />
                                     </div>

@@ -76,25 +76,15 @@ export const ModelDropdown = (props) => {
     }
 
     const handleTagMenuItemClick = async (event,item) => {
-        // console.log(item.name);
-        /*
-        add clicked menu item to tag list
-        */
-        // handleTagCreation(item.name);
-
-        // console.log(item.id);
-        // console.log(upcomingTasks[currentIndex].id)
         const tagClicked = allTagData.find(atd => atd.name === item.name);
-        // console.log(tagClicked);
 
         try {
-            const newTag =  await addExistingTagInfo(jwt,upcomingTasks[currentIndex].id,tagClicked.id);
+            const addedTag =  await addExistingTagInfo(jwt,upcomingTasks[currentIndex].id,tagClicked.id);
 
     
-            if (newTag) {
-                const updatedTags = [...currentTaskTags, newTag];
+            if (addedTag) {
+                const updatedTags = [...currentTaskTags, addedTag];
                 setCurrentTaskTags(updatedTags);
-                // updateTaskTags(updatedTags);
             } else {
                 console.error('Error creating tag: Tag data is null');
             }
@@ -108,6 +98,7 @@ export const ModelDropdown = (props) => {
 
     const handleOpenDropdownMenu = () => {
         if (isTagDropdown) {
+            setTagAlreadyAttached(false);
             setTagInputValue('');
         }
         setIsDropdownOpen(!isDropdownOpen);
@@ -126,14 +117,37 @@ export const ModelDropdown = (props) => {
     //tag related
     const [tagInputValue, setTagInputValue] = useState('');
     const [tagItems, setTagItems] = useState(items);
+    const [tagAlreadyAttached, setTagAlreadyAttached] = useState(false);
 
-    function handleTagSearch(event) {
+    async function handleTagSearch(event) {
         const tagName = event.target.value;
-        if (event.key === 'Enter') {
-            console.log(tagName);
-            handleTagCreation(tagName);
-            setIsDropdownOpen(!isDropdownOpen);
+        console.log(items.find(item => item.name === tagName) !== undefined);
+        if (currentTaskTags.filter(item => item.name === tagName).length > 0) {
+            setTagAlreadyAttached(true);
+        } else {
+            setTagAlreadyAttached(false);
 
+            if (event.key === 'Enter' && tagName !== '') {
+                const tagEntered = allTagData.find(item => item.name === tagName);
+                if (tagEntered !== undefined) {
+                    try {
+                        const addedTag =  await addExistingTagInfo(jwt,upcomingTasks[currentIndex].id,tagEntered.id);
+                        if (addedTag) {
+                            const updatedTags = [...currentTaskTags, addedTag];
+                            setCurrentTaskTags(updatedTags);
+                        } else {
+                            console.error('Error creating tag: Tag data is null');
+                        }
+                    } catch (error) {
+                        console.error('Error creating tag:', error);
+                    }
+            
+                    setIsDropdownOpen(!isDropdownOpen);
+                } else {
+                    handleTagCreation(tagName);
+                    setIsDropdownOpen(!isDropdownOpen);
+                }
+            }
         }
 
         setTagInputValue(tagName);
@@ -179,8 +193,9 @@ export const ModelDropdown = (props) => {
 
             <div className={`model-dropdown-menu ${isModalOnRightSide ? 'right' : 'left'}`} ref={ref} >
                 {hasHeaderDescText &&
-                <p className="m-0 pt-2 ps-2 pb-1 model-dropdown-desc-text">select the item type</p>
+                <div className="m-0 pt-2 ps-2 pb-1 model-dropdown-desc-text">select the item type</div>
                 }
+                
 
                 {hasSearchBar &&
                     <div className='d-flex align-items-center' style={{borderBottom: "1px solid #898989"}}>
@@ -197,6 +212,9 @@ export const ModelDropdown = (props) => {
                         </form>
                     </div>
                 }
+                {tagAlreadyAttached &&
+                <div className="m-0 pt-2 ps-2 pb-1">Tag already attached</div>
+                }
                 
                 <div>
                     {!isTagDropdown ? items.map((item, index) => (
@@ -212,7 +230,7 @@ export const ModelDropdown = (props) => {
                             onClick={(event) => handleMenuItemClick(event,item)}
                             onHide={() => setIsDropdownOpen(!isDropdownOpen)}
                         />
-                    )) : 
+                    )) : (!tagAlreadyAttached) ?
                     tagItems.map((item, index) => (
                         <MenuItem
                             key={item.name}
@@ -226,7 +244,7 @@ export const ModelDropdown = (props) => {
                             onClick={(event) => handleTagMenuItemClick(event,item)}
                             onHide={() => setIsDropdownOpen(!isDropdownOpen)}
                         />
-                    ))
+                    )) : ''
                     }
                 </div>
 

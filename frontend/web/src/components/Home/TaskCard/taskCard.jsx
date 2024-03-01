@@ -147,6 +147,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
     const [modalShow, setModalShow] = useState(false);
     
     //tag related info
+    const [nonIncludedTaskTags, setNonIncludedTaskTags] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -156,7 +157,9 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                 // const filteredTags = allTagsData.filter(tag => !currentTaskTags.includes(tag.name));
                 const currentTaskTagsSet = new Set(currentTaskTags.map(tag => tag.name));
                 const filteredTags = allTagsData.filter(tag => !currentTaskTagsSet.has(tag.name));
-                setAllTagData(filteredTags);
+                setNonIncludedTaskTags(filteredTags);
+                // console.log(filteredTags);
+                setAllTagData(allTagsData);
             } catch(error) {
             }
         };
@@ -335,6 +338,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                 currentTaskStatus={currentTaskStatus}
                 currentTaskPriority={currentTaskPriority}
                 currentTaskTags={currentTaskTags}
+                nonIncludedTaskTags={nonIncludedTaskTags}
                 setCurrentTaskDueDate={setCurrentTaskDueDate}
                 setCurrentIndex={setCurrentIndex}
                 setCurrentTaskPriority={setCurrentTaskPriority}
