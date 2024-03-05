@@ -121,13 +121,15 @@ export const ModelDropdown = (props) => {
 
     async function handleTagSearch(event) {
         const tagName = event.target.value;
+        // console.log("this is the actual task");
+        // console.log(tagName.trim());
         console.log(items.find(item => item.name === tagName) !== undefined);
-        if (currentTaskTags.filter(item => item.name === tagName).length > 0) {
+        if (currentTaskTags.filter(item => item.name === tagName.trim()).length > 0) {
             setTagAlreadyAttached(true);
         } else {
             setTagAlreadyAttached(false);
 
-            if (event.key === 'Enter' && tagName !== '') {
+            if (event.key === 'Enter' && !/^\s*$/.test(tagName)) {
                 const tagEntered = allTagData.find(item => item.name === tagName);
                 if (tagEntered !== undefined) {
                     try {
@@ -159,7 +161,7 @@ export const ModelDropdown = (props) => {
             filteredItems = items; 
         } else {
             filteredItems = items.filter((item) => {
-                return item.name.toLowerCase().startsWith(tagInputValue.toLowerCase());
+                return item.name.toLowerCase().startsWith(tagInputValue.toLowerCase().trim());
             });
         }
         setTagItems(filteredItems);

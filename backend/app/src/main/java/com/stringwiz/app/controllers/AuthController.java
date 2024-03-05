@@ -1,9 +1,7 @@
 package com.stringwiz.app.controllers;
 
-import com.stringwiz.app.repositories.UserRepository;
 import com.stringwiz.app.services.CustomUserService;
 import com.stringwiz.app.utils.JwtUtil;
-import com.stringwiz.app.utils.UserRegistrationEmailUtil;
 import com.stringwiz.app.web.UserAuthenticationDto;
 import com.stringwiz.app.web.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
