@@ -12,10 +12,10 @@ import { addExistingTagInfo } from "../../DataManagement/Tags/addExistingTag";
 
 import "./modelDropdown.css";
 
-const MenuButton = ({name,icon,isActualOption,hasItemTypesOption,index,currentItemName,onClick,menuItemProperty}) => {
+const MenuButton = ({name,icon,isActualOption,hasItemTypesOption,index,currentItemName,onClick}) => {
     return (
         <button onClick={(event) => (onClick ? onClick(event,index) : null)} 
-            className={`model-dropdown-item-menu-button ${menuItemProperty} ${hasItemTypesOption ? 'model-dropdown-item-menu-button-wTypeOption' : (name==='Clear') ? 'model-dropdown-item-menu-button-clear' : '' }`}>
+            className={`model-dropdown-item-menu-button ${hasItemTypesOption ? 'model-dropdown-item-menu-button-wTypeOption' : (name==='Clear') ? 'model-dropdown-item-menu-button-clear' : '' }`}>
             <span className="model-dropdown-current-icon">{icon}</span>
             {name} 
             {isActualOption && currentItemName === name && <CheckRoundedIcon className="ms-auto"/>}
@@ -23,7 +23,7 @@ const MenuButton = ({name,icon,isActualOption,hasItemTypesOption,index,currentIt
     );
 };
 
-const MenuItem = ({ name, index, icon, isActualOption, hasItemTypesOption, currentItemName, onClick, menuItemProperty }) => {
+const MenuItem = ({ name, index, icon, isActualOption, hasItemTypesOption, currentItemName, onClick }) => {
     return (
         <>
             <MenuButton
@@ -33,7 +33,6 @@ const MenuItem = ({ name, index, icon, isActualOption, hasItemTypesOption, curre
                 isActualOption={isActualOption}
                 hasItemTypesOption={hasItemTypesOption}
                 index={index}
-                menuItemProperty={menuItemProperty}
                 currentItemName={currentItemName}
             />
         </>
@@ -44,7 +43,7 @@ export const ModelDropdown = (props) => {
     const { items, 
         hasItemTypesOption, hasArrow, hasHeaderDescText, hasSearchBar,handleTagCreation,
         initialNameValue, initialIconValue, isPriorityDropdown, setCurrentTaskPriority, isModalOnRightSide,
-        menuItemProperty,isStatusBtn, upcomingTasks, currentIndex, jwt, allTagData,currentTaskTags,setCurrentTaskTags
+        isStatusBtn, upcomingTasks, currentIndex, jwt, allTagData,currentTaskTags,setCurrentTaskTags,isTagOptionsBtn
     } = props;
 
     const isTagDropdown = initialNameValue === '';
@@ -170,95 +169,96 @@ export const ModelDropdown = (props) => {
 
     return (
         <div className="d-flex">
-        <span
-            className={`dropdown ${isDropdownOpen ? "open" : ""}`} ref={ref}
-        >
-            {
-            (currentItem.name) ?
-                <button className={`${isStatusBtn ? 'selected-item-half-rounded-btn' : 'selected-item-btn'} ${hasArrow ? '' : 'pe-3'}`} onClick={handleOpenDropdownMenu} >
-                    <span className={`model-dropdown-current-icon`}> {currentItem.icon} </span>
-                    {currentItem.name}
-                    {
-                        hasArrow &&
-                        <span className="model-dropdown-arrow-icon"> <KeyboardArrowDownRoundedIcon /> </span>
-                    }
-                </button> :
-                isPriorityDropdown ?
-                <button  className="user-home-task-details-modal-no-priority-btn" onClick={handleOpenDropdownMenu}>
-                    <TourRoundedIcon />
-                </button> : 
-
-                <button  className="user-home-task-details-modal-tag-btn" onClick={handleOpenDropdownMenu}>
+            <span
+                className={`dropdown ${isDropdownOpen ? "open" : "" } ${isTagOptionsBtn ? 'tag-options-dropdown' : ''}`} ref={ref}
+            >
+                {
+                (currentItem.name) ?
+                    <button className={`${isStatusBtn ? 'selected-item-half-rounded-btn' : 'selected-item-btn'} ${hasArrow ? '' : 'pe-3'}`} onClick={handleOpenDropdownMenu} >
+                        <span className={`model-dropdown-current-icon`}> {currentItem.icon} </span>
+                        {currentItem.name}
+                        {
+                            hasArrow &&
+                            <span className="model-dropdown-arrow-icon"> <KeyboardArrowDownRoundedIcon /> </span>
+                        }
+                    </button> :
+                    isPriorityDropdown ?
+                    <button  className="user-home-task-details-modal-no-priority-btn" onClick={handleOpenDropdownMenu}>
+                        <TourRoundedIcon />
+                    </button> : 
+                    (!isTagOptionsBtn) ? 
+                    <button  className="user-home-task-details-modal-tag-btn" onClick={handleOpenDropdownMenu}>
+                        {initialIconValue}
+                    </button> : 
+                    <span  className="user-home-task-details-modal-tag-btn" onClick={handleOpenDropdownMenu}>
                     {initialIconValue}
-                </button>
-            }
+                    </span>
+                }
 
-            <div className={`model-dropdown-menu ${isModalOnRightSide ? 'right' : 'left'}`} ref={ref} >
-                {hasHeaderDescText &&
-                <div className="m-0 pt-2 ps-2 pb-1 model-dropdown-desc-text">select the item type</div>
-                }
-                
-
-                {hasSearchBar &&
-                    <div className='d-flex align-items-center' style={{borderBottom: "1px solid #898989"}}>
-                        <form className="model-dropdown-search" role='search' onSubmit={(event) => {event.preventDefault(); return false;}}>
-                            <input
-                                className="form-control model-dropdown-search-input me-2"
-                                type="text"
-                                placeholder={`${isTagDropdown ? 'Search or create new..' : 'Search'}`}                                               
-                                aria-label="Search"
-                                onChange={isTagDropdown ? handleTagSearch : undefined}
-                                onKeyDown={isTagDropdown ? handleTagSearch : undefined}
-                                value={isTagDropdown ? tagInputValue : ''}
-                            />
-                        </form>
-                    </div>
-                }
-                {tagAlreadyAttached &&
-                <div className="m-0 pt-2 ps-2 pb-1">Tag already attached</div>
-                }
-                
-                <div>
-                    {!isTagDropdown ? items.map((item, index) => (
-                        <MenuItem
-                            key={item.name}
-                            name={item.name}
-                            icon={item.icon ? item.icon : ''}
-                            isActualOption={item.isActualOption}
-                            hasItemTypesOption={hasItemTypesOption}
-                            index={index}
-                            currentItemName={currentItem.name}
-                            menuItemProperty={menuItemProperty}
-                            onClick={(event) => handleMenuItemClick(event,item)}
-                            onHide={() => setIsDropdownOpen(!isDropdownOpen)}
-                        />
-                    )) : (!tagAlreadyAttached) ?
-                    tagItems.map((item, index) => (
-                        <MenuItem
-                            key={item.name}
-                            name={item.name}
-                            icon={item.icon ? item.icon : ''}
-                            isActualOption={item.isActualOption}
-                            hasItemTypesOption={hasItemTypesOption}
-                            index={index}
-                            currentItemName={currentItem.name}
-                            menuItemProperty={menuItemProperty}
-                            onClick={(event) => handleTagMenuItemClick(event,item)}
-                            onHide={() => setIsDropdownOpen(!isDropdownOpen)}
-                        />
-                    )) : ''
+                <div className={`model-dropdown-menu ${isModalOnRightSide ? 'right' : 'left'}`} ref={ref} >
+                    {hasHeaderDescText &&
+                    <div className="m-0 pt-2 ps-2 pb-1 model-dropdown-desc-text">select the item type</div>
                     }
-                </div>
+                    
 
-            </div>
-            
-        </span>
-       
-        { isStatusBtn &&
-        <Button className='user-home-task-details-modal-next-status-btn d-flex justify-content-center' onClick={handleNextStatusClick}>
-            <ArrowForwardIosRoundedIcon style={{width: "1.2rem", height: "1.7rem", color: "#989898"}}/>
-        </Button>
-        }
+                    {hasSearchBar &&
+                        <div className='d-flex align-items-center' style={{borderBottom: "1px solid #898989"}}>
+                            <form className="model-dropdown-search" role='search' onSubmit={(event) => {event.preventDefault(); return false;}}>
+                                <input
+                                    className="form-control model-dropdown-search-input me-2"
+                                    type="text"
+                                    placeholder={`${isTagDropdown ? 'Search or create new..' : 'Search'}`}                                               
+                                    aria-label="Search"
+                                    onChange={isTagDropdown ? handleTagSearch : undefined}
+                                    onKeyDown={isTagDropdown ? handleTagSearch : undefined}
+                                    value={isTagDropdown ? tagInputValue : ''}
+                                />
+                            </form>
+                        </div>
+                    }
+                    {tagAlreadyAttached &&
+                    <div className="m-0 pt-2 ps-2 pb-1">Tag already attached</div>
+                    }
+                    
+                    <div>
+                        {!isTagDropdown ? items.map((item, index) => (
+                            <MenuItem
+                                key={item.name}
+                                name={item.name}
+                                icon={item.icon ? item.icon : ''}
+                                isActualOption={item.isActualOption}
+                                hasItemTypesOption={hasItemTypesOption}
+                                index={index}
+                                currentItemName={currentItem.name}
+                                onClick={(event) => handleMenuItemClick(event,item)}
+                                onHide={() => setIsDropdownOpen(!isDropdownOpen)}
+                            />
+                        )) : (!tagAlreadyAttached) ?
+                        tagItems.map((item, index) => (
+                            <MenuItem
+                                key={item.name}
+                                name={item.name}
+                                icon={item.icon ? item.icon : ''}
+                                isActualOption={item.isActualOption}
+                                hasItemTypesOption={hasItemTypesOption}
+                                index={index}
+                                currentItemName={currentItem.name}
+                                onClick={(event) => handleTagMenuItemClick(event,item)}
+                                onHide={() => setIsDropdownOpen(!isDropdownOpen)}
+                            />
+                        )) : ''
+                        }
+                    </div>
+
+                </div>
+                
+            </span>
+        
+            {isStatusBtn &&
+            <Button className='user-home-task-details-modal-next-status-btn d-flex justify-content-center' onClick={handleNextStatusClick}>
+                <ArrowForwardIosRoundedIcon style={{width: "1.2rem", height: "1.7rem", color: "#989898"}}/>
+            </Button>
+            }
         </div>
         
     );

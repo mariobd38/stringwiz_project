@@ -75,8 +75,24 @@
   transition: 0.3s;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
 }
+.tag-options-dropdown .model-dropdown-menu {
+  position: absolute;
+  z-index: 1;
+  top: 30px;
+  width: 170px;
+  height: auto;
+  max-height: 240px;
+  overflow: auto;
+  opacity: 0;
+  transform: translateY(-20px);
+  visibility: hidden;
+  border-radius: 6px;
+  background-color: #262729;
+  transition: 0.3s;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+}
 .right {
-  right: 0;
+  right: -10px;
 }
 .left {
   left: 0;
@@ -162,4 +178,20 @@
 .model-dropdown-search-input::placeholder {
   color: #898989;
   font-family: 'Lato';
+}
+
+/* tag options related */
+.tag-options-dropdown .user-home-task-details-modal-tag-btn {
+  background: none;
+  width: fit-content;
+  color: rgb(255,255,255,0.75) !important;
+}
+.tag-options-dropdown .user-home-task-details-modal-tag-btn:hover {
+  color: #fafafa !important;
+}
+.tag-options-dropdown.open .model-dropdown-menu {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  min-height: 7rem;
 }

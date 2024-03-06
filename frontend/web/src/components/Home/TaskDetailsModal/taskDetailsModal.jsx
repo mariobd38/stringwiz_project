@@ -17,6 +17,9 @@ import ChecklistRtlRoundedIcon from '@mui/icons-material/ChecklistRtlRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import CircleRoundedIcon from '@mui/icons-material/CircleRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import ColorLensRoundedIcon from '@mui/icons-material/ColorLensRounded';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import DriveFileRenameOutlineRoundedIcon from '@mui/icons-material/DriveFileRenameOutlineRounded';
 import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
 import EventRoundedIcon from '@mui/icons-material/EventRounded';
 import ExtensionRoundedIcon from '@mui/icons-material/ExtensionRounded';
@@ -178,6 +181,12 @@ const TaskDetailsModal = (props) => {
         removeTagInfo(jwt,currentTaskTags[currentTagIndex].id,upcomingTasks[currentIndex].id,currentTaskTags, setCurrentTaskTags);
     }
 
+    const [showTagOptionsDropdown, setShowTagOptionsDropdown] = useState(false);
+
+    const handleTagOptionsClick = () => {
+        setShowTagOptionsDropdown(!showTagOptionsDropdown);
+    };
+
     return (
         <>
             <Modal
@@ -240,7 +249,7 @@ const TaskDetailsModal = (props) => {
                                             { name: 'Item types', icon: <ExtensionRoundedIcon />, isActualOption: false }
                                         ]}
                                         initialNameValue={"Task"} initialIconValue={<ChecklistRtlRoundedIcon />}
-                                        handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-item-type-property"}
+                                        handleTaskUpdate={(event) => handleTaskUpdate(event)}
                                         hasArrow={true} hasHeaderDescText={true} hasItemTypesOption={true}
                                         upcomingTasks={upcomingTasks} currentIndex={currentIndex}
                                     />
@@ -250,7 +259,7 @@ const TaskDetailsModal = (props) => {
                                         items={allTagData ? nonIncludedTaskTags.map((tag) => ({ name: tag.name, icon: null })) : { name: "Task", icon: null, isActualOption: true }}
                                         handleTagCreation={handleTagCreation}
                                         initialNameValue={""} initialIconValue={<SellRoundedIcon />}
-                                        handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-item-type-property"}
+                                        handleTaskUpdate={(event) => handleTaskUpdate(event)}
                                         hasSearchBar={true}
                                         upcomingTasks={upcomingTasks} currentIndex={currentIndex} jwt={jwt} allTagData={allTagData} currentTaskTags={currentTaskTags} setCurrentTaskTags={setCurrentTaskTags}
                                     />
@@ -269,7 +278,7 @@ const TaskDetailsModal = (props) => {
                                                 { name: "Clear", icon: <NotInterestedRoundedIcon />, isActualOption: false },
                                             ]}
                                             initialNameValue={currentTaskPriority} initialIconValue={<TourRoundedIcon />}
-                                            handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-priority-property"}
+                                            handleTaskUpdate={(event) => handleTaskUpdate(event)}
                                             hasClearBtn={true}
                                             isPriorityDropdown={true} setCurrentTaskPriority={setCurrentTaskPriority}
                                             upcomingTasks={upcomingTasks} currentIndex={currentIndex}
@@ -326,7 +335,7 @@ const TaskDetailsModal = (props) => {
                                                     { name: "Completed", icon: <CheckRoundedIcon />, isActualOption: true },
                                                 ]}
                                                 initialNameValue={currentTaskStatus} initialIconValue={<RadioButtonCheckedRoundedIcon />}
-                                                handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-status-property"}
+                                                handleTaskUpdate={(event) => handleTaskUpdate(event)}
                                                 hasSearchBar={true} isStatusBtn={true}
                                                 upcomingTasks={upcomingTasks} currentIndex={currentIndex}
                                             />
@@ -354,7 +363,7 @@ const TaskDetailsModal = (props) => {
                                                     { name: "Clear", icon: <NotInterestedRoundedIcon />, isActualOption: false },
                                                 ]}
                                                 initialNameValue={currentTaskPriority} initialIconValue={<TourRoundedIcon />}
-                                                handleTaskUpdate={(event) => handleTaskUpdate(event)} menuItemProperty={"dropdown-priority-property"}
+                                                handleTaskUpdate={(event) => handleTaskUpdate(event)}
                                                 hasClearBtn={true}
                                                 isPriorityDropdown={true} setCurrentTaskPriority={setCurrentTaskPriority}
                                                 upcomingTasks={upcomingTasks} currentIndex={currentIndex}
@@ -373,8 +382,29 @@ const TaskDetailsModal = (props) => {
                                         <span className='lato-font d-flex align-items-center user-home-task-details-modal-tags-group'>
                                             {currentTaskTags.map((tag, index) => (
                                                 <Button key={index} className='mx-1 user-home-task-details-modal-tags-button'>
-                                                    <span className='d-flex'><SellRoundedIcon className='pe-2'/><span className="align-middle user-home-task-details-modal-tags-button-text">{tag.name}</span></span>
-                                                    <span className='user-home-task-details-modal-tags-button-options'><MoreHorizRoundedIcon style={{width: "1.2rem"}}/></span>
+                                                    <span className='d-flex'>
+                                                        <SellRoundedIcon className='pe-2'/>
+                                                        <span className="align-middle user-home-task-details-modal-tags-button-text" >
+                                                            {tag.name}
+                                                        </span>
+                                                    </span>
+                                                    <span className='user-home-task-details-modal-tags-button-options'>
+                                                        {/* <MoreHorizRoundedIcon style={{width: "1.2rem"}}/> */}
+                                                        <ModelDropdown 
+                                                            items={[
+                                                                { name: "Rename", icon: <DriveFileRenameOutlineRoundedIcon/>, isActualOption: true },
+                                                                { name: "Change color", icon: <ColorLensRoundedIcon/>, isActualOption: true },
+                                                                { name: "Delete", icon: <DeleteOutlineOutlinedIcon />, isActualOption: true },
+                                                            ]}
+                                                            handleTagCreation={handleTagCreation}
+                                                            initialNameValue={""} initialIconValue={<MoreHorizRoundedIcon />}
+                                                            handleTaskUpdate={(event) => handleTaskUpdate(event)}
+                                                            isTagOptionsBtn={true} isModalOnRightSide={false}
+                                                            upcomingTasks={upcomingTasks} currentIndex={currentIndex} jwt={jwt} allTagData={allTagData} currentTaskTags={currentTaskTags} setCurrentTaskTags={setCurrentTaskTags}
+                                                        />
+                                                        
+                                                    </span>
+                                                    
                                                     <span className='user-home-task-details-modal-tags-button-close' onClick={() => handleTagRemoval(index)}><CloseRoundedIcon style={{width: "1.2rem"}}/></span>
                                                 </Button>
                                             ))}

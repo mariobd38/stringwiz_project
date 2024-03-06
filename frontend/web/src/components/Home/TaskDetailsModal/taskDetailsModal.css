@@ -247,16 +247,12 @@
 }
 .user-home-task-details-modal-tags-button {
     padding: 0.3rem 0.4rem !important;
-    position: relative; 
-    /* overflow: hidden; 
-    white-space: nowrap;
-    text-overflow: ellipsis !important; */
-    /* max-width: 100%;  */
+    position: relative;
 }
 .user-home-task-details-modal-tags-button-options {
     display: none;
     position: absolute;
-    right: 20px;
+    right: 13px;
     /* padding-left: 10px; */
     top: 50%;
     transform: translateY(-50%); 
@@ -283,7 +279,6 @@
 }
 .user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-text {
     white-space: nowrap;
-    text-overflow: ellipsis;
     overflow: hidden;
-    width: calc(100% - 60px) !important;
+    width: calc(100% - 65px) !important;
 }

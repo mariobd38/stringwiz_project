@@ -41,6 +41,20 @@ public class AuthController {
                     )
                 );
 
+            //code to use http only cookie below
+            /*
+            String jwt = jwtUtil.generateToken(user);
+
+            // Set JWT as an HTTP-only cookie
+            Cookie cookie = new Cookie("jwt", jwt);
+            cookie.setHttpOnly(true);
+            cookie.setMaxAge((int) JWT_TOKEN_VALIDITY * 1000); // Max age in seconds
+            cookie.setPath("/"); // Set the cookie path to the root of the domain
+            response.addCookie(cookie);
+
+            // Return the user details without the password
+            user.setPassword(null);
+            return ResponseEntity.ok().body(user);
             User user = (User) authenticate.getPrincipal();
             user.setPassword(null);
             return ResponseEntity.ok()
@@ -49,7 +63,15 @@ public class AuthController {
                     jwtUtil.generateToken(user)
                 )
                 .body(user);
-
+            */
+            User user = (User) authenticate.getPrincipal();
+            user.setPassword(null);
+            return ResponseEntity.ok()
+                    .header(
+                            HttpHeaders.AUTHORIZATION,
+                            jwtUtil.generateToken(user)
+                    )
+                    .body(user);
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
