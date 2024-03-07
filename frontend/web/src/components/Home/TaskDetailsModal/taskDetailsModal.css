@@ -239,6 +239,7 @@
     outline: none !important;
 }
 .user-home-task-details-modal-tags-group {
+    position: relative;
     margin-left: 0.45rem;
     padding-top: 0.2rem;
     padding-bottom: 0.2rem;
@@ -249,11 +250,11 @@
     padding: 0.3rem 0.4rem !important;
     position: relative;
 }
+
 .user-home-task-details-modal-tags-button-options {
     display: none;
     position: absolute;
     right: 13px;
-    /* padding-left: 10px; */
     top: 50%;
     transform: translateY(-50%); 
     color: rgb(255,255,255,0.75);
@@ -271,11 +272,15 @@
     color: #ffffff;
 }
 .user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-close, 
-.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-options {
-    display: inline-block;
+.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-options.dropdown-closed {
+    display: inline-block !important;
+}
+.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-options.dropdown-open, 
+.user-home-task-details-modal-tags-button-options.dropdown-open.dropdown-hover-off {
+    display: inline-block !important;
 }
 .user-home-task-details-modal-tags-button-text {
-    display: flex;
+    display: inline-block;
 }
 .user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-text {
     white-space: nowrap;

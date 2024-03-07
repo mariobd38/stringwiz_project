@@ -181,12 +181,14 @@
 }
 
 /* tag options related */
-.tag-options-dropdown .user-home-task-details-modal-tag-btn {
+.tag-options-dropdown .user-home-task-details-modal-tag-options-btn {
   background: none;
   width: fit-content;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
   color: rgb(255,255,255,0.75) !important;
 }
-.tag-options-dropdown .user-home-task-details-modal-tag-btn:hover {
+.tag-options-dropdown .user-home-task-details-modal-tag-options-btn:hover {
   color: #fafafa !important;
 }
 .tag-options-dropdown.open .model-dropdown-menu {

@@ -42,7 +42,7 @@ const MenuItem = ({ name, index, icon, isActualOption, hasItemTypesOption, curre
 export const ModelDropdown = (props) => {
     const { items, 
         hasItemTypesOption, hasArrow, hasHeaderDescText, hasSearchBar,handleTagCreation,
-        initialNameValue, initialIconValue, isPriorityDropdown, setCurrentTaskPriority, isModalOnRightSide,
+        initialNameValue, initialIconValue, isPriorityDropdown, setCurrentTaskPriority, isDropdownOnRightSide,
         isStatusBtn, upcomingTasks, currentIndex, jwt, allTagData,currentTaskTags,setCurrentTaskTags,isTagOptionsBtn
     } = props;
 
@@ -190,12 +190,12 @@ export const ModelDropdown = (props) => {
                     <button  className="user-home-task-details-modal-tag-btn" onClick={handleOpenDropdownMenu}>
                         {initialIconValue}
                     </button> : 
-                    <span  className="user-home-task-details-modal-tag-btn" onClick={handleOpenDropdownMenu}>
+                    <span  className="user-home-task-details-modal-tag-options-btn" onClick={handleOpenDropdownMenu}>
                     {initialIconValue}
                     </span>
                 }
 
-                <div className={`model-dropdown-menu ${isModalOnRightSide ? 'right' : 'left'}`} ref={ref} >
+                <div className={`model-dropdown-menu ${isDropdownOnRightSide ? 'right' : 'left'}`} ref={ref} >
                     {hasHeaderDescText &&
                     <div className="m-0 pt-2 ps-2 pb-1 model-dropdown-desc-text">select the item type</div>
                     }
