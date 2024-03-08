@@ -197,3 +197,18 @@
   visibility: visible;
   min-height: 7rem;
 }
+.user-home-task-details-modal-tag-options-btn.dropdown-closed  {
+  display: none;
+}
+
+.user-home-task-details-modal-tags-button-close:hover,
+.user-home-task-details-modal-tags-button-options:hover {
+    color: #ffffff;
+}
+.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tag-options-btn {
+  display: inline-block !important;
+
+}
+.user-home-task-details-modal-tags-button .user-home-task-details-modal-tag-options-btn.dropdown-open {
+  display: none;
+}

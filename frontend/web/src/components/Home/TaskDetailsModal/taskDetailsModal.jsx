@@ -44,7 +44,6 @@ import { Tooltip } from 'react-tooltip';
 
 function handleBreadcrumbClick(event) {
     event.preventDefault();
-    console.info('You clicked a breadcrumb.');
 }
 
 const TaskDetailsModal = (props) => {
@@ -179,32 +178,54 @@ const TaskDetailsModal = (props) => {
     const handleTagRemoval = (currentTagIndex) => {
         console.log("delete!");
         console.log(currentTaskTags[currentTagIndex]);
-        // console.log(upcomingTasks[currentIndex]);
         removeTagInfo(jwt,currentTaskTags[currentTagIndex].id,upcomingTasks[currentIndex].id,currentTaskTags, setCurrentTaskTags);
     }
 
-    const [tagOptionsDropdownIsOpen, setTagOptionDropdownIsOpen] = useState(false);
-    const [tagOptionsDropdownHoverOff, setTagOptionDropdownHoverOff] = useState(false);
 
-    const handleTagOptionsDropdownMouseEnter = () => {
-        setTagOptionDropdownHoverOff(false);
-    }
 
+    const [tagDropdownStates, setTagDropdownStates] = useState(currentTaskTags.reduce((acc, _, index) => {
+        acc[index] = false;
+        return acc;
+    }, {}));
+    
     const handleTagOptionsDropdownMouseLeave = (index) => {
-        if (!tagOptionsDropdownIsOpen) {
-            setTagOptionDropdownIsOpen(false);
-        } else {
-            console.log(index);
-            console.log('hyyyyy');
-            // setTagOptionDropdownIsOpen(true);
-            setTagOptionDropdownHoverOff(true);
-        }
+        console.log("jddkhdhjkdk");
+        // setTagDropdownStates((prevState) => ({
+        //     ...prevState,
+        //     [index]: true,
+        //     ...Object.keys(prevState).filter((key) => key !== index).reduce((acc, key) => {
+        //         acc[key] = false;
+        //         return acc;
+        //     }, {})
+        // }));
+
+        setTagDropdownStates((prevState) => {
+            if(prevState[index]) {
+                return  { ...prevState };
+            }
+            let anyOtherDropdownOpen = false;
+            Object.keys(prevState).forEach((key) => {
+                if (prevState[key] && key !== index) {
+                    anyOtherDropdownOpen = true;
+                }
+            });
+
+            if (!anyOtherDropdownOpen) {
+                const newState = { ...prevState };
+                Object.keys(newState).forEach((key) => {
+                    newState[key] = key === index;
+                });
+                return newState;
+            }
+            return { ...prevState };
+        });
     };
 
 
     const ref = useRef(null);
-    // useClickAway(ref, () => tagOptionsDropdownIsOpen && setTagOptionDropdownIsOpen(!tagOptionsDropdownIsOpen));
-
+    useClickAway(ref, () => {
+        setTagDropdownStates(Array(currentTaskTags.length).fill(false));
+    });
 
     return (
         <>
@@ -399,45 +420,11 @@ const TaskDetailsModal = (props) => {
 
                                     <div>
                                         <span className='lato-font d-flex align-items-center user-home-task-details-modal-tags-group'>
-                                        {/* {currentTaskTags.map((tag, index) => (
-                                            <Button key={index} className='mx-1 user-home-task-details-modal-tags-button'
-                                                onMouseEnter={() => handleTagOptionsDropdownMouseEnter(index)}
-                                                onMouseLeave={() => handleTagOptionsDropdownMouseLeave(index)}
-                                            >
-                                                <span className='d-flex'>
-                                                    <SellRoundedIcon className='pe-2'/>
-                                                    <span className="align-middle user-home-task-details-modal-tags-button-text" >
-                                                        {tag.name}
-                                                    </span>
-                                                </span>
-                                                <span className={`user-home-task-details-modal-tags-button-options ${!tagOptionsDropdownStates[index] ? 'dropdown-open' : 'dropdown-closed'} 
-                                                    ${tagOptionsDropdownStates[index] ? 'dropdown-hover-off' : 'none'} `}>
-
-                                                    <TagOptionsDropdown 
-                                                        items={[
-                                                            { name: "Rename", icon: <DriveFileRenameOutlineRoundedIcon/> },
-                                                            { name: "Change color", icon: <ColorLensRoundedIcon/> },
-                                                            { name: "Delete", icon: <DeleteOutlineOutlinedIcon /> },
-                                                        ]}
-                                                        initialNameValue={""} initialIconValue={<MoreHorizRoundedIcon />}
-                                                        isTagOptionsBtn={true} isDropdownOnRightSide={false}  ref={ref}
-                                                        tagOptionsDropdownIsOpen={!tagOptionsDropdownStates[index]} setTagOptionDropdownIsOpen={(isOpen) => setTagOptionsDropdownStates((prevState) => ({ ...prevState, [index]: isOpen }))}
-                                                    />
-                                                    
-                                                </span>
-                                                
-                                                <span className='user-home-task-details-modal-tags-button-close' onClick={() => handleTagRemoval(index)}><CloseRoundedIcon style={{width: "1.2rem"}}/></span>
-                                            </Button>
-                                        ))} */}
-
-
-
-
+                                        
                                             {currentTaskTags.map((tag, index) => (
                                                 <Button key={index} className='mx-1 user-home-task-details-modal-tags-button'
-                                                    // onMouseEnter={handleTagOptionsDropdownMouseEnter}
-                                                    ref={ref}
-                                                    // onMouseLeave={() => handleTagOptionsDropdownMouseLeave(index)}
+                                                    ref={ref} 
+                                                    onMouseLeave={() => handleTagOptionsDropdownMouseLeave(index)}
                                                 >
                                                     <span className='d-flex'>
                                                         <SellRoundedIcon className='pe-2'/>
@@ -445,8 +432,8 @@ const TaskDetailsModal = (props) => {
                                                             {tag.name}
                                                         </span>
                                                     </span>
-                                                    <span className={`user-home-task-details-modal-tags-button-options ${tagOptionsDropdownIsOpen ? 'dropdown-open' : 'dropdown-closed'} 
-                                                        ${tagOptionsDropdownHoverOff ? 'dropdown-hover-off' : 'none'} `}>
+                                                    <span className={`user-home-task-details-modal-tags-button-options ${tagDropdownStates && tagDropdownStates[index] ? 'dropdown-open' : 'dropdown-closed'} 
+                                                         `}>
 
                                                         <TagOptionsDropdown 
                                                             items={[
@@ -455,8 +442,8 @@ const TaskDetailsModal = (props) => {
                                                                 { name: "Delete", icon: <DeleteOutlineOutlinedIcon /> },
                                                             ]}
                                                             initialNameValue={""} initialIconValue={<MoreHorizRoundedIcon />}
-                                                            isTagOptionsBtn={true} isDropdownOnRightSide={false}  ref={ref}
-                                                            tagOptionsDropdownIsOpen={tagOptionsDropdownIsOpen} setTagOptionDropdownIsOpen={setTagOptionDropdownIsOpen}
+                                                            isTagOptionsBtn={true} isDropdownOnRightSide={false}  ref={ref} index={index}
+                                                            tagDropdownStates={tagDropdownStates} setTagDropdownStates={setTagDropdownStates}
                                                         />
                                                         
                                                     </span>
@@ -483,7 +470,6 @@ const TaskDetailsModal = (props) => {
                             />
                         </div>
                     </div>   
-
                                         
                 </Modal.Body>
                 

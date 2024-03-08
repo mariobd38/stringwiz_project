@@ -252,13 +252,19 @@
 }
 
 .user-home-task-details-modal-tags-button-options {
-    display: none;
     position: absolute;
     right: 13px;
     top: 50%;
     transform: translateY(-50%); 
     color: rgb(255,255,255,0.75);
 }
+.user-home-task-details-modal-tags-button-options.dropwdown-open {
+    display: inline-block;
+}
+.user-home-task-details-modal-tags-button-options.dropwdown-closed {
+    display: none;
+}
+
 .user-home-task-details-modal-tags-button-close {
     display: none;
     position: absolute;
@@ -272,11 +278,8 @@
     color: #ffffff;
 }
 .user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-close, 
-.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-options.dropdown-closed {
-    display: inline-block !important;
-}
-.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-options.dropdown-open, 
-.user-home-task-details-modal-tags-button-options.dropdown-open.dropdown-hover-off {
+.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-options.dropdown-closed,
+.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-options.dropdown-open  {
     display: inline-block !important;
 }
 .user-home-task-details-modal-tags-button-text {

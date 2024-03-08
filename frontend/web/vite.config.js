@@ -8,7 +8,6 @@ export default defineConfig(() => {
       outDir: 'build',
     },
     plugins: [react({
-      // Add this line
       include: "**/*.jsx",
 
     }), vitePluginRequire.default()],
