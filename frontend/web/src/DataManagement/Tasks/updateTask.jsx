@@ -99,7 +99,7 @@ function updateTaskInfo  (
         .then((newData) => {
             upcomingTasks[currentRowIndex] = newData;
             // setTaskData(newData);    
-            console.log("updated task array!");
+            // console.log("updated task array!");
         })
         .catch((error) => {
             console.error(error); 

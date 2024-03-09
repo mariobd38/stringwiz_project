@@ -1,25 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import "./tagOptionsDropdown.css";
 
-const MenuButton = ({name,icon,hasItemTypesOption,index,onClick}) => {
+const MenuButton = ({name,icon,index,onClick}) => {
     return (
         <button onClick={(event) => (onClick ? onClick(event,index) : null)} 
-            className={`model-dropdown-item-menu-button ${hasItemTypesOption ? 'model-dropdown-item-menu-button-wTypeOption' : (name==='Clear') ? 'model-dropdown-item-menu-button-clear' : '' }`}>
-            <span className="model-dropdown-current-icon">{icon}</span>
+            className={`model-dropdown-item-menu-button`}>
+            <span className="tod-model-dropdown-current-icon">{icon}</span>
             {name} 
         </button>
     );
 };
 
-const MenuItem = ({ name, index, icon, hasItemTypesOption, onClick }) => {
+const MenuItem = ({ name, index, icon, onClick }) => {
     return (
         <>
             <MenuButton
                 onClick={(event, index) => onClick(event, index)}
                 icon={icon}
                 name={name}
-                hasItemTypesOption={hasItemTypesOption}
                 index={index}
             />
         </>
@@ -27,56 +26,44 @@ const MenuItem = ({ name, index, icon, hasItemTypesOption, onClick }) => {
 };
 
 export const TagOptionsDropdown = (props) => {
-    const { items,initialNameValue, initialIconValue, isDropdownOnRightSide,isTagOptionsBtn,
-        tagDropdownStates, setTagDropdownStates,ref, index} = props;
-
-    const currentItem = { name: initialNameValue, icon: initialIconValue };
+    const { items, initialIconValue, isDropdownOnRightSide,
+        tagDropdownStates, setTagDropdownStates, index,tagOptionsDropdownRef} = props;
+    
+        const [position, setPosition] = useState({ top: 0, left: 0 });
         
     const handleMenuItemClick = (event,item) => {
-        // setTagDropdownStates((prevState) =>
-        //     prevState.map((state, i) => (i === index ? !state : state))
-        // );
+        setTagDropdownStates((prevState) => ({
+                ...prevState,
+                [index]: false
+            }));
     }
 
     const handleOpenDropdownMenu = (event) => {
-        console.log("inside menu");
         event.stopPropagation();
-        /*
+        
         setTagDropdownStates((prevState) => {
-            if (prevState[index]) {
-                // return {prevState}; 
-                return { ...prevState, [index]: false };
+            const newState = { ...prevState };
+            const isDropdownOpen = newState[index];
+            for (const key in prevState) {
+                newState[key] = false; 
             }
-            // const isDropdownOpen = prevState[index];
-            console.log("alright");
-            const newState = {};
-            Object.keys(prevState).forEach((key) => {
-                newState[key] = key === index ? true : false;
-                // newState[key] = false;
-            });
-            newState[index] = true;
+            newState[index] = !isDropdownOpen;
             return newState;
-        }); */
-
-        setTagDropdownStates((prevState) => ({
-            ...prevState,
-            [index]: !prevState[index]
-        }));
+        });
     }
-    
-    // const ref = useRef(null);
-    // useClickAway(ref, () => tagOptionsDropdownIsOpen && setTagOptionDropdownIsOpen(false));
-
     return (
         <div className="d-flex">
             <span
-                className={`dropdown ${tagDropdownStates[index] ? "open" : "" } ${isTagOptionsBtn ? 'tag-options-dropdown' : ''}`} ref={ref}
+                className={`tod-dropdown tod-tag-options-dropdown ${tagDropdownStates[index] ? "open" : "" }`}
             >
-                <span  className={`user-home-task-details-modal-tag-options-btn ${tagDropdownStates && tagDropdownStates[index] ? 'dropdown-open' : 'dropdown-closed'} `} onClick={handleOpenDropdownMenu}>
+                <span className={`user-home-task-details-modal-tag-options-btn ${tagDropdownStates && tagDropdownStates[index] ? 'dropdown-open' : 'dropdown-closed'} `} 
+                onClick={handleOpenDropdownMenu}>
                 {initialIconValue}
                 </span>
                 
-                <div className={`model-dropdown-menu ${isDropdownOnRightSide ? 'right' : 'left'}`} ref={ref} >
+                <div className={`tod-model-dropdown-menu ${isDropdownOnRightSide ? 'tag-options-right' : 'tag-options-left'}`} ref={tagOptionsDropdownRef}
+                 style={{position: "absolute"}}
+                >
                     
                     <div>
                         {items.map((item, index) => (

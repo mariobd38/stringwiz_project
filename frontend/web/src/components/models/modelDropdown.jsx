@@ -57,12 +57,10 @@ export const ModelDropdown = (props) => {
         
         props.handleTaskUpdate(event);
 
-        console.log(items.name);
         if (isPriorityDropdown) {
             const priorities = items.filter(item => item.name !== 'Clear')
                 .map(item => item.name);
             if (priorities.includes(item.name)) {
-                console.log(item.name);
                 setCurrentItem({name: item.name, icon: item.icon});
                 setCurrentTaskPriority(item.name);
             } else if(item.name === 'Clear') {
@@ -120,9 +118,6 @@ export const ModelDropdown = (props) => {
 
     async function handleTagSearch(event) {
         const tagName = event.target.value;
-        // console.log("this is the actual task");
-        // console.log(tagName.trim());
-        console.log(items.find(item => item.name === tagName) !== undefined);
         if (currentTaskTags.filter(item => item.name === tagName.trim()).length > 0) {
             setTagAlreadyAttached(true);
         } else {

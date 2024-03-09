@@ -91,12 +91,6 @@
   transition: 0.3s;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
 }
-.right {
-  right: -10px;
-}
-.left {
-  left: 0;
-}
 .model-dropdown-desc-text {
   text-transform: uppercase;
   font-family: 'Lato';
@@ -178,37 +172,4 @@
 .model-dropdown-search-input::placeholder {
   color: #898989;
   font-family: 'Lato';
-}
-
-/* tag options related */
-.tag-options-dropdown .user-home-task-details-modal-tag-options-btn {
-  background: none;
-  width: fit-content;
-  padding: 0.2rem 0.4rem;
-  border-radius: 4px;
-  color: rgb(255,255,255,0.75) !important;
-}
-.tag-options-dropdown .user-home-task-details-modal-tag-options-btn:hover {
-  color: #fafafa !important;
-}
-.tag-options-dropdown.open .model-dropdown-menu {
-  opacity: 1;
-  transform: translateY(0);
-  visibility: visible;
-  min-height: 7rem;
-}
-.user-home-task-details-modal-tag-options-btn.dropdown-closed  {
-  display: none;
-}
-
-.user-home-task-details-modal-tags-button-close:hover,
-.user-home-task-details-modal-tags-button-options:hover {
-    color: #ffffff;
-}
-.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tag-options-btn {
-  display: inline-block !important;
-
-}
-.user-home-task-details-modal-tags-button .user-home-task-details-modal-tag-options-btn.dropdown-open {
-  display: none;
 }

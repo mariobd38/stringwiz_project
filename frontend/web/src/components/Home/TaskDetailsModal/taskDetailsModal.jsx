@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef,createRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLocalState } from "../../../utils/useLocalStorage";
 import { useClickAway } from 'react-use';
@@ -135,9 +135,7 @@ const TaskDetailsModal = (props) => {
 
     const handleDueDatePopoverClose = (event) => {
         setDueDatePopoverAnchorEl(null);
-        setSelectedDate(false); 
-        console.log("within due date close");
-        console.log(upcomingTasks);
+        setSelectedDate(false);
         setCurrentTaskDueDate(upcomingTasks[currentIndex].dueDate);
         setDueDateClockIsOpen(false);
     };
@@ -176,32 +174,24 @@ const TaskDetailsModal = (props) => {
 
 
     const handleTagRemoval = (currentTagIndex) => {
-        console.log("delete!");
-        console.log(currentTaskTags[currentTagIndex]);
         removeTagInfo(jwt,currentTaskTags[currentTagIndex].id,upcomingTasks[currentIndex].id,currentTaskTags, setCurrentTaskTags);
     }
 
 
 
-    const [tagDropdownStates, setTagDropdownStates] = useState(currentTaskTags.reduce((acc, _, index) => {
-        acc[index] = false;
-        return acc;
-    }, {}));
+    const [tagDropdownStates, setTagDropdownStates] = useState(() => {
+        const initialState = {};
+        currentTaskTags.forEach((_, index) => {
+            initialState[index] = false;
+        });
+        return initialState;
+    });
     
-    const handleTagOptionsDropdownMouseLeave = (index) => {
-        console.log("jddkhdhjkdk");
-        // setTagDropdownStates((prevState) => ({
-        //     ...prevState,
-        //     [index]: true,
-        //     ...Object.keys(prevState).filter((key) => key !== index).reduce((acc, key) => {
-        //         acc[key] = false;
-        //         return acc;
-        //     }, {})
-        // }));
+    const handleTagOptionsDropdownMouseLeave = (event, index) => {
 
         setTagDropdownStates((prevState) => {
             if(prevState[index]) {
-                return  { ...prevState };
+                return { ...prevState };
             }
             let anyOtherDropdownOpen = false;
             Object.keys(prevState).forEach((key) => {
@@ -221,12 +211,31 @@ const TaskDetailsModal = (props) => {
         });
     };
 
+    const tagOptionsDropdownRef = useRef(null);
+    const tagOptionsButtonRef = useRef(null);
+    const tagButtonRefs = useRef([]);
 
-    const ref = useRef(null);
-    useClickAway(ref, () => {
-        setTagDropdownStates(Array(currentTaskTags.length).fill(false));
+    useEffect(() => {
+        tagButtonRefs.current = Array(currentTaskTags.length)
+            .fill()
+            .map((_, index) => tagButtonRefs.current[index] || createRef());
+            console.log(tagButtonRefs.current);
+    }, [currentTaskTags.length]);
+
+    const[trueIndex, setTrueIndex] = useState(-1);
+    useEffect(() => {
+        const newTrueIndex = Object.keys(tagDropdownStates).find(key => tagDropdownStates[key]);
+        setTrueIndex(newTrueIndex !== undefined ? newTrueIndex : -1);
+    }, [tagDropdownStates, trueIndex])
+
+    useClickAway(trueIndex !== -1 && tagButtonRefs.current[trueIndex],() => {
+        setTagDropdownStates((prevState) => {
+            const newState = { ...prevState };
+            newState[trueIndex] = false;
+            return newState;
+        });
     });
-
+    
     return (
         <>
             <Modal
@@ -392,7 +401,7 @@ const TaskDetailsModal = (props) => {
                                 <div className='d-flex flex-column' style={{ fontSize: "1.06rem" }}>
                                     <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center'>Priority</div>
                                     <div>
-                                        <span className='lato-font d-flex align-items-center' style={{marginLeft: "0.45rem"}}>
+                                        <span className='lato-font d-flex align-items-center' style={{marginLeft: "0.45rem", backgroundColor: "red"}}>
                                             
                                             <ModelDropdown 
                                                 items={[
@@ -404,7 +413,7 @@ const TaskDetailsModal = (props) => {
                                                 ]}
                                                 initialNameValue={currentTaskPriority} initialIconValue={<TourRoundedIcon />}
                                                 handleTaskUpdate={(event) => handleTaskUpdate(event)}
-                                                hasClearBtn={true}
+                                                hasClearBtn={true} 
                                                 isPriorityDropdown={true} setCurrentTaskPriority={setCurrentTaskPriority}
                                                 upcomingTasks={upcomingTasks} currentIndex={currentIndex}
                                             />
@@ -419,11 +428,11 @@ const TaskDetailsModal = (props) => {
                                     </div>
 
                                     <div>
-                                        <span className='lato-font d-flex align-items-center user-home-task-details-modal-tags-group'>
+                                        <span className='lato-font d-flex align-items-center user-home-task-details-modal-tags-group' >
                                         
                                             {currentTaskTags.map((tag, index) => (
                                                 <Button key={index} className='mx-1 user-home-task-details-modal-tags-button'
-                                                    ref={ref} 
+                                                    ref={tagButtonRefs.current[index]}
                                                     onMouseLeave={() => handleTagOptionsDropdownMouseLeave(index)}
                                                 >
                                                     <span className='d-flex'>
@@ -433,22 +442,24 @@ const TaskDetailsModal = (props) => {
                                                         </span>
                                                     </span>
                                                     <span className={`user-home-task-details-modal-tags-button-options ${tagDropdownStates && tagDropdownStates[index] ? 'dropdown-open' : 'dropdown-closed'} 
-                                                         `}>
-
-                                                        <TagOptionsDropdown 
+                                                         `}  ref={tagOptionsButtonRef}>
+                                                        <TagOptionsDropdown
                                                             items={[
                                                                 { name: "Rename", icon: <DriveFileRenameOutlineRoundedIcon/> },
                                                                 { name: "Change color", icon: <ColorLensRoundedIcon/> },
                                                                 { name: "Delete", icon: <DeleteOutlineOutlinedIcon /> },
                                                             ]}
-                                                            initialNameValue={""} initialIconValue={<MoreHorizRoundedIcon />}
-                                                            isTagOptionsBtn={true} isDropdownOnRightSide={false}  ref={ref} index={index}
-                                                            tagDropdownStates={tagDropdownStates} setTagDropdownStates={setTagDropdownStates}
+                                                            initialIconValue={<MoreHorizRoundedIcon />}
+                                                            isDropdownOnRightSide={false}
+                                                            tagDropdownStates={tagDropdownStates}
+                                                            setTagDropdownStates={setTagDropdownStates}
+                                                            index={index}
+                                                            tagOptionsDropdownRef={tagOptionsDropdownRef}
                                                         />
-                                                        
                                                     </span>
-                                                    
-                                                    <span className='user-home-task-details-modal-tags-button-close' onClick={() => handleTagRemoval(index)}><CloseRoundedIcon style={{width: "1.2rem"}}/></span>
+                                                    <span className='user-home-task-details-modal-tags-button-close' onClick={() => handleTagRemoval(index)}>
+                                                        <CloseRoundedIcon style={{width: "1.2rem"}}/>
+                                                    </span>
                                                 </Button>
                                             ))}
                                         </span>
