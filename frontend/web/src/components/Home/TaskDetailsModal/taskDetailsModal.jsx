@@ -42,6 +42,7 @@ import { removeTagInfo } from '../../../DataManagement/Tags/removeTag';
 import { ModelDropdown } from '../../models/modelDropdown';
 import { ProfileCard } from './ProfileCard/profileCard';
 import { TagColorDropdown } from './TagColorDropdown/tagColorDropdown';
+import TaskDetailsModalSubheader from './taskDetailsModalSubheader';
 
 import { updateTagInfo } from '../../../DataManagement/Tags/updateTag';
 
@@ -343,51 +344,19 @@ const TaskDetailsModal = (props) => {
                             </h2>
 
                                 <div className='d-flex gap-3 my-3'>
-                                    <ModelDropdown 
-                                        items={[
-                                            { name: "Task", icon: <ChecklistRtlRoundedIcon />, isActualOption: true },
-                                            { name: "Milestone", icon: <EmojiEventsRoundedIcon />, isActualOption: true },
-                                            { name: "Event", icon: <EventRoundedIcon />, isActualOption: true },
-                                            { name: 'Item types', icon: <ExtensionRoundedIcon />, isActualOption: false }
-                                        ]}
-                                        initialNameValue={"Task"} initialIconValue={<ChecklistRtlRoundedIcon />}
+                                    <TaskDetailsModalSubheader 
+                                        upcomingTasks={upcomingTasks}
+                                        currentIndex={currentIndex}
                                         handleTaskUpdate={(event) => handleTaskUpdate(event)}
-                                        hasArrow={true} hasHeaderDescText={true} hasItemTypesOption={true}
-                                        upcomingTasks={upcomingTasks} currentIndex={currentIndex}
-                                    />
-                                    <div data-tooltip-id="my-tooltip" data-tooltip-content={`Add tags`}>
-                                    <ModelDropdown 
-                                        // items={[{}]}
-                                        items={allTagData ? nonIncludedTaskTags.map((tag) => ({ name: tag.name, icon: null })) : { name: "Task", icon: null, isActualOption: true }}
+                                        allTagData={allTagData}
+                                        nonIncludedTaskTags={nonIncludedTaskTags}
                                         handleTagCreation={handleTagCreation}
-                                        initialNameValue={""} initialIconValue={<SellRoundedIcon />}
-                                        handleTaskUpdate={(event) => handleTaskUpdate(event)}
-                                        hasSearchBar={true}
-                                        upcomingTasks={upcomingTasks} currentIndex={currentIndex} jwt={jwt} allTagData={allTagData} currentTaskTags={currentTaskTags} setCurrentTaskTags={setCurrentTaskTags}
+                                        currentTaskPriority={currentTaskPriority}
+                                        setCurrentTaskPriority={setCurrentTaskPriority}
+                                        jwt={jwt}
+                                        currentTaskTags={currentTaskTags}
+                                        setCurrentTaskTags={setCurrentTaskTags}
                                     />
-                                    </div>
-                                    <Tooltip id="my-tooltip" className='task-details-modal-tooltip' style={{backgroundColor: "#2454d6", color: "#fafafa", fontSize: "0.8rem", borderRadius: "10px" }}/>
-
-
-                                    {!currentTaskPriority &&
-                                    <div data-tooltip-id="my-tooltip" data-tooltip-content={`Add priority`}>
-                                        <ModelDropdown 
-                                            items={[
-                                                { name: "Critical", icon: <TourRoundedIcon /*style={{color: "#c90825"}}*//>, isActualOption: true },
-                                                { name: "High", icon: <TourRoundedIcon /*style={{color: "gold"}}*//>, isActualOption: true },
-                                                { name: "Medium", icon: <TourRoundedIcon /*style={{color: "#0976d6"}}*//>, isActualOption: true },
-                                                { name: "Low", icon: <TourRoundedIcon />, isActualOption: true },
-                                                { name: "Clear", icon: <NotInterestedRoundedIcon />, isActualOption: false },
-                                            ]}
-                                            initialNameValue={currentTaskPriority} initialIconValue={<TourRoundedIcon />}
-                                            handleTaskUpdate={(event) => handleTaskUpdate(event)}
-                                            hasClearBtn={true}
-                                            isPriorityDropdown={true} setCurrentTaskPriority={setCurrentTaskPriority}
-                                            upcomingTasks={upcomingTasks} currentIndex={currentIndex}
-                                        />
-                                    </div>}
-                                    <Tooltip id="my-tooltip" className='task-details-modal-tooltip' style={{backgroundColor: "#2454d6", color: "#fafafa", fontSize: "0.8rem", borderRadius: "10px" }}/>
-
                                 </div>
 
                             <div className='d-flex flex-wrap column-gap-5 row-gap-2 lato-font'>
@@ -454,7 +423,7 @@ const TaskDetailsModal = (props) => {
                                 <div className='d-flex flex-column' style={{ fontSize: "1.06rem" }}>
                                     <div className='me-3 user-home-task-details-modal-head-text d-flex align-items-center'>Priority</div>
                                     <div>
-                                        <span className='lato-font d-flex align-items-center' style={{marginLeft: "0.45rem", backgroundColor: "red"}}>
+                                        <span className='lato-font d-flex align-items-center' style={{marginLeft: "0.45rem"}}>
                                             
                                             <ModelDropdown 
                                                 items={[

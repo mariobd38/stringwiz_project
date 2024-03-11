@@ -70,7 +70,7 @@ function updateTaskInfo  (
             task.priority = null;
         }
         //update task priority
-        else if (targetClassList.includes('dropdown-priority-property')) {
+        else if (targetClassList.includes('model-dropdown-item-menu-button')) {
             task.priority = event.currentTarget.textContent;
         }
 
