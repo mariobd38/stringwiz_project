@@ -41,6 +41,7 @@ import { updateTaskInfo } from '../../../DataManagement/Tasks/updateTask';
 import { removeTagInfo } from '../../../DataManagement/Tags/removeTag';
 import { ModelDropdown } from '../../models/modelDropdown';
 import { ProfileCard } from './ProfileCard/profileCard';
+import { TagColorDropdown } from './TagColorDropdown/tagColorDropdown';
 
 import { updateTagInfo } from '../../../DataManagement/Tags/updateTag';
 
@@ -178,6 +179,8 @@ const TaskDetailsModal = (props) => {
         removeTagInfo(jwt,currentTaskTags[currentTagIndex].id,upcomingTasks[currentIndex].id,currentTaskTags, setCurrentTaskTags);
     }
 
+
+    //tag dropdown logic
     const [tagDropdownStates, setTagDropdownStates] = useState(() => {
         const initialState = {};
         currentTaskTags.forEach((_, index) => {
@@ -240,16 +243,14 @@ const TaskDetailsModal = (props) => {
         });
     });
 
-    useClickAway(trueIndex !== -1 &&  tagButtonTextRefs.current[trueIndex], () => {
-        setTagNameRenameButtonClicked(false);
-    })
-    const [tagNameRenameButtonClickedIndex, setTagNameRenameButtonClickedIndex] = useState(false);
+    //tag rename logic
+    const [tagNameRenameButtonClickedIndex, setTagNameRenameButtonClickedIndex] = useState(-1);
 
-    const onTagNameRenameButtonClick = (tagNameRenameButtonClicked,index) => {
+    const onTagNameRenameButtonClick = (index) => {
         setTagNameRenameButtonClickedIndex(index);
     };
 
-    useClickAway(tagNameRenameButtonClickedIndex !== undefined && tagButtonTextRefs.current[tagNameRenameButtonClickedIndex], () => {
+    useClickAway(tagNameRenameButtonClickedIndex !== -1 && tagButtonTextRefs.current[tagNameRenameButtonClickedIndex], () => {
         setTagNameRenameButtonClicked(false);
     })
 
@@ -268,7 +269,26 @@ const TaskDetailsModal = (props) => {
             setTagNameRenameButtonClicked(false);
         }
     }
+
+    //tag color logic
+    const [tagColorChangeButtonClicked, setTagColorChangeButtonClicked] = useState(false);
+    const [tagColorChangeButtonClickedIndex, setTagColorChangeButtonClickedIndex] = useState(-1);
+    const [tagColorDropdownOpen, setTagColorDropdownOpen] = useState(false);
+
+    const onTagColorChangeButtonClick = (index) => {
+        setTagColorChangeButtonClickedIndex(index);
+        setTimeout(() => {
+            setTagColorDropdownOpen(true);
+        },350);
+        
+    };
     
+    useClickAway(tagColorChangeButtonClickedIndex !== -1 && tagButtonTextRefs.current[tagColorChangeButtonClickedIndex], () => {
+        setTagColorChangeButtonClicked(false);
+        setTagColorDropdownOpen(false);
+
+    })
+
     return (
         <>
             <Modal
@@ -448,7 +468,7 @@ const TaskDetailsModal = (props) => {
                                                 handleTaskUpdate={(event) => handleTaskUpdate(event)}
                                                 hasClearBtn={true} 
                                                 isPriorityDropdown={true} setCurrentTaskPriority={setCurrentTaskPriority}
-                                                upcomingTasks={upcomingTasks} currentIndex={tagNameRenameButtonClicked}
+                                                upcomingTasks={upcomingTasks} currentIndex={currentIndex}
                                             />
                                         </span>
                                     </div>
@@ -494,13 +514,24 @@ const TaskDetailsModal = (props) => {
                                                             tagDropdownStates={tagDropdownStates}
                                                             setTagDropdownStates={setTagDropdownStates}
                                                             index={index}
+                                                            tagButtonRef={tagButtonRefs.current[index]}
                                                             tagButtonTextRef={tagButtonTextRefs.current[index]}
                                                             tagButtonOptionRef={tagButtonOptionRefs.current[index]}
                                                             tagNameRenameButtonClicked={tagNameRenameButtonClicked}
                                                             setTagNameRenameButtonClicked={setTagNameRenameButtonClicked}
-                                                            onTagNameRenameButtonClick={() => onTagNameRenameButtonClick(tagNameRenameButtonClicked,index)}
+                                                            onTagNameRenameButtonClick={() => onTagNameRenameButtonClick(index)}
+                                                            setTagColorChangeButtonClicked={setTagColorChangeButtonClicked}
+                                                            onTagColorChangeButtonClick={() => onTagColorChangeButtonClick(index)}
                                                         />
                                                     </span>
+
+                                                    {tagColorChangeButtonClicked && index === tagColorChangeButtonClickedIndex &&
+                                                    <span>
+                                                        <TagColorDropdown 
+                                                            isDropdownOnRightSide={false}
+                                                            tagColorDropdownOpen={tagColorDropdownOpen}
+                                                        />
+                                                    </span>}
                                                     <span className={`align-middle user-home-task-details-modal-tags-button-close ${tagNameRenameButtonClicked ? 'focused' : 'unfocused'}`} 
                                                     onClick={() => handleTagRemoval(index)}>
                                                         <CloseRoundedIcon style={{width: "1.2rem"}}/>

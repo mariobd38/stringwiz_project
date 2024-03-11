@@ -86,13 +86,12 @@ const NewSignUp = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const toggleConfirmPasswordVisibility = () => {
-        console.log("inside");
         setShowConfirmPassword(!showConfirmPassword);
     };
 
     function handleSignUpSubmitRequest (e) {
         e.preventDefault();
-    };
+    }
 
     return (
         <div className='row d-flex flex-column flex-lg-row'>
@@ -106,7 +105,7 @@ const NewSignUp = () => {
                                     <CocollabLogo width={2.75} paddingBottom={0.55} fontSize={3.5}  textColor='4296af'></CocollabLogo> 
                                 </a>
                             </div>
-                            <div className="text-center signup-bottom-description lato-font">Get started - it's free. No credit card needed.</div>
+                            <div className="text-center signup-bottom-description lato-font">Get started - it&apos;s free. No credit card needed.</div>
                         </div>
 
 

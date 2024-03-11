@@ -2,6 +2,7 @@ import React from 'react';
 
 import "./tagOptionsDropdown.css";
 
+
 const MenuButton = ({name,icon,index,onClick}) => {
     return (
         <button onClick={(event) => (onClick ? onClick(event,index) : null)} 
@@ -26,18 +27,21 @@ const MenuItem = ({ name, index, icon, onClick }) => {
 };
 
 export const TagOptionsDropdown = (props) => {
-    const { items, initialIconValue, isDropdownOnRightSide,
-        tagDropdownStates, setTagDropdownStates, index,tagButtonTextRef,tagButtonOptionRef,
-        tagNameRenameButtonClicked, setTagNameRenameButtonClicked,onTagNameRenameButtonClick} = props;
+    const { items,initialIconValue,isDropdownOnRightSide,
+        tagDropdownStates,setTagDropdownStates,index,tagButtonTextRef,tagButtonOptionRef,
+        tagNameRenameButtonClicked,setTagNameRenameButtonClicked,onTagNameRenameButtonClick,
+        setTagColorChangeButtonClicked,onTagColorChangeButtonClick
+    } = props;
             
     const handleMenuItemClick = (event,item) => {
         if (item.name === 'Rename') {
             tagButtonTextRef.current.focus();
             tagButtonTextRef.current.setAttribute('contentEditable', 'true');
             setTagNameRenameButtonClicked(true);
-            onTagNameRenameButtonClick(tagNameRenameButtonClicked, index); 
+            onTagNameRenameButtonClick(index); 
         } else if (item.name === 'Change color') {
-            //
+            setTagColorChangeButtonClicked(true);
+            onTagColorChangeButtonClick(index); 
         }
 
         setTagDropdownStates((prevState) => ({
