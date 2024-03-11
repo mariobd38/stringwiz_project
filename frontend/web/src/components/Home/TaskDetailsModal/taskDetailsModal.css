@@ -14,7 +14,7 @@
     overflow-y:auto !important;
 }
 .modal-content {
-    background-color: #1e1f21;
+    background-color: #222325;
     color: #fafafa;
 }
 @media (max-width: 1200px) {
@@ -135,7 +135,7 @@
     font-family: 'Nunito Sans' !important;
     color: #fafafa;
     border-radius: 5px;
-    background-color: #1e1f21 !important;
+    background-color: #222325 !important;
     border: 1.5px solid #898989;
     /* border-right: none; */
     margin-right: 5px;
@@ -146,7 +146,7 @@
     border-radius: 5px;
     border: 1.5px solid #323437;
     color: #fafafa;
-    background-color: #1e1f21 !important;
+    background-color: #222325 !important;
     transition: border 0.45s linear;
 }
 .user-home-task-details-modal-next-status-btn {
@@ -154,7 +154,7 @@
     /* border-radius: 6px; */
     border: 1.5px solid #323437;
     color: #fafafa;
-    background-color: #1e1f21 !important;
+    background-color: #222325 !important;
     transition: border 0.45s linear;
     border-radius: 0px 6px 6px 0px;
     width : 2rem;
@@ -166,7 +166,7 @@
     transition: border 0.45s linear;
 }
 .user-home-task-details-modal-no-priority-btn {
-    background-color: #1e1f21;
+    background-color: #222325;
     border-radius: 50%;
     border: 1px dashed #898989;
     width: 2.5rem;
@@ -189,7 +189,7 @@
     color: #999999 !important;
     border: 1.5px solid #999999;
     transition: border 0.45s linear;
-    background-color: #1e1f21 !important;
+    background-color: #222325 !important;
     font-family: 'Lato';
     width: 5.8rem;
     display: flex;
@@ -208,8 +208,8 @@
     background-color: #292a2c;
 }
 .user-home-task-details-modal-description-textarea {
-    background-color: #1e1f21;
-    border: 1px solid #1e1f21 !important;
+    background-color: #222325;
+    border: 1px solid #222325 !important;
     resize: none;
     color: #e8e8e8;
     min-height: 60px !important;
@@ -221,7 +221,7 @@
     margin: 0 auto;
 }
 .user-home-task-details-modal-description-textarea:focus {
-    background-color: #1e1f21;
+    background-color: #222325;
     color: #e8e8e8 !important;
     border-color: #7730e2 !important;
     transition: border 0.65s linear;
@@ -241,28 +241,13 @@
 .user-home-task-details-modal-tags-group {
     position: relative;
     margin-left: 0.45rem;
-    padding-top: 0.2rem;
-    padding-bottom: 0.2rem;
+    padding: 0.4rem 0.2rem;
     border-radius: 6px;
     background-color: #333437;
 }
 .user-home-task-details-modal-tags-button {
     padding: 0.3rem 0.4rem !important;
     position: relative;
-}
-
-.user-home-task-details-modal-tags-button-options {
-    position: absolute;
-    right: 13px;
-    top: 50%;
-    transform: translateY(-50%); 
-    color: rgb(255,255,255,0.75);
-}
-.user-home-task-details-modal-tags-button-options.dropwdown-open {
-    display: inline-block;
-}
-.user-home-task-details-modal-tags-button-options.dropwdown-closed {
-    display: none;
 }
 
 .user-home-task-details-modal-tags-button-close {
@@ -273,13 +258,10 @@
     transform: translateY(-50%); 
     color: rgb(255,255,255,0.75);
 }
-.user-home-task-details-modal-tags-button-close:hover,
-.user-home-task-details-modal-tags-button-options:hover {
+.user-home-task-details-modal-tags-button-close:hover {
     color: #ffffff;
 }
-.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-close, 
-.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-options.dropdown-closed,
-.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-options.dropdown-open  {
+.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-close {
     display: inline-block !important;
 }
 .user-home-task-details-modal-tags-button-text {

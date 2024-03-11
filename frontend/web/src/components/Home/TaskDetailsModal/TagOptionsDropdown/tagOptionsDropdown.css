@@ -84,16 +84,6 @@
     padding: 2.9px;
   }
   /* tag options related */
-  .tod-tag-options-dropdown .user-home-task-details-modal-tag-options-btn {
-    background: none;
-    width: fit-content;
-    padding: 0.2rem 0.4rem;
-    border-radius: 4px;
-    color: rgb(255,255,255,0.75) !important;
-  }
-  .tod-tag-options-dropdown .user-home-task-details-modal-tag-options-btn:hover {
-    color: #fafafa !important;
-  }
   .tod-tag-options-dropdown.open .tod-model-dropdown-menu {
     opacity: 1;
     transform: translateY(0);
@@ -101,35 +91,24 @@
     min-height: 7rem;
     /* left: -75px; */
   }
-  
-  .user-home-task-details-modal-tag-options-btn.dropdown-closed  {
-    display: none;
-  }
-  
-  .user-home-task-details-modal-tags-button-close:hover,
-  .user-home-task-details-modal-tags-button-options:hover {
-      color: #ffffff;
-  }
-  .user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tag-options-btn {
-    display: inline-block !important;
-  }
-  .user-home-task-details-modal-tags-button .user-home-task-details-modal-tag-options-btn.dropdown-open {
-    display: none;
-  }
-  
 
-  /* experimental */
-/* .tag-options-right {
-  right: -10px;
+  /* new */
+  .user-home-task-details-modal-tags-button-options {
+    position: absolute;
+    right: 13px;
+    top: 50%;
+    transform: translateY(-50%); 
+    color: rgb(255,255,255,0.75);
+    background: none;
+    width: fit-content;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    display: none;
 }
-.tag-options-left {
-  left: -75px;
+.user-home-task-details-modal-tags-button-options:hover {
+    color: #fafafa;
 }
-.user-home-task-details-modal-tags-button:hover .model-dropdown-menu {
-  left:-40px;
-  top: 40px;
-} */
-/* .user-home-task-details-modal-tags-button .tod-model-dropdown-menu {
-    left: -40px;
-    top: 40px;
-  }  */
+.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-options.dropdown-closed,
+.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-options.dropdown-open  {
+    display: inline-block !important;
+}

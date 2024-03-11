@@ -62,7 +62,7 @@ export const TagOptionsDropdown = (props) => {
             <span
                 className={`tod-dropdown tod-tag-options-dropdown ${tagDropdownStates[index] ? "open" : "" }`}
             >
-                <span className={`user-home-task-details-modal-tag-options-btn  user-home-task-details-modal-tags-button-options ${tagDropdownStates && tagDropdownStates[index] ? 'dropdown-open' : 'dropdown-closed'} ${tagDropdownStates && tagDropdownStates[index] ? 'dropdown-open' : 'dropdown-closed'} `} 
+                <span className={`user-home-task-details-modal-tags-button-options ${tagDropdownStates && tagDropdownStates[index] ? 'dropdown-open' : 'dropdown-closed'}`} 
                 onClick={handleOpenDropdownMenu}>
                 {initialIconValue}
                 </span>

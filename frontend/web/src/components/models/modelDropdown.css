@@ -6,7 +6,7 @@
   padding: 0 0.4rem;
   width: fit-content;
   color: #fafafa;
-  background: #262729;
+  background: #222325;
   border: 0;
   cursor: pointer;
   font-family: "Lato";
@@ -30,7 +30,7 @@
   transition: border 0.45s linear;
 }
 .dropdown > button {
-  background: #1d1e1f;
+  background: #222325;
   border-radius: 6px 6px 6px 6px;
 }
 .dropdown > button .model-dropdown-current-icon:first-child {
@@ -96,6 +96,7 @@
   font-family: 'Lato';
   font-size: 0.9rem;
   color: #c9c9c9;
+  background-color: #222325;
 }
 
 .dropdown.open .model-dropdown-menu {
@@ -105,7 +106,7 @@
   min-height: 12rem;
 }
 .model-dropdown-menu button:hover {
-  background: #1d1e1f;
+  background: #222325;
 }
 .model-dropdown-item-menu-button {
   width: 100% !important;
@@ -146,7 +147,7 @@
   padding: 2.9px;
 }
 .user-home-task-details-modal-no-priority-btn {
-  background-color: #1e1f21;
+  background-color: #222325;
   border-radius: 4px !important;
   width: 2.5rem !important;
   height: 2.5rem !important;
@@ -164,7 +165,7 @@
   padding: 0.35rem 0.4rem;
   border: 1.5px solid #323437;
   color: #fafafa;
-  background-color: #1e1f21 !important;
+  background-color: #222325 !important;
   transition: border 0.45s linear;
   border-radius: 0px 6px 6px 0px;
   width : 2rem;
