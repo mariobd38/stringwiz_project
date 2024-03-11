@@ -258,6 +258,9 @@
     transform: translateY(-50%); 
     color: rgb(255,255,255,0.75);
 }
+.user-home-task-details-modal-tags-button.focused {
+    background-color: #333437 !important;
+}
 .user-home-task-details-modal-tags-button-close.unfocused:hover {
     color: #ffffff;
 }
@@ -266,6 +269,19 @@
 }
 .user-home-task-details-modal-tags-button-text {
     display: inline-block;
+}
+.user-home-task-details-modal-tags-button-text-input {
+    display: inline-block;
+    border: none;
+    background-color: #333437 !important;
+    width: 7rem;
+    color: #fafafa;
+}
+.user-home-task-details-modal-tags-button-text-input:focus {
+    outline: none !important;
+}
+.user-home-task-details-modal-tags-button-text-input:hover {
+    background-color: #333437 !important;
 }
 .user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-text.unfocused {
     white-space: nowrap;

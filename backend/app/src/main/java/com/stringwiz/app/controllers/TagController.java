@@ -1,6 +1,7 @@
 package com.stringwiz.app.controllers;
 
 import com.stringwiz.app.models.Tag;
+import com.stringwiz.app.models.Task;
 import com.stringwiz.app.models.User;
 import com.stringwiz.app.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,12 @@ public class TagController {
     public ResponseEntity<?> remove(@RequestParam("taskId") Long task_id, @RequestParam("tagId") Long tag_id) {
         tagService.removeTag(tag_id, task_id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/api/tags/update")
+    public ResponseEntity<?> updateTask(@RequestBody Tag tag) {
+        Tag myTag = tagService.update(tag);
+        return ResponseEntity.ok(myTag);
     }
 
     /*

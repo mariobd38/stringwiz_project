@@ -9,6 +9,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -80,12 +82,6 @@ public class TagService {
                 Task currentTask = optionalTask.get();
                 Tag currentTag = optionalTag.get();
 
-                System.out.println(currentTask.getName());
-                System.out.println(currentTag.getName());
-
-                System.out.println(currentTask.getTags().size());
-
-
                 currentTask.getTags().remove(currentTag);
                 taskRepository.save(currentTask);
                 return;
@@ -94,6 +90,18 @@ public class TagService {
             throw new IllegalArgumentException("Tag not found for the given task_id: " + task_id);
         }
         throw new NoSuchElementException("Request to remove tag from given task id '" + task_id + "' could not be processed");
+    }
+
+    public Tag update(Tag tag) {
+        try {
+            Tag existingTag = tagRepository.findById(tag.getId()).orElse(null);
+            assert existingTag != null;
+            existingTag.setName(tag.getName());
+            existingTag.setColor(tag.getColor());
+            return tagRepository.save(existingTag);
+        } catch (NullPointerException npe) {
+            throw new NullPointerException("Task does not exist");
+        }
     }
 
 

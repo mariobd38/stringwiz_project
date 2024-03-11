@@ -31,6 +31,8 @@ import RadioButtonCheckedRoundedIcon from '@mui/icons-material/RadioButtonChecke
 import SellRoundedIcon from '@mui/icons-material/SellRounded';
 import TourRoundedIcon from '@mui/icons-material/TourRounded';
 
+import { Tooltip } from 'react-tooltip'
+
 import './taskDetailsModal.css';
 
 import NewHomeDueDatePopover from '../newHomeDueDatePopover';
@@ -40,7 +42,7 @@ import { removeTagInfo } from '../../../DataManagement/Tags/removeTag';
 import { ModelDropdown } from '../../models/modelDropdown';
 import { ProfileCard } from './ProfileCard/profileCard';
 
-import { Tooltip } from 'react-tooltip';
+import { updateTagInfo } from '../../../DataManagement/Tags/updateTag';
 
 function handleBreadcrumbClick(event) {
     event.preventDefault();
@@ -185,7 +187,6 @@ const TaskDetailsModal = (props) => {
     });
     
     const handleTagOptionsDropdownMouseLeave = (event, index) => {
-
         setTagDropdownStates((prevState) => {
             if(prevState[index]) {
                 return { ...prevState };
@@ -250,9 +251,26 @@ const TaskDetailsModal = (props) => {
         setTagNameRenameButtonClickedIndex(index);
     };
 
-    useClickAway(tagNameRenameButtonClickedIndex !== undefined &&  tagButtonTextRefs.current[tagNameRenameButtonClickedIndex], () => {
+    useClickAway(tagNameRenameButtonClickedIndex !== undefined && tagButtonTextRefs.current[tagNameRenameButtonClickedIndex], () => {
         setTagNameRenameButtonClicked(false);
     })
+
+    const handleTagRename = (event,oldTagName) => {
+        if (event.key === 'Enter') {
+            const newTagName = event.target.value;
+            console.log(oldTagName);
+            updateTagInfo(
+                jwt,
+                event,
+                allTagData,
+                currentTaskTags,
+                tagNameRenameButtonClickedIndex,
+                oldTagName,
+                newTagName
+            );
+            setTagNameRenameButtonClicked(false);
+        }
+    }
     
     return (
         <>
@@ -449,15 +467,16 @@ const TaskDetailsModal = (props) => {
                                         <span className='lato-font d-flex align-items-center user-home-task-details-modal-tags-group' >
                                         
                                             {currentTaskTags.map((tag, index) => (
-                                                <Button key={index} className='mx-1 user-home-task-details-modal-tags-button'
+                                                <Button key={index} className={`mx-1 user-home-task-details-modal-tags-button ${tagNameRenameButtonClicked && index === tagNameRenameButtonClickedIndex? 'focused' : 'unfocused'}`}
                                                     ref={tagButtonRefs.current[index]}
+                                                    
                                                     onMouseLeave={() => handleTagOptionsDropdownMouseLeave(index)}
                                                 >
                                                     <span className='d-flex'>
-                                                        <SellRoundedIcon className='pe-2'/>
+                                                        <SellRoundedIcon className='pe-2' />
                                                         {tagNameRenameButtonClicked && index === tagNameRenameButtonClickedIndex ?  
-                                                            <input autoFocus='true' defaultValue={`${tag.name}`} className={`align-middle user-home-task-details-modal-tags-button-text ${tagNameRenameButtonClicked ? 'focused' : 'unfocused'}`} 
-                                                            ref={tagButtonTextRefs.current[index]}>
+                                                            <input autoFocus='true' defaultValue={`${tag.name}`} className={`align-middle user-home-task-details-modal-tags-button-text-input`} 
+                                                            ref={tagButtonTextRefs.current[index]} onKeyDown={(event) => handleTagRename(event,tag.name)}>
                                                                 {/* {tag.name} */}
                                                             </input> :
                                                             <span className={`align-middle user-home-task-details-modal-tags-button-text ${tagNameRenameButtonClicked ? 'focused' : 'unfocused'}`} 
