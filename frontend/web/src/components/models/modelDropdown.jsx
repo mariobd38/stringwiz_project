@@ -124,23 +124,23 @@ export const ModelDropdown = (props) => {
             setTagAlreadyAttached(false);
 
             if (event.key === 'Enter' && !/^\s*$/.test(tagName)) {
-                const tagEntered = allTagData.find(item => item.name === tagName);
-                if (tagEntered !== undefined) {
-                    try {
-                        const addedTag =  await addExistingTagInfo(jwt,upcomingTasks[currentIndex].id,tagEntered.id);
-                        if (addedTag) {
-                            const updatedTags = [...currentTaskTags, addedTag];
-                            setCurrentTaskTags(updatedTags);
-                        } else {
-                            console.error('Error creating tag: Tag data is null');
+                if (allTagData.filter(item => item.name === tagName.trim())) {
+                    const tagEntered = allTagData.find(item => item.name === tagName.trim());
+                    if (tagEntered !== undefined) {
+                        try {
+                            const addedTag =  await addExistingTagInfo(jwt,upcomingTasks[currentIndex].id,tagEntered.id);
+                            if (addedTag) {
+                                const updatedTags = [...currentTaskTags, addedTag];
+                                setCurrentTaskTags(updatedTags);
+                            } else {
+                                console.error('Error creating tag: Tag data is null');
+                            }
+                        } catch (error) {
+                            console.error('Error creating tag:', error);
                         }
-                    } catch (error) {
-                        console.error('Error creating tag:', error);
+                    } else {
+                        handleTagCreation(tagName);
                     }
-            
-                    setIsDropdownOpen(!isDropdownOpen);
-                } else {
-                    handleTagCreation(tagName);
                     setIsDropdownOpen(!isDropdownOpen);
                 }
             }

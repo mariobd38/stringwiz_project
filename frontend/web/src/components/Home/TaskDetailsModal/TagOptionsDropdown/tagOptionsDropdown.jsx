@@ -27,14 +27,17 @@ const MenuItem = ({ name, index, icon, onClick }) => {
 
 export const TagOptionsDropdown = (props) => {
     const { items, initialIconValue, isDropdownOnRightSide,
-        tagDropdownStates, setTagDropdownStates, index,tagButtonRef,tagButtonTextRef,tagOptionsDropdownRef} = props;
+        tagDropdownStates, setTagDropdownStates, index,tagButtonRef,tagButtonTextRef,tagButtonOptionRef,
+        tagOptionsDropdownRef,tagNameRenameButtonClicked, setTagNameRenameButtonClicked,onTagNameRenameButtonClick} = props;
             
+
     const handleMenuItemClick = (event,item) => {
         if (item.name === 'Rename') {
             console.log(tagButtonRef);
             tagButtonTextRef.current.focus();
             tagButtonTextRef.current.setAttribute('contentEditable', 'true');
-
+            setTagNameRenameButtonClicked(true);
+            onTagNameRenameButtonClick(tagNameRenameButtonClicked, index); 
         }
 
 
@@ -62,12 +65,13 @@ export const TagOptionsDropdown = (props) => {
             <span
                 className={`tod-dropdown tod-tag-options-dropdown ${tagDropdownStates[index] ? "open" : "" }`}
             >
-                <span className={`user-home-task-details-modal-tags-button-options ${tagDropdownStates && tagDropdownStates[index] ? 'dropdown-open' : 'dropdown-closed'}`} 
-                onClick={handleOpenDropdownMenu}>
-                {initialIconValue}
+                <span className={`user-home-task-details-modal-tags-button-options ${tagNameRenameButtonClicked ? 'tag-rename-active' : 'tag-rename-inactive'} ${tagDropdownStates && tagDropdownStates[index] ? 'dropdown-open' : 'dropdown-closed'}
+                '}`} 
+                onClick={handleOpenDropdownMenu} ref={tagButtonOptionRef} >
+                    {initialIconValue}
                 </span>
                 
-                <div className={`tod-model-dropdown-menu ${isDropdownOnRightSide ? 'tag-options-right' : 'tag-options-left'}`} ref={tagOptionsDropdownRef}
+                <div className={`tod-model-dropdown-menu ${isDropdownOnRightSide ? 'tag-options-right' : 'tag-options-left'}`}
                  style={{position: "absolute"}}
                 >
                     

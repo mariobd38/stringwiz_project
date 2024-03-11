@@ -209,21 +209,28 @@ const TaskDetailsModal = (props) => {
     };
 
     const tagOptionsDropdownRef = useRef(null);
-    const tagOptionsButtonRef = useRef(null);
-    const tagButtonTextRef = useRef(null);
+    const tagButtonTextRefs = useRef([]);
+    tagButtonTextRefs.current = Array(currentTaskTags.length)
+            .fill()
+            .map((_, index) => tagButtonTextRefs.current[index] || createRef());
+    const tagButtonOptionRefs = useRef([]);
+    tagButtonOptionRefs.current = Array(currentTaskTags.length)
+            .fill()
+            .map((_, index) => tagButtonOptionRefs.current[index] || createRef());
+    
     const tagButtonRefs = useRef([]);
-
-    useEffect(() => {
-        tagButtonRefs.current = Array(currentTaskTags.length)
+    tagButtonRefs.current = Array(currentTaskTags.length)
             .fill()
             .map((_, index) => tagButtonRefs.current[index] || createRef());
-    }, [currentTaskTags.length]);
+        
 
     const[trueIndex, setTrueIndex] = useState(-1);
     useEffect(() => {
         const newTrueIndex = Object.keys(tagDropdownStates).find(key => tagDropdownStates[key]);
         setTrueIndex(newTrueIndex !== undefined ? newTrueIndex : -1);
-    }, [tagDropdownStates, trueIndex])
+    }, [tagDropdownStates, trueIndex]);
+
+    const [tagNameRenameButtonClicked, setTagNameRenameButtonClicked] = useState(false);
 
     useClickAway(trueIndex !== -1 && tagButtonRefs.current[trueIndex],() => {
         setTagDropdownStates((prevState) => {
@@ -232,6 +239,20 @@ const TaskDetailsModal = (props) => {
             return newState;
         });
     });
+
+    useClickAway(trueIndex !== -1 &&  tagButtonTextRefs.current[trueIndex], () => {
+        setTagNameRenameButtonClicked(false);
+    })
+    const [tagNameRenameButtonClickedIndex, setTagNameRenameButtonClickedIndex] = useState(false);
+
+    const onTagNameRenameButtonClick = (tagNameRenameButtonClicked,index) => {
+        console.log(!tagNameRenameButtonClicked);
+        setTagNameRenameButtonClickedIndex(index);
+    };
+
+    useClickAway(tagNameRenameButtonClickedIndex !== undefined &&  tagButtonTextRefs.current[tagNameRenameButtonClickedIndex], () => {
+        setTagNameRenameButtonClicked(false);
+    })
     
     return (
         <>
@@ -412,7 +433,7 @@ const TaskDetailsModal = (props) => {
                                                 handleTaskUpdate={(event) => handleTaskUpdate(event)}
                                                 hasClearBtn={true} 
                                                 isPriorityDropdown={true} setCurrentTaskPriority={setCurrentTaskPriority}
-                                                upcomingTasks={upcomingTasks} currentIndex={currentIndex}
+                                                upcomingTasks={upcomingTasks} currentIndex={tagNameRenameButtonClicked}
                                             />
                                         </span>
                                     </div>
@@ -434,9 +455,16 @@ const TaskDetailsModal = (props) => {
                                                 >
                                                     <span className='d-flex'>
                                                         <SellRoundedIcon className='pe-2'/>
-                                                        <span className="align-middle user-home-task-details-modal-tags-button-text" ref={tagButtonTextRef} contentEditable="false" suppressContentEditableWarning={true}>
-                                                            {tag.name}
-                                                        </span>
+                                                        {tagNameRenameButtonClicked && index === tagNameRenameButtonClickedIndex ?  
+                                                            <input autoFocus='true' defaultValue={`${tag.name}`} className={`align-middle user-home-task-details-modal-tags-button-text ${tagNameRenameButtonClicked ? 'focused' : 'unfocused'}`} 
+                                                            ref={tagButtonTextRefs.current[index]}>
+                                                                {/* {tag.name} */}
+                                                            </input> :
+                                                            <span className={`align-middle user-home-task-details-modal-tags-button-text ${tagNameRenameButtonClicked ? 'focused' : 'unfocused'}`} 
+                                                            ref={tagButtonTextRefs.current[index]} contentEditable="false" suppressContentEditableWarning={true}>
+                                                                {tag.name}
+                                                            </span>
+                                                            }
                                                     </span>
                                                     <span>
                                                         <TagOptionsDropdown
@@ -451,11 +479,16 @@ const TaskDetailsModal = (props) => {
                                                             setTagDropdownStates={setTagDropdownStates}
                                                             index={index}
                                                             tagButtonRef={tagButtonRefs.current[index]}
-                                                            tagButtonTextRef={tagButtonTextRef}
+                                                            tagButtonTextRef={tagButtonTextRefs.current[index]}
+                                                            tagButtonOptionRef={tagButtonOptionRefs.current[index]}
                                                             tagOptionsDropdownRef={tagOptionsDropdownRef}
+                                                            tagNameRenameButtonClicked={tagNameRenameButtonClicked}
+                                                            setTagNameRenameButtonClicked={setTagNameRenameButtonClicked}
+                                                            onTagNameRenameButtonClick={() => onTagNameRenameButtonClick(tagNameRenameButtonClicked,index)}
                                                         />
                                                     </span>
-                                                    <span className='user-home-task-details-modal-tags-button-close' onClick={() => handleTagRemoval(index)}>
+                                                    <span className={`align-middle user-home-task-details-modal-tags-button-close ${tagNameRenameButtonClicked ? 'focused' : 'unfocused'}`} 
+                                                    onClick={() => handleTagRemoval(index)}>
                                                         <CloseRoundedIcon style={{width: "1.2rem"}}/>
                                                     </span>
                                                 </Button>

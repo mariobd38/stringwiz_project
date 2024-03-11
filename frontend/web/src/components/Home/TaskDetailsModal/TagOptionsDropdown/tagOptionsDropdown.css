@@ -110,5 +110,11 @@
 }
 .user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-options.dropdown-closed,
 .user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-options.dropdown-open  {
+    display: inline-block;
+}
+.user-home-task-details-modal-tags-button-options.tag-rename-active {
+    display: none !important;
+}
+.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-options.tag-rename-inactive {
     display: inline-block !important;
 }

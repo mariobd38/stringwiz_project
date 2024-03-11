@@ -258,16 +258,16 @@
     transform: translateY(-50%); 
     color: rgb(255,255,255,0.75);
 }
-.user-home-task-details-modal-tags-button-close:hover {
+.user-home-task-details-modal-tags-button-close.unfocused:hover {
     color: #ffffff;
 }
-.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-close {
+.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-close.unfocused {
     display: inline-block !important;
 }
 .user-home-task-details-modal-tags-button-text {
     display: inline-block;
 }
-.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-text {
+.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-text.unfocused {
     white-space: nowrap;
     overflow: hidden;
     width: calc(100% - 65px) !important;
