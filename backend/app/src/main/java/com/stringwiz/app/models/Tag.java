@@ -17,6 +17,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -55,12 +56,17 @@ public class Tag {
     @Column(name="created_on",nullable = false)
     private Timestamp createdOn;
 
+    @UpdateTimestamp
+    @Column(name="last_updated_on")
+    private Timestamp lastUpdatedOn;
+
     public Tag(String name, String color, User user) {
         setUser(user);
         setName(name);
         setColor(color);
         Timestamp currentTime = new Timestamp(new Date().getTime());
         setCreatedOn(currentTime);
+        setLastUpdatedOn(currentTime);
     }
 
     @Override

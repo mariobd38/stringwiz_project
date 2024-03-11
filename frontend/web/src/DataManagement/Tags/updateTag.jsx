@@ -1,15 +1,18 @@
 function updateTagInfo  (jwt, event, allTagData,currentTaskTags,tagNameRenameButtonClickedIndex,
     oldTagName,newTagName) {
     
-    let tag = allTagData.find(tag => tag.name === oldTagName);
-    let tagIndex = allTagData.findIndex(tag => tag.name === oldTagName);
+    const tag = allTagData.find(tag => tag.name === oldTagName);
 
-    console.log(oldTagName === newTagName.trim());
+    const existingTag = allTagData.find(tag => tag.name === newTagName.trim());
+    if ((newTagName.trim() === '') || (tag !== existingTag && existingTag !== undefined)) { //todo: if tag already exists, add an error snackbar
+        event.preventDefault();
+        return;
+    }
 
     if (oldTagName !== newTagName.trim()) {
         tag.name = newTagName;
     }
-
+   
     const tagInfo = {
         id: tag.id,
         name: tag.name,
@@ -30,10 +33,7 @@ function updateTagInfo  (jwt, event, allTagData,currentTaskTags,tagNameRenameBut
         return response.json();
     })
     .then((newData) => {
-        console.log(newData);
-        // allTagData[tagIndex] = newData;
         currentTaskTags[tagNameRenameButtonClickedIndex] = newData;
-        // upcomingTasks[currentRowIndex] = newData;
     })
     .catch((error) => {
         console.error(error); 

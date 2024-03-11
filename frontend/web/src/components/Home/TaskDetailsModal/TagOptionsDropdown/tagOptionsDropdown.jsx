@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import "./tagOptionsDropdown.css";
 
@@ -27,19 +27,18 @@ const MenuItem = ({ name, index, icon, onClick }) => {
 
 export const TagOptionsDropdown = (props) => {
     const { items, initialIconValue, isDropdownOnRightSide,
-        tagDropdownStates, setTagDropdownStates, index,tagButtonRef,tagButtonTextRef,tagButtonOptionRef,
-        tagOptionsDropdownRef,tagNameRenameButtonClicked, setTagNameRenameButtonClicked,onTagNameRenameButtonClick} = props;
+        tagDropdownStates, setTagDropdownStates, index,tagButtonTextRef,tagButtonOptionRef,
+        tagNameRenameButtonClicked, setTagNameRenameButtonClicked,onTagNameRenameButtonClick} = props;
             
-
     const handleMenuItemClick = (event,item) => {
         if (item.name === 'Rename') {
-            console.log(tagButtonRef);
             tagButtonTextRef.current.focus();
             tagButtonTextRef.current.setAttribute('contentEditable', 'true');
             setTagNameRenameButtonClicked(true);
             onTagNameRenameButtonClick(tagNameRenameButtonClicked, index); 
+        } else if (item.name === 'Change color') {
+            //
         }
-
 
         setTagDropdownStates((prevState) => ({
                 ...prevState,
@@ -83,20 +82,12 @@ export const TagOptionsDropdown = (props) => {
                                 icon={item.icon ? item.icon : ''}
                                 index={index}
                                 onClick={(event) => handleMenuItemClick(event,item)}
-                                // onHide={() => setTagDropdownStates(prevState => {
-                                //     const newState = [...prevState];
-                                //     newState[index] = false;
-                                //     return newState;
-                                // })}
                             />
                         ))
                         }
                     </div>
-
                 </div>
-                
             </span>
         </div>
-        
     );
 };

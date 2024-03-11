@@ -209,7 +209,6 @@ const TaskDetailsModal = (props) => {
         });
     };
 
-    const tagOptionsDropdownRef = useRef(null);
     const tagButtonTextRefs = useRef([]);
     tagButtonTextRefs.current = Array(currentTaskTags.length)
             .fill()
@@ -247,7 +246,6 @@ const TaskDetailsModal = (props) => {
     const [tagNameRenameButtonClickedIndex, setTagNameRenameButtonClickedIndex] = useState(false);
 
     const onTagNameRenameButtonClick = (tagNameRenameButtonClicked,index) => {
-        console.log(!tagNameRenameButtonClicked);
         setTagNameRenameButtonClickedIndex(index);
     };
 
@@ -258,7 +256,6 @@ const TaskDetailsModal = (props) => {
     const handleTagRename = (event,oldTagName) => {
         if (event.key === 'Enter') {
             const newTagName = event.target.value;
-            console.log(oldTagName);
             updateTagInfo(
                 jwt,
                 event,
@@ -497,10 +494,8 @@ const TaskDetailsModal = (props) => {
                                                             tagDropdownStates={tagDropdownStates}
                                                             setTagDropdownStates={setTagDropdownStates}
                                                             index={index}
-                                                            tagButtonRef={tagButtonRefs.current[index]}
                                                             tagButtonTextRef={tagButtonTextRefs.current[index]}
                                                             tagButtonOptionRef={tagButtonOptionRefs.current[index]}
-                                                            tagOptionsDropdownRef={tagOptionsDropdownRef}
                                                             tagNameRenameButtonClicked={tagNameRenameButtonClicked}
                                                             setTagNameRenameButtonClicked={setTagNameRenameButtonClicked}
                                                             onTagNameRenameButtonClick={() => onTagNameRenameButtonClick(tagNameRenameButtonClicked,index)}

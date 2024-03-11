@@ -98,6 +98,7 @@ public class TagService {
             assert existingTag != null;
             existingTag.setName(tag.getName());
             existingTag.setColor(tag.getColor());
+            existingTag.setLastUpdatedOn(new Timestamp(new Date().getTime()));
             return tagRepository.save(existingTag);
         } catch (NullPointerException npe) {
             throw new NullPointerException("Task does not exist");
