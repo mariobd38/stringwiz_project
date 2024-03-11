@@ -172,12 +172,9 @@ const TaskDetailsModal = (props) => {
         </div>
     );
 
-
     const handleTagRemoval = (currentTagIndex) => {
         removeTagInfo(jwt,currentTaskTags[currentTagIndex].id,upcomingTasks[currentIndex].id,currentTaskTags, setCurrentTaskTags);
     }
-
-
 
     const [tagDropdownStates, setTagDropdownStates] = useState(() => {
         const initialState = {};
@@ -213,13 +210,13 @@ const TaskDetailsModal = (props) => {
 
     const tagOptionsDropdownRef = useRef(null);
     const tagOptionsButtonRef = useRef(null);
+    const tagButtonTextRef = useRef(null);
     const tagButtonRefs = useRef([]);
 
     useEffect(() => {
         tagButtonRefs.current = Array(currentTaskTags.length)
             .fill()
             .map((_, index) => tagButtonRefs.current[index] || createRef());
-            console.log(tagButtonRefs.current);
     }, [currentTaskTags.length]);
 
     const[trueIndex, setTrueIndex] = useState(-1);
@@ -437,12 +434,11 @@ const TaskDetailsModal = (props) => {
                                                 >
                                                     <span className='d-flex'>
                                                         <SellRoundedIcon className='pe-2'/>
-                                                        <span className="align-middle user-home-task-details-modal-tags-button-text" >
+                                                        <span className="align-middle user-home-task-details-modal-tags-button-text" ref={tagButtonTextRef} contentEditable="false" suppressContentEditableWarning={true}>
                                                             {tag.name}
                                                         </span>
                                                     </span>
-                                                    <span className={`user-home-task-details-modal-tags-button-options ${tagDropdownStates && tagDropdownStates[index] ? 'dropdown-open' : 'dropdown-closed'} 
-                                                         `}  ref={tagOptionsButtonRef}>
+                                                    <span>
                                                         <TagOptionsDropdown
                                                             items={[
                                                                 { name: "Rename", icon: <DriveFileRenameOutlineRoundedIcon/> },
@@ -454,6 +450,8 @@ const TaskDetailsModal = (props) => {
                                                             tagDropdownStates={tagDropdownStates}
                                                             setTagDropdownStates={setTagDropdownStates}
                                                             index={index}
+                                                            tagButtonRef={tagButtonRefs.current[index]}
+                                                            tagButtonTextRef={tagButtonTextRef}
                                                             tagOptionsDropdownRef={tagOptionsDropdownRef}
                                                         />
                                                     </span>

@@ -71,28 +71,6 @@
 .only-add-icon-create-home-navbar:hover {
     color: #3df8d2;
 }
-/* .upgrade-home-navbar-button {
-    background: #4e21d9; 
-    background: -webkit-linear-gradient(to right, #4e21d9, #cc655e); 
-    background: linear-gradient(to right, #4e21d9, #cc655e);
-    font-size: 1rem !important;
-    border-radius: 8px !important;
-    font-family: 'Lato', serif !important;
-    text-transform: capitalize !important;
-    border: 1.3px solid #4e21d9 !important;
-    font-weight: 600 !important;
-    color: #dadada !important;
-    padding-right: 0.7rem !important;
-    padding: 0.2rem 0.8rem !important;
-}
-.upgrade-home-navbar-button:hover {
-    background: #5f54e0; 
-    background: -webkit-linear-gradient(to right, #5f54e0, #dd766f); 
-    background: linear-gradient(to right, #5f54e0, #dd766f);
-    border: 1.3px solid #5f54e0 !important;
-    color: #dadada !important;
-    transition: ease-out !important;
-} */
 .menu-home-navbar {
     width: 1.85rem !important;
     height: 1.85rem !important;

@@ -161,6 +161,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                 // console.log(filteredTags);
                 setAllTagData(allTagsData);
             } catch(error) {
+                //
             }
         };
         fetchData();

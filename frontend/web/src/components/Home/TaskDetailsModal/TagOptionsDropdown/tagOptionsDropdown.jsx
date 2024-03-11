@@ -27,11 +27,17 @@ const MenuItem = ({ name, index, icon, onClick }) => {
 
 export const TagOptionsDropdown = (props) => {
     const { items, initialIconValue, isDropdownOnRightSide,
-        tagDropdownStates, setTagDropdownStates, index,tagOptionsDropdownRef} = props;
-    
-        const [position, setPosition] = useState({ top: 0, left: 0 });
-        
+        tagDropdownStates, setTagDropdownStates, index,tagButtonRef,tagButtonTextRef,tagOptionsDropdownRef} = props;
+            
     const handleMenuItemClick = (event,item) => {
+        if (item.name === 'Rename') {
+            console.log(tagButtonRef);
+            tagButtonTextRef.current.focus();
+            tagButtonTextRef.current.setAttribute('contentEditable', 'true');
+
+        }
+
+
         setTagDropdownStates((prevState) => ({
                 ...prevState,
                 [index]: false
@@ -56,7 +62,7 @@ export const TagOptionsDropdown = (props) => {
             <span
                 className={`tod-dropdown tod-tag-options-dropdown ${tagDropdownStates[index] ? "open" : "" }`}
             >
-                <span className={`user-home-task-details-modal-tag-options-btn ${tagDropdownStates && tagDropdownStates[index] ? 'dropdown-open' : 'dropdown-closed'} `} 
+                <span className={`user-home-task-details-modal-tag-options-btn  user-home-task-details-modal-tags-button-options ${tagDropdownStates && tagDropdownStates[index] ? 'dropdown-open' : 'dropdown-closed'} ${tagDropdownStates && tagDropdownStates[index] ? 'dropdown-open' : 'dropdown-closed'} `} 
                 onClick={handleOpenDropdownMenu}>
                 {initialIconValue}
                 </span>
