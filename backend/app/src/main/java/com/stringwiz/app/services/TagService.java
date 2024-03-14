@@ -5,11 +5,14 @@ import com.stringwiz.app.models.Task;
 import com.stringwiz.app.models.User;
 import com.stringwiz.app.repositories.TagRepository;
 import com.stringwiz.app.repositories.TaskRepository;
+import com.stringwiz.app.utils.TagColorsUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -29,7 +32,11 @@ public class TagService {
             Optional<Task> optionalTask = taskRepository.findById(task_id);
             if (optionalTask.isPresent()) {
                 Task currentTask = optionalTask.get();
-                Tag newTag = new Tag(tag.getName(), tag.getColor(), user);
+
+                List<String> allTagColors = getAllTagColors(user);
+                String tagColor = new TagColorsUtil().sendRandomColor(allTagColors);
+
+                Tag newTag = new Tag(tag.getName(), tagColor, user);
 
                 currentTask.addTag(newTag);
                 taskRepository.save(currentTask);
@@ -96,6 +103,7 @@ public class TagService {
         try {
             Tag existingTag = tagRepository.findById(tag.getId()).orElse(null);
             assert existingTag != null;
+
             existingTag.setName(tag.getName());
             existingTag.setColor(tag.getColor());
             existingTag.setLastUpdatedOn(new Timestamp(new Date().getTime()));
@@ -103,6 +111,15 @@ public class TagService {
         } catch (NullPointerException npe) {
             throw new NullPointerException("Task does not exist");
         }
+    }
+
+    private List<String> getAllTagColors(User user) {
+        List<String> allColors = new ArrayList<>();
+        List<Tag> tags = tagRepository.findByUser(user);
+        for(Tag tag : tags) {
+            allColors.add(tag.getColor());
+        }
+        return allColors;
     }
 
 

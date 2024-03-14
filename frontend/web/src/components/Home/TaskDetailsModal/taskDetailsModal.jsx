@@ -14,16 +14,12 @@ import { Breadcrumbs, Link, Typography } from '@mui/material';
 
 import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
-import ChecklistRtlRoundedIcon from '@mui/icons-material/ChecklistRtlRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import CircleRoundedIcon from '@mui/icons-material/CircleRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ColorLensRoundedIcon from '@mui/icons-material/ColorLensRounded';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import DriveFileRenameOutlineRoundedIcon from '@mui/icons-material/DriveFileRenameOutlineRounded';
-import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
-import EventRoundedIcon from '@mui/icons-material/EventRounded';
-import ExtensionRoundedIcon from '@mui/icons-material/ExtensionRounded';
 import LockIcon from '@mui/icons-material/Lock';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import NotInterestedRoundedIcon from '@mui/icons-material/NotInterestedRounded';
@@ -255,9 +251,11 @@ const TaskDetailsModal = (props) => {
         setTagNameRenameButtonClicked(false);
     })
 
+    // const [updatedTagName, setUpdatedTagName] = useState(null);
     const handleTagRename = (event,oldTagName) => {
         if (event.key === 'Enter') {
             const newTagName = event.target.value;
+            
             updateTagInfo(
                 jwt,
                 event,
@@ -265,13 +263,19 @@ const TaskDetailsModal = (props) => {
                 currentTaskTags,
                 tagNameRenameButtonClickedIndex,
                 oldTagName,
-                newTagName
+                newTagName,
+                null,
+                allTagData.find(tag => tag.name === oldTagName),
             );
+            // setUpdatedTagName(currentTaskTags[tagNameRenameButtonClickedIndex]);
+
             setTagNameRenameButtonClicked(false);
         }
     }
 
     //tag color logic
+    const tagColorChangeDropdownRef = useRef(null);
+    const [tagColorButtonSelected, setTagColorButtonSelected] = useState(false);
     const [tagColorChangeButtonClicked, setTagColorChangeButtonClicked] = useState(false);
     const [tagColorChangeButtonClickedIndex, setTagColorChangeButtonClickedIndex] = useState(-1);
     const [tagColorDropdownOpen, setTagColorDropdownOpen] = useState(false);
@@ -281,14 +285,27 @@ const TaskDetailsModal = (props) => {
         setTimeout(() => {
             setTagColorDropdownOpen(true);
         },350);
-        
+        // console.log(index);
+    };
+
+    const onTagColorButtonSelected = () => {
+        setTagColorButtonSelected(true);
     };
     
-    useClickAway(tagColorChangeButtonClickedIndex !== -1 && tagButtonTextRefs.current[tagColorChangeButtonClickedIndex], () => {
+    useClickAway(tagColorButtonSelected && tagColorChangeButtonClickedIndex !== -1 && tagButtonTextRefs.current[tagColorChangeButtonClickedIndex], () => {
+        if (!tagColorButtonSelected) {
+            setTagColorChangeButtonClicked(false);
+            setTagColorDropdownOpen(false);
+        }
+    });
+    
+    useClickAway(tagColorChangeDropdownRef,() => {
         setTagColorChangeButtonClicked(false);
         setTagColorDropdownOpen(false);
-
     })
+    
+
+    
 
     return (
         <>
@@ -453,7 +470,7 @@ const TaskDetailsModal = (props) => {
                                         <span className='lato-font d-flex align-items-center user-home-task-details-modal-tags-group' >
                                         
                                             {currentTaskTags.map((tag, index) => (
-                                                <Button key={index} className={`mx-1 user-home-task-details-modal-tags-button ${tagNameRenameButtonClicked && index === tagNameRenameButtonClickedIndex? 'focused' : 'unfocused'}`}
+                                                <Button key={index} style={{backgroundColor: tag.color ? tag.color : '#0d6efd', border: "none"}} className={`mx-1 user-home-task-details-modal-tags-button ${tagNameRenameButtonClicked && index === tagNameRenameButtonClickedIndex? 'focused' : 'unfocused'}`}
                                                     ref={tagButtonRefs.current[index]}
                                                     
                                                     onMouseLeave={() => handleTagOptionsDropdownMouseLeave(index)}
@@ -463,11 +480,10 @@ const TaskDetailsModal = (props) => {
                                                         {tagNameRenameButtonClicked && index === tagNameRenameButtonClickedIndex ?  
                                                             <input autoFocus='true' defaultValue={`${tag.name}`} className={`align-middle user-home-task-details-modal-tags-button-text-input`} 
                                                             ref={tagButtonTextRefs.current[index]} onKeyDown={(event) => handleTagRename(event,tag.name)}>
-                                                                {/* {tag.name} */}
                                                             </input> :
                                                             <span className={`align-middle user-home-task-details-modal-tags-button-text ${tagNameRenameButtonClicked ? 'focused' : 'unfocused'}`} 
                                                             ref={tagButtonTextRefs.current[index]} contentEditable="false" suppressContentEditableWarning={true}>
-                                                                {tag.name}
+                                                                {tag?.name ? tag.name : ''}
                                                             </span>
                                                             }
                                                     </span>
@@ -497,8 +513,15 @@ const TaskDetailsModal = (props) => {
                                                     {tagColorChangeButtonClicked && index === tagColorChangeButtonClickedIndex &&
                                                     <span>
                                                         <TagColorDropdown 
+                                                            jwt={jwt}
+                                                            allTagData={allTagData}
+                                                            currentTaskTags={currentTaskTags}
+                                                            tagColorChangeDropdownRef={tagColorChangeDropdownRef}
                                                             isDropdownOnRightSide={false}
                                                             tagColorDropdownOpen={tagColorDropdownOpen}
+                                                            setTagColorButtonSelected={setTagColorButtonSelected}
+                                                            onTagColorButtonSelected={() => onTagColorButtonSelected()}
+                                                            tagIndex={index}
                                                         />
                                                     </span>}
                                                     <span className={`align-middle user-home-task-details-modal-tags-button-close ${tagNameRenameButtonClicked ? 'focused' : 'unfocused'}`} 

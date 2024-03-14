@@ -1,22 +1,25 @@
 function updateTagInfo  (jwt, event, allTagData,currentTaskTags,tagNameRenameButtonClickedIndex,
-    oldTagName,newTagName) {
+    oldTagName,newTagName,newTagColor,actualTag) {
     
-    const tag = allTagData.find(tag => tag.name === oldTagName);
+    if(newTagColor === null) {
 
-    const existingTag = allTagData.find(tag => tag.name === newTagName.trim());
-    if ((newTagName.trim() === '') || (tag !== existingTag && existingTag !== undefined)) { //todo: if tag already exists, add an error snackbar
-        event.preventDefault();
-        return;
-    }
+        const existingTag = allTagData.find(tag => tag.name === newTagName.trim());
+        if ((newTagName.trim() === '') || (actualTag !== existingTag && existingTag !== undefined)) { //todo: if tag already exists, add an error snackbar
+            event.preventDefault();
+            return;
+        }
 
-    if (oldTagName !== newTagName.trim()) {
-        tag.name = newTagName;
+        if (oldTagName !== newTagName.trim()) {
+            actualTag.name = newTagName;
+        }
+    } else {
+        actualTag.color = newTagColor;
     }
    
     const tagInfo = {
-        id: tag.id,
-        name: tag.name,
-        color: tag.color
+        id: actualTag.id,
+        name: actualTag.name,
+        color: actualTag.color
     }
 
     fetch("/api/tags/update", {
@@ -41,3 +44,56 @@ function updateTagInfo  (jwt, event, allTagData,currentTaskTags,tagNameRenameBut
 }
 
 export {updateTagInfo}
+
+
+
+// function updateTagInfo (jwt, event, allTagData,currentTaskTags,tagNameRenameButtonClickedIndex,
+//     oldTagName,newTagName,newTagColor,actualTag) {
+
+//     if(newTagColor === null) {
+
+//         const existingTag = allTagData.find(tag => tag.name === newTagName.trim());
+//         if ((newTagName.trim() === '') || (actualTag !== existingTag && existingTag !== undefined)) { //todo: if tag already exists, add an error snackbar
+//             event.preventDefault();
+//             return;
+//         }
+
+//         if (oldTagName !== newTagName.trim()) {
+//             actualTag.name = newTagName;
+//         }
+//     } else {
+//         console.log(newTagColor);
+//         actualTag.color = newTagColor;
+//     }
+   
+//     const tagInfo = {
+//         id: actualTag.id,
+//         name: actualTag.name,
+//         color: actualTag.color
+//     }
+
+//     try {
+//         const response = fetch('/api/tags/update', {
+//             method: "PUT",
+//             headers: {
+//                 "Content-Type": "application/json",
+//                 Authorization: 'Bearer ' + jwt
+//             },
+//             body: JSON.stringify(tagInfo),
+//         });
+
+//         if (!response.ok) {
+//             throw new Error("Network response was not ok");
+//         }
+
+//         const data = response.json();
+//         console.log(data);
+//         currentTaskTags[tagNameRenameButtonClickedIndex] = data;
+//         return data;
+//     } catch (error) {
+//         console.error(error);
+//         return null;
+//     }
+// }
+
+// export {updateTagInfo}

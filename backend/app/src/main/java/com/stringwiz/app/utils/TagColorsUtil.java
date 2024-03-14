@@ -2,10 +2,10 @@ package com.stringwiz.app.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Data
 @AllArgsConstructor
@@ -17,28 +17,38 @@ public class TagColorsUtil {
     }
 
 
-    public void ex() {
-        System.out.println(colors.get(0));
+//    public void ex() {
+//        System.out.println(colors.get(0));
+//    }
+
+    public String sendRandomColor(List<String> existingColors) {
+        List<String> availableColors = new ArrayList<>(colors);
+        for(String color : existingColors) {
+            availableColors.remove(color);
+        }
+        if (availableColors.isEmpty()) {
+            int randomIndex = new Random().nextInt(colors.size());
+            return colors.get(randomIndex);
+        }
+
+        int randomIndex = new Random().nextInt(availableColors.size());
+        return availableColors.get(randomIndex);
     }
 
     private List<String> getColors() {
-        //colors from https://www.flatuicolorpicker.com/
         return List.of(
-                "#0b7fab",      //blue chill
-                          "#89c4f4",      //jordy blue
-                          "#36d7b7",      //turquoise
-                          "#b7f4d8",      //magic mint
-                          "#26c281",      //jungles green
-                          "#d2d7d3",      //pumice
-                          "#8e44ad",      //studio
-                          "#f9bf3b",      //sandstorm
-                          "#e67e22",      //carrot orange
-                          "#efcfe3",      //Lacquer Mauve
-                          "#d5b8ff",      //Mauve
-                          "#a537fd",      //electric purple
-                          "#e76d89",      //deep blush
-                          "#d64541",      //valencia
-                          "#ffff9f"       //canary
+                "#e65551",
+                "#e76d89",
+                "#ffc0cb",
+                "#dfa0ab",
+                "#dfaf2b",
+                "#0ec9ad",
+                "#0aa665",
+                "#146882",
+                "#0d6efd",
+                "#d5b8ff",
+                "#c557ff",
+                "#2c2d2f"
         );
     }
 

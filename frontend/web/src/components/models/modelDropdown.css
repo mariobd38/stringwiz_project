@@ -6,7 +6,7 @@
   padding: 0 0.4rem;
   width: fit-content;
   color: #fafafa;
-  background: #222325;
+  background: #262729;
   border: 0;
   cursor: pointer;
   font-family: "Lato";
@@ -91,7 +91,7 @@
   font-family: 'Lato';
   font-size: 0.9rem;
   color: #c9c9c9;
-  background-color: #222325;
+  background-color: #262729;
 }
 
 .dropdown.open .model-dropdown-menu {
@@ -99,6 +99,7 @@
   transform: translateY(0);
   visibility: visible;
   min-height: 12rem;
+  background: #262729;
 }
 .model-dropdown-menu button:hover {
   background: #222325;
