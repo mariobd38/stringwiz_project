@@ -12,10 +12,12 @@ import { addExistingTagInfo } from "../../DataManagement/Tags/addExistingTag";
 
 import "./modelDropdown.css";
 
-const MenuButton = ({name,icon,isActualOption,hasItemTypesOption,index,currentItemName,onClick}) => {
+const MenuButton = ({name,icon,isActualOption,hasItemTypesOption,index,currentItemName,onClick,isStatusBtn,isPriorityDropdown}) => {
     return (
         <button onClick={(event) => (onClick ? onClick(event,index) : null)} 
-            className={`model-dropdown-item-menu-button ${hasItemTypesOption ? 'model-dropdown-item-menu-button-wTypeOption' : (name==='Clear') ? 'model-dropdown-item-menu-button-clear' : '' }`}>
+            className={`model-dropdown-item-menu-button ${hasItemTypesOption ? 'model-dropdown-item-menu-button-wTypeOption' 
+            : (name==='Clear') ? 'model-dropdown-item-menu-button-clear' : '' } 
+            ${isPriorityDropdown && 'model-dropdown-item-priority-menu-button'} ${isStatusBtn && 'model-dropdown-item-status-menu-button'}`}>
             <span className="model-dropdown-current-icon">{icon}</span>
             {name} 
             {isActualOption && currentItemName === name && <CheckRoundedIcon className="ms-auto"/>}
@@ -23,7 +25,7 @@ const MenuButton = ({name,icon,isActualOption,hasItemTypesOption,index,currentIt
     );
 };
 
-const MenuItem = ({ name, index, icon, isActualOption, hasItemTypesOption, currentItemName, onClick }) => {
+const MenuItem = ({ name, index, icon, isActualOption, hasItemTypesOption, currentItemName, onClick,isStatusBtn,isPriorityDropdown }) => {
     return (
         <>
             <MenuButton
@@ -34,6 +36,8 @@ const MenuItem = ({ name, index, icon, isActualOption, hasItemTypesOption, curre
                 hasItemTypesOption={hasItemTypesOption}
                 index={index}
                 currentItemName={currentItemName}
+                isStatusBtn={isStatusBtn}
+                isPriorityDropdown={isPriorityDropdown}
             />
         </>
     );
@@ -227,6 +231,8 @@ export const ModelDropdown = (props) => {
                                 currentItemName={currentItem.name}
                                 onClick={(event) => handleMenuItemClick(event,item)}
                                 onHide={() => setIsDropdownOpen(!isDropdownOpen)}
+                                isStatusBtn={isStatusBtn}
+                                isPriorityDropdown={isPriorityDropdown}
                             />
                         )) : (!tagAlreadyAttached) ?
                         tagItems.map((item, index) => (

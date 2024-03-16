@@ -427,7 +427,6 @@ const TaskDetailsModal = (props) => {
                                                 hasSearchBar={true} isStatusBtn={true}
                                                 upcomingTasks={upcomingTasks} currentIndex={currentIndex}
                                             />
-
                                     
                                             <Button className='ms-2 user-home-task-details-modal-status-set-complete-btn'>
                                                 <CheckRoundedIcon style={{width: "1.7rem", height: "1.7rem", color: "#989898"}}/>

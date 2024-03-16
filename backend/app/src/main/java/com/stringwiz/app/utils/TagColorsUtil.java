@@ -17,10 +17,6 @@ public class TagColorsUtil {
     }
 
 
-//    public void ex() {
-//        System.out.println(colors.get(0));
-//    }
-
     public String sendRandomColor(List<String> existingColors) {
         List<String> availableColors = new ArrayList<>(colors);
         for(String color : existingColors) {
@@ -46,7 +42,7 @@ public class TagColorsUtil {
                 "#0aa665",
                 "#146882",
                 "#0d6efd",
-                "#d5b8ff",
+                "#8568af",
                 "#c557ff",
                 "#2c2d2f"
         );

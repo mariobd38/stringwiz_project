@@ -20,7 +20,7 @@ export const TagColorDropdown = (props) => {
         "#0aa665",
         "#146882",
         "#0d6efd",
-        "#d5b8ff",
+        "#8568af",
         "#c557ff",
         "#2c2d2f"
     ];

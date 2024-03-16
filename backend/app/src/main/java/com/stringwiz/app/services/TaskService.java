@@ -37,13 +37,7 @@ public class TaskService {
                 currentTask.setDueDate(dueDatesPst);
             }
         }
-//        for(Task t : taskList) {
-//            if (t.getName().startsWith("leg")) {
-//                System.out.println(t.getDueDate());
-//            }
-//        }
         return taskList;
-//        return taskRepository.findByUser(user);
     }
     public Task update(Task task) {
         try {
