@@ -35,8 +35,8 @@ public class TagColorsUtil {
         return List.of(
                 "#e65551",
                 "#e76d89",
-                "#ffc0cb",
                 "#dfa0ab",
+                "#f68e32",
                 "#dfaf2b",
                 "#0ec9ad",
                 "#0aa665",

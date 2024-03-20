@@ -6,6 +6,7 @@ import com.stringwiz.app.models.User;
 import com.stringwiz.app.repositories.TagRepository;
 import com.stringwiz.app.repositories.TaskRepository;
 import com.stringwiz.app.utils.TagColorsUtil;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -121,11 +122,17 @@ public class TagService {
         return allColors;
     }
 
+    public void delete(Long tag_id) {
+        Tag tag = tagRepository.findById(tag_id).orElseThrow(() -> new EntityNotFoundException("Tag not found"));
 
-    /*
-
-    public void delete(Tag tag) {
-        tagRepository.delete(tag);
-    }*/
+        // Remove the tag from all tasks
+        for (Task task : tag.getTasks()) {
+            task.getTags().remove(tag);
+//            if (task.getTags().contains(tag)) {
+//                System.out.println(task.getName());
+//            }
+        }
+        tagRepository.deleteById(tag_id);
+    }
 
 }

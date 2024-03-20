@@ -41,6 +41,8 @@ import { TagColorDropdown } from './TagColorDropdown/tagColorDropdown';
 import TaskDetailsModalSubheader from './taskDetailsModalSubheader';
 
 import { updateTagInfo } from '../../../DataManagement/Tags/updateTag';
+import { deleteTagInfo } from '../../../DataManagement/Tags/deleteTag';
+import TaskDeletionModal from './TaskDeletionModal/taskDeletionModal';
 
 function handleBreadcrumbClick(event) {
     event.preventDefault();
@@ -267,8 +269,6 @@ const TaskDetailsModal = (props) => {
                 null,
                 allTagData.find(tag => tag.name === oldTagName),
             );
-            // setUpdatedTagName(currentTaskTags[tagNameRenameButtonClickedIndex]);
-
             setTagNameRenameButtonClicked(false);
         }
     }
@@ -285,7 +285,6 @@ const TaskDetailsModal = (props) => {
         setTimeout(() => {
             setTagColorDropdownOpen(true);
         },350);
-        // console.log(index);
     };
 
     const onTagColorButtonSelected = () => {
@@ -303,9 +302,24 @@ const TaskDetailsModal = (props) => {
         setTagColorChangeButtonClicked(false);
         setTagColorDropdownOpen(false);
     })
-    
 
-    
+    //tag delete logic
+    const [tagDeleteButtonClicked, setTagDeleteButtonClicked] = useState(false);
+    const [tagDeleteButtonClickedIndex, setTagDeleteButtonClickedIndex] = useState(false);
+
+
+    const onTagDeleteButtonClicked = (index) => {
+        setTagDeleteButtonClickedIndex(index);
+    };
+    const onTagDeleteDropdownHide = () => {
+        setTagDeleteButtonClicked(false);
+    };
+
+    const handleConfirmDeleteTagButtonClick = () => {
+        deleteTagInfo(jwt,currentTaskTags,setCurrentTaskTags,tagDeleteButtonClickedIndex);
+        setTagDeleteButtonClicked(false);
+    }
+
 
     return (
         <>
@@ -506,6 +520,8 @@ const TaskDetailsModal = (props) => {
                                                             onTagNameRenameButtonClick={() => onTagNameRenameButtonClick(index)}
                                                             setTagColorChangeButtonClicked={setTagColorChangeButtonClicked}
                                                             onTagColorChangeButtonClick={() => onTagColorChangeButtonClick(index)}
+                                                            setTagDeleteButtonClicked={setTagDeleteButtonClicked}
+                                                            onTagDeleteButtonClicked={() => onTagDeleteButtonClicked(index)}
                                                         />
                                                     </span>
 
@@ -548,6 +564,12 @@ const TaskDetailsModal = (props) => {
                             />
                         </div>
                     </div>   
+
+                    <TaskDeletionModal 
+                        show={tagDeleteButtonClicked}
+                        handleClose={onTagDeleteDropdownHide}
+                        handleConfirmDeleteTagButtonClick={handleConfirmDeleteTagButtonClick}
+                    />
                                         
                 </Modal.Body>
                 

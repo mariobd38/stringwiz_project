@@ -30,7 +30,7 @@ export const TagOptionsDropdown = (props) => {
     const { items,initialIconValue,isDropdownOnRightSide,
         tagDropdownStates,setTagDropdownStates,index,tagButtonTextRef,tagButtonOptionRef,
         tagNameRenameButtonClicked,setTagNameRenameButtonClicked,onTagNameRenameButtonClick,
-        setTagColorChangeButtonClicked,onTagColorChangeButtonClick
+        setTagColorChangeButtonClicked,onTagColorChangeButtonClick,setTagDeleteButtonClicked,onTagDeleteButtonClicked
     } = props;
             
     const handleMenuItemClick = (event,item) => {
@@ -42,6 +42,10 @@ export const TagOptionsDropdown = (props) => {
         } else if (item.name === 'Change color') {
             setTagColorChangeButtonClicked(true);
             onTagColorChangeButtonClick(index); 
+        } else if (item.name === 'Delete') {
+            //
+            setTagDeleteButtonClicked(true);
+            onTagDeleteButtonClicked(index);
         }
 
         setTagDropdownStates((prevState) => ({
