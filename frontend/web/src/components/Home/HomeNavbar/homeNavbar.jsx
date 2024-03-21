@@ -68,6 +68,7 @@ const HomeNavbar = () => {
 
     const [userEmail] = useLocalState('', 'userEmail');
     const initials = (firstName[0] + lastName[0]).toUpperCase();
+
     const logout = () => {
         localStorage.clear();
         Cookies.set('isAuthenticated', false);

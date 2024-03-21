@@ -118,7 +118,7 @@ const MainContent = () => {
                                 <div className="landing-page-features-card-profile">
                                     <AssignmentRoundedIcon className='landing-page-features-card-icon' style={{color: "#e63946"}}/>
                                     <div className='landing-page-features-card-name'>Task Management</div>
-                                    <div className='landing-page-features-card-desc pt-2'v>Stay organized, set priorities, and track progress with ease.</div>
+                                    <div className='landing-page-features-card-desc pt-2'>Stay organized, set priorities, and track progress with ease.</div>
                                     <Button className='landing-page-features-card-button'>Discover</Button>
 
                                 </div>
@@ -131,7 +131,7 @@ const MainContent = () => {
                                 <div className="landing-page-features-card-profile">
                                     <FolderRoundedIcon className='landing-page-features-card-icon' style={{color: "#ffb703"}}/>
                                     <div className='landing-page-features-card-name'>Project Management</div>
-                                    <div className='landing-page-features-card-desc mx-3 pt-2'v>Streamline your projects with our comprehensive project management tools.</div>
+                                    <div className='landing-page-features-card-desc mx-3 pt-2'>Streamline your projects with our comprehensive project management tools.</div>
                                     <Button className='landing-page-features-card-button'>Discover</Button>
 
                                 </div>
@@ -144,7 +144,7 @@ const MainContent = () => {
                                 <div className="landing-page-features-card-profile">
                                     <EventRoundedIcon className='landing-page-features-card-icon' style={{color: "#2a9d8f"}}/>
                                     <div className='landing-page-features-card-name'>Calendar</div>
-                                    <div className='landing-page-features-card-desc mx-3 pt-2'v>Easily manage your time, schedule meetings, and track important events.</div>
+                                    <div className='landing-page-features-card-desc mx-3 pt-2'>Easily manage your time, schedule meetings, and track important events.</div>
                                     <Button className='landing-page-features-card-button'>Discover</Button>
 
                                 </div>
@@ -157,7 +157,7 @@ const MainContent = () => {
                                 <div className="landing-page-features-card-profile">
                                     <DashboardIcon className='landing-page-features-card-icon' style={{color: "#560bad"}}/>
                                     <div className='landing-page-features-card-name'>Boards</div>
-                                    <div className='landing-page-features-card-desc mx-3 pt-2'v>Effortlessly organize tasks and projects with customizable CocoBoards.</div>
+                                    <div className='landing-page-features-card-desc mx-3 pt-2'>Effortlessly organize tasks and projects with customizable CocoBoards.</div>
                                     <Button className='landing-page-features-card-button'>Discover</Button>
                                 </div>
                             </div>  
@@ -170,7 +170,7 @@ const MainContent = () => {
                                 <div className="landing-page-features-card-profile">
                                     <SubjectRoundedIcon className='landing-page-features-card-icon' style={{color: "#4cc9f0"}}/>
                                     <div className='landing-page-features-card-name'>Documentation</div>
-                                    <div className='landing-page-features-card-desc mx-4 pt-2'v>Manage and collaborate on documents with advanced version control and access management.</div>
+                                    <div className='landing-page-features-card-desc mx-4 pt-2'>Manage and collaborate on documents with advanced version control and access management.</div>
                                     <Button className='landing-page-features-card-button'>Discover</Button>
                                 </div>
                             </div>  
@@ -183,7 +183,7 @@ const MainContent = () => {
                                 <div className="landing-page-features-card-profile">
                                     <GroupsRoundedIcon className='landing-page-features-card-icon' style={{color: "#03045e"}}/>
                                     <div className='landing-page-features-card-name'>Meetings</div>
-                                    <div className='landing-page-features-card-desc mx-1 pt-2'v>Conduct meetings with integrated scheduling, agenda management, and seamless video conferencing.</div>
+                                    <div className='landing-page-features-card-desc mx-1 pt-2'>Conduct meetings with integrated scheduling, agenda management, and seamless video conferencing.</div>
                                     <Button className='landing-page-features-card-button'>Discover</Button>
 
                                 </div>

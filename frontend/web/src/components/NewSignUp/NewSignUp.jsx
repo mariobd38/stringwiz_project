@@ -43,9 +43,6 @@ const NewSignUp = () => {
             password: password,
             confirmPassword: confirmPassword
         };
-        const userFullNameInfo = {
-            userFullName: userFullName
-        };
         try {
             const response = await fetch("api/auth/signup", {
                 headers: {
@@ -53,7 +50,6 @@ const NewSignUp = () => {
                 },
                 method: "post",
                 body: JSON.stringify(reqBody),
-                userFullName: JSON.stringify(userFullNameInfo),
             });
 
             if (response.status === 200) {
@@ -64,9 +60,6 @@ const NewSignUp = () => {
                 .join(' '));
                 window.location.href = '/home';
             } else {
-                console.log(response.json().then((data) => {
-                    throw new Error(data.join("\n"));
-                }));
                 return response.json().then((data) => {
                     throw new Error(data.join("\n"));
                 });

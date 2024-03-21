@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useLocalState } from "../../utils/useLocalStorage";
-import { useCookies } from "../../utils/useCookies";
 
 import Button from '@mui/material/Button';
 
@@ -30,6 +28,7 @@ const NewHome = () => {
     const [today, setToday] = useState(null);
     const [tagData, setTagData] = useState([]);
     const [allTagData, setAllTagData] = useState([]);
+
 
     useEffect(() => {
         const fetchAndSetTabs = async () => {
@@ -65,7 +64,6 @@ const NewHome = () => {
         getTaskInfo(setTaskData, setUpcomingTasks);
         setUpcomingTasks(taskData);
     }, [taskData]);
-
 
     return (
         <>

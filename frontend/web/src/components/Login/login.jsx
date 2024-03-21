@@ -122,8 +122,8 @@ const Login = () => {
 
                             
                             <div className='signup-text-field-container'>
-                            {errorMessage && <Alert severity="error" className='mt-3 nunito-sans-font'>
-                                <AlertTitle className='error-message' style={{fontWeight: "600"}}>Unable to Sign In</AlertTitle>
+                            {errorMessage && <Alert severity="error" className='mt-3 nunito-sans-font' style={{textAlign: "left"}}>
+                                <AlertTitle className='error-message' style={{fontWeight: "600", textAlign: "left"}}>Unable to Sign In</AlertTitle>
                                 {errorMessage}
                                 </Alert>}
                                 <form onSubmit={handleSubmit}>

@@ -8,7 +8,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -63,7 +62,6 @@ public class AuthController {
 
     @PostMapping("/api/auth/signup")
     public ResponseEntity<?> register(@RequestBody UserRegistrationDto request,HttpServletResponse response) {
-        System.out.println("hey hey");
         try {
             System.out.println(request.getFullName());
 
@@ -74,12 +72,10 @@ public class AuthController {
             User user = new User(request.getFullName(), request.getEmail(), request.getPassword());
             //emailUtil.sendEmail(request.getEmail());
 
-
             customUserService.saveUser(user);
 
             String jwtToken = jwtUtil.generateToken(user);
 
-            // Set JWT token as an HTTP-only cookie
             Cookie cookie = new Cookie(JWT_COOKIE_NAME, jwtToken);
             cookie.setHttpOnly(true);
             cookie.setPath("/");
