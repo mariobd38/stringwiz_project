@@ -63,8 +63,6 @@ public class AuthController {
     @PostMapping("/api/auth/signup")
     public ResponseEntity<?> register(@RequestBody UserRegistrationDto request,HttpServletResponse response) {
         try {
-            System.out.println(request.getFullName());
-
             List<String> errorMessages = customUserService.userRegistrationValidation(request); // validates user registration data
             if (!errorMessages.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages);

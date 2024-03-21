@@ -11,7 +11,6 @@ function createTaskInfo(
     setUserTasks,
     taskData,
     userTasks) {
-        console.log(taskName)
     // if (!taskName) {
     //     setMissingNameError(true);
     //     return;
@@ -63,8 +62,6 @@ function createTaskInfo(
         return response.json();
     })
     .then((data) => {
-        console.log("data that was just created");
-        console.log(data);
         const createdTask = {
             id: data.id, 
             name: data.name,
