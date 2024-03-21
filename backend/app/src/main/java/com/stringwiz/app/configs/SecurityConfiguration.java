@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -48,6 +49,7 @@ public class SecurityConfiguration {
                         .requestMatchers(new AntPathRequestMatcher("/api/**")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/api/tasks/**")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/api/tags/**")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/api/user/**")).authenticated()
                         .anyRequest().authenticated());
         return http.build();
     }

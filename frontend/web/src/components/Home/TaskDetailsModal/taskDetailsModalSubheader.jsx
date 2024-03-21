@@ -14,7 +14,7 @@ import { ModelDropdown } from '../../models/modelDropdown';
 
 const TaskDetailsModalSubheader = (props) => {
     const { upcomingTasks,currentIndex,handleTaskUpdate,allTagData,nonIncludedTaskTags,handleTagCreation,currentTaskPriority,
-        setCurrentTaskPriority,jwt,currentTaskTags,setCurrentTaskTags
+        setCurrentTaskPriority,currentTaskTags,setCurrentTaskTags
     } = props;
 
 
@@ -40,7 +40,7 @@ const TaskDetailsModalSubheader = (props) => {
                 initialNameValue={""} initialIconValue={<SellRoundedIcon />}
                 handleTaskUpdate={(event) => handleTaskUpdate(event)}
                 hasSearchBar={true}
-                upcomingTasks={upcomingTasks} currentIndex={currentIndex} jwt={jwt} allTagData={allTagData} currentTaskTags={currentTaskTags} setCurrentTaskTags={setCurrentTaskTags}
+                upcomingTasks={upcomingTasks} currentIndex={currentIndex} allTagData={allTagData} currentTaskTags={currentTaskTags} setCurrentTaskTags={setCurrentTaskTags}
             />
             </div>
             <Tooltip id="my-tooltip" className='task-details-modal-tooltip' style={{backgroundColor: "#2454d6", color: "#fafafa", fontSize: "0.8rem", borderRadius: "10px" }}/>

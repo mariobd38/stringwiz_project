@@ -1,12 +1,11 @@
 
 function deleteTagInfo(
-    jwt,currentTaskTags,setCurrentTaskTags,tagDeleteButtonClickedIndex) {
+    currentTaskTags,setCurrentTaskTags,tagDeleteButtonClickedIndex) {
     const tagId = currentTaskTags[tagDeleteButtonClickedIndex].id;
     fetch(`/api/tags/delete?tagId=${tagId}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
-            Authorization: 'Bearer ' + jwt
         },
     }).then((response) => {
         if (!response.ok) {

@@ -52,7 +52,7 @@ const TaskDetailsModal = (props) => {
     const { 
             currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskLastUpdatedOn,
             nonIncludedTaskTags, setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, setSelectedDate, currentTaskTags, setCurrentTaskTags,
-            upcomingTasks, selectedDate, jwt, today,
+            upcomingTasks, selectedDate, today,
             onHide, show, setModalShow, allTagData,handleTagCreation } = props;
 
     const [userFullName] = useLocalState("", "userFullName");
@@ -119,7 +119,6 @@ const TaskDetailsModal = (props) => {
             false,
             handleDueDatePopoverClose,
             setCurrentTaskDueDate,
-            jwt,
             null
         );
     }
@@ -175,7 +174,7 @@ const TaskDetailsModal = (props) => {
     );
 
     const handleTagRemoval = (currentTagIndex) => {
-        removeTagInfo(jwt,currentTaskTags[currentTagIndex].id,upcomingTasks[currentIndex].id,currentTaskTags, setCurrentTaskTags);
+        removeTagInfo(currentTaskTags[currentTagIndex].id,upcomingTasks[currentIndex].id,currentTaskTags, setCurrentTaskTags);
     }
 
 
@@ -259,7 +258,6 @@ const TaskDetailsModal = (props) => {
             const newTagName = event.target.value;
             
             updateTagInfo(
-                jwt,
                 event,
                 allTagData,
                 currentTaskTags,
@@ -316,7 +314,7 @@ const TaskDetailsModal = (props) => {
     };
 
     const handleConfirmDeleteTagButtonClick = () => {
-        deleteTagInfo(jwt,currentTaskTags,setCurrentTaskTags,tagDeleteButtonClickedIndex);
+        deleteTagInfo(currentTaskTags,setCurrentTaskTags,tagDeleteButtonClickedIndex);
         setTagDeleteButtonClicked(false);
     }
 
@@ -384,7 +382,6 @@ const TaskDetailsModal = (props) => {
                                         handleTagCreation={handleTagCreation}
                                         currentTaskPriority={currentTaskPriority}
                                         setCurrentTaskPriority={setCurrentTaskPriority}
-                                        jwt={jwt}
                                         currentTaskTags={currentTaskTags}
                                         setCurrentTaskTags={setCurrentTaskTags}
                                     />
@@ -528,7 +525,6 @@ const TaskDetailsModal = (props) => {
                                                     {tagColorChangeButtonClicked && index === tagColorChangeButtonClickedIndex &&
                                                     <span>
                                                         <TagColorDropdown 
-                                                            jwt={jwt}
                                                             allTagData={allTagData}
                                                             currentTaskTags={currentTaskTags}
                                                             tagColorChangeDropdownRef={tagColorChangeDropdownRef}

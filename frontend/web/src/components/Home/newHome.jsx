@@ -25,7 +25,6 @@ const NewHome = () => {
     const dayjs = require('dayjs');
     // const [month, setMonth] = useState(dayjs().format('MMMM'));
     // const [dayOfWeek, setDayOfWeek] = useState(dayjs().format('dddd'));
-    const [jwt] = useLocalState("", "jwt");
     const [taskData, setTaskData] = useState([]);
     const [upcomingTasks, setUpcomingTasks] = useState([]);
     const [today, setToday] = useState(null);
@@ -63,9 +62,9 @@ const NewHome = () => {
     }, [dayjs, taskData, upcomingTasks]);
     
     useEffect(() => {
-        getTaskInfo(jwt, setTaskData, setUpcomingTasks);
+        getTaskInfo(setTaskData, setUpcomingTasks);
         setUpcomingTasks(taskData);
-    }, [jwt, taskData]);
+    }, [taskData]);
 
 
     return (

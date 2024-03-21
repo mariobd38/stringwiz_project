@@ -4,7 +4,10 @@ import com.stringwiz.app.services.CustomUserService;
 import com.stringwiz.app.utils.JwtUtil;
 import com.stringwiz.app.web.UserAuthenticationDto;
 import com.stringwiz.app.web.UserRegistrationDto;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +27,11 @@ public class AuthController {
     @Autowired private AuthenticationManager authenticationManager;
     @Autowired private JwtUtil jwtUtil;
     @Autowired private CustomUserService customUserService;
+    @Value("${JWT_COOKIE_ATTRIBUTE_NAME}")
+    private String JWT_COOKIE_NAME;
 
     @PostMapping("/api/auth/login")
-    public ResponseEntity<?> login(@RequestBody UserAuthenticationDto request) {
+    public ResponseEntity<?> login(@RequestBody UserAuthenticationDto request, HttpServletResponse response) {
         try {
             String errorMessage = customUserService.userAuthenticationValidation(request);
             if (errorMessage != null) {
@@ -41,58 +46,47 @@ public class AuthController {
                     )
                 );
 
-            //code to use http only cookie below
-            /*
-            String jwt = jwtUtil.generateToken(user);
+            User user = (User) authenticate.getPrincipal();
+            user.setPassword(null);
 
-            // Set JWT as an HTTP-only cookie
-            Cookie cookie = new Cookie("jwt", jwt);
+            Cookie cookie = new Cookie(JWT_COOKIE_NAME, jwtUtil.generateToken(user));
             cookie.setHttpOnly(true);
-            cookie.setMaxAge((int) JWT_TOKEN_VALIDITY * 1000); // Max age in seconds
-            cookie.setPath("/"); // Set the cookie path to the root of the domain
+            cookie.setPath("/");
+            cookie.setSecure(true);
             response.addCookie(cookie);
 
-            // Return the user details without the password
-            user.setPassword(null);
             return ResponseEntity.ok().body(user);
-            User user = (User) authenticate.getPrincipal();
-            user.setPassword(null);
-            return ResponseEntity.ok()
-                .header(
-                    HttpHeaders.AUTHORIZATION,
-                    jwtUtil.generateToken(user)
-                )
-                .body(user);
-            */
-            User user = (User) authenticate.getPrincipal();
-            user.setPassword(null);
-            return ResponseEntity.ok()
-                    .header(
-                            HttpHeaders.AUTHORIZATION,
-                            jwtUtil.generateToken(user)
-                    )
-                    .body(user);
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
     @PostMapping("/api/auth/signup")
-    public ResponseEntity<?> register(@RequestBody UserRegistrationDto request) {
+    public ResponseEntity<?> register(@RequestBody UserRegistrationDto request,HttpServletResponse response) {
+        System.out.println("hey hey");
         try {
+            System.out.println(request.getFullName());
+
             List<String> errorMessages = customUserService.userRegistrationValidation(request); // validates user registration data
             if (!errorMessages.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages);
             }
             User user = new User(request.getFullName(), request.getEmail(), request.getPassword());
             //emailUtil.sendEmail(request.getEmail());
+
+
             customUserService.saveUser(user);
-            return ResponseEntity.ok()
-                .header(
-                    HttpHeaders.AUTHORIZATION,
-                    jwtUtil.generateToken(user)
-                )
-                .build();
+
+            String jwtToken = jwtUtil.generateToken(user);
+
+            // Set JWT token as an HTTP-only cookie
+            Cookie cookie = new Cookie(JWT_COOKIE_NAME, jwtToken);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+            cookie.setSecure(true);
+            response.addCookie(cookie);
+
+            return ResponseEntity.ok().build();
         } catch(Exception exception) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }

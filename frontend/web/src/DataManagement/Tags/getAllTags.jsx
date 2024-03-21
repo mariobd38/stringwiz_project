@@ -1,10 +1,9 @@
-async function getAllTagsInfo(jwt) {
+async function getAllTagsInfo() {
     try {
         const response = await fetch("/api/tags/getAll", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: 'Bearer ' + jwt
             },
         });
 

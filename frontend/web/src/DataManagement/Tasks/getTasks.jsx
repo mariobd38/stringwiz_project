@@ -1,9 +1,8 @@
-function getTaskInfo  (jwt, setTaskData, setUpcomingTasks) {
+function getTaskInfo  (setTaskData, setUpcomingTasks) {
     fetch("/api/tasks/get", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            Authorization: 'Bearer ' + jwt
         },
     }).then((response) => {
         if (!response.ok) {

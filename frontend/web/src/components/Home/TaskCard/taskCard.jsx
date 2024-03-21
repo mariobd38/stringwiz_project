@@ -37,7 +37,6 @@ import { Tooltip } from 'react-tooltip';
 import './taskCard.css'
 
 const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks, tagData, setTagData, allTagData, setAllTagData}) => {
-    const [jwt] = useLocalState("", "jwt");
     const [currentIndex, setCurrentIndex] = useState(null);
     const [newTaskRowOpen, setNewTaskRowOpen] = useState(false);
     const [userTasks, setUserTasks] = useLocalState([], "userTasks");
@@ -62,7 +61,6 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                 null,
                 setTaskData,
                 setUserTasks,
-                jwt,
                 taskData,
                 userTasks );
             setNewTaskRowOpen(false);
@@ -135,7 +133,6 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
             false,
             handleDueDatePopoverClose,
             setCurrentTaskDueDate,
-            jwt,
             null
             );
         setUpcomingTasks(upcomingTasks);
@@ -153,7 +150,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
         const fetchData = async () => {
             
             try {
-                const allTagsData =  await getAllTagsInfo(jwt, setAllTagData);
+                const allTagsData =  await getAllTagsInfo(setAllTagData);
                 // const filteredTags = allTagsData.filter(tag => !currentTaskTags.includes(tag.name));
                 const currentTaskTagsSet = new Set(currentTaskTags.map(tag => tag.name));
                 const filteredTags = allTagsData.filter(tag => !currentTaskTagsSet.has(tag.name));
@@ -178,7 +175,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
 
     const handleTagCreation = async (tagName) => {
         try {
-            const newTag = await createTagInfo(jwt, upcomingTasks[currentIndex].id, tagName);
+            const newTag = await createTagInfo(upcomingTasks[currentIndex].id, tagName);
     
             if (newTag) {
                 const updatedTags = [...currentTaskTags, newTag];
@@ -196,7 +193,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
     const OpenTaskDetailsModal = async (event, index) => {
         try {
 
-            const currentTags = await getTagInfo(jwt, upcomingTasks[index].id);
+            const currentTags = await getTagInfo(upcomingTasks[index].id);
             setCurrentTaskTags(currentTags);
 
             setModalShow(true);
@@ -330,7 +327,6 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                 currentIndex={currentIndex}
                 upcomingTasks={upcomingTasks}
                 selectedDate={selectedDate}
-                jwt={jwt}
                 currentTaskName={currentTaskName}
                 currentTaskCreationDate={currentTaskCreationDate}
                 currentTaskLastUpdatedOn={currentTaskLastUpdatedOn}

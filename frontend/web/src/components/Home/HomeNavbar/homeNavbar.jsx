@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocalState } from "../../../utils/useLocalStorage";
+import Cookies from 'js-cookie';
+
 import Container from 'react-bootstrap/Container';
 
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
@@ -19,8 +21,11 @@ import { Divider, Input, InputAdornment, ListItemIcon, Menu, MenuItem } from '@m
 
 import { Tooltip } from 'react-tooltip';
 
-import './homeNavbar.css';
 import CocollabLogo from '../../Logo/logo';
+
+import { userLogout } from '../../../DataManagement/Users/logout';
+
+import './homeNavbar.css';
 
 const HomeNavbar = () => {
     const dayjs = require('dayjs');
@@ -65,7 +70,8 @@ const HomeNavbar = () => {
     const initials = (firstName[0] + lastName[0]).toUpperCase();
     const logout = () => {
         localStorage.clear();
-        window.location.href = '/';
+        Cookies.set('isAuthenticated', false);
+        userLogout();
     };
 
     const closeOffcanvasIfLargeScreen = () => {

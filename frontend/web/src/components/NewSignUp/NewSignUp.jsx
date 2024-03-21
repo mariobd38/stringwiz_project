@@ -12,16 +12,18 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import InputAdornment from '@mui/material/InputAdornment';
 
-
-import './NewSignUp.css'
+import { useAuth } from '../../AuthContext/authProvider';
 import CocollabLogo from '../Logo/logo';
+import './NewSignUp.css'
+
 
 const NewSignUp = () => {
+    const { setIsAuthenticated } = useAuth();
+
     const [fullName,setFullName] = useState("");
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
     const [confirmPassword,setConfirmPassword] = useState("");
-    const [jwt, setJwt] = useLocalState("","jwt");
     const [userEmail, setUserEmail] = useLocalState("", "userEmail");
     const [userFullName, setUserFullName] = useLocalState("", "userFullName");
     const [errorMessages, setErrorMessages] = useState([]);
@@ -31,7 +33,7 @@ const NewSignUp = () => {
         navigate(path);
     }
 
-    function sendSignUpRequest() {
+    const sendSignUpRequest = async () => {
         setErrorMessages([]);
         const reqBody = {
             fullName: fullName.split(' ')
@@ -44,36 +46,35 @@ const NewSignUp = () => {
         const userFullNameInfo = {
             userFullName: userFullName
         };
-    
-        fetch("api/auth/signup", {
-            headers: {
-            "Content-Type": "application/json",
-            },
-            method: "post",
-            body: JSON.stringify(reqBody),
-            userFullName: JSON.stringify(userFullNameInfo),
-        })
-        .then((response) => {
-            if (!response.ok) {
+        try {
+            const response = await fetch("api/auth/signup", {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                method: "post",
+                body: JSON.stringify(reqBody),
+                userFullName: JSON.stringify(userFullNameInfo),
+            });
+
+            if (response.status === 200) {
+                setIsAuthenticated(true);
+                setUserEmail(email);
+                setUserFullName(fullName.replace(/\s+/g, ' ').split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' '));
+                window.location.href = '/home';
+            } else {
+                console.log(response.json().then((data) => {
+                    throw new Error(data.join("\n"));
+                }));
                 return response.json().then((data) => {
                     throw new Error(data.join("\n"));
-            });
-          }
-          return Promise.all([response.headers]);
-        })
-        .then(([headers]) => {
-            setUserEmail(email);
-            setUserFullName(fullName.replace(/\s+/g, ' ').split(' ')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(' '));
-            
-            setJwt(headers.get("authorization"));
-            window.location.href = '/home';
-        })
-        .catch((error) => {
+                });
+            }
+        } catch (error) {
             const errorList = error.message.split("\n");
             setErrorMessages(errorList);
-        });
+        }
     }
 
       

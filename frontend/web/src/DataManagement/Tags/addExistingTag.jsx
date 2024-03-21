@@ -1,13 +1,12 @@
 
 async function addExistingTagInfo(
-    jwt, taskId, tagId) {
+    taskId, tagId) {
     
     try {
         const response = await fetch(`/api/tags/addTag?taskId=${taskId}&tagId=${tagId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: 'Bearer ' + jwt
             },
         // body: JSON.stringify(requestPayload),
         });
@@ -30,6 +29,6 @@ async function addExistingTagInfo(
     } catch(error) {
         console.error(error); 
         return null;
-    }; 
+    }
 }
 export {addExistingTagInfo}

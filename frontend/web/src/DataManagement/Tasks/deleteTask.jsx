@@ -1,8 +1,7 @@
 function deleteTaskInfo  (
     currentRowIndex, 
     taskData,
-    setTaskData,
-    jwt
+    setTaskData
     ) {
     let task = taskData[currentRowIndex];
     const taskInfo = {
@@ -13,7 +12,6 @@ function deleteTaskInfo  (
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
-            Authorization: 'Bearer ' + jwt
         },
         body: JSON.stringify(taskInfo),
     }).then((response) => {

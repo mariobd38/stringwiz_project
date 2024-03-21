@@ -1,4 +1,4 @@
-async function createTagInfo(jwt, taskId, tagName) {
+async function createTagInfo(taskId, tagName) {
     const tagInfo = {
         name: tagName,
         color: null
@@ -9,7 +9,6 @@ async function createTagInfo(jwt, taskId, tagName) {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: 'Bearer ' + jwt
             },
             body: JSON.stringify(tagInfo),
         });

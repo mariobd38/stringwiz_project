@@ -9,7 +9,6 @@ function createTaskInfo(
     setMissingNameError,
     setTaskData,
     setUserTasks,
-    jwt,
     taskData,
     userTasks) {
         console.log(taskName)
@@ -55,7 +54,6 @@ function createTaskInfo(
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: 'Bearer ' + jwt
         },
         body: JSON.stringify(taskInfo),
     }).then((response) => {
@@ -84,13 +82,7 @@ function createTaskInfo(
         let taskList = userTasks;
         if(taskList === "") taskList = [];
         taskList.push(taskTableInfo);
-        setUserTasks(JSON.parse(JSON.stringify(taskList)))
-        // setTaskName(null);
-        // setTaskDescription(null);
-        // setTaskStatus(null);
-        // setTaskPriority(null);
-        // setTaskDueDate(null);
-        // setCreateTaskModalOpen(false);
+        setUserTasks(JSON.parse(JSON.stringify(taskList)));
       })
       .catch((error) => {
         console.error(error); 

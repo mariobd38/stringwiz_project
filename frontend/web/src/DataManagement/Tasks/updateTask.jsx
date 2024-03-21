@@ -7,7 +7,6 @@ function updateTaskInfo  (
         moreTaskmodalOpen,
         handleDueDatePopoverClose,
         setCurrentTaskDueDate,
-        jwt,
         setOpenSnackbar,
         ) {
         let task = upcomingTasks[currentRowIndex];
@@ -88,7 +87,6 @@ function updateTaskInfo  (
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: 'Bearer ' + jwt
             },
             body: JSON.stringify(taskInfo),
         }).then((response) => {

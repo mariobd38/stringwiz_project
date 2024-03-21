@@ -5,7 +5,7 @@ import "./tagColorDropdown.css";
 import { updateTagInfo } from "../../../../DataManagement/Tags/updateTag";
 
 export const TagColorDropdown = (props) => {
-    const { jwt,allTagData,currentTaskTags,tagColorChangeDropdownRef,
+    const { allTagData,currentTaskTags,tagColorChangeDropdownRef,
         isDropdownOnRightSide,tagColorDropdownOpen,
         setTagColorButtonSelected,onTagColorButtonSelected,tagIndex
     } = props;
@@ -31,7 +31,6 @@ export const TagColorDropdown = (props) => {
         setTagColorButtonSelected(true);
         onTagColorButtonSelected();
         updateTagInfo(
-            jwt,
             null,
             allTagData,
             currentTaskTags,
