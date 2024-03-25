@@ -4,9 +4,6 @@ import { useCookies } from "../../../utils/useCookies";
 
 import './homeHeader.css';
 
-import scheduling from '../../../assets/scheduling.png';
-import task_management from '../../../assets/task_management.png';
-
 const HomeHeader = () => {
     const dayjs = require('dayjs');
     const [userFullName] = useLocalState("", "userFullName");
@@ -68,7 +65,15 @@ const HomeHeader = () => {
 
     return (
         <>
-            <div className='d-flex justify-content-center justify-content-xl-around align-items-center m-auto greeting-block mt-4 pt-2 pb-3'>
+            <div className=' pt-2'>
+                <div className='greeting py-3 d-flex'>
+                    {greeting}, <span style={{textTransform: "capitalize"}} className='ps-1'> {firstName}</span>
+                </div>
+                <div>
+                    
+                </div>
+            </div>
+            {/* <div className='d-flex justify-content-center justify-content-xl-around align-items-center m-auto greeting-block mt-4 pt-2 pb-3'>
                 <div className='ps-0 fafafa-color flex-column text-center'>
                     <div className='greeting py-3 '>
                         {greeting}, <span style={{textTransform: "capitalize"}}>{ firstName}</span>
@@ -81,7 +86,7 @@ const HomeHeader = () => {
                         <img src={scheduling} className="illustration-home-page-header pt-5 me-0 me-lg-4" alt="" />
                         <img src={task_management} className="illustration-home-page-header pb-3" alt="" />
                 </div>
-            </div>
+            </div> */}
         </>
     )
 }

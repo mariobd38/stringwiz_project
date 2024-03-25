@@ -2,7 +2,6 @@ import React from 'react';
 import './FooterContent.css';
 import { Container } from 'react-bootstrap';
 import CocollabLogo from '../../../components/Logo/logo';
-import coconut from '../../../assets/coconut.png';
 
 
 

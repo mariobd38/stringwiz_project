@@ -63,7 +63,7 @@ a {
     background-color: #fafafa;
 }
 .landing-info-div {
-    background-color: #f1f3f4 !important;
+    background-color: #d8e5e4 !important;
     border-radius: 8px !important;
     box-shadow: rgba(100,100,111,0.2) 0px 7px 29px 0px;
 }
@@ -77,12 +77,13 @@ a {
     color: #fafafa;
 }
 .landing-page-features-div-header {
-    font-size: 2.3rem;
+    font-size: 2.35rem;
     width: 85%;
     margin: auto;
     color: #161616;
-    font-family: 'Open Sans';
-    font-weight: 600;
+    /* font-family: 'Open Sans'; */
+    font-family: "Noto Sans Khojki", sans-serif;
+    font-weight: 400;
 }
 .landing-page-features-card-container {
     /* width: 2rem;

@@ -16,13 +16,12 @@ import HomeHeader from '../Home/HomeHeader/homeHeader';
 import HomeNavbar from './HomeNavbar/homeNavbar';
 import TaskCard from './TaskCard/taskCard';
 import ProjectCard from './ProjectCard/projectCard';
+import HomeSidebar from './HomeSidebar/homeSidebar';
 
 import './newHome.css';
 
 const NewHome = () => {
     const dayjs = require('dayjs');
-    // const [month, setMonth] = useState(dayjs().format('MMMM'));
-    // const [dayOfWeek, setDayOfWeek] = useState(dayjs().format('dddd'));
     const [taskData, setTaskData] = useState([]);
     const [upcomingTasks, setUpcomingTasks] = useState([]);
     const [today, setToday] = useState(null);
@@ -32,10 +31,7 @@ const NewHome = () => {
 
     useEffect(() => {
         const fetchAndSetTabs = async () => {
-            // setMonth(dayjs().format('MMMM'));
-            // setDayOfWeek(dayjs().format('dddd'));
 
-            // var now = Intl.DateTimeFormat().resolvedOptions().timeZone;
             var now = dayjs().format('YYYY-MM-DD');
             setToday(now);
 
@@ -53,9 +49,7 @@ const NewHome = () => {
                     completed.push(task);
                 } 
             });
-
-                // setUpcomingTasks(upcoming);
-            };
+        };
         fetchAndSetTabs();
         
     }, [dayjs, taskData, upcomingTasks]);
@@ -67,9 +61,16 @@ const NewHome = () => {
 
     return (
         <>
+        
             <HomeNavbar></HomeNavbar>
-            <div className="row mx-5  user-home-all-content">
-                <HomeHeader />
+            <div className='container m-0 p-0'>
+                <HomeSidebar className='user-home-sidebar p-0'/>
+            </div>
+
+            <div className="row user-home-all-content">
+            {/* <HomeSidebar className='user-home-sidebar'/> */}
+
+                <HomeHeader/>
 
                 <div className='row pt-3 d-flex px-0 justify-content-around m-auto' style={{width: "85%"}}> 
                     <div className="col-12 col-sm-6 col-lg-4 d-flex justify-content-center pb-4 pb-xxl-0">
@@ -96,7 +97,7 @@ const NewHome = () => {
                         </div>
                     </div>
 
-                    <div className="col-12 col-lg-4 d-flex justify-content-center pb-4 pb-xxl-0">
+                    <div className="col-12 col-lg-4 d-flex justify-content-center pb-4 pt-4 pt-sm-0 pb-xxl-0">
                         <div className='home-header-stat-block'>
                             <div className='d-flex justify-content-between home-header-stat-block-top'>
                                 <div className='ms-3 home-header-stat-block-num pt-1'><span>0</span></div>

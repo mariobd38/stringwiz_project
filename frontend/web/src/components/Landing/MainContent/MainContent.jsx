@@ -85,7 +85,7 @@ const MainContent = () => {
                         <div className='bottom-half'></div>
                     </div>
                     <div className='col-10 col-md-8 landing-info-div py-2 py-lg-3'>
-                        <div className="row m-auto pt-3" >
+                        <div className="row m-auto py-3" >
                             <div className='col-12 col-lg-6 col-xl-5 col-xxl-4 text-center m-auto'>
                                 <a href={() => false}>
                                     <CocollabLogo width={2.2} paddingBottom={0.35} fontSize={2.9} href={() => false} textColor={'4296af'}></CocollabLogo>
@@ -106,7 +106,7 @@ const MainContent = () => {
                 </div>
             </div>
             <div className='landing-page-features-div  py-5'>
-                <div className='landing-page-features-div-header text-center'>
+                <div className='landing-page-features-div-header text-center pt-3'>
                     All-in-one products to manage every aspect of your business
                 </div>
                 <Container >

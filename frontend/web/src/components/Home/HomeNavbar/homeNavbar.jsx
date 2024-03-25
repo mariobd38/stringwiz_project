@@ -6,7 +6,6 @@ import Container from 'react-bootstrap/Container';
 
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import AppsIcon from '@mui/icons-material/Apps';
 import ArchiveIcon from '@mui/icons-material/Archive';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -96,16 +95,16 @@ const HomeNavbar = () => {
 
     return (
         <div>
-            <nav className="navbar" style={{height: "4.5rem", backgroundColor: "#222222" }}>
+            <nav className="navbar w-100" style={{position: "fixed",zIndex: "1", height: "4.5rem", backgroundColor: "#222222" }}>
                 <Container fluid >
-                    <div className="row w-100 m-0">
-                        <div className='text-white col-0 col-xl-1 ps-3 pt-1'>
+                    <div className="row w-100 m-0 mx-2">
+                        {/* <div className='col-0 col-xl-1 ps-3 pt-1'>
                             <div className='d-none d-xl-inline'>
                                 <a href={() => false}>
                                 <CocollabLogo width={2.5} paddingBottom={0} fontSize={0} />
                                 </a>
                             </div>
-                        </div>
+                        </div> */}
                         <div className='col-10 col-md-9 col-lg-8  d-flex justify-content-start align-items-center m-auto'>
                                 {/* <div className='text-white greeting d-none d-lg-inline ps-4 pe-4 pe-lg-0'>
                                     {greeting}, {firstName}
@@ -116,7 +115,7 @@ const HomeNavbar = () => {
                                             className="form-control home-navbar-search-input me-2"
                                             type="search"
                                             placeholder="Search"
-                                            sx={{ fontFamily: 'Lato', backgroundColor: '#4b4c4e', border: "none", color: "#fafafa", borderRadius: "7px" }}
+                                            sx={{ fontFamily: 'Lato', backgroundColor: '#4b4c4e', border: "none", color: "#fafafa", borderRadius: "22px" }}
                                             startAdornment={
                                                 <InputAdornment position="start">
                                                     <SearchIcon sx={{ color: '#e1e1e1'}} />
@@ -125,8 +124,8 @@ const HomeNavbar = () => {
                                             endAdornment={
                                                 <InputAdornment position="end">
                                                     <div className='d-flex'>
-                                                        <KeyboardCommandKeyRoundedIcon className='m-auto' sx={{ color: '#e1e1e1', width: "1.05rem", height: "1.05rem"}} />
-                                                        <div className='m-auto' style={{color: '#e1e1e1', fontFamily:"Montserrat", fontWeight: "600", fontSize: "0.95rem"}}
+                                                        <KeyboardCommandKeyRoundedIcon className='m-auto' sx={{ color: '#e1e1e1', width: "1.25rem", height: "1.25rem"}} />
+                                                        <div className='m-auto' style={{color: '#e1e1e1', fontFamily:"Montserrat", fontWeight: "600", fontSize: "1.1rem"}}
                                                             >K
                                                         </div>
                                                     </div>
@@ -142,13 +141,6 @@ const HomeNavbar = () => {
                         <div className='text-white col-lg-2 col-md-3 col-2 m-auto d-flex justify-content-end'>
                             <div className='d-flex'>
                                 <div className=''>
-                                    {/* <Tooltip title={<span className='nunito-sans-font' style={{ fontSize: '1rem', padding: "0.4rem", borderRadius: "45px" }}>{[`Create items`]}</span>} arrow className='menu-tooltip'>
-                                        {isSmallScreen ? 
-                                            <div className='me-2 m-auto'><AddCircleRoundedIcon className='only-add-icon-create-home-navbar' /></div>
-                                            : 
-                                            <Button className='create-home-navbar-button me-4 me-md-3'><AddCircleRoundedIcon className=' me-1 add-icon-create-home-navbar' />Create</Button>
-                                        }
-                                    </Tooltip> */}
                                     <div data-tooltip-id="my-tooltip" className='m-auto' 
                                         data-tooltip-content={`Create items`}>
                                         {isSmallScreen ? 
@@ -162,17 +154,15 @@ const HomeNavbar = () => {
                                 </div>
                                 <div className='home-navbar-divider me-3'>
                                 </div>
+                                <div className='m-auto me-4'>
+                                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="4" y="4" width="6" height="6" rx="1" stroke="#fafafa" strokeWidth="2" strokeLinejoin="round"/>
+                                        <rect x="4" y="14" width="6" height="6" rx="1" stroke="#fafafa" strokeWidth="2" strokeLinejoin="round"/>
+                                        <rect x="14" y="14" width="6" height="6" rx="1" stroke="#fafafa" strokeWidth="2" strokeLinejoin="round"/>
+                                        <rect x="14" y="4" width="6" height="6" rx="1" stroke="#fafafa" strokeWidth="2" strokeLinejoin="round"/>
+                                    </svg>
 
-                                {/* <Tooltip title={<span className='nunito-sans-font'>{[`Action Menu`]}</span>} arrow className='menu-tooltip'>
-                                    <AppsIcon className='menu-home-navbar me-3 d-none d-md-inline' />
-                                </Tooltip> */}
-
-                                    <div data-tooltip-id="my-tooltip" className='m-auto' 
-                                        data-tooltip-content={`Action Menu`}>
-                                        <AppsIcon className='menu-home-navbar me-3 d-none d-md-inline' />
-                                    </div>
-                                    <Tooltip id="my-tooltip"  className='home-navbar-tooltip' style={{backgroundColor: "#444444", color: "#fafafa", fontSize: "0.85rem", borderRadius: "10px" }}/>
-
+                                </div>
 
                                 <div className='text-white user-navbar-button' onClick={handleUserBtnClick} style={{cursor: "pointer"}}>
                                     <p className='m-0 d-flex justify-content-center align-items-center initials'>{initials}</p>
