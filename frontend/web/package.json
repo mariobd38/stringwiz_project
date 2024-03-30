@@ -28,6 +28,7 @@
     "react-dom": "^18.2.0",
     "react-refresh": "^0.14.0",
     "react-router-dom": "^6.16.0",
+    "react-swipeable-views": "^0.14.0",
     "react-tooltip": "^5.26.0",
     "react-use": "^17.5.0",
     "vite-plugin-require": "^1.1.14",

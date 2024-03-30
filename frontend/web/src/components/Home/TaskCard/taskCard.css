@@ -2,14 +2,16 @@
     font-weight: 600;
     font-size: 1.5rem;
     border-radius: 2px 2px 0 0 !important;
+    font-family: 'Lato';
 }
-.user-home-checklist-icon {
-    border-radius: 50%;
-    border-style: dashed;
-    border-width: 1px !important;
-    width: 2.2rem !important;
-    height: 2.2rem  !important;
-    padding: 0.25rem;
+.user-home-card-task-tab {
+    color: #fafafa !important;
+    text-transform: capitalize !important;
+    font-size: 1rem !important;
+    font-family: 'Lato' !important;
+    border-bottom: none !important;
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
 }
 .user-home-create-task-button-dark {
     font-family: 'Nunito Sans', serif !important;
@@ -129,3 +131,20 @@
     width: 1.3rem !important;
     height: 1rem !important;
 }
+.css-19kzrtu {
+    padding: 18px !important;
+}
+.user-home-card-task-tabs-appbar .MuiTabs-indicator {
+    background-color: #6FE3C2;
+}
+/* .new-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+width: 100%;
+height: 100%;
+    box-sizing: border-box;
+    display: block;
+    background-color: #0e4166;
+background-image: linear-gradient(to bottom, rgba(14, 65, 102, 0.86), #0e4166);
+} */

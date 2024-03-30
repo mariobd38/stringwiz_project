@@ -1,39 +1,19 @@
 import React, { useEffect } from 'react';
-import { useLocalState } from "../../../utils/useLocalStorage";
 import { useCookies } from "../../../utils/useCookies";
+
+import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
+
 
 import './homeHeader.css';
 
 const HomeHeader = () => {
     const dayjs = require('dayjs');
-    const [userFullName] = useLocalState("", "userFullName");
 
     var now = Intl.DateTimeFormat().resolvedOptions().timeZone;
     now = dayjs();
     const date = new Date(now.year(), now.month(), now.date());  // 2009-11-10
     const month = date.toLocaleString('default', { month: 'long' });
     const dayOfWeek = date.toLocaleDateString('en-US',{weekday: 'long'});
-    const todays_date = dayOfWeek + ", " + month + " " + date.getDate() + ', ' + date.getFullYear();
-
-    let hour = now.hour();
-    let minute = now.minute();
-    let greeting = "Good";
-    const firstName = userFullName.split(' ')[0];
-
-    switch(true) {
-        case (hour < 6):
-            greeting += "night";
-            break;
-        case (hour >= 18 && (hour <= 23 && minute <= 59)):
-            greeting += " evening";
-            break;
-        case (hour >= 12):
-            greeting += " afternoon";
-            break;  
-        default:
-            greeting += " morning";
-            break;
-    }
 
     const [backgroundColor, setBackgroundColor] = useCookies("#1e1f21", "backgroundColor");
     const [backgroundImage, setBackgroundImage] = useCookies(null, "backgroundImage");
@@ -65,28 +45,31 @@ const HomeHeader = () => {
 
     return (
         <>
-            <div className=' pt-2'>
-                <div className='greeting py-3 d-flex'>
-                    {greeting}, <span style={{textTransform: "capitalize"}} className='ps-1'> {firstName}</span>
-                </div>
-                <div>
-                    
+            <div className='pt-4'>
+                <div className='d-flex flex-column flex-sm-row justify-content-between align-items-center'>
+                    <div className='d-flex align-items-center gap-4'>
+                        <div className='header-day-number'>
+                            {date.getDate()}
+                        </div>
+                        <div className='header-day-block'>
+                            <div>  
+                                {dayOfWeek}
+                            </div>
+                            <div>  
+                                {month},<span className='ms-1'>{date.getFullYear()}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='pt-5 pt-sm-0'>
+                        <button className='header-task-time-filter'>
+                            Last 30 days
+                            <span className="model-dropdown-arrow-icon" style={{color: "#1e1f21"}}> <KeyboardArrowDownRoundedIcon /> </span>
+
+                        </button>
+                    </div>
                 </div>
             </div>
-            {/* <div className='d-flex justify-content-center justify-content-xl-around align-items-center m-auto greeting-block mt-4 pt-2 pb-3'>
-                <div className='ps-0 fafafa-color flex-column text-center'>
-                    <div className='greeting py-3 '>
-                        {greeting}, <span style={{textTransform: "capitalize"}}>{ firstName}</span>
-                    </div>
-                    <div className='today pb-3 m-0'>
-                        {todays_date}
-                    </div>
-                </div>
-                <div className='text-center d-none d-xl-inline'>
-                        <img src={scheduling} className="illustration-home-page-header pt-5 me-0 me-lg-4" alt="" />
-                        <img src={task_management} className="illustration-home-page-header pb-3" alt="" />
-                </div>
-            </div> */}
         </>
     )
 }

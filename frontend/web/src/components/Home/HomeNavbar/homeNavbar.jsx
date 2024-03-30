@@ -98,13 +98,13 @@ const HomeNavbar = () => {
             <nav className="navbar w-100" style={{position: "fixed",zIndex: "1", height: "4.5rem", backgroundColor: "#222222" }}>
                 <Container fluid >
                     <div className="row w-100 m-0 mx-2">
-                        {/* <div className='col-0 col-xl-1 ps-3 pt-1'>
+                        <div className='col-0 col-xl-2 ps-3 '>
                             <div className='d-none d-xl-inline'>
                                 <a href={() => false}>
-                                <CocollabLogo width={2.5} paddingBottom={0} fontSize={0} />
+                                <CocollabLogo width={1.6} paddingBottom={0.3} fontSize={2} textColor={"fafafa"}/>
                                 </a>
                             </div>
-                        </div> */}
+                        </div>
                         <div className='col-10 col-md-9 col-lg-8  d-flex justify-content-start align-items-center m-auto'>
                                 {/* <div className='text-white greeting d-none d-lg-inline ps-4 pe-4 pe-lg-0'>
                                     {greeting}, {firstName}

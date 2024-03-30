@@ -47,7 +47,7 @@ body.active .toggle-btn {
   justify-content: start;
   align-items: center;
   gap: 1.25rem;
-  padding: 0rem 0.5rem;
+  padding: 0rem 0.75rem;
 
 }
 .logo-wrapper > img {
@@ -95,7 +95,6 @@ body.active .hidden {
 .link.active {
     cursor: default;
     background-color: #323335;
-    /* color: #6FE3C2 !important; */
 }
 .link.active .sidebar-links-text {
     color: #6FE3C2;
@@ -112,13 +111,10 @@ body.active .hidden {
 
 .toggle-btn {
   position: absolute;
-  top: .7%;
-  /* right: -30px; */
+  top: 2.3%;
   left: 73px;
-  /* padding: 0.1rem; */
   width: 2.2rem;
   height: 2.2rem;
-  /* color: #b3b3b3 !important; */
   border-radius: 20%;
   display: flex;
   justify-content: center;
@@ -176,8 +172,8 @@ body.active .toggle-btn {
 }
 .sidebar-user-button {
     background-color: #389cbb;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.25rem;
+    height: 2.25rem;
     display: flex;
     align-items: center;
     justify-content: center;

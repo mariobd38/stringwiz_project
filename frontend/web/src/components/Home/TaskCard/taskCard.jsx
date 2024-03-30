@@ -8,18 +8,24 @@ import Card from 'react-bootstrap/Card';
 
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 
+import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import PropTypes from 'prop-types';
+import SwipeableViews from 'react-swipeable-views';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
 
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import ChecklistRtlRoundedIcon from '@mui/icons-material/ChecklistRtlRounded';
 import LockIcon from '@mui/icons-material/Lock';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 
@@ -35,6 +41,39 @@ import TaskDetailsModal from '../TaskDetailsModal/taskDetailsModal';
 import { Tooltip } from 'react-tooltip';
 
 import './taskCard.css'
+
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+  
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`full-width-tabpanel-${index}`}
+            aria-labelledby={`full-width-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box sx={{ p: 3 }}>
+                <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+  
+TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+};
+  
+function a11yProps(index) {
+    return {
+      id: `full-width-tab-${index}`,
+      'aria-controls': `full-width-tabpanel-${index}`,
+    };
+}
 
 const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks, tagData, setTagData, allTagData, setAllTagData}) => {
     const [currentIndex, setCurrentIndex] = useState(null);
@@ -164,8 +203,6 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
         fetchData();
     }, [upcomingTasks, currentIndex, currentTaskTags]);
 
-
-
     const updateTaskTags = (updatedTags) => {
         const updatedTasks = [...upcomingTasks];
         updatedTasks[currentIndex].tags = updatedTags;
@@ -210,21 +247,80 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
         } 
     }
 
+    const theme = useTheme();
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    const handleChangeIndex = (index) => {
+        setValue(index);
+    };
+
     return (
         <>
             <Card
                 style={{ width:'85%', fontFamily: 'Nunito Sans', border: "2.5px solid #505050" }}
             >
+                {/* <svg version="1.1" xmlns="http://www.w3.org/2000/svg" className='new-svg'
+		xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="100%" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+		<defs>
+			<linearGradient id="bg">
+				<stop offset="0%" style={{stopColor:"rgba(130, 158, 249, 0.06)"}}></stop>
+				<stop offset="50%" style={{stopColor:"rgba(76, 190, 255, 0.6)"}}></stop>
+				<stop offset="100%" style={{stopColor:"rgba(115, 209, 72, 0.2)"}}></stop>
+			</linearGradient>
+			<path id="wave" fill="url(#bg)" d="M-363.852,502.589c0,0,236.988-41.997,505.475,0
+	s371.981,38.998,575.971,0s293.985-39.278,505.474,5.859s493.475,48.368,716.963-4.995v560.106H-363.852V502.589z" />
+		</defs>
+		<g>
+			<use xlinkHref='#wave' opacity=".3">
+				<animateTransform
+          attributeName="transform"
+          attributeType="XML"
+          type="translate"
+          dur="10s"
+          calcMode="spline"
+          values="270 230; -334 180; 270 230"
+          keyTimes="0; .5; 1"
+          keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
+          repeatCount="indefinite" />
+			</use>
+			<use xlinkHref='#wave' opacity=".6">
+				<animateTransform
+          attributeName="transform"
+          attributeType="XML"
+          type="translate"
+          dur="8s"
+          calcMode="spline"
+          values="-270 230;243 220;-270 230"
+          keyTimes="0; .6; 1"
+          keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
+          repeatCount="indefinite" />
+			</use>
+			<use xlinkHref='#wave' opacity=".9">
+				<animateTransform
+          attributeName="transform"
+          attributeType="XML"
+          type="translate"
+          dur="6s"
+          calcMode="spline"
+          values="0 230;-140 200;0 230"
+          keyTimes="0; .4; 1"
+          keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0"
+          repeatCount="indefinite" />
+			</use>
+		</g>
+	</svg> */}
                 <Card.Header 
                     style={{
-                        backgroundColor: '#162561',
-                        borderBottom: "1px solid #505050",
-                        borderTopColor: "#505050"
+                        backgroundColor: '#1e1f21',
+                        border: "none"
                     }} 
-                    className='d-flex align-items-center py-3 d-flex justify-content-between user-home-card-header' >
+                    className='d-flex align-items-center py-3 d-flex justify-content-between px-4 user-home-card-header' >
                     <div className='d-flex align-items-center' style={{ color: '#fafafa' }}>
-                        <ChecklistRtlRoundedIcon className='me-3 user-home-checklist-icon'/>
-                        <span className='d-flex align-items-center'>
+                        <span className='d-flex align-items-center text-center'>
                             My Tasks
                             <LockIcon className='ms-2' style={{ width: "1.1rem" }}/>
                         </span>
@@ -233,89 +329,122 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                         <MoreHorizRoundedIcon />
                     </div>
                 </Card.Header>
-                <Card.Body className='pt-3 ' style={{ padding: "0", backgroundColor: "#1E1F21" }}>
-                    <div className='table-container-wrapper'>
-                        <TableContainer className='table-container' >
-                            <Table>
-                                <TableBody >
-                                    <ClickAwayListener onClickAway={handleNewTaskClickAway}>
-                                        <Box sx={{ position: 'relative' }}>
-                                            <Button className='user-home-create-task-button-dark d-flex align-items-center ms-2 mb-2'
-                                                style={{ color: "#919191" }} onClick={handleNewTaskClick}
-                                            >
-                                                <AddRoundedIcon className='me-1' style={{ width: "1rem", marginBottom: ".09rem" }}/>
-                                                <span className='me-1' style={{ fontSize: '0.95rem' }}>Create task</span>
-                                            </Button>
-                                            {/* <div className='w-100 table-row-dark'> */}
-                                            {newTaskRowOpen ? (
-                                                <TableRow className='table-row-new-dark ' style={{backgroundColor: "#1E1F21", width: "100%"}} >
-                                                    <TableCell scope="row" className=' d-flex align-items-center justify-content-between table-cell'>
-                                                        <div className='d-flex align-items-center mb-1 m-0' style={{color: "#fafafa"}}>
-                                                            <div>
+                <Card.Body style={{ padding: "0", backgroundColor: "#1E1F21", boxSizing: "none" }}>
+                    <Box sx={{ width: "100%" }} >
+                        <AppBar className='user-home-card-task-tabs-appbar' position="static" sx={{backgroundColor: "#1e1f21", boxShadow: "none"}}>
+                            <Tabs
+                                value={value}
+                                onChange={handleChange}
+                                indicatorColor="secondary"
+                                textColor="inherit"
+                                variant="fullWidth"
+                                className='user-home-card-task-tabs'
+                                aria-label="full width tabs example"
+                            >
+                            <Tab label="Ongoing" className='user-home-card-task-tab' {...a11yProps(0)} />
+                            <Tab label="Overdue" className='user-home-card-task-tab' {...a11yProps(1)} />
+                            <Tab label="Completed" className='user-home-card-task-tab' {...a11yProps(2)} />
+                            </Tabs>
+                        </AppBar>
+                        <SwipeableViews
+                            axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                            index={value}
+                            onChangeIndex={handleChangeIndex}
+                        >
+                            <TabPanel value={value} index={0} dir={theme.direction}>
+                            <div className='table-container-wrapper'>
+                                <TableContainer className='table-container p-0' >
+                                    <Table>
+                                        <TableBody >
+                                            <ClickAwayListener onClickAway={handleNewTaskClickAway}>
+                                                <Box sx={{ position: 'relative' }}>
+                                                    <Button className='user-home-create-task-button-dark d-flex align-items-center ms-2 mb-2'
+                                                        style={{ color: "#919191" }} onClick={handleNewTaskClick}
+                                                    >
+                                                        <AddRoundedIcon className='me-1' style={{ width: "1rem", marginBottom: ".09rem" }}/>
+                                                        <span className='me-1' style={{ fontSize: '0.95rem' }}>Create task</span>
+                                                    </Button>
+                                                    {/* <div className='w-100 table-row-dark'> */}
+                                                    {newTaskRowOpen ? (
+                                                        <TableRow className='table-row-new-dark '>
+                                                            <TableCell scope="row" className=' d-flex align-items-center justify-content-between table-cell'>
+                                                                <div className='d-flex align-items-center mb-1 m-0' style={{color: "#fafafa"}}>
+                                                                    <div>
+                                                                        <CheckRoundedIcon className='user-home-task-check-icon' />
+                                                                    </div>
+                                                                    <div>
+                                                                        <input onKeyDown={handleTaskCreate} placeholder='Task name' autoFocus="autofocus" className={`ps-2 taskName-text user-home-new-task-input fafafa-color`} contentEditable={true} /> 
+                                                                    </div>
+                                                                </div>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ) : null}
+                                                    {/* </div> */}
+                                            
+                                                </Box>
+                                            </ ClickAwayListener>
+                                            {upcomingTasks.map((row, index) => (
+                                            <TableRow key={index} className='table-row-dark' style={{ backgroundColor: "#1e1f21",borderRadius: "10px"}}>
+                                                {/* <Link to='/home/modal' state={{ background: location }}> */}
+                                                <TableCell scope="row" className='d-flex align-items-center justify-content-between table-cell' >
+                                                    <div className='d-flex justify-content-between w-100'>
+                                                        {/* Left Content */}
+                                                        {/*   */}
+                                                        <Link to={{pathname: '/home/modal'}} state={{ background: location }}  onClick={(e) => OpenTaskDetailsModal(e, index)}  className='d-flex mb-2' style={{ color: "#fafafa" }}>
+                                                            <div className='m-auto d-flex '>
                                                                 <CheckRoundedIcon className='user-home-task-check-icon' />
                                                             </div>
-                                                            <div>
-                                                                <input onKeyDown={handleTaskCreate} placeholder='Task name' autoFocus="autofocus" className={`ps-2 taskName-text user-home-new-task-input fafafa-color`} contentEditable={true} /> 
+                                                            <div style={{outline: "none"}}>
+                                                                <button className='task-name-link' style={{outline: "none"}}>
+                                                                <span className={`ps-2 taskName-text ${row.status === 'Completed' ? ' strikethrough' : ''}`}>
+                                                                    {row.name}
+                                                                </span>
+                                                                </button>
                                                             </div>
-                                                        </div>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ) : null}
-                                            {/* </div> */}
-                                            
-                                        </Box>
-                                    </ ClickAwayListener>
-                                    {upcomingTasks.map((row, index) => (
-                                    <TableRow key={index} className='table-row-dark' style={{ backgroundColor: "#1E1F21" }}>
-                                        {/* <Link to='/home/modal' state={{ background: location }}> */}
-                                        <TableCell scope="row" className='d-flex align-items-center justify-content-between table-cell' >
-                                            <div className='d-flex justify-content-between w-100'>
-                                                {/* Left Content */}
-                                                {/*   */}
-                                                <Link to={{pathname: '/home/modal'}} state={{ background: location }}  onClick={(e) => OpenTaskDetailsModal(e, index)}  className='d-flex mb-2' style={{ color: "#fafafa" }}>
-                                                    <div className='m-auto d-flex '>
-                                                        <CheckRoundedIcon className='user-home-task-check-icon' />
+                                                        </Link>
+                                                        {!upcomingTasks[index].dueDate ? 
+                                                            <span>
+                                                                <div data-tooltip-id="my-tooltip" className='m-auto' data-tooltip-content={`Add due date`} style={{transition: "transition: width 1.2s ease-in-out"}}>
+                                                                    <div className='d-flex align-items-center user-home-calendar-icon-div' onClick={(event) => handleDueDatePopoverClick(event, index)}>
+                                                                        <CalendarTodayRoundedIcon className='user-home-calendar-icon'/>
+                                                                    </div>                                                    
+                                                                </div>
+                                                                <Tooltip id="my-tooltip" className='home-navbar-tooltip' style={{backgroundColor: "#444444", color: "#fafafa", fontSize: "0.85rem", borderRadius: "10px" }}/>
+                                                            </span>
+                                                            :
+                                                            <div style={{ color: "#a7a7a7" }} className={`lato-font, user-home-chosen-due-date-text`} onClick={(event) => handleDueDatePopoverClick(event, index)}
+                                                            >
+                                                                {formatDate(upcomingTasks[index].dueDate) === 'Overdue' ? (
+                                                                    <span className='error-message'>Overdue</span>
+                                                                ) : (
+                                                                    <span>{formatDate(upcomingTasks[index].dueDate)}</span>
+                                                                )}
+                                                            </div>
+                                                        }
+                                                        <NewHomeDueDatePopover 
+                                                            currentTaskDueDate={currentTaskDueDate} dueDatePopoverAnchorEl={dueDatePopoverAnchorEl} handleDueDatePopoverClose={handleDueDatePopoverClose} today={today} handleTaskUpdate={handleTaskUpdate}
+                                                            selectedDate={selectedDate} setSelectedDate={setSelectedDate} setDueDateClockIsOpen={setDueDateClockIsOpen} dueDateClockIsOpen={dueDateClockIsOpen}
+                                                        />
                                                     </div>
-                                                    <div style={{outline: "none"}}>
-                                                        <button className='task-name-link' style={{outline: "none"}}>
-                                                        <span className={`ps-2 taskName-text ${row.status === 'Completed' ? ' strikethrough' : ''}`}>
-                                                            {row.name}
-                                                        </span>
-                                                        </button>
-                                                    </div>
-                                                </Link>
-                                                {!upcomingTasks[index].dueDate ? 
-                                                    <span>
-                                                        <div data-tooltip-id="my-tooltip" className='m-auto' data-tooltip-content={`Add due date`} style={{transition: "transition: width 1.2s ease-in-out"}}>
-                                                            <div className='d-flex align-items-center user-home-calendar-icon-div' onClick={(event) => handleDueDatePopoverClick(event, index)}>
-                                                                <CalendarTodayRoundedIcon className='user-home-calendar-icon'/>
-                                                            </div>                                                    
-                                                        </div>
-                                                        <Tooltip id="my-tooltip" className='home-navbar-tooltip' style={{backgroundColor: "#444444", color: "#fafafa", fontSize: "0.85rem", borderRadius: "10px" }}/>
-                                                    </span>
-                                                    :
-                                                    <div style={{ color: "#a7a7a7" }} className={`lato-font, user-home-chosen-due-date-text`} onClick={(event) => handleDueDatePopoverClick(event, index)}
-                                                    >
-                                                        {formatDate(upcomingTasks[index].dueDate) === 'Overdue' ? (
-                                                            <span className='error-message'>Overdue</span>
-                                                        ) : (
-                                                            <span>{formatDate(upcomingTasks[index].dueDate)}</span>
-                                                        )}
-                                                    </div>
-                                                }
-                                                <NewHomeDueDatePopover 
-                                                    currentTaskDueDate={currentTaskDueDate} dueDatePopoverAnchorEl={dueDatePopoverAnchorEl} handleDueDatePopoverClose={handleDueDatePopoverClose} today={today} handleTaskUpdate={handleTaskUpdate}
-                                                    selectedDate={selectedDate} setSelectedDate={setSelectedDate} setDueDateClockIsOpen={setDueDateClockIsOpen} dueDateClockIsOpen={dueDateClockIsOpen}
-                                                />
-                                            </div>
-                                        </TableCell>
-                                        {/* </Link> */}
-                                    </TableRow>
-                                    ))}
-                                </TableBody> 
-                            </Table>
-                        </TableContainer>
-                    </div>
+                                                </TableCell>
+                                                {/* </Link> */}
+                                            </TableRow>
+                                            ))}
+                                        </TableBody> 
+                                    </Table>
+                                </TableContainer>
+                            </div>
+                        </TabPanel>
+
+                        <TabPanel value={value} index={1} dir={theme.direction}>
+                            Item Two
+                        </TabPanel>
+
+                        <TabPanel value={value} index={2} dir={theme.direction}>
+                            Item Three
+                        </TabPanel>
+                        </SwipeableViews>
+                    </Box>
                 </Card.Body>
             </Card>
 
