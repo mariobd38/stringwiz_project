@@ -11,7 +11,6 @@ import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -22,6 +21,7 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
+import PropTypes from 'prop-types';
 
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded';
@@ -48,6 +48,7 @@ function TabPanel(props) {
     return (
         <div
             role="tabpanel"
+            className='user-home-card-tabpanel'
             hidden={value !== index}
             id={`full-width-tabpanel-${index}`}
             aria-labelledby={`full-width-tab-${index}`}
@@ -261,7 +262,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
     return (
         <>
             <Card
-                style={{ width:'85%', fontFamily: 'Nunito Sans', border: "2.5px solid #505050" }}
+                style={{ width:'85%', fontFamily: 'Nunito Sans', border: "2px solid #313234", borderRadius: "10px" }}
             >
                 {/* <svg version="1.1" xmlns="http://www.w3.org/2000/svg" className='new-svg'
 		xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="100%" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
@@ -320,7 +321,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                     }} 
                     className='d-flex align-items-center py-3 d-flex justify-content-between px-4 user-home-card-header' >
                     <div className='d-flex align-items-center' style={{ color: '#fafafa' }}>
-                        <span className='d-flex align-items-center text-center'>
+                        <span className='d-flex align-items-center'>
                             My Tasks
                             <LockIcon className='ms-2' style={{ width: "1.1rem" }}/>
                         </span>
@@ -329,7 +330,8 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                         <MoreHorizRoundedIcon />
                     </div>
                 </Card.Header>
-                <Card.Body style={{ padding: "0", backgroundColor: "#1E1F21", boxSizing: "none" }}>
+                
+                <Card.Body className='user-home-card-body'>
                     <Box sx={{ width: "100%" }} >
                         <AppBar className='user-home-card-task-tabs-appbar' position="static" sx={{backgroundColor: "#1e1f21", boxShadow: "none"}}>
                             <Tabs
@@ -364,7 +366,6 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                                                         <AddRoundedIcon className='me-1' style={{ width: "1rem", marginBottom: ".09rem" }}/>
                                                         <span className='me-1' style={{ fontSize: '0.95rem' }}>Create task</span>
                                                     </Button>
-                                                    {/* <div className='w-100 table-row-dark'> */}
                                                     {newTaskRowOpen ? (
                                                         <TableRow className='table-row-new-dark '>
                                                             <TableCell scope="row" className=' d-flex align-items-center justify-content-between table-cell'>
@@ -379,17 +380,13 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                                                             </TableCell>
                                                         </TableRow>
                                                     ) : null}
-                                                    {/* </div> */}
                                             
                                                 </Box>
                                             </ ClickAwayListener>
                                             {upcomingTasks.map((row, index) => (
                                             <TableRow key={index} className='table-row-dark' style={{ backgroundColor: "#1e1f21",borderRadius: "10px"}}>
-                                                {/* <Link to='/home/modal' state={{ background: location }}> */}
                                                 <TableCell scope="row" className='d-flex align-items-center justify-content-between table-cell' >
                                                     <div className='d-flex justify-content-between w-100'>
-                                                        {/* Left Content */}
-                                                        {/*   */}
                                                         <Link to={{pathname: '/home/modal'}} state={{ background: location }}  onClick={(e) => OpenTaskDetailsModal(e, index)}  className='d-flex mb-2' style={{ color: "#fafafa" }}>
                                                             <div className='m-auto d-flex '>
                                                                 <CheckRoundedIcon className='user-home-task-check-icon' />
@@ -427,7 +424,6 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                                                         />
                                                     </div>
                                                 </TableCell>
-                                                {/* </Link> */}
                                             </TableRow>
                                             ))}
                                         </TableBody> 

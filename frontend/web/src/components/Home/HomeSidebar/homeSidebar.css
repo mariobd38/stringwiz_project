@@ -14,16 +14,15 @@ a {
     height: calc(100vh - 2.75rem);
     /* height: 100%; */
     margin: 0;
-    background-color: #222222;
+    background-color: #222529;
     padding: 1rem 0rem;
     display: flex;
     flex-direction: column;
-    transition: all 0.35s ease-in;
-
+    transition: all 0.25s ease-in;
 }
 body.active .home-sidebar-nav {
     width: 17rem;
-    transition: width 0.35s ease-in;
+    transition: all 0.35s ease-in;
 }
 body.active .toggle-btn {
     left: 16.5rem;
@@ -63,7 +62,6 @@ body.active .toggle-btn {
   margin-bottom: auto;
   gap: 1rem;
   padding-top: 1.5rem;
-  /* padding: 1.5rem 1rem 1rem 1.5rem; */
 }
 .home-sidebar-nav > .sidebar-links {
   border-top: 1px solid #3c3d3f;
@@ -111,22 +109,24 @@ body.active .hidden {
 
 .toggle-btn {
   position: absolute;
-  top: 2.3%;
-  left: 73px;
+  top: 40%;
+  left: 68px;
   width: 2.2rem;
   height: 2.2rem;
   border-radius: 20%;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 0.4s linear;
+  transition: all 0.32s linear;
+  background-color: #d3d3d3;
+  border-radius: 50%;
 }
 .toggle-btn:hover {
-    background-color: #2d2e30;
+  background-color: #a3a3a3;
 }
-body.active .toggle-btn {
+/* body.active .toggle-btn {
   transform: rotate(180deg);
-}
+} */
 
 .user-profile {
   display: flex;

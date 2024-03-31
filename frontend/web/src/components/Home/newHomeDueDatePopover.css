@@ -4,15 +4,11 @@
 .MuiPickersLayout-actionBar {
     display: none !important;
 }
-.user-home-milestones-description {
-    padding: 1rem 0rem;
-    border-radius: 10px;
-}
 .user-home-time-picker .MuiTimePickerToolbar-ampmSelection .MuiButtonBase-root .MuiTypography-root.Mui-selected {
     color: #3874CB !important;
 }
 .user-home-time-picker {
-    background-color: #121212 !important;
+    background-color: #222529 !important;
 }
 .user-home-time-picker .MuiPickersToolbar-root .MuiTypography-root,
 .user-home-time-picker .MuiTimePickerToolbar-hourMinuteLabel .MuiButtonBase-root .MuiTypography-root,
@@ -36,12 +32,12 @@
     cursor: pointer;
 }
 .user-home-time-picker .MuiPickersLayout-contentWrapper .MuiTimeClock-root .MuiClock-root .MuiClock-clock {
-    background-color: #121212 !important;
+    background-color: #222529 !important;
     font-family: 'Lato', serif;
 }
 
 .date-calendar-btn {
-    background-color: #121212 !important;
+    background-color: #222529 !important;
     color: #fafafa !important;
     border: none !important;
     font-family: 'Lato', serif !important;
@@ -56,4 +52,9 @@
 .user-home-date-picker .MuiDayCalendar-root .MuiDayCalendar-header .MuiTypography-root,
 .user-home-date-picker .MuiDayCalendar-weekContainer .MuiButtonBase-root{
     color: #fafafa !important;
+}
+.css-3bmhjh-MuiPaper-root-MuiPopover-paper {
+    border-radius: 10px !important;
+    box-shadow: 0px 3px 3px -3px rgba(137, 106, 106, 0.2),0px 2px 2px 1px rgba(137, 106, 106, 0.2),0px 3px 5px 2px rgba(137, 106, 106, 0.2);
+    background-color: #222529 !important;
 }

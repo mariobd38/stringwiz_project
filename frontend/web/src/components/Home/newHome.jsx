@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
 
-import Button from '@mui/material/Button';
-
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
+import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 
 import {getTaskInfo} from './../../DataManagement/Tasks/getTasks';
 
-import milestones from '../../assets/milestones.png';
 
 import HomeHeader from '../Home/HomeHeader/homeHeader';
 import HomeNavbar from './HomeNavbar/homeNavbar';
 import TaskCard from './TaskCard/taskCard';
 import ProjectCard from './ProjectCard/projectCard';
 import HomeSidebar from './HomeSidebar/homeSidebar';
+import MilestoneBlock from './MilestoneBlock/milestoneBlock';
+
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+
 // import StatBlocks from './HomeHeader/StatBlocks/statBlocks';
 
 import './newHome.css';
@@ -25,7 +28,6 @@ const NewHome = () => {
     const [today, setToday] = useState(null);
     const [tagData, setTagData] = useState([]);
     const [allTagData, setAllTagData] = useState([]);
-
 
     useEffect(() => {
         const fetchAndSetTabs = async () => {
@@ -57,12 +59,26 @@ const NewHome = () => {
         setUpcomingTasks(taskData);
     }, [taskData]);
 
+    useEffect(() => {
+        if (today) {
+            setSelectedDate(dayjs(today));
+            setNoEventScheduledDate(dayjs(today).format('MMM DD, YYYY'));
+        }
+        console.log(today);
+        console.log(dayjs(today).format('MMM DD, YYYY'));
+    }, [today,dayjs]);
+
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
 
+    const [selectedDate, setSelectedDate] = useState(dayjs(today));
+    const [noEventScheduledDate, setNoEventScheduledDate] = useState(dayjs(today).format('MMM DD, YYYY'));
+    const handleEventDateSelection = (date) => {
+        setNoEventScheduledDate(dayjs(date).format('MMM DD, YYYY'));
+        setSelectedDate(date);
+    };
 
     return (
         <>
-        
             <HomeNavbar></HomeNavbar>
             <div className='container m-0 p-0'>
                 <HomeSidebar className='user-home-sidebar p-0'
@@ -82,9 +98,7 @@ const NewHome = () => {
 
                 <HomeHeader />
 
-                {/* <StatBlocks 
-                    upcomingTasks={upcomingTasks}
-                /> */}
+                {/* <StatBlocks upcomingTasks={upcomingTasks} /> */}
 
                 <div className='container' style={{width: "100%"}}>
                     <div className='row'>
@@ -103,33 +117,42 @@ const NewHome = () => {
                         </div>
 
                         <div className="col-xl-4 col-12">
-                            <div className=' mt-4  d-md-block'>
-                                <div className='pt-3 pb-5 px-4 user-home-milestones-block' style={{ backgroundColor: "#222529", borderRadius: "10px" }} >
+                            <div className='mt-4 d-md-block'>
+
+                                <div className='pt-3 pb-4 px-4 mb-4' style={{ backgroundColor: "#222529", borderRadius: "10px" }} >
                                     <div className='d-flex justify-content-between'>
-                                        <div className='home-header-stat-block-text' style={{color: "#fafafa"}}>
-                                            Milestones
+                                        <div style={{color: "#fafafa", fontFamily: "Lato",fontWeight: "600", fontSize: "1.08rem"}}>
+                                            Calendar
                                         </div>
                                         <div>
-                                            <EmojiEventsRoundedIcon className='home-header-in-progress-icon'/>
+                                            <MoreHorizRoundedIcon style={{color: "#fafafa"}}/>
                                         </div>
                                     </div>
-                                    <div className='d-flex justify-content-center pt-5'>
-                                        <div className='fafafa-color user-home-milestones-description text-center nunito-sans-font' style={{ backgroundColor: "#2d3034", width: "80%" }}>
-                                            <div className=''>
-                                                <img src={milestones} className="illustration-home-page-milestones  pb-2 " alt="" style={{ width: "10rem" }} />
-                                            </div>
-                                            <div className='m-auto' style={{ fontWeight: "600", fontSize: "1rem", fontFamily: "Lato", width: "90%" }}>
-                                                Turn dreams into accomplishments
-                                            </div>
-                                            <div className='pt-3'>
-                                                <Button className='user-home-create-task-button-dark' style={{ color: "#919191" }}>
-                                                    <AddRoundedIcon className='me-1' style={{ width: "1rem", marginBottom: ".09rem" }}/>
-                                                    <span className='me-1' style={{ fontSize: '0.95rem' }}>Add milestone</span>
-                                                </Button>
-                                            </div>
+                                    <div className='pt-2'>
+                                        <div className='d-flex justify-content-center pb-3'>
+
+                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                <DemoContainer components={['DateCalendar', 'DateCalendar']}>
+                                                    <DemoItem >
+                                                    <DateCalendar className='user-home-calendar-date-picker' style={{color: "#fafafa"}} 
+                                                    value={selectedDate} suppressWarning onChange={handleEventDateSelection} />
+                                                    </DemoItem>
+                                                </DemoContainer>
+                                                </LocalizationProvider>
+
+                                        </div>
+                                        <div style={{color: "#c8c8c8"}} className='d-flex lato-font justify-content-center pb-3'>
+                                            No events scheduled for {noEventScheduledDate}
+                                        </div>
+                                        <div className='d-flex justify-content-center'>
+                                            <button className='user-home-create-milestone-button-dark' >
+                                                Create an event
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
+
+                                <MilestoneBlock />
                             </div>
                         </div>
                     </div>

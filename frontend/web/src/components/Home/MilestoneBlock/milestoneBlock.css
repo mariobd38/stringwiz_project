@@ -1,0 +1,15 @@
+.user-home-create-milestone-button-dark {
+    font-family: 'Nunito Sans', serif !important;
+    text-transform: initial !important;
+    font-weight: 600 !important;
+    padding: 0.65rem 1.1rem !important;
+    border-radius: 7px !important;
+    color: #d3d3d3;
+    background-color: #338b6f !important;
+    transition: all 0.35s linear; 
+}
+.user-home-create-milestone-button-dark:hover {
+    background-color: #257d61 !important;
+    color: #b7b7b7 !important;
+    transition: all 0.35s linear; 
+}

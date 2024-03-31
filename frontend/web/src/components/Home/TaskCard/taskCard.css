@@ -1,18 +1,6 @@
-.user-home-card-header {
-    font-weight: 600;
-    font-size: 1.5rem;
-    border-radius: 2px 2px 0 0 !important;
-    font-family: 'Lato';
-}
-.user-home-card-task-tab {
-    color: #fafafa !important;
-    text-transform: capitalize !important;
-    font-size: 1rem !important;
-    font-family: 'Lato' !important;
-    border-bottom: none !important;
-    border-top-left-radius: 10px !important;
-    border-top-right-radius: 10px !important;
-}
+/* .user-home-card-task-tab[tabindex="0"] {
+    background-color: #232426 !important;
+} */
 .user-home-create-task-button-dark {
     font-family: 'Nunito Sans', serif !important;
     text-transform: initial !important;
@@ -36,9 +24,9 @@
 .table-row-dark:hover .table-row-new-dark {
     background-color: #2f3032 !important;
 }
-.table-row-dark:hover{
+/* .table-row-dark:hover{
     background-color: #2f3032 !important;
-}
+} */
 .table-container-wrapper {
     max-height: 19rem; 
     min-height: 19rem; 
@@ -51,18 +39,20 @@
 .table-row:hover, .tag-dropdown-item:hover {
     background-color: #eeeeee !important;
 }
-.table-row-dark:hover, .tag-dropdown-item:hover {
-    background-color: #2f3032 !important;
-}
+
 /* .table-row:hover .table-cell-icon, .table-row:hover .user-home-task-check  {
     display: block !important;
 } */
 .table-cell {
     font-family: 'Nunito Sans', serif !important;
-    padding: 0.85rem 0rem !important;
-    margin: 0rem 1.7rem !important;
+    /* padding: 0.85rem 0rem !important; */
+    margin: 0rem 1.2rem !important;
     overflow: hidden !important;
     border: none !important;
+    border-radius: 10px;
+}
+.table-cell:hover {
+    background-color: #2f3032 !important;
 }
 .table-cell-icon:hover {
     display: inline !important;
@@ -80,12 +70,6 @@
     color: #006A4E !important;
     border-color: #006A4E !important;
 }
-/* .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
-    color: #fafafa !important;
-    border: none !important;
-    outline: none !important;
-    background-color: #1e1f21;
-} */
 .task-name-link {
     color: inherit;
     cursor: pointer;
@@ -105,8 +89,8 @@
     font-family: 'Poppins', serif;
     color: #fafafa;
     overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .taskName-text.strikethrough {
     text-decoration: line-through;
@@ -130,12 +114,6 @@
     color: #e7e7e7;
     width: 1.3rem !important;
     height: 1rem !important;
-}
-.css-19kzrtu {
-    padding: 18px !important;
-}
-.user-home-card-task-tabs-appbar .MuiTabs-indicator {
-    background-color: #6FE3C2;
 }
 /* .new-svg {
     position: absolute;

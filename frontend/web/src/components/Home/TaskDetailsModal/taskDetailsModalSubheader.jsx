@@ -1,6 +1,5 @@
 import React from 'react';
 import ChecklistRtlRoundedIcon from '@mui/icons-material/ChecklistRtlRounded';
-import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
 import EventRoundedIcon from '@mui/icons-material/EventRounded';
 import ExtensionRoundedIcon from '@mui/icons-material/ExtensionRounded';
 import NotInterestedRoundedIcon from '@mui/icons-material/NotInterestedRounded';
@@ -23,7 +22,6 @@ const TaskDetailsModalSubheader = (props) => {
             <ModelDropdown 
                 items={[
                     { name: "Task", icon: <ChecklistRtlRoundedIcon />, isActualOption: true },
-                    { name: "Milestone", icon: <EmojiEventsRoundedIcon />, isActualOption: true },
                     { name: "Event", icon: <EventRoundedIcon />, isActualOption: true },
                     { name: 'Item types', icon: <ExtensionRoundedIcon />, isActualOption: false }
                 ]}

@@ -24,3 +24,44 @@
     border-radius: 10px !important;
     /* border-left: 1px solid #222222; */
 }
+
+/* task and project cards */
+.user-home-card-header {
+    font-weight: 600;
+    font-size: 1.5rem;
+    border-radius: 7px 7px 0px 0px!important;
+    font-family: 'Lato';
+}
+.user-home-card-body {
+    border-radius: 0px 0px 7px 7px!important;
+    padding: 0;
+    background-color: #1E1F21;
+    box-sizing: none;
+}
+.css-19kzrtu {
+    padding: 18px !important;
+}
+.user-home-card-task-tabs-appbar .MuiTabs-indicator {
+    background-color: #6FE3C2;
+}
+.user-home-card-task-tab {
+    color: #fafafa !important;
+    text-transform: capitalize !important;
+    font-size: 1rem !important;
+    font-family: 'Lato' !important;
+    border-bottom: none !important;
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+}
+
+/* calendar */
+.user-home-calendar-date-picker .MuiPickersCalendarHeader-labelContainer .MuiButtonBase-root,
+.user-home-calendar-date-picker .MuiButtonBase-root,
+.user-home-calendar-date-picker .MuiDayCalendar-root .MuiDayCalendar-header .MuiTypography-root,
+.user-home-calendar-date-picker .MuiDayCalendar-weekContainer .MuiButtonBase-root{
+    color: #fafafa !important;
+    border: none !important;
+}
+.MuiPickersYear-yearButton {
+    text-align: center !important;
+}

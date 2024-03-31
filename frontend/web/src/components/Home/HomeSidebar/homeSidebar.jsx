@@ -33,11 +33,18 @@ const HomeSidebar = (props) => {
                 </button>
 
                 <button className={`toggle-btn ${openSidebarToggle ? 'active' : ''}`} onClick={handleOpenSidebarToggle}>
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15 9.5L17 12M17 12L15 14.5M17 12H11.5" stroke="#b3b3b3"/>
-                        <path d="M20.5 18.5V5.5C20.5 4.39543 19.6046 3.5 18.5 3.5H5.5C4.39543 3.5 3.5 4.39543 3.5 5.5V18.5C3.5 19.6046 4.39543 20.5 5.5 20.5H18.5C19.6046 20.5 20.5 19.6046 20.5 18.5Z" stroke="#b3b3b3" strokeLinecap="round"/>
-                        <path d="M8.5 3.5V20.5" stroke="#b3b3b3" strokeLinecap="round"/>
-                    </svg>
+                    {openSidebarToggle 
+                    ?
+                        <svg width="27" height="27" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 18L6 12L12 6" stroke="#222529" strokeWidth="2"/>
+                            <path d="M18 18L12 12L18 6" stroke="#222529" strokeWidth="2"/>
+                        </svg>
+                    :
+                        <svg width="27" height="27" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 18L18 12L12 6" stroke="#222529" strokeWidth="2"/>
+                            <path d="M6 18L12 12L6 6" stroke="#222529" strokeWidth="2"/>
+                        </svg>
+                    }
                 </button>
             </div>
 

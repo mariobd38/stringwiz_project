@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 import { useCookies } from "../../../utils/useCookies";
 
-import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-
-
 import './homeHeader.css';
 
 const HomeHeader = () => {
@@ -61,13 +58,13 @@ const HomeHeader = () => {
                         </div>
                     </div>
 
-                    <div className='pt-5 pt-sm-0'>
+                    {/* <div className='pt-5 pt-sm-0'>
                         <button className='header-task-time-filter'>
                             Last 30 days
                             <span className="model-dropdown-arrow-icon" style={{color: "#1e1f21"}}> <KeyboardArrowDownRoundedIcon /> </span>
 
                         </button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </>

@@ -53,9 +53,9 @@ const NewHomeDueDatePopover = ({currentTaskDueDate, dueDatePopoverAnchorEl, hand
             }} 
             >
                 {!dueDateClockIsOpen ?
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DateCalendar suppressWarning onChange={handleDateSelection} className='user-home-date-picker' defaultValue={currentTaskDueDate ? dayjs(currentTaskDueDate) : dayjs(today)} style={{backgroundColor: "#121212", borderTopColor: "#121212", color: "#fafafa"}}/>
-                    <div className={`pb-2 d-flex justify-content-around m-auto`} style={{backgroundColor: "#121212"}}> 
+                <LocalizationProvider dateAdapter={AdapterDayjs} className='user-home-date-loc-provider'>
+                    <DateCalendar suppressWarning onChange={handleDateSelection} className='user-home-date-picker' defaultValue={currentTaskDueDate ? dayjs(currentTaskDueDate) : dayjs(today)} style={{backgroundColor: "#222529", borderTopColor: "#222529", color: "#fafafa"}}/>
+                    <div className={`pb-2 d-flex justify-content-around m-auto`} style={{backgroundColor: "#222529"}}> 
                         <div className='m-auto'>
                             <AccessTimeRoundedIcon className='date-time-picker-btn' onClick={openDueDateClock}/>
                         </div>
@@ -70,7 +70,7 @@ const NewHomeDueDatePopover = ({currentTaskDueDate, dueDatePopoverAnchorEl, hand
                 <LocalizationProvider dateAdapter={AdapterDayjs} >
                     
                     <StaticTimePicker onChange={handleTimeSelection} className='user-home-time-picker' defaultValue={currentTaskDueDate ? dayjs(currentTaskDueDate) : undefined}/>
-                    <div className={`pb-2 d-flex justify-content-around m-auto`} style={{backgroundColor: "#121212"}}> 
+                    <div className={`pb-2 d-flex justify-content-around m-auto`} style={{backgroundColor: "#222529"}}> 
                         <div className='m-auto'>
                             <CalendarTodayRoundedIcon className='date-time-picker-btn' onClick={openDueDateCalendar}/>
                         </div>
