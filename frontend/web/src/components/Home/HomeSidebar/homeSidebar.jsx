@@ -1,5 +1,7 @@
 import React from 'react';
 
+import KeyboardDoubleArrowLeftRoundedIcon from '@mui/icons-material/KeyboardDoubleArrowLeftRounded';
+import KeyboardDoubleArrowRightRoundedIcon from '@mui/icons-material/KeyboardDoubleArrowRightRounded';
 import InboxRoundedIcon from '@mui/icons-material/InboxRounded';
 
 import { useLocalState } from '../../../utils/useLocalStorage';
@@ -35,15 +37,10 @@ const HomeSidebar = (props) => {
                 <button className={`toggle-btn ${openSidebarToggle ? 'active' : ''}`} onClick={handleOpenSidebarToggle}>
                     {openSidebarToggle 
                     ?
-                        <svg width="27" height="27" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 18L6 12L12 6" stroke="#222529" strokeWidth="2"/>
-                            <path d="M18 18L12 12L18 6" stroke="#222529" strokeWidth="2"/>
-                        </svg>
+                        <KeyboardDoubleArrowLeftRoundedIcon sx={{color: "#222529"}}/>
                     :
-                        <svg width="27" height="27" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 18L18 12L12 6" stroke="#222529" strokeWidth="2"/>
-                            <path d="M6 18L12 12L6 6" stroke="#222529" strokeWidth="2"/>
-                        </svg>
+                        <KeyboardDoubleArrowRightRoundedIcon sx={{color: "#222529"}}/>
+                        
                     }
                 </button>
             </div>

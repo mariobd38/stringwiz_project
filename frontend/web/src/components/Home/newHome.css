@@ -42,7 +42,7 @@
     padding: 18px !important;
 }
 .user-home-card-task-tabs-appbar .MuiTabs-indicator {
-    background-color: #6FE3C2;
+    background-color: #1e1f21;
 }
 .user-home-card-task-tab {
     color: #fafafa !important;
@@ -64,4 +64,24 @@
 }
 .MuiPickersYear-yearButton {
     text-align: center !important;
+}
+.user-home-calendar-current-day-item {
+    color: #c8c8c8;
+    /* width: 70%; */
+    background-color: #323539;
+    border-radius: 8px;
+    align-items: center;
+    padding: 10px 15px;
+    /* justify-content: center; */
+}
+.user-home-calendar-current-daytime-item {
+    border-radius: 8px;
+    padding: 6px 8px;
+    color: #fafafa;
+}
+.user-home-calendar-current-daytime-item.upcoming {
+    background-color: #0d6f22;
+}
+.user-home-calendar-current-daytime-item.delayed {
+    background-color: rgb(175, 31, 31);
 }

@@ -8,7 +8,7 @@ const MilestoneBlock = () => {
     return (
         <div className='pt-3 pb-4 px-4' style={{ backgroundColor: "#222529", borderRadius: "10px" }} >
             <div className='d-flex justify-content-between'>
-                <div style={{color: "#fafafa", fontFamily: "Lato",fontWeight: "600", fontSize: "1.08rem"}}>
+                <div style={{color: "#fafafa", fontFamily: "Lato",fontWeight: "600", fontSize: "1.2rem"}}>
                     Milestones
                 </div>
                 <div>

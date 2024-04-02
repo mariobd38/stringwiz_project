@@ -4,7 +4,7 @@ import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 
 import {getTaskInfo} from './../../DataManagement/Tasks/getTasks';
 
-
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import HomeHeader from '../Home/HomeHeader/homeHeader';
 import HomeNavbar from './HomeNavbar/homeNavbar';
 import TaskCard from './TaskCard/taskCard';
@@ -37,7 +37,9 @@ const NewHome = () => {
 
             const todays_date = now;
             const upcoming = [];
+            // const overdue = [];
             const completed = [];
+            // console.log(taskData);
 
             taskData.forEach((task) => {
                 
@@ -49,6 +51,7 @@ const NewHome = () => {
                     completed.push(task);
                 } 
             });
+            // console.log(overdue);
         };
         fetchAndSetTabs();
         
@@ -64,18 +67,26 @@ const NewHome = () => {
             setSelectedDate(dayjs(today));
             setNoEventScheduledDate(dayjs(today).format('MMM DD, YYYY'));
         }
-        console.log(today);
-        console.log(dayjs(today).format('MMM DD, YYYY'));
     }, [today,dayjs]);
 
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
 
     const [selectedDate, setSelectedDate] = useState(dayjs(today));
-    const [noEventScheduledDate, setNoEventScheduledDate] = useState(dayjs(today).format('MMM DD, YYYY'));
+    const [noEventScheduledDate, setNoEventScheduledDate] = useState(dayjs(today).format('MMM D, YYYY'));
     const handleEventDateSelection = (date) => {
-        setNoEventScheduledDate(dayjs(date).format('MMM DD, YYYY'));
+        setNoEventScheduledDate(dayjs(date).format('MMM D, YYYY'));
         setSelectedDate(date);
     };
+
+
+    const[taskDataWithMatchingDates, setTaskDataWithMatchingDates] = useState([]);
+    useEffect(() => {
+        if(taskData) {
+            setTaskDataWithMatchingDates(taskData.filter(taskRow =>
+                dayjs(taskRow.dueDate).isSame(dayjs(selectedDate), 'day')
+            ));
+        }
+    }, [taskData,selectedDate,dayjs])
 
     return (
         <>
@@ -119,9 +130,9 @@ const NewHome = () => {
                         <div className="col-xl-4 col-12">
                             <div className='mt-4 d-md-block'>
 
-                                <div className='pt-3 pb-4 px-4 mb-4' style={{ backgroundColor: "#222529", borderRadius: "10px" }} >
+                                <div className='pt-3 pb-4 px-4 mb-4' style={{ backgroundColor: "#222529", borderRadius: "10px",border: "2px solid #313234" }} >
                                     <div className='d-flex justify-content-between'>
-                                        <div style={{color: "#fafafa", fontFamily: "Lato",fontWeight: "600", fontSize: "1.08rem"}}>
+                                        <div style={{color: "#fafafa", fontFamily: "Lato",fontWeight: "600", fontSize: "1.2rem"}}>
                                             Calendar
                                         </div>
                                         <div>
@@ -129,7 +140,7 @@ const NewHome = () => {
                                         </div>
                                     </div>
                                     <div className='pt-2'>
-                                        <div className='d-flex justify-content-center pb-3'>
+                                        <div className='d-flex justify-content-center '>
 
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                 <DemoContainer components={['DateCalendar', 'DateCalendar']}>
@@ -141,9 +152,25 @@ const NewHome = () => {
                                                 </LocalizationProvider>
 
                                         </div>
-                                        <div style={{color: "#c8c8c8"}} className='d-flex lato-font justify-content-center pb-3'>
+                                        {taskDataWithMatchingDates.length > 0 ? taskDataWithMatchingDates.map((item, index) => (
+                                            <div
+                                                key={item.name}
+                                                className='d-flex mb-3 justify-content-between lato-font user-home-calendar-current-day-item'
+                                            >  
+                                                <div className='d-flex justify-content-center'>
+                                                    <CheckRoundedIcon className='user-home-task-check-icon' />
+                                                    <span className='ps-2'>{item.name}</span>
+                                                </div>
+                                                <div className={`user-home-calendar-current-daytime-item ${dayjs(item.dueDate)>=dayjs(today) ? 'upcoming' : 'delayed'}`} >
+                                                    {dayjs(item.dueDate).format('h:mm a')}
+                                                </div>
+                                            </div>
+                                        )) : 
+                                        <div style={{color: "#c8c8c8",padding: "10px 0px"}} className='d-flex lato-font justify-content-center mb-3' 
+                                           >
                                             No events scheduled for {noEventScheduledDate}
                                         </div>
+                                        }
                                         <div className='d-flex justify-content-center'>
                                             <button className='user-home-create-milestone-button-dark' >
                                                 Create an event

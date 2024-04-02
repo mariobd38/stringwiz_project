@@ -90,7 +90,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
     };
 
     const handleTaskCreate = (event) => {
-        if (event.key === 'Enter' && event.target.value !== '') {
+        if (event.key === 'Enter' && event.target.value.trim() !== '') {
             createTaskInfo(
                 dayjs,
                 event.target.value,

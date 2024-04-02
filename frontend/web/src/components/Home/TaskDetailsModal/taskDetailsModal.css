@@ -219,6 +219,7 @@
     transition: border 0.65s linear;
     border-radius: 8px !important;
     margin: 0 auto;
+    font-family: 'Lato';
 }
 .user-home-task-details-modal-description-textarea:focus {
     background-color: #222325;

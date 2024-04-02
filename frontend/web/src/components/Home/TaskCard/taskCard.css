@@ -13,12 +13,12 @@
     color: #b7b7b7 !important;
 }
 .user-home-new-task-input {
-    background-color: #1e1f21 !important;
+    background-color: #1e1f21;
 }
 .taskName-text:focus {
     outline: none !important;
 }
-.table-row-dark:hover .user-home-new-task-input{
+.table-cell:hover .user-home-new-task-input{
     background-color: #2f3032 !important;
 }
 .table-row-dark:hover .table-row-new-dark {
@@ -126,3 +126,7 @@ height: 100%;
     background-color: #0e4166;
 background-image: linear-gradient(to bottom, rgba(14, 65, 102, 0.86), #0e4166);
 } */
+.css-1vw5i9y-MuiButtonBase-root-MuiTab-root.user-home-card-task-tab.Mui-selected {
+    color: #7aeecd !important;
+    font-weight: 800;
+}
