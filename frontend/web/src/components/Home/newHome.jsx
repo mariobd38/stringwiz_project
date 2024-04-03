@@ -65,7 +65,7 @@ const NewHome = () => {
     useEffect(() => {
         if (today) {
             setSelectedDate(dayjs(today));
-            setNoEventScheduledDate(dayjs(today).format('MMM DD, YYYY'));
+            setNoEventScheduledDate(dayjs(today).format('MMM D, YYYY'));
         }
     }, [today,dayjs]);
 
@@ -157,7 +157,7 @@ const NewHome = () => {
                                                 key={item.name}
                                                 className='d-flex mb-3 justify-content-between lato-font user-home-calendar-current-day-item'
                                             >  
-                                                <div className='d-flex justify-content-center'>
+                                                <div  className='d-flex justify-content-center'>
                                                     <CheckRoundedIcon className='user-home-task-check-icon' />
                                                     <span className='ps-2'>{item.name}</span>
                                                 </div>
@@ -166,7 +166,7 @@ const NewHome = () => {
                                                 </div>
                                             </div>
                                         )) : 
-                                        <div style={{color: "#c8c8c8",padding: "10px 0px"}} className='d-flex lato-font justify-content-center mb-3' 
+                                        <div style={{color: "#c8c8c8",padding: "16px 0px"}} className='d-flex lato-font justify-content-center mb-3' 
                                            >
                                             No events scheduled for {noEventScheduledDate}
                                         </div>

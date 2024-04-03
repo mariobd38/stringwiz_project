@@ -8,7 +8,7 @@ import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import TourRoundedIcon from '@mui/icons-material/TourRounded';
 
-import { addExistingTagInfo } from "../../DataManagement/Tags/addExistingTag";
+import { addExistingTagInfo } from "../../../DataManagement/Tags/addExistingTag";
 
 import "./modelDropdown.css";
 
@@ -20,7 +20,7 @@ const MenuButton = ({name,icon,isActualOption,hasItemTypesOption,index,currentIt
             ${isPriorityDropdown && 'model-dropdown-item-priority-menu-button'} ${isStatusBtn && 'model-dropdown-item-status-menu-button'}`}>
             <span className="model-dropdown-current-icon">{icon}</span>
             {name} 
-            {isActualOption && currentItemName === name && <CheckRoundedIcon className="ms-auto"/>}
+            {isActualOption && currentItemName === name && <CheckRoundedIcon className="ms-auto me-3"/>}
         </button>
     );
 };

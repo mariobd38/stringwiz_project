@@ -6,9 +6,9 @@ import NotInterestedRoundedIcon from '@mui/icons-material/NotInterestedRounded';
 import SellRoundedIcon from '@mui/icons-material/SellRounded';
 import TourRoundedIcon from '@mui/icons-material/TourRounded';
 
-import { Tooltip } from 'react-tooltip'
+import { Tooltip } from 'react-tooltip';
 
-import { ModelDropdown } from '../../models/modelDropdown';
+import { ModelDropdown } from '../../models/ModelDropdown/modelDropdown';
 
 
 const TaskDetailsModalSubheader = (props) => {
@@ -32,7 +32,6 @@ const TaskDetailsModalSubheader = (props) => {
             />
             <div data-tooltip-id="my-tooltip" data-tooltip-content={`Add tags`}>
             <ModelDropdown 
-                // items={[{}]}
                 items={allTagData ? nonIncludedTaskTags.map((tag) => ({ name: tag.name, icon: null })) : { name: "Task", icon: null, isActualOption: true }}
                 handleTagCreation={handleTagCreation}
                 initialNameValue={""} initialIconValue={<SellRoundedIcon />}
@@ -42,15 +41,15 @@ const TaskDetailsModalSubheader = (props) => {
             />
             </div>
             <Tooltip id="my-tooltip" className='task-details-modal-tooltip' style={{backgroundColor: "#2454d6", color: "#fafafa", fontSize: "0.8rem", borderRadius: "10px" }}/>
-
+            
 
             {!currentTaskPriority &&
             <div data-tooltip-id="my-tooltip" data-tooltip-content={`Add priority`}>
                 <ModelDropdown 
                     items={[
-                        { name: "Critical", icon: <TourRoundedIcon /*style={{color: "#c90825"}}*//>, isActualOption: true },
-                        { name: "High", icon: <TourRoundedIcon /*style={{color: "gold"}}*//>, isActualOption: true },
-                        { name: "Medium", icon: <TourRoundedIcon /*style={{color: "#0976d6"}}*//>, isActualOption: true },
+                        { name: "Critical", icon: <TourRoundedIcon/>, isActualOption: true },
+                        { name: "High", icon: <TourRoundedIcon/>, isActualOption: true },
+                        { name: "Medium", icon: <TourRoundedIcon/>, isActualOption: true },
                         { name: "Low", icon: <TourRoundedIcon />, isActualOption: true },
                         { name: "Clear", icon: <NotInterestedRoundedIcon />, isActualOption: false },
                     ]}

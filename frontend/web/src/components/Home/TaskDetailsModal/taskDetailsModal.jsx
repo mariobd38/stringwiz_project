@@ -35,7 +35,7 @@ import NewHomeDueDatePopover from '../newHomeDueDatePopover';
 import { TagOptionsDropdown } from './TagOptionsDropdown/tagOptionsDropdown';
 import { updateTaskInfo } from '../../../DataManagement/Tasks/updateTask';
 import { removeTagInfo } from '../../../DataManagement/Tags/removeTag';
-import { ModelDropdown } from '../../models/modelDropdown';
+import { ModelDropdown } from '../../models/ModelDropdown/modelDropdown';
 import { ProfileCard } from './ProfileCard/profileCard';
 import { TagColorDropdown } from './TagColorDropdown/tagColorDropdown';
 import TaskDetailsModalSubheader from './taskDetailsModalSubheader';

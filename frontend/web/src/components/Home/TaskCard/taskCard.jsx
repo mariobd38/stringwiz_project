@@ -37,6 +37,7 @@ import { createTagInfo } from '../../../DataManagement/Tags/createTag';
 
 import NewHomeDueDatePopover from './../newHomeDueDatePopover';
 import TaskDetailsModal from '../TaskDetailsModal/taskDetailsModal';
+import ModelTooltip from '../../models/ModelTooltip/modelTooltip';
 
 import { Tooltip } from 'react-tooltip';
 
@@ -401,12 +402,18 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                                                         </Link>
                                                         {!upcomingTasks[index].dueDate ? 
                                                             <span>
-                                                                <div data-tooltip-id="my-tooltip" className='m-auto' data-tooltip-content={`Add due date`} style={{transition: "transition: width 1.2s ease-in-out"}}>
+                                                                {/* <div data-tooltip-id="my-tooltip" className='m-auto' data-tooltip-content={`Add due date`} style={{transition: "transition: width 1.2s ease-in-out"}}>
                                                                     <div className='d-flex align-items-center user-home-calendar-icon-div' onClick={(event) => handleDueDatePopoverClick(event, index)}>
                                                                         <CalendarTodayRoundedIcon className='user-home-calendar-icon'/>
                                                                     </div>                                                    
                                                                 </div>
-                                                                <Tooltip id="my-tooltip" className='home-navbar-tooltip' style={{backgroundColor: "#444444", color: "#fafafa", fontSize: "0.85rem", borderRadius: "10px" }}/>
+                                                                <Tooltip id="my-tooltip" className='home-navbar-tooltip' style={{backgroundColor: "#444444", color: "#fafafa", fontSize: "0.85rem", borderRadius: "10px" }}/> */}
+
+                                                                <ModelTooltip text={"Add Due Date"}>
+                                                                    <div className='d-flex align-items-center user-home-calendar-icon-div' onClick={(event) => handleDueDatePopoverClick(event, index)}>
+                                                                        <CalendarTodayRoundedIcon className='user-home-calendar-icon'/>
+                                                                    </div>
+                                                                </ModelTooltip>
                                                             </span>
                                                             :
                                                             <div style={{ color: "#a7a7a7" }} className={`lato-font, user-home-chosen-due-date-text`} onClick={(event) => handleDueDatePopoverClick(event, index)}
