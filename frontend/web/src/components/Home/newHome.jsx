@@ -25,19 +25,20 @@ const NewHome = () => {
     const dayjs = require('dayjs');
     const [taskData, setTaskData] = useState([]);
     const [upcomingTasks, setUpcomingTasks] = useState([]);
+    const [overdueTasks, setOverdueTasks] = useState([]);
+    const [completedTasks, setCompletedTasks] = useState([]);
     const [today, setToday] = useState(null);
-    const [tagData, setTagData] = useState([]);
     const [allTagData, setAllTagData] = useState([]);
-
+    
     useEffect(() => {
-        const fetchAndSetTabs = async () => {
-
-            var now = dayjs().format('YYYY-MM-DD');
+        getTaskInfo(setTaskData);
+        // setUpcomingTasks(taskData);
+        var now = dayjs().format('YYYY-MM-DD');
             setToday(now);
 
             const todays_date = now;
             const upcoming = [];
-            // const overdue = [];
+            const overdue = [];
             const completed = [];
             // console.log(taskData);
 
@@ -46,21 +47,15 @@ const NewHome = () => {
                 if ((task.dueDate == null || task.dueDate >= todays_date) && task.status !== 'Completed') {
                     upcoming.push(task);
                 } else if (todays_date > task.dueDate && task.status !== 'Completed') {
-                    upcoming.push(task);
+                    overdue.push(task);
                 }else if (task.status === 'Completed') {
                     completed.push(task);
                 } 
             });
-            // console.log(overdue);
-        };
-        fetchAndSetTabs();
-        
-    }, [dayjs, taskData, upcomingTasks]);
-    
-    useEffect(() => {
-        getTaskInfo(setTaskData, setUpcomingTasks);
-        setUpcomingTasks(taskData);
-    }, [taskData]);
+        setUpcomingTasks(upcoming);
+        setOverdueTasks(overdue);
+        setCompletedTasks(completed);
+    }, [taskData,dayjs]);
 
     useEffect(() => {
         if (today) {
@@ -117,7 +112,9 @@ const NewHome = () => {
                             
                             <div className='py-3'>
                                 <div className='d-flex justify-content-between py-2'>
-                                    <TaskCard taskData={taskData} setTaskData={setTaskData} today={today} upcomingTasks={upcomingTasks} setUpcomingTasks={setUpcomingTasks} tagData={tagData} setTagData={setTagData}
+                                    <TaskCard taskData={taskData} setTaskData={setTaskData} today={today} 
+                                    upcomingTasks={upcomingTasks} setUpcomingTasks={setUpcomingTasks} overdueTasks={overdueTasks} setOverdueTasks={setOverdueTasks}
+                                    completedTasks={completedTasks} setCompletedTasks={setCompletedTasks}
                                     allTagData={allTagData} setAllTagData={setAllTagData}/>
                                 </div>
                             </div>

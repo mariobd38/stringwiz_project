@@ -1,15 +1,15 @@
 function updateTaskInfo  (
         currentRowIndex, 
         event,
-        upcomingTasks,
+        taskType,
         selectedDate,
         dayjs,
         moreTaskmodalOpen,
         handleDueDatePopoverClose,
         setCurrentTaskDueDate,
-        setOpenSnackbar,
-        ) {
-        let task = upcomingTasks[currentRowIndex];
+        setTaskJustCompleted
+    ) {
+        let task = taskType[currentRowIndex];
         let targetClassList = null;
         if (event.currentTarget.classList.length > 1) {
             targetClassList = event.currentTarget.getAttribute("class").split(' ');
@@ -30,14 +30,9 @@ function updateTaskInfo  (
             task.dueDate = newDate;
 
             if (!moreTaskmodalOpen) {
-                // setTimeout(function () {
-                    handleDueDatePopoverClose();
-
-                // }, 1800);
-
+                handleDueDatePopoverClose();
             } else {
                 setCurrentTaskDueDate(dayjs(task.dueDate).format(`MMM D`));
-                // console.log(dayjs(task.dueDate).format(`MMM D`));
                 handleDueDatePopoverClose();
             }
         }
@@ -72,6 +67,9 @@ function updateTaskInfo  (
         //update task priority
         else if (targetClassList.includes('model-dropdown-item-priority-menu-button')) {
             task.priority = event.currentTarget.textContent;
+        } else if (targetClassList.includes('user-home-task-set-complete')) {
+            task.status = 'Completed';
+            
         }
 
         const taskInfo = {
@@ -96,9 +94,7 @@ function updateTaskInfo  (
             return response.json();
         })
         .then((newData) => {
-            upcomingTasks[currentRowIndex] = newData;
-            // setTaskData(newData);    
-            // console.log("updated task array!");
+            taskType[currentRowIndex] = newData;
         })
         .catch((error) => {
             console.error(error); 

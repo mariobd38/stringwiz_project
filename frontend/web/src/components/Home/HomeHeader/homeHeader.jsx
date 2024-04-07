@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
+import { useLocalState } from "../../../utils/useLocalStorage";
 import { useCookies } from "../../../utils/useCookies";
 
 import './homeHeader.css';
 
 const HomeHeader = () => {
     const dayjs = require('dayjs');
+    const [userFullName] = useLocalState("", "userFullName");
 
     var now = Intl.DateTimeFormat().resolvedOptions().timeZone;
     now = dayjs();
@@ -14,6 +16,26 @@ const HomeHeader = () => {
 
     const [backgroundColor, setBackgroundColor] = useCookies("#1e1f21", "backgroundColor");
     const [backgroundImage, setBackgroundImage] = useCookies(null, "backgroundImage");
+
+    let hour = now.hour();
+    let minute = now.minute();
+    let greeting = "Good";
+    const firstName = userFullName.split(' ')[0];
+
+    switch(true) {
+        case (hour < 6):
+            greeting += "night";
+            break;
+        case (hour >= 18 && (hour <= 23 && minute <= 59)):
+            greeting += " evening";
+            break;
+        case (hour >= 12):
+            greeting += " afternoon";
+            break;  
+        default:
+            greeting += " morning";
+            break;
+    }
 
 
     const [currentColorMode, setCurrentColorMode] = useCookies("dark", "colorMode");
@@ -43,7 +65,10 @@ const HomeHeader = () => {
     return (
         <>
             <div className='pt-4'>
-                <div className='d-flex flex-column flex-sm-row justify-content-between align-items-center'>
+                <div className='d-flex flex-column flex-md-row justify-content-between align-items-center py-2 home-header-block'>
+                    <div className='fafafa-color greeting mb-3 mb-md-0'>
+                        {greeting}, {firstName}
+                    </div>
                     <div className='d-flex align-items-center gap-4'>
                         <div className='header-day-number'>
                             {date.getDate()}
@@ -57,14 +82,6 @@ const HomeHeader = () => {
                             </div>
                         </div>
                     </div>
-
-                    {/* <div className='pt-5 pt-sm-0'>
-                        <button className='header-task-time-filter'>
-                            Last 30 days
-                            <span className="model-dropdown-arrow-icon" style={{color: "#1e1f21"}}> <KeyboardArrowDownRoundedIcon /> </span>
-
-                        </button>
-                    </div> */}
                 </div>
             </div>
         </>

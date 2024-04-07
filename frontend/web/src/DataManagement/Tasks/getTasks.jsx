@@ -1,4 +1,4 @@
-function getTaskInfo  (setTaskData, setUpcomingTasks) {
+function getTaskInfo  (setTaskData) {
     fetch("/api/tasks/get", {
         method: "GET",
         headers: {
@@ -16,8 +16,7 @@ function getTaskInfo  (setTaskData, setUpcomingTasks) {
             dataStack.push(data[i]);
         }
         setTaskData(dataStack);
-        setUpcomingTasks(dataStack);
-        // setTaskData([...taskData, data]);
+        // setUpcomingTasks(dataStack);
     })
     .catch((error) => {
 

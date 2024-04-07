@@ -52,7 +52,7 @@ const TaskDetailsModal = (props) => {
     const { 
             currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskLastUpdatedOn,
             nonIncludedTaskTags, setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, setSelectedDate, currentTaskTags, setCurrentTaskTags,
-            upcomingTasks, selectedDate, today,
+            taskType, selectedDate, today,
             onHide, show, setModalShow, allTagData,handleTagCreation } = props;
 
     const [userFullName] = useLocalState("", "userFullName");
@@ -113,7 +113,7 @@ const TaskDetailsModal = (props) => {
         updateTaskInfo(
             currentIndex, 
             event,
-            upcomingTasks,
+            taskType,
             selectedDate,
             dayjs,
             false,
@@ -130,14 +130,14 @@ const TaskDetailsModal = (props) => {
     const handleDueDatePopoverClick = (event, index) => {
         setDueDatePopoverAnchorEl(event.currentTarget);
         setCurrentIndex(index);
-        setCurrentTaskDueDate(upcomingTasks[index].dueDate);
+        setCurrentTaskDueDate(taskType[index].dueDate);
         setDueDateClockIsOpen(false);
     };
 
     const handleDueDatePopoverClose = (event) => {
         setDueDatePopoverAnchorEl(null);
         setSelectedDate(false);
-        setCurrentTaskDueDate(upcomingTasks[currentIndex].dueDate);
+        setCurrentTaskDueDate(taskType[currentIndex].dueDate);
         setDueDateClockIsOpen(false);
     };
 
@@ -174,7 +174,7 @@ const TaskDetailsModal = (props) => {
     );
 
     const handleTagRemoval = (currentTagIndex) => {
-        removeTagInfo(currentTaskTags[currentTagIndex].id,upcomingTasks[currentIndex].id,currentTaskTags, setCurrentTaskTags);
+        removeTagInfo(currentTaskTags[currentTagIndex].id,taskType[currentIndex].id,currentTaskTags, setCurrentTaskTags);
     }
 
 
@@ -374,7 +374,7 @@ const TaskDetailsModal = (props) => {
 
                                 <div className='d-flex gap-3 my-3'>
                                     <TaskDetailsModalSubheader 
-                                        upcomingTasks={upcomingTasks}
+                                        taskType={taskType}
                                         currentIndex={currentIndex}
                                         handleTaskUpdate={(event) => handleTaskUpdate(event)}
                                         allTagData={allTagData}
@@ -436,7 +436,7 @@ const TaskDetailsModal = (props) => {
                                                 initialNameValue={currentTaskStatus} initialIconValue={<RadioButtonCheckedRoundedIcon />}
                                                 handleTaskUpdate={(event) => handleTaskUpdate(event)}
                                                 hasSearchBar={true} isStatusBtn={true}
-                                                upcomingTasks={upcomingTasks} currentIndex={currentIndex}
+                                                taskType={taskType} currentIndex={currentIndex}
                                             />
                                     
                                             <Button className='ms-2 user-home-task-details-modal-status-set-complete-btn'>
@@ -464,7 +464,7 @@ const TaskDetailsModal = (props) => {
                                                 handleTaskUpdate={(event) => handleTaskUpdate(event)}
                                                 hasClearBtn={true} 
                                                 isPriorityDropdown={true} setCurrentTaskPriority={setCurrentTaskPriority}
-                                                upcomingTasks={upcomingTasks} currentIndex={currentIndex}
+                                                taskType={taskType} currentIndex={currentIndex}
                                             />
                                         </span>
                                     </div>

@@ -47,7 +47,7 @@ export const ModelDropdown = (props) => {
     const { items, 
         hasItemTypesOption, hasArrow, hasHeaderDescText, hasSearchBar,handleTagCreation,
         initialNameValue, initialIconValue, isPriorityDropdown, setCurrentTaskPriority, isDropdownOnRightSide,
-        isStatusBtn, upcomingTasks, currentIndex, allTagData,currentTaskTags,setCurrentTaskTags,isTagOptionsBtn
+        isStatusBtn, taskType, currentIndex, allTagData,currentTaskTags,setCurrentTaskTags,isTagOptionsBtn
     } = props;
 
     const isTagDropdown = initialNameValue === '';
@@ -80,7 +80,7 @@ export const ModelDropdown = (props) => {
         const tagClicked = allTagData.find(atd => atd.name === item.name);
 
         try {
-            const addedTag =  await addExistingTagInfo(upcomingTasks[currentIndex].id,tagClicked.id);
+            const addedTag =  await addExistingTagInfo(taskType[currentIndex].id,tagClicked.id);
 
     
             if (addedTag) {
@@ -107,7 +107,7 @@ export const ModelDropdown = (props) => {
 
     const handleNextStatusClick = (event) => {
         props.handleTaskUpdate(event)
-        const nextStatusName = upcomingTasks[currentIndex].status;
+        const nextStatusName = taskType[currentIndex].status;
         const nextStatusIcon = items.find(item => item.name === nextStatusName).icon;
         setCurrentItem({name: nextStatusName, icon: nextStatusIcon});
     }
@@ -132,7 +132,7 @@ export const ModelDropdown = (props) => {
                     const tagEntered = allTagData.find(item => item.name === tagName.trim());
                     if (tagEntered !== undefined) {
                         try {
-                            const addedTag =  await addExistingTagInfo(upcomingTasks[currentIndex].id,tagEntered.id);
+                            const addedTag =  await addExistingTagInfo(taskType[currentIndex].id,tagEntered.id);
                             if (addedTag) {
                                 const updatedTags = [...currentTaskTags, addedTag];
                                 setCurrentTaskTags(updatedTags);
