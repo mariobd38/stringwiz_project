@@ -10,5 +10,28 @@
 }
 .landing-footer-content-footer-text {
     font-size: 1.05rem;
-
 }
+
+  .landing-footer-content-footer-links {
+    font-size: 1rem;
+    /* color: #121212 !important; */
+    display: inline;
+    position: relative;
+    text-decoration: none;
+  }
+  
+  .landing-footer-content-footer-links:after {
+    color: #4296af !important;
+    position: absolute;
+    content: '';
+    bottom: -0.17rem;
+    left: 0;
+    height: 0.1rem;
+    width: 0;
+    background-color: #4296af;
+    transition: width 0.3s ease-in-out;
+  }
+  
+  .landing-footer-content-footer-links:hover:after {
+    width: 100%;
+  }

@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useLocalState } from "../../../utils/useLocalStorage";
 import Cookies from 'js-cookie';
 
-import Container from 'react-bootstrap/Container';
-
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import ArchiveIcon from '@mui/icons-material/Archive';
@@ -27,31 +25,11 @@ import { userLogout } from '../../../DataManagement/Users/logout';
 import './homeNavbar.css';
 
 const HomeNavbar = () => {
-    const dayjs = require('dayjs');
     let [userFullName] = useLocalState("", "userFullName");
 
-    var now = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    now = dayjs();
 
-    let hour = now.hour();
-    let minute = now.minute();
-    let greeting = "Good ";
     const [firstName, lastName] = userFullName.split(' ');
 
-    switch(true) {
-        case (hour < 6):
-            greeting += "night";
-            break;
-        case (hour >= 18 && (hour <= 23 && minute <= 59)):
-            greeting += "evening";
-            break;
-        case (hour >= 12):
-            greeting += "afternoon";
-            break;  
-        default:
-            greeting += "morning";
-            break;
-    }
     //user button
     const [userBtnAnchorEl, setUserBtnAnchorEl] = useState(null);
     const [isSmallScreen, setIsSmallScreen] = useState(false);
@@ -96,19 +74,16 @@ const HomeNavbar = () => {
     return (
         <div>
             <nav className="navbar w-100" style={{position: "fixed",zIndex: "1", height: "4.5rem", backgroundColor: "#222222" }}>
-                <Container fluid >
+                <div className='container-fluid' >
                     <div className="row w-100 m-0 mx-2">
-                        <div className='col-0 col-xl-2 ps-3 '>
+                        <div className='col-0 col-xl-3 ps-3 '>
                             <div className='d-none d-xl-inline'>
                                 <a href={() => false}>
                                 <CocollabLogo width={1.6} paddingBottom={0.3} fontSize={2} textColor={"fafafa"}/>
                                 </a>
                             </div>
                         </div>
-                        <div className='col-10 col-md-9 col-lg-8  d-flex justify-content-start align-items-center m-auto'>
-                                {/* <div className='text-white greeting d-none d-lg-inline ps-4 pe-4 pe-lg-0'>
-                                    {greeting}, {firstName}
-                                </div> */}
+                        <div className='col-10 col-md-9 col-lg-5  d-flex justify-content-start align-items-center m-auto'>
                                 <div className='pe-5 pe-lg-3'>
                                     <form className="home-navbar-search" role="search">
                                         <Input
@@ -138,7 +113,7 @@ const HomeNavbar = () => {
                             
     
                         </div>
-                        <div className='text-white col-lg-2 col-md-3 col-2 m-auto d-flex justify-content-end'>
+                        <div className='text-white col-2 col-md-3 col-lg-4 m-auto d-flex justify-content-end'>
                             <div className='d-flex'>
                                 <div className=''>
                                     <div data-tooltip-id="my-tooltip" className='m-auto' 
@@ -275,7 +250,7 @@ const HomeNavbar = () => {
                             </div>
                         </div>
                     </div>
-                </Container>
+                </div>
             </nav>
         </div>
     );

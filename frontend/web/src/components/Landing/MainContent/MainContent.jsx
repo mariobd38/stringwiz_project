@@ -18,6 +18,13 @@ import EventRoundedIcon from '@mui/icons-material/EventRounded';
 import FolderRoundedIcon from '@mui/icons-material/FolderRounded';
 import SubjectRoundedIcon from '@mui/icons-material/SubjectRounded';
 
+import Amazon_logo from '../../../assets/logos/amazon_logo.png';
+import Github_logo from '../../../assets/logos/github_logo.svg';
+import Lyft_logo from '../../../assets/logos/lyft_logo.svg';
+import Oracle_logo from '../../../assets/logos/oracle_logo.svg';
+import Pinterest_logo from '../../../assets/logos/pinterest_logo.svg';
+import Salesforce_logo from '../../../assets/logos/salesforce_logo.png';
+
 import './MainContent.css'
 
 const MainContent = () => {
@@ -26,6 +33,22 @@ const MainContent = () => {
     const routeChange = (route) =>{ 
         navigate(route);
     }
+
+    // const [logos, setLogos] = useState(null);
+
+    // useEffect(() => {
+    //     const logosSlide = document.querySelector(".logos-slide");
+    //     if (logosSlide) {
+    //         const copy = logosSlide.cloneNode(true);
+    //         setLogos(copy);
+    //     }
+    // }, []);
+
+    // useEffect(() => {
+    //     if (logos) {
+    //         document.querySelector('.landing-page-logos-container').appendChild(logos);
+    //     }
+    // }, [logos]);
 
 
     return (
@@ -48,7 +71,7 @@ const MainContent = () => {
                                 
                                 <div className="right-header-block pt-2 pb-4">
                                     <div className="d-flex justify-content-center pt-2">
-                                        <a onClick={() => routeChange('/signup')}>
+                                        <a onClick={() => routeChange('/signup')} href={() => false}>
                                             <Button className="register-home-page">
                                                 Get Started
                                             </Button>
@@ -88,7 +111,7 @@ const MainContent = () => {
                         <div className="row m-auto py-3" >
                             <div className='col-12 col-lg-6 col-xl-5 col-xxl-4 text-center m-auto'>
                                 <a href={() => false}>
-                                    <CocollabLogo width={2.2} paddingBottom={0.35} fontSize={2.9} href={() => false} textColor={'4296af'}></CocollabLogo>
+                                    <CocollabLogo width={2.2} paddingBottom={0.35} fontSize={2.9} href={() => false} textColor={'fafafa'}></CocollabLogo>
                                 </a>
                             </div>
                             <div className='col-12 col-lg-6 col-xl-7 col-xxl-8 text-center m-auto'>
@@ -105,7 +128,21 @@ const MainContent = () => {
                     </div>
                 </div>
             </div>
-            <div className='landing-page-features-div  py-5'>
+            <div className='my-5 landing-page-logos-container'>
+                <div className='text-center pb-4 landing-page-logos-container-text'>
+                    Discover why we are trusted by developers from top companies
+                </div>
+                <div className="logos-slide d-flex justify-content-center">
+                    <img className='mt-2' src={Amazon_logo} alt="amazon" style={{width: "11rem"}} />
+                    <img className='mt-1' src={Github_logo} alt="github" style={{width: "5rem"}} />
+                    <img className='mt-1' src={Oracle_logo} alt="oracle" style={{width: "10rem", height: "6rem"}} />
+                    <img className='mt-1' src={Lyft_logo} alt="oracle" style={{width: "10rem", height: "6rem"}} />
+                    <img src={Salesforce_logo} alt="salesforce" style={{width: "7rem", height: "7rem"}} />
+                    <img src={Pinterest_logo} alt="salesforce" style={{width: "4.3rem"}} />
+                </div>
+            </div>
+
+            <div className='landing-page-features-div my-4'>
                 <div className='landing-page-features-div-header text-center pt-3'>
                     All-in-one products to manage every aspect of your business
                 </div>

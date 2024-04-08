@@ -74,7 +74,7 @@ function NavbarContent () {
                         <div className="offcanvas-body d-flex flex-column flex-lg-row p-4 p-lg-0">
                             <ul className="navbar-nav justify-content-center align-items-center fs-5 flex-grow-1 pe-3">
                                 <li className="nav-header-item mx-3 my-4 my-lg-0">
-                                    <a className='landing-nav-top-link underline' href={() => false}>
+                                    <a className='landing-nav-top-link' href={() => false}>
                                         Features
                                     </a>
                                 </li>
@@ -115,6 +115,6 @@ function NavbarContent () {
             </Container>
         </nav>
     );
-};
+}
 
 export default NavbarContent;

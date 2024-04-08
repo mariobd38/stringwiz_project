@@ -13,6 +13,8 @@ import TableRow from '@mui/material/TableRow';
 import NewHomeDueDatePopover from '../../newHomeDueDatePopover';
 // import ModelTooltip from '../../../models/ModelTooltip/modelTooltip';
 
+import './taskCardContent.css';
+
 const TaskCardContent = (props) => {
     const {today, taskData,taskType,currentTaskDueDate, setCurrentIndex, setCurrentTaskDueDate,handleDueDatePopoverClose,
         handleTaskUpdate,selectedDate,setSelectedDate,setDueDateClockIsOpen,dueDateClockIsOpen,
@@ -90,7 +92,7 @@ const TaskCardContent = (props) => {
                             </div>
                             <Link to={{pathname: '/home/modal'}} state={{ background: location }}  onClick={(e) => OpenTaskDetailsModal(e, index)}>
                             <div style={{outline: "none"}}>
-                                <button className='task-name-link' style={{outline: "none"}}> {/* ${row.status === 'Completed' ? ' strikethrough' : ''} */}
+                                <button className='task-name-link'> {/* ${row.status === 'Completed' ? ' strikethrough' : ''} */}
                                 <span className={`ps-2 taskName-text`}> 
                                     {row.name}
                                 </span>

@@ -15,18 +15,6 @@
 .user-home-new-task-input {
     background-color: #1e1f21;
 }
-.taskName-text:focus {
-    outline: none !important;
-}
-.table-cell:hover .user-home-new-task-input{
-    background-color: #2f3032 !important;
-}
-.table-row-dark:hover .table-row-new-dark {
-    background-color: #2f3032 !important;
-}
-/* .table-row-dark:hover{
-    background-color: #2f3032 !important;
-} */
 .table-container-wrapper {
     max-height: 19rem; 
     min-height: 19rem; 
@@ -43,78 +31,7 @@
 /* .table-row:hover .table-cell-icon, .table-row:hover .user-home-task-check  {
     display: block !important;
 } */
-.table-cell {
-    font-family: 'Nunito Sans', serif !important;
-    /* padding: 0.85rem 0rem !important; */
-    margin: 0rem 1.2rem !important;
-    overflow: hidden !important;
-    border: none !important;
-    border-radius: 10px;
-}
-.table-cell:hover {
-    background-color: #2f3032 !important;
-}
-.table-cell-icon:hover {
-    display: inline !important;
-}
-.user-home-task-check-icon {
-    border: 1px solid #fafafa;
-    border-radius: 50%;
-    margin: auto;
-    width: 1rem !important;
-    height: 1rem !important;
-    padding: 0.08rem !important;
-}
-.user-home-task-check-icon:hover {
-    cursor: pointer;
-    color: #006A4E !important;
-    border-color: #006A4E !important;
-}
-.task-name-link {
-    color: inherit;
-    cursor: pointer;
-    background: none;
-    border: none;
-    margin: 0;
-    padding: 0;
-    outline: none !important
-}
-.task-name-link:hover {
-    color: #fafafa;
-}
-.taskName-text {
-    font-size: 0.88rem !important;
-    padding: 0.3em 1em;
-    border: none !important;
-    font-family: 'Poppins', serif;
-    color: #fafafa;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-.taskName-text.strikethrough {
-    text-decoration: line-through;
-}
-.user-home-calendar-icon-div {
-    color: #e7e7e7;
-    border: 1px dashed #8cdfc3;
-    padding: 0.35rem 0.2rem;
-    cursor: pointer;
-    border-radius: 50%;
-    visibility: hidden;
-}
-.user-home-chosen-due-date-text {
-    cursor: pointer;
-}
-.table-row-dark:hover .user-home-calendar-icon-div {
-    display: flex !important;
-    visibility:visible;
-}
-.user-home-calendar-icon {
-    color: #e7e7e7;
-    width: 1.3rem !important;
-    height: 1rem !important;
-}
+
 /* .new-svg {
     position: absolute;
     top: 0;

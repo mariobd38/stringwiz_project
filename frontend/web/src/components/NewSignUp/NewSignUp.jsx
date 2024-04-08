@@ -61,12 +61,14 @@ const NewSignUp = () => {
                 window.location.href = '/home';
             } else {
                 return response.json().then((data) => {
-                    throw new Error(data.join("\n"));
+                    const errorList = data;
+                    setErrorMessages(errorList);
                 });
             }
         } catch (error) {
-            const errorList = error.message.split("\n");
-            setErrorMessages(errorList);
+            // const errorList = error.message.split("\n");
+            // console.log(errorList);
+            // setErrorMessages(errorList);
         }
     }
 

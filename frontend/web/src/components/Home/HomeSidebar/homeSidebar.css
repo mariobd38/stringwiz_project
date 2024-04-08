@@ -18,11 +18,11 @@ a {
     padding: 1rem 0rem;
     display: flex;
     flex-direction: column;
-    transition: all 0.25s ease-in;
+    transition: width 0.25s ease-in;
 }
 body.active .home-sidebar-nav {
     width: 17rem;
-    transition: all 0.35s ease-in;
+    transition: all 0.3s ease-in;
 }
 body.active .toggle-btn {
     left: 16.5rem;

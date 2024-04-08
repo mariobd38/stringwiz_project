@@ -148,7 +148,6 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
         } else {
             setTaskType(completedTasks);
         }
-        // console.log(taskType);
     }, [setTaskType, completedTasks, currentTabValue, overdueTasks, upcomingTasks])
 
     //update task call
@@ -169,14 +168,6 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
             null
         );
 
-        // if(currentTabValue === 0) {
-        //     setUpcomingTasks(taskType);
-        // } else if (currentTabValue === 1) {
-        //     setOverdueTasks(taskType);
-        // } else {
-        //     setCompletedTasks(taskType);
-        // }
-        // setUpcomingTasks(upcomingTasks);
         setDueDateClockIsOpen(false);
     };
 

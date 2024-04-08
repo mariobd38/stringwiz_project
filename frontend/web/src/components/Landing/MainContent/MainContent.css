@@ -63,9 +63,9 @@ a {
     background-color: #fafafa;
 }
 .landing-info-div {
-    background-color: #d8e5e4 !important;
-    border-radius: 8px !important;
-    box-shadow: rgba(100,100,111,0.2) 0px 7px 29px 0px;
+    background-color: #c8d5d47a;
+    /* border-radius: 8px !important; */
+    box-shadow: rgba(100,100,111,0.7) -3px 10px 10px -4px;
 }
 .landing-info-header {
     font-size: 2rem;
@@ -77,13 +77,13 @@ a {
     color: #fafafa;
 }
 .landing-page-features-div-header {
-    font-size: 2.35rem;
+    font-size: 2.3rem;
     width: 85%;
     margin: auto;
-    color: #161616;
+    color: #202020;
     /* font-family: 'Open Sans'; */
-    font-family: "Noto Sans Khojki", sans-serif;
-    font-weight: 400;
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
 }
 .landing-page-features-card-container {
     /* width: 2rem;
@@ -91,7 +91,7 @@ a {
     width: 80%;
     margin: auto;
     background-color: #fafafa;
-    box-shadow: rgba(100,100,111,0.2) 0px 7px 39px 5px;
+    box-shadow: rgba(100,100,111,0.3) 2px 7px 13px 4px;
     color: #121212;
     border-radius: 10px;
 }
@@ -109,7 +109,6 @@ a {
     min-width: 350px;
     height: 270px;
     border-radius: 10px;   
-
 }
 .landing-page-features-card-container-bkg {
     height: 70px;
@@ -146,3 +145,59 @@ a {
 .landing-page-features-card-button:hover, .landing-page-features-card-button:focus {
     background-color: #fafafa !important;
 }
+
+@keyframes slide {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.landing-page-logos-container {
+    overflow: hidden;
+    padding: 30px 0;
+    background-color: #e8e8e899;
+    /* white-space: nowrap; */
+    position: relative;
+}
+.landing-page-logos-container-text {
+    font-family: 'Lato';
+    font-weight: 600;
+    font-size: 1.6rem;
+    color: #222222ea;
+    width: 85%;
+    margin: auto;
+}
+.landing-page-logos-container:before,
+.landing-page-logos-container:after
+ {
+    position: absolute;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    z-index: 2;
+    content: "";
+}
+.logos-slide {
+    white-space: nowrap;
+}
+/* .landing-page-logos-container:before {
+    left: 0;
+    background: linear-gradient(to left, rgba(255,255,255,0), #fafafa);
+}
+.landing-page-logos-container::after {
+    right: 0;
+    background: linear-gradient(to right, rgba(255,255,255,0), #fafafa);
+} */
+
+/* .logos-slide {
+    display: inline-block;
+    animation: 28s slide infinite linear;
+} */
+
+.logos-slide img {
+    height: 100px;
+    margin: 0 50px;
+}  

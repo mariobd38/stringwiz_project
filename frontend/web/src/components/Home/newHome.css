@@ -6,14 +6,14 @@
 .user-home-all-content {
     position: relative !important;
     top: 90px;
-    transition: margin 0.5s linear;
+    transition: margin 0.3s linear;
 
     margin: 0 2.5rem 0 8rem;
 }
 .user-home-all-content.open {
     
     margin-left: 20rem;
-    transition: margin 0.4s linear;
+    transition: margin 0.3s linear;
 }
 .user-home-main-content {
     width: 52.5rem;
