@@ -26,7 +26,7 @@ body.active .home-sidebar-nav {
 }
 body.active .toggle-btn {
     left: 16.5rem;
-    transition: all 0.4s linear;
+    transition: all 0.32s linear;
 }
 
 .sidebar-header,

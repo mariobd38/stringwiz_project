@@ -67,7 +67,7 @@ const HomeSidebar = (props) => {
                         <path d="M17 15V17.4C17 17.9601 17 18.2401 16.891 18.454C16.7951 18.6422 16.6422 18.7951 16.454 18.891C16.2401 19 15.9601 19 15.4 19H5.6C5.03995 19 4.75992 19 4.54601 18.891C4.35785 18.7951 4.20487 18.6422 4.10899 18.454C4 18.2401 4 17.9601 4 17.4V9.6C4 9.03995 4 8.75992 4.10899 8.54601C4.20487 8.35785 4.35785 8.20487 4.54601 8.10899C4.75992 8 5.03995 8 5.6 8H8" stroke="#b3b3b3" strokeWidth="2" strokeLinejoin="round"/>
                     </svg>
 
-                    <span className="hidden sidebar-links-text">My spaces</span>
+                    <span className="hidden sidebar-links-text">Spaces</span>
                 </button>
 
                 <button className="link d-flex align-items-center" >
@@ -78,7 +78,7 @@ const HomeSidebar = (props) => {
                         <path d="M13 3V7C13 7.94281 13 8.41421 13.2929 8.70711C13.5858 9 14.0572 9 15 9H19" stroke="#b3b3b3" strokeWidth="2"/>
                     </svg>
 
-                    <span className="hidden sidebar-links-text">Docs</span>
+                    <span className="hidden sidebar-links-text">Notepad</span>
                 </button>
         
                 <button className="link d-flex align-items-center">

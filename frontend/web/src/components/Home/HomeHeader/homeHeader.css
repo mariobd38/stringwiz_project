@@ -51,3 +51,12 @@
     border-radius: 15px;
     /* background-color: #2a2b2d; */
 }
+.home-header-invite-button {
+    padding: 2px 13px;
+    border-radius: 8px !important;
+    background-color: #fafafa;
+    color: rgb(34, 37, 41);
+    font-weight: 600;
+    font-family: 'Lato';
+    font-size: 1.03rem;
+}

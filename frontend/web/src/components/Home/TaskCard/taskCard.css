@@ -16,8 +16,8 @@
     background-color: #1e1f21;
 }
 .table-container-wrapper {
-    max-height: 19rem; 
-    min-height: 19rem; 
+    height: 18rem; 
+    /* min-height: 17rem;  */
     overflow: auto;
 }
 .table-container {

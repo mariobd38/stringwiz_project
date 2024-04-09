@@ -36,6 +36,8 @@ import { createTagInfo } from '../../../DataManagement/Tags/createTag';
 import TaskDetailsModal from '../TaskDetailsModal/taskDetailsModal';
 import TaskCardContent from './TaskCardContent/taskCardContent';
 
+import checklist from '../../../assets/illustrations/home/checklist.png';
+
 import './taskCard.css'
 
 function TabPanel(props) {
@@ -83,7 +85,6 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
 
     const handleTabChange = (event, newValue) => {
         setCurrentTabValue(newValue);
-        console.log(newValue);
     };
 
     const handleTabChangeIndex = (index) => {
@@ -227,7 +228,6 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
             if (newTag) {
                 const updatedTags = [...currentTaskTags, newTag];
                 setCurrentTaskTags(updatedTags);
-                console.log("new tag created!!");
                 updateTaskTags(updatedTags);
             } else {
                 console.error('Error creating tag: Tag data is null');
@@ -439,7 +439,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
 
                         <TabPanel value={currentTabValue} index={2} dir={theme.direction}>
                         <div className='table-container-wrapper'>
-                                
+                                {completedTasks.length > 0 ? 
 
                                 <TableContainer className='table-container p-0' >
                                     <Table>
@@ -472,7 +472,12 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                                             />
                                         </TableBody> 
                                     </Table>
-                                </TableContainer>
+                                </TableContainer> :
+                                <div className='d-flex flex-column  p-0 justify-content-center align-items-center'>
+                                <img style={{width: "14rem", }}  src={checklist} alt="" />
+                                    <div className='fafafa-color pt-3 lato-font'>Your completed tasks will appear here ✅ </div>
+                                </div>
+                                }
                             </div>
                         </TabPanel>
                         </SwipeableViews>
