@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import { useLocalState } from "../../../utils/useLocalStorage";
 import { useCookies } from "../../../utils/useCookies";
 
 import './homeHeader.css';
 
 const HomeHeader = () => {
     const dayjs = require('dayjs');
-    const [userFullName] = useLocalState("", "userFullName");
 
     var now = Intl.DateTimeFormat().resolvedOptions().timeZone;
     now = dayjs();
@@ -16,27 +14,6 @@ const HomeHeader = () => {
 
     const [backgroundColor, setBackgroundColor] = useCookies("#1e1f21", "backgroundColor");
     const [backgroundImage, setBackgroundImage] = useCookies(null, "backgroundImage");
-
-    let hour = now.hour();
-    let minute = now.minute();
-    let greeting = "Good";
-    const firstName = userFullName.split(' ')[0];
-
-    switch(true) {
-        case (hour < 6):
-            greeting += "night";
-            break;
-        case (hour >= 18 && (hour <= 23 && minute <= 59)):
-            greeting += " evening";
-            break;
-        case (hour >= 12):
-            greeting += " afternoon";
-            break;  
-        default:
-            greeting += " morning";
-            break;
-    }
-
 
     const [currentColorMode, setCurrentColorMode] = useCookies("dark", "colorMode");
 
@@ -85,13 +62,13 @@ const HomeHeader = () => {
                 </div> */}
                 <div className='d-flex align-items-center justify-content-between'>
                     <div className='fafafa-color lato-font-600' style={{fontSize: "1.2rem"}}>
-                        Today is {dayOfWeek}, {month} {date.getDate()}, {date.getFullYear()}
+                        {dayOfWeek}, {month} {date.getDate()}, {date.getFullYear()}
                     </div>
 
                     <div className=''>
                         <button className='home-header-invite-button d-flex align-items-center'>
                             <span className='mb-2'>
-                                <svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="12" cy="8" r="4" stroke="#33363F" strokeWidth="2" strokeLinecap="round"/>
                                     <path fillRule="evenodd" clipRule="evenodd" d="M13.3267 15.0759C12.8886 15.0255 12.4452 15 12 15C10.0805 15 8.19383 15.4738 6.63113 16.3732C5.06902 17.2721 3.88124 18.5702 3.33091 20.1106C3.1451 20.6307 3.41608 21.203 3.93617 21.3888C4.45626 21.5746 5.02851 21.3036 5.21432 20.7835C5.57558 19.7723 6.39653 18.8157 7.62872 18.1066C8.64272 17.523 9.86375 17.1503 11.158 17.0368C11.4889 16.0601 12.3091 15.3092 13.3267 15.0759Z" fill="#33363F"/>
                                     <path d="M18 14L18 22" stroke="#33363F" strokeWidth="2.5" strokeLinecap="round"/>

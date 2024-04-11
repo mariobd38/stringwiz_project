@@ -16,7 +16,8 @@ import Settings from '@mui/icons-material/Settings';
 
 import { Divider, Input, InputAdornment, ListItemIcon, Menu, MenuItem } from '@mui/material';
 
-import { Tooltip } from 'react-tooltip';
+import { Tooltip } from '@mantine/core';
+
 
 import CocollabLogo from '../../Logo/logo';
 
@@ -77,9 +78,9 @@ const HomeNavbar = () => {
                 <div className='container-fluid' >
                     <div className="row w-100 m-0 mx-2">
                         <div className='col-0 col-lg-3'>
-                            <div className='d-none d-lg-inline'>
-                                <a href={() => false}>
-                                <CocollabLogo width={1.6} paddingBottom={0.3} fontSize={2} textColor={"fafafa"}/>
+                            <div className='d-none d-lg-inline' >
+                                <a href={() => false} style={{cursor: "default !important"}}>
+                                    <CocollabLogo width={1.6} paddingBottom={0.3} fontSize={2} textColor={"fafafa"}/>
                                 </a>
                             </div>
                         </div>
@@ -89,29 +90,29 @@ const HomeNavbar = () => {
                                     {isSmallScreen ? 
                                             <div className='me-2 m-auto home-navbar-search-ss'><SearchIcon sx={{ color: '#e1e1e1'}} /></div>
                                             : 
-                                        <form className="home-navbar-search" role="search">
-                                            <Input
-                                                className="form-control home-navbar-search-input me-2"
-                                                type="search"
-                                                placeholder="Search"
-                                                startAdornment={
-                                                    <InputAdornment position="start">
-                                                        <SearchIcon sx={{ color: '#e1e1e1'}} />
-                                                    </InputAdornment>
-                                                }
-                                                endAdornment={
-                                                    <InputAdornment position="end">
-                                                        <div className='d-flex'>
-                                                            <KeyboardCommandKeyRoundedIcon className='m-auto' sx={{ color: '#e1e1e1', width: "1.25rem", height: "1.25rem"}} />
-                                                            <div className='m-auto' style={{color: '#e1e1e1', fontFamily:"Montserrat", fontWeight: "600", fontSize: "1.1rem"}}
-                                                                >K
+                                            <form className="home-navbar-search" role="search">
+                                                <Input
+                                                    className="form-control home-navbar-search-input me-2"
+                                                    type="search"
+                                                    placeholder="Search"
+                                                    startAdornment={
+                                                        <InputAdornment position="start">
+                                                            <SearchIcon sx={{ color: '#e1e1e1'}} />
+                                                        </InputAdornment>
+                                                    }
+                                                    endAdornment={
+                                                        <InputAdornment position="end">
+                                                            <div className='d-flex'>
+                                                                <KeyboardCommandKeyRoundedIcon className='m-auto' sx={{ color: '#e1e1e1', width: "1.25rem", height: "1.25rem"}} />
+                                                                <div className='m-auto' style={{color: '#e1e1e1', fontFamily:"Montserrat", fontWeight: "600", fontSize: "1.1rem"}}
+                                                                    >K
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </InputAdornment>
-                                                }
-                                                aria-label="Search"
-                                            />
-                                        </form>
+                                                        </InputAdornment>
+                                                    }
+                                                    aria-label="Search"
+                                                />
+                                            </form>
                                     }
                                 </div>
                         </div>
@@ -125,9 +126,10 @@ const HomeNavbar = () => {
                                             <div className='me-2 m-auto'><AddCircleRoundedIcon className='only-add-icon-create-home-navbar' /></div>
                                             : 
                                         } */}
-                                        <Button className='create-home-navbar-button me-4 me-md-3'><AddCircleRoundedIcon className=' me-1 add-icon-create-home-navbar' />Create</Button>
+                                        <Tooltip label="Create items" position="bottom" offset={8} withArrow openDelay={400} className='fafafa-color lato-font' style={{backgroundColor: "#338b6f", borderRadius: "6px"}}> 
+                                            <Button className='create-home-navbar-button me-4 me-md-3'><AddCircleRoundedIcon className=' me-1 add-icon-create-home-navbar' />Create</Button>
+                                        </Tooltip>
                                     </div>
-                                    <Tooltip id="my-tooltip" className='home-navbar-tooltip' style={{backgroundColor: "#444444", color: "#fafafa", fontSize: "0.85rem", borderRadius: "10px" }}/>
                                         
                                 </div>
                                 <div className='home-navbar-divider me-3'>

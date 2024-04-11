@@ -12,10 +12,7 @@ import ProjectCard from './ProjectCard/projectCard';
 import HomeSidebar from './HomeSidebar/homeSidebar';
 import MilestoneBlock from './MilestoneBlock/milestoneBlock';
 
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { DatePicker, DatesProvider } from '@mantine/dates';
 
 // import StatBlocks from './HomeHeader/StatBlocks/statBlocks';
 
@@ -69,6 +66,7 @@ const NewHome = () => {
     const [selectedDate, setSelectedDate] = useState(dayjs(today));
     const [noEventScheduledDate, setNoEventScheduledDate] = useState(dayjs(today).format('MMM D, YYYY'));
     const handleEventDateSelection = (date) => {
+        console.log(date);
         setNoEventScheduledDate(dayjs(date).format('MMM D, YYYY'));
         setSelectedDate(date);
     };
@@ -127,9 +125,10 @@ const NewHome = () => {
                         <div className="col-xl-4 col-12">
                             <div className='mt-4 d-md-block'>
 
+
                                 <div className='pt-3 pb-4 px-4 mb-4' style={{ backgroundColor: "#222529", borderRadius: "10px",border: "2px solid #313234" }} >
-                                    <div className='d-flex justify-content-between'>
-                                        <div style={{color: "#fafafa", fontFamily: "Lato",fontWeight: "600", fontSize: "1.2rem"}}>
+                                    <div className='d-flex justify-content-between pb-3'>
+                                        <div className='user-home-calendar-text'>
                                             Calendar
                                         </div>
                                         <div>
@@ -137,22 +136,15 @@ const NewHome = () => {
                                         </div>
                                     </div>
                                     <div className='pt-2'>
-                                        <div className='d-flex justify-content-center '>
-
-                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                <DemoContainer components={['DateCalendar', 'DateCalendar']}>
-                                                    <DemoItem >
-                                                    <DateCalendar className='user-home-calendar-date-picker' style={{color: "#fafafa"}} 
-                                                    value={selectedDate} suppressWarning onChange={handleEventDateSelection} />
-                                                    </DemoItem>
-                                                </DemoContainer>
-                                                </LocalizationProvider>
-
+                                        <div className='d-flex justify-content-center mb-4'>
+                                            <DatesProvider>
+                                                <DatePicker value={selectedDate} onChange={handleEventDateSelection} className='user-home-calendar-date-picker' style={{color: "#fafafa"}}/>
+                                            </DatesProvider>
                                         </div>
                                         {taskDataWithMatchingDates.length > 0 ? taskDataWithMatchingDates.map((item, index) => (
                                             <div
                                                 key={item.name}
-                                                className='d-flex mb-3 justify-content-between lato-font user-home-calendar-current-day-item'
+                                                className='d-flex mb-3 mt-3 justify-content-between lato-font user-home-calendar-current-day-item'
                                             >  
                                                 <div  className='d-flex justify-content-center'>
                                                     <CheckRoundedIcon className='user-home-task-check-icon' />
@@ -163,9 +155,9 @@ const NewHome = () => {
                                                 </div>
                                             </div>
                                         )) : 
-                                        <div style={{color: "#c8c8c8",padding: "16px 0px"}} className='d-flex lato-font justify-content-center mb-3' 
+                                        <div style={{color: "#c8c8c8",padding: "16px 0px"}} className='d-flex lato-font justify-content-center text-center mb-3' 
                                            >
-                                            No events scheduled for {noEventScheduledDate}
+                                            No events or tasks scheduled for {noEventScheduledDate}
                                         </div>
                                         }
                                         <div className='d-flex justify-content-center'>

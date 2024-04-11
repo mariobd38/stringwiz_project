@@ -5,13 +5,14 @@ import { Link, useLocation } from 'react-router-dom';
 import dayjs from 'dayjs';
 
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded';
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
+import { Tooltip } from '@mantine/core';
+
 
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 
 import NewHomeDueDatePopover from '../../newHomeDueDatePopover';
-// import ModelTooltip from '../../../models/ModelTooltip/modelTooltip';
 
 import './taskCardContent.css';
 
@@ -27,7 +28,6 @@ const TaskCardContent = (props) => {
     const location = useLocation();
 
     const handleDueDatePopoverClick = (event, index) => {
-        console.log(dueDateClockIsOpen);
         setDueDatePopoverAnchorEl(event.currentTarget);
         setCurrentIndex(index);
         setCurrentTaskDueDate(taskData[index].dueDate);
@@ -87,26 +87,26 @@ const TaskCardContent = (props) => {
                 <TableCell scope="row" className='d-flex align-items-center justify-content-between table-cell' >
                     <div className='d-flex justify-content-between w-100'>
                         <div className="d-flex mb-2" style={{ color: "#fafafa" }}>
-                            <div className='m-auto d-flex '>
-                                <CheckRoundedIcon className='user-home-task-check-icon user-home-task-set-complete' onClick={(event) => handleTaskComplete(event,index)}/>
+                            <div className='m-auto d-flex'>
+                                    <CheckCircleOutlineRoundedIcon onClick={(event) => handleTaskComplete(event,index)} className='user-home-task-check-icon user-home-task-set-complete' />
                             </div>
                             <Link to={{pathname: '/home/modal'}} state={{ background: location }}  onClick={(e) => OpenTaskDetailsModal(e, index)}>
-                            <div style={{outline: "none"}}>
-                                <button className='task-name-link'> {/* ${row.status === 'Completed' ? ' strikethrough' : ''} */}
-                                <span className={`ps-2 taskName-text`}> 
-                                    {row.name}
-                                </span>
-                                </button>
-                            </div>
-                        </Link>
+                                <div style={{outline: "none"}}>
+                                    <button className='task-name-link'> {/* ${row.status === 'Completed' ? ' strikethrough' : ''} */}
+                                        <span className={`ps-2 taskName-text`}> 
+                                            {row.name}
+                                        </span>
+                                    </button>
+                                </div>
+                            </Link>
                         </div>
                         {!taskType[index].dueDate ? 
                             <span>
-                                {/* <ModelTooltip text={"Add Due Date"}> */}
+                                <Tooltip label="Add due date" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font' style={{backgroundColor: "#338b6f", borderRadius: "6px"}}> 
                                     <div className='d-flex align-items-center user-home-calendar-icon-div' onClick={(event) => handleDueDatePopoverClick(event, index)}>
                                         <CalendarTodayRoundedIcon className='user-home-calendar-icon'/>
                                     </div>
-                                {/* </ModelTooltip> */}
+                                </Tooltip>
                             </span>
                             :
                             <div style={{ color: "#a7a7a7" }} className={`lato-font, user-home-chosen-due-date-text`} onClick={(event) => handleDueDatePopoverClick(event, index)}

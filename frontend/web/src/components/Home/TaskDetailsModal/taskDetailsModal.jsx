@@ -27,9 +27,7 @@ import RadioButtonCheckedRoundedIcon from '@mui/icons-material/RadioButtonChecke
 import SellRoundedIcon from '@mui/icons-material/SellRounded';
 import TourRoundedIcon from '@mui/icons-material/TourRounded';
 
-import { Tooltip } from 'react-tooltip'
-
-import './taskDetailsModal.css';
+import { Tooltip } from '@mantine/core';
 
 import NewHomeDueDatePopover from '../newHomeDueDatePopover';
 import { TagOptionsDropdown } from './TagOptionsDropdown/tagOptionsDropdown';
@@ -43,6 +41,7 @@ import TaskDetailsModalSubheader from './taskDetailsModalSubheader';
 import { updateTagInfo } from '../../../DataManagement/Tags/updateTag';
 import { deleteTagInfo } from '../../../DataManagement/Tags/deleteTag';
 import TaskDeletionModal from './TaskDeletionModal/taskDeletionModal';
+import './taskDetailsModal.css';
 
 function handleBreadcrumbClick(event) {
     event.preventDefault();
@@ -340,12 +339,24 @@ const TaskDetailsModal = (props) => {
                     <div className='d-flex justify-content-end'>
                         <div className='m-auto d-flex me-3 my-3 my-sm-1'>
                             <div className='d-flex align-items-center flex-column d-none d-md-flex mx-2 lato-font'>
-                                <div data-tooltip-id="my-tooltip-multiline" className='m-auto' 
+                                
+                                <Tooltip multiline
+                                    position="bottom"
+                                    withArrow
+                                    transitionProps={{ duration: 200 }}
+                                    label={<>
+                                        Created by {userFullName} on {currentTaskDateFormatter(currentTaskCreationDate)}
+                                        <br />
+                                        Last Updated on {currentTaskDateFormatter(currentTaskLastUpdatedOn)}
+                                    </>}
+                                    offset={8} openDelay={400} className='text-center fafafa-color lato-font' style={{backgroundColor: "#338b6f", borderRadius: "6px"}}> 
+                                {/* <div data-tooltip-id="my-tooltip-multiline" className='m-auto' 
                                     data-tooltip-html={`Created by  ${userFullName} on ${currentTaskDateFormatter(currentTaskCreationDate)}<br />
-                                                        Last Updated on ${currentTaskDateFormatter(currentTaskLastUpdatedOn)}`}>
+                                                        Last Updated on ${currentTaskDateFormatter(currentTaskLastUpdatedOn)}`}> */}
                                     <div className='m-auto user-home-task-details-created-on d-flex align-items-center'>Created on {currentTaskDateFormatter(currentTaskCreationDate)}</div>
-                                </div>
-                                <Tooltip id="my-tooltip-multiline" className='task-details-modal-tooltip' style={{backgroundColor: "#4700b2", color: "#fafafa", fontSize: "0.8rem", borderRadius: "10px" }}/>
+                                </Tooltip>
+                                {/* </div> */}
+                                {/* <Tooltip id="my-tooltip-multiline" className='task-details-modal-tooltip' style={{backgroundColor: "#4700b2", color: "#fafafa", fontSize: "0.8rem", borderRadius: "10px" }}/> */}
 
                             </div>
                             <div className='divider m-auto mx-2 d-none d-md-flex'></div>
@@ -410,7 +421,7 @@ const TaskDetailsModal = (props) => {
                                                 {currentTaskDateFormatter(currentTaskDueDate)}
                                             </span>
                                             {currentTaskDateFormatter(currentTaskDueDate) !== 'None' &&
-                                            <span className='user-home-task-details-modal-due-date-remove d-flex justify-content-center ms-4 me-3' onClick={(event) => { event.stopPropagation(); handleTaskUpdate(event); }}>
+                                            <span className='user-home-task-details-modal-due-date-remove d-flex justify-content-center ms-4 me-3' onClick={(event) => { handleTaskUpdate(event); handleTaskUpdate(event); }}>
                                                 <CloseRoundedIcon className='user-home-task-details-modal-due-date-remove-icon'/>
                                             </span>}
                                     </div>

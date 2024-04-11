@@ -7,7 +7,7 @@ a {
 }
 
 .home-sidebar-nav {
-    z-index: 550;
+    z-index: 10;
     top: 72px;
     position:fixed;
     width: 5rem;

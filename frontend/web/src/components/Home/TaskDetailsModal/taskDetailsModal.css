@@ -1,11 +1,14 @@
+.modal-backdrop {
+    z-index: 100;
+}
 .user-home-task-details-modal-body {
     max-height: 700px !important;
     min-height: 630px !important;
     overflow-y: auto;
-    max-width: 100% !important;
 }
 .resizable-modal-container {
     transition: width 0.3s ease-in-out; 
+    z-index: 105;
 }
 .modal-dialog {
     min-width: 80% !important;

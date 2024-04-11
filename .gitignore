@@ -1,2 +1,3 @@
 
 backend/app/src/main/resources/application.properties
+backend/app/src/test/java/com/stringwiz/app/AppApplicationTests.java

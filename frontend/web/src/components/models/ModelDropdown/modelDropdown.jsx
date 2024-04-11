@@ -10,6 +10,8 @@ import TourRoundedIcon from '@mui/icons-material/TourRounded';
 
 import { addExistingTagInfo } from "../../../DataManagement/Tags/addExistingTag";
 
+import { Tooltip } from '@mantine/core';
+
 import "./modelDropdown.css";
 
 const MenuButton = ({name,icon,isActualOption,hasItemTypesOption,index,currentItemName,onClick,isStatusBtn,isPriorityDropdown}) => {
@@ -182,15 +184,21 @@ export const ModelDropdown = (props) => {
                         }
                     </button> :
                     isPriorityDropdown ?
-                    <button  className="user-home-task-details-modal-no-priority-btn" onClick={handleOpenDropdownMenu}>
-                        <TourRoundedIcon />
-                    </button> : 
+                    <Tooltip label="Add priority" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font' style={{visibility: isDropdownOpen ? "hidden" : "visible", backgroundColor: "#338b6f", borderRadius: "6px"}}> 
+                        <button  className="user-home-task-details-modal-no-priority-btn" onClick={handleOpenDropdownMenu}>
+                            <TourRoundedIcon />
+                        </button>
+                    </Tooltip>
+                     : 
                     (!isTagOptionsBtn) ? 
-                    <button  className="user-home-task-details-modal-tag-btn" onClick={handleOpenDropdownMenu}>
-                        {initialIconValue}
-                    </button> : 
+                    <Tooltip label="Add tags" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font' style={{visibility: isDropdownOpen ? "hidden" : "visible", backgroundColor: "#338b6f", borderRadius: "6px"}}> 
+                        <button  className="user-home-task-details-modal-tag-btn" onClick={handleOpenDropdownMenu}>
+                            {initialIconValue}
+                        </button>
+                    </Tooltip>
+                    : 
                     <span  className="user-home-task-details-modal-tag-options-btn" onClick={handleOpenDropdownMenu}>
-                    {initialIconValue}
+                        {initialIconValue}
                     </span>
                 }
 

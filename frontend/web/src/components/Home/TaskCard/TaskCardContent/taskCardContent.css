@@ -26,12 +26,8 @@
     display: inline !important;
 }
 .user-home-task-check-icon {
-    border: 1px solid #fafafa;
-    border-radius: 50%;
-    margin: auto;
-    width: 1rem !important;
-    height: 1rem !important;
-    padding: 0.08rem !important;
+    width: 1.15rem !important;
+    height: 1.15rem !important;
 }
 .user-home-task-check-icon:hover {
     cursor: pointer;
@@ -68,7 +64,7 @@
 }
 .user-home-calendar-icon-div {
     color: #e7e7e7;
-    border: 1px dashed #8cdfc3;
+    border: 1px dashed #73cbaf;
     padding: 0.35rem 0.2rem;
     cursor: pointer;
     border-radius: 50%;
