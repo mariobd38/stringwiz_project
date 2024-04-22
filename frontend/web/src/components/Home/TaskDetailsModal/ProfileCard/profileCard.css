@@ -6,13 +6,8 @@
     position: absolute;
     z-index: 1;
     width: 22rem;
-    /* min-height: 270px; */
     left: 0px;
-    /* top: 60px; */
     top: 48px;
-    
-    /* height: auto; */
-    /* max-height: 300px; */
     height: auto;
     opacity: 0;
     transform: translateY(-20px);

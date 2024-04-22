@@ -107,8 +107,22 @@ export const ModelDropdown = (props) => {
         setIsDropdownOpen(!isDropdownOpen);
     }
 
-    const handleNextStatusClick = (event) => {
-        props.handleTaskUpdate(event)
+    const handleSetCompleteTask = (event) => {
+        props.handleTaskUpdate(event);
+        taskType[currentIndex].status = 'Completed';
+        const nextStatusIcon = items.find(item => item.name === taskType[currentIndex].status).icon;
+        setCurrentItem({name: taskType[currentIndex].status, icon: nextStatusIcon});
+    }
+
+
+    async function handleNextStatusClick (event)  {
+        await props.handleTaskUpdate(event);
+        let statuses = ['To Do', 'In Progress', 'Completed'];
+        if (statuses.indexOf(taskType[currentIndex].status) === statuses.length - 1) {
+            taskType[currentIndex].status = statuses[0];
+        } else {
+            taskType[currentIndex].status = statuses[statuses.indexOf(taskType[currentIndex].status)+1];
+        }
         const nextStatusName = taskType[currentIndex].status;
         const nextStatusIcon = items.find(item => item.name === nextStatusName).icon;
         setCurrentItem({name: nextStatusName, icon: nextStatusIcon});
@@ -166,7 +180,6 @@ export const ModelDropdown = (props) => {
         }
         setTagItems(filteredItems);
     }, [tagInputValue, items]);
-
 
     return (
         <div className="d-flex">
@@ -264,9 +277,15 @@ export const ModelDropdown = (props) => {
             </span>
         
             {isStatusBtn &&
-            <Button className='user-home-task-details-modal-next-status-btn d-flex justify-content-center' onClick={handleNextStatusClick}>
-                <ArrowForwardIosRoundedIcon style={{width: "1.2rem", height: "1.7rem", color: "#989898"}}/>
-            </Button>
+            <>
+                <Button className='user-home-task-details-modal-next-status-btn d-flex align-items-center justify-content-center' onClick={handleNextStatusClick}>
+                    <ArrowForwardIosRoundedIcon style={{width: "1.1rem", color: "#989898"}}/>
+                </Button>
+
+                <Button className='ms-2 user-home-task-details-modal-status-set-complete-btn d-flex align-items-center user-home-task-set-complete' onClick={handleSetCompleteTask}>
+                    <CheckRoundedIcon style={{width: "1.7rem", color: "#989898"}}/>
+                </Button>
+            </>
             }
         </div>
         

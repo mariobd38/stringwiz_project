@@ -88,7 +88,7 @@ const TaskCardContent = (props) => {
                     <div className='d-flex justify-content-between w-100'>
                         <div className="d-flex mb-2" style={{ color: "#fafafa" }}>
                             <div className='m-auto d-flex'>
-                                    <CheckCircleOutlineRoundedIcon onClick={(event) => handleTaskComplete(event,index)} className='user-home-task-check-icon user-home-task-set-complete' />
+                                <CheckCircleOutlineRoundedIcon onClick={(event) => handleTaskComplete(event,index)} className='user-home-task-check-icon user-home-task-set-complete' />
                             </div>
                             <Link to={{pathname: '/home/modal'}} state={{ background: location }}  onClick={(e) => OpenTaskDetailsModal(e, index)}>
                                 <div style={{outline: "none"}}>

@@ -1,0 +1,38 @@
+.user-home-task-details-modal-header-parent {
+    border-bottom: 1px solid #898989;
+}
+.user-home-task-details-modal-header {
+    border-bottom: none;
+}
+.user-home-task-details-modal-breadcrumbs {
+    color: #dedede !important;
+    font-size: 1rem !important;
+}
+.user-home-task-details-created-on {
+    font-size: 0.9rem;
+    color: #fafafa
+}
+.user-home-task-details-modal-header-right-btn {
+    height: 2.2rem;
+    margin: auto;
+}
+.user-home-task-details-modal-header-right-btn:hover {
+    background-color: #292a2c;
+    border-radius: 4px;
+}
+.user-home-task-details-modal-share-btn {
+    background-color: #7730e2;
+    border: none;
+    color: #fafafa;
+    font-family: 'Lato';
+}
+.user-home-task-details-modal-share-btn:hover, .user-home-task-details-modal-share-btn:focus {
+    background-color: #9850ff;
+    transition: all 0.55s linear;
+}
+.user-home-task-details-modal-close-btn {
+    color: #898989 !important;
+    width: 1.6rem !important;
+    height: 1.6rem !important;
+    cursor: pointer;
+}

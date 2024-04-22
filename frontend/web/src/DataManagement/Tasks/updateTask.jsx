@@ -1,15 +1,20 @@
-function updateTaskInfo  (
-        currentRowIndex, 
+function UpdateTaskInfo  (
+        currentRowIndex,
+        setCurrentRowIndex, 
         event,
         taskType,
+        setTaskType,
         selectedDate,
         dayjs,
         moreTaskmodalOpen,
         handleDueDatePopoverClose,
         setCurrentTaskDueDate,
-        setTaskJustCompleted
+        upcomingTasks,
+        overdueTasks,
+        completedTasks
     ) {
-        let task = taskType[currentRowIndex];
+        // console.log({ ...taskType[currentRowIndex] });
+        let task = { ...taskType[currentRowIndex] };
         let targetClassList = null;
         if (event.currentTarget.classList.length > 1) {
             targetClassList = event.currentTarget.getAttribute("class").split(' ');
@@ -50,6 +55,10 @@ function updateTaskInfo  (
         //update task status (from dropdown)
         else if (targetClassList.includes('model-dropdown-item-status-menu-button')) {
             task.status = event.currentTarget.textContent;
+
+            if(task.status === 'Completed') {
+                setTaskType([...completedTasks]);
+            }
         }
         //update task status (from 'next' status)
         else if (targetClassList.includes('user-home-task-details-modal-next-status-btn')) {
@@ -69,7 +78,6 @@ function updateTaskInfo  (
             task.priority = event.currentTarget.textContent;
         } else if (targetClassList.includes('user-home-task-set-complete')) {
             task.status = 'Completed';
-            
         }
 
         const taskInfo = {
@@ -81,24 +89,30 @@ function updateTaskInfo  (
             dueDate: task.dueDate,
         };
 
-        fetch("/api/tasks/put", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(taskInfo),
-        }).then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then((newData) => {
-            taskType[currentRowIndex] = newData;
-        })
-        .catch((error) => {
-            console.error(error); 
+        return new Promise((resolve, reject) => {
+            fetch("/api/tasks/put", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(taskInfo),
+            }).then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then((newData) => {
+                let updatedTaskType = [...taskType];
+                updatedTaskType[currentRowIndex] = newData;
+                setTaskType(updatedTaskType); 
+                resolve();
+            })
+            .catch((error) => {
+                console.error(error);
+                reject(error);
+            });
         });
 }
 
-export {updateTaskInfo}
+export {UpdateTaskInfo}

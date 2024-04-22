@@ -10,9 +10,6 @@ import Modal from 'react-bootstrap/Modal';
 
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 
-import { Breadcrumbs, Link, Typography } from '@mui/material';
-
-import BookmarkBorderRoundedIcon from '@mui/icons-material/BookmarkBorderRounded';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import CircleRoundedIcon from '@mui/icons-material/CircleRounded';
@@ -20,18 +17,15 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ColorLensRoundedIcon from '@mui/icons-material/ColorLensRounded';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import DriveFileRenameOutlineRoundedIcon from '@mui/icons-material/DriveFileRenameOutlineRounded';
-import LockIcon from '@mui/icons-material/Lock';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import NotInterestedRoundedIcon from '@mui/icons-material/NotInterestedRounded';
 import RadioButtonCheckedRoundedIcon from '@mui/icons-material/RadioButtonCheckedRounded';
 import SellRoundedIcon from '@mui/icons-material/SellRounded';
 import TourRoundedIcon from '@mui/icons-material/TourRounded';
 
-import { Tooltip } from '@mantine/core';
-
 import NewHomeDueDatePopover from '../newHomeDueDatePopover';
 import { TagOptionsDropdown } from './TagOptionsDropdown/tagOptionsDropdown';
-import { updateTaskInfo } from '../../../DataManagement/Tasks/updateTask';
+import { UpdateTaskInfo } from '../../../DataManagement/Tasks/updateTask';
 import { removeTagInfo } from '../../../DataManagement/Tags/removeTag';
 import { ModelDropdown } from '../../models/ModelDropdown/modelDropdown';
 import { ProfileCard } from './ProfileCard/profileCard';
@@ -41,18 +35,16 @@ import TaskDetailsModalSubheader from './taskDetailsModalSubheader';
 import { updateTagInfo } from '../../../DataManagement/Tags/updateTag';
 import { deleteTagInfo } from '../../../DataManagement/Tags/deleteTag';
 import TaskDeletionModal from './TaskDeletionModal/taskDeletionModal';
+import TaskDetailsModalHeader from './TaskDetailsModalHeader/taskDetailsModalHeader';
 import './taskDetailsModal.css';
-
-function handleBreadcrumbClick(event) {
-    event.preventDefault();
-}
 
 const TaskDetailsModal = (props) => {
     const { 
             currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskLastUpdatedOn,
             nonIncludedTaskTags, setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, setSelectedDate, currentTaskTags, setCurrentTaskTags,
-            taskType, selectedDate, today,
-            onHide, show, setModalShow, allTagData,handleTagCreation } = props;
+            taskType, setTaskType,selectedDate, today,
+            onHide, show, setModalShow, allTagData,handleTagCreation,upcomingTasks,overdueTasks,completedTasks
+         } = props;
 
     const [userFullName] = useLocalState("", "userFullName");
     const [firstName, lastName] = userFullName.split(' ');
@@ -60,18 +52,6 @@ const TaskDetailsModal = (props) => {
 
     const navigate = useNavigate();
     const location = useLocation();
-
-    const breadcrumbs = [
-        <Link underline="none" key="1" color="#dedede" href="/" onClick={handleBreadcrumbClick}>
-            Personal Workspace
-        </Link>,
-        <Typography key="3" color="#dedede">
-            <span className='d-flex align-items-center' style={{fontSize: "1rem"}}>
-                My tasks
-                <LockIcon className='ms-1' style={{ width: "1rem" }}/>
-            </span>
-        </Typography>,
-    ];
 
     const currentTaskDateFormatter = (dateString) => {
         if (dateString === null)
@@ -95,30 +75,31 @@ const TaskDetailsModal = (props) => {
 
     useEffect(() => {
         if (location.pathname === '/home/modal' && !show) {
-            // const newUrl = '/home';
-            // window.history.replaceState(null, null, newUrl);
 
             const timeout = setTimeout(() => {
                 const newUrl = '/home';
                 window.history.replaceState(null, null, newUrl);
-                // setModalShow(true);
-            }, 300); // Adjust the delay as needed
+            }, 300);
             return () => clearTimeout(timeout);
         }
     }, [location.pathname, show, setModalShow]);
 
     //task description
     const handleTaskUpdate = (event) => {
-        updateTaskInfo(
+        UpdateTaskInfo(
             currentIndex, 
+            setCurrentIndex,
             event,
             taskType,
+            setTaskType,
             selectedDate,
             dayjs,
             false,
             handleDueDatePopoverClose,
             setCurrentTaskDueDate,
-            null
+            upcomingTasks,
+            overdueTasks,
+            completedTasks
         );
     }
 
@@ -148,7 +129,6 @@ const TaskDetailsModal = (props) => {
         clearTimeout(hoverTimeoutRef.current); // Clear any existing timeout
     
         if (isHovering) {
-            // Show the profile card after a slight delay
             const hoverTimeout = setTimeout(() => {
                 setOpenAssigneeProfileCard(true);
             }, 850); 
@@ -317,7 +297,6 @@ const TaskDetailsModal = (props) => {
         setTagDeleteButtonClicked(false);
     }
 
-
     return (
         <>
             <Modal
@@ -328,53 +307,13 @@ const TaskDetailsModal = (props) => {
                 centered
                 className='resizable-modal-container d-flex align-items-center'
             >
-                <div className='d-flex justify-content-between user-home-task-details-modal-header-parent'>
-                    <Modal.Header style={{ backgroundColor: 'red !important' }} className='user-home-task-details-modal-header'>
-                        <Modal.Title id="example-custom-modal-styling-title">
-                            <Breadcrumbs separator="›" className='lato-font user-home-task-details-modal-breadcrumbs d-none d-sm-flex' aria-label="breadcrumb">
-                                {breadcrumbs}
-                            </Breadcrumbs>
-                        </Modal.Title>
-                    </Modal.Header>
-                    <div className='d-flex justify-content-end'>
-                        <div className='m-auto d-flex me-3 my-3 my-sm-1'>
-                            <div className='d-flex align-items-center flex-column d-none d-md-flex mx-2 lato-font'>
-                                
-                                <Tooltip multiline
-                                    position="bottom"
-                                    withArrow
-                                    transitionProps={{ duration: 200 }}
-                                    label={<>
-                                        Created by {userFullName} on {currentTaskDateFormatter(currentTaskCreationDate)}
-                                        <br />
-                                        Last Updated on {currentTaskDateFormatter(currentTaskLastUpdatedOn)}
-                                    </>}
-                                    offset={8} openDelay={400} className='text-center fafafa-color lato-font' style={{backgroundColor: "#338b6f", borderRadius: "6px"}}> 
-                                {/* <div data-tooltip-id="my-tooltip-multiline" className='m-auto' 
-                                    data-tooltip-html={`Created by  ${userFullName} on ${currentTaskDateFormatter(currentTaskCreationDate)}<br />
-                                                        Last Updated on ${currentTaskDateFormatter(currentTaskLastUpdatedOn)}`}> */}
-                                    <div className='m-auto user-home-task-details-created-on d-flex align-items-center'>Created on {currentTaskDateFormatter(currentTaskCreationDate)}</div>
-                                </Tooltip>
-                                {/* </div> */}
-                                {/* <Tooltip id="my-tooltip-multiline" className='task-details-modal-tooltip' style={{backgroundColor: "#4700b2", color: "#fafafa", fontSize: "0.8rem", borderRadius: "10px" }}/> */}
-
-                            </div>
-                            <div className='divider m-auto mx-2 d-none d-md-flex'></div>
-                            <div className='d-flex align-items-center'>
-                                <Button className='user-home-task-details-modal-share-btn m-auto mx-1 mx-sm-2'>Share</Button>
-                            </div>
-                            <div className='user-home-task-details-modal-header-right-btn d-flex align-items-center'>
-                                <BookmarkBorderRoundedIcon className='mx-1 mx-sm-2 m-auto'/>
-                            </div>
-                            <div className='user-home-task-details-modal-header-right-btn d-flex align-items-center'>
-                                <MoreHorizRoundedIcon className='mx-1 mx-sm-2 m-auto'/>
-                            </div>  
-                        </div>
-                        <div className='m-auto d-none d-sm-flex'>
-                            <CloseRoundedIcon className='user-home-task-details-modal-close-btn me-3' onClick={handleTaskDetailsModalClose}/>
-                        </div>
-                    </div>
-                </div>
+                <TaskDetailsModalHeader 
+                    userFullName={userFullName}
+                    currentTaskDateFormatter={currentTaskDateFormatter}
+                    currentTaskCreationDate={currentTaskCreationDate}
+                    currentTaskLastUpdatedOn={currentTaskLastUpdatedOn}
+                    handleTaskDetailsModalClose={handleTaskDetailsModalClose}
+                />
                 
                 <Modal.Body className='user-home-task-details-modal-body'>
                     <div className='d-flex justify-content-between pb-4' style={{height: "auto"}}>
@@ -449,10 +388,6 @@ const TaskDetailsModal = (props) => {
                                                 hasSearchBar={true} isStatusBtn={true}
                                                 taskType={taskType} currentIndex={currentIndex}
                                             />
-                                    
-                                            <Button className='ms-2 user-home-task-details-modal-status-set-complete-btn'>
-                                                <CheckRoundedIcon style={{width: "1.7rem", height: "1.7rem", color: "#989898"}}/>
-                                            </Button>
                                         </span>
                                     </div>
                                 </div>
