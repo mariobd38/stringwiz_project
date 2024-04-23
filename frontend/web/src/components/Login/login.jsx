@@ -58,7 +58,6 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState(null);
 
     const sendLoginRequest = async () => {
-        console.log("inside login");
         setErrorMessage(null);
         const reqBody = {
             email: email,
@@ -95,7 +94,7 @@ const Login = () => {
       };
 
     return (
-        <Container fluid className='login-screen' >
+        <div className='container-fluid login-screen' >
             
             <div className='d-flex align-items-end h-100 pb-4 ms-lg-4'>
                 <div className='illustration-login-container d-none d-md-block'>
@@ -179,7 +178,7 @@ const Login = () => {
                     <img src={personal_goals} className="illustration-login d-none d-lg-flex justify-content-end" alt="" />
                 </div>
             </div>
-        </Container>
+        </div>
     );
 };
 

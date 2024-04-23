@@ -5,7 +5,6 @@ import Button from '@mui/material/Button';
 
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 
-import Container from 'react-bootstrap/Container';
 import './NavbarContent.css';
 import CocollabLogo from '../../Logo/logo';
 
@@ -40,7 +39,7 @@ function NavbarContent () {
   
     return (
         <nav className="navbar navbar-expand-lg sticky-top landing-navbar">
-            <Container fluid>
+            <div className='container-fluid'>
                 <CocollabLogo width={2.1} paddingBottom={0.4} fontSize={2.6} textColor={'fafafa'}></CocollabLogo>
                     <button
                     className="navbar-toggler shadow-none border-0"
@@ -112,7 +111,7 @@ function NavbarContent () {
                         </div>
                     </div>
                 </div>
-            </Container>
+            </div>
         </nav>
     );
 }

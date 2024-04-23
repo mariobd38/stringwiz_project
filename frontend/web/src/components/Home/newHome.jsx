@@ -37,7 +37,6 @@ const NewHome = () => {
             const upcoming = [];
             const overdue = [];
             const completed = [];
-            // console.log(taskData);
 
             taskData.forEach((task) => {
                 
@@ -66,7 +65,6 @@ const NewHome = () => {
     const [selectedDate, setSelectedDate] = useState(dayjs(today));
     const [noEventScheduledDate, setNoEventScheduledDate] = useState(dayjs(today).format('MMM D, YYYY'));
     const handleEventDateSelection = (date) => {
-        console.log(date);
         setNoEventScheduledDate(dayjs(date).format('MMM D, YYYY'));
         setSelectedDate(date);
     };
@@ -138,7 +136,7 @@ const NewHome = () => {
                                     <div className='pt-2'>
                                         <div className='d-flex justify-content-center mb-4'>
                                             <DatesProvider>
-                                                <DatePicker value={selectedDate} onChange={handleEventDateSelection} className='user-home-calendar-date-picker' style={{color: "#fafafa"}}/>
+                                                <DatePicker size="sm" value={selectedDate} onChange={handleEventDateSelection} className='user-home-calendar-date-picker' style={{color: "#fafafa"}}/>
                                             </DatesProvider>
                                         </div>
                                         {taskDataWithMatchingDates.length > 0 ? taskDataWithMatchingDates.map((item, index) => (
@@ -146,7 +144,7 @@ const NewHome = () => {
                                                 key={item.name}
                                                 className='d-flex mb-3 mt-3 justify-content-between lato-font user-home-calendar-current-day-item'
                                             >  
-                                                <div  className='d-flex justify-content-center'>
+                                                <div  className='d-flex justify-content-center align-items-center'>
                                                     <CheckRoundedIcon className='user-home-task-check-icon' />
                                                     <span className='ps-2'>{item.name}</span>
                                                 </div>

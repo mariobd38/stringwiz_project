@@ -27,7 +27,6 @@ const TaskDetailsModalSubheader = (props) => {
                 hasArrow={true} hasHeaderDescText={true} hasItemTypesOption={true}
                 taskType={taskType} currentIndex={currentIndex}
             />
-            {/* <div data-tooltip-id="my-tooltip" data-tooltip-content={`Add tags`}> */}
                 <ModelDropdown 
                     items={allTagData ? nonIncludedTaskTags.map((tag) => ({ name: tag.name, icon: null })) : { name: "Task", icon: null, isActualOption: true }}
                     handleTagCreation={handleTagCreation}
@@ -36,12 +35,8 @@ const TaskDetailsModalSubheader = (props) => {
                     hasSearchBar={true}
                     taskType={taskType} currentIndex={currentIndex} allTagData={allTagData} currentTaskTags={currentTaskTags} setCurrentTaskTags={setCurrentTaskTags}
                 />
-            {/* </div> */}
-            {/* <Tooltip id="my-tooltip" className='task-details-modal-tooltip' style={{backgroundColor: "#2454d6", color: "#fafafa", fontSize: "0.8rem", borderRadius: "10px" }}/> */}
-            
 
             {!currentTaskPriority &&
-            // <div data-tooltip-id="my-tooltip" data-tooltip-content={`Add priority`}>
                 <ModelDropdown 
                     items={[
                         { name: "Critical", icon: <TourRoundedIcon/>, isActualOption: true },
@@ -56,9 +51,7 @@ const TaskDetailsModalSubheader = (props) => {
                     isPriorityDropdown={true} setCurrentTaskPriority={setCurrentTaskPriority}
                     taskType={taskType} currentIndex={currentIndex}
                 />
-            // </div>
             }
-            {/* <Tooltip id="my-tooltip" className='task-details-modal-tooltip' style={{backgroundColor: "#2454d6", color: "#fafafa", fontSize: "0.8rem", borderRadius: "10px" }}/> */}
 
         </>
     );

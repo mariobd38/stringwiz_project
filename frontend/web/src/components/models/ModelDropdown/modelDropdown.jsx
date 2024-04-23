@@ -56,6 +56,10 @@ export const ModelDropdown = (props) => {
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [currentItem, setCurrentItem] = useState({ name: initialNameValue, icon: initialIconValue });
+
+    useEffect(() => {
+        // console.log(initialIconValue===<RadioButtonCheckedRoundedIcon />);
+    })
         
 
     const handleMenuItemClick = (event,item) => {
@@ -188,7 +192,7 @@ export const ModelDropdown = (props) => {
             >
                 {
                 (currentItem.name) ?
-                    <button className={`${isStatusBtn ? 'selected-item-half-rounded-btn' : 'selected-item-btn'} ${hasArrow ? '' : 'pe-3'}`} onClick={handleOpenDropdownMenu} >
+                    <button className={`${isStatusBtn ? 'selected-item-half-rounded-btn model-status-btn' : 'selected-item-btn'} ${hasArrow ? '' : 'pe-3'}`} onClick={handleOpenDropdownMenu} >
                         <span className={`model-dropdown-current-icon`}> {currentItem.icon} </span>
                         {currentItem.name}
                         {
@@ -278,9 +282,9 @@ export const ModelDropdown = (props) => {
         
             {isStatusBtn &&
             <>
-                <Button className='user-home-task-details-modal-next-status-btn d-flex align-items-center justify-content-center' onClick={handleNextStatusClick}>
-                    <ArrowForwardIosRoundedIcon style={{width: "1.1rem", color: "#989898"}}/>
-                </Button>
+                <button className='user-home-task-details-modal-next-status-btn d-flex align-items-center justify-content-center' onClick={handleNextStatusClick}>
+                    <ArrowForwardIosRoundedIcon style={{width: "1.2rem",color:"#fafafa"}}/>
+                </button>
 
                 <Button className='ms-2 user-home-task-details-modal-status-set-complete-btn d-flex align-items-center user-home-task-set-complete' onClick={handleSetCompleteTask}>
                     <CheckRoundedIcon style={{width: "1.7rem", color: "#989898"}}/>

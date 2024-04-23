@@ -68,7 +68,7 @@ export const TagOptionsDropdown = (props) => {
         });
     }
     return (
-        <div className="d-flex">
+        <div className="d-flex" style={{zIndex: "11399923"}}>
             <span
                 className={`tod-dropdown tod-tag-options-dropdown ${tagDropdownStates[index] ? "open" : "" }`}
             >

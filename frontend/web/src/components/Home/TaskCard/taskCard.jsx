@@ -128,37 +128,25 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
     const [currentTaskTags, setCurrentTaskTags] = useState([]);
 
     //due date popovers
-    const [dueDatePopoverAnchorEl, setDueDatePopoverAnchorEl] = useState(null);
+    const [dueDatePopoverIsOpen, setDueDatePopoverIsOpen] = useState(false);
     const [currentTaskDueDate, setCurrentTaskDueDate] = useState('');
-    const [dueDateClockIsOpen, setDueDateClockIsOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
-
-    const handleDueDatePopoverClose = (event) => {
-        setDueDatePopoverAnchorEl(null);
-        setSelectedDate(false); 
-        setCurrentTaskDueDate(null);
-        setDueDateClockIsOpen(false);
-    };
 
     const [taskType, setTaskType] = useState(null);
     //task details modal
     const [modalShow, setModalShow] = useState(false);
-    const [upcomingTasksNum, setUpcomingTasksNum] = useState(0);
-    const [overdueTasksNum, setOverdueTasksNum] = useState(0);
-    const [completedTasksNum, setCompletedTasksNum] = useState(0);
 
     useEffect(() => {
         if (!modalShow) {
             if(currentTabValue === 0) {
                 setTaskType(upcomingTasks);
-                setUpcomingTasksNum(upcomingTasks.length);
             } else if (currentTabValue === 1) {
                 setTaskType(overdueTasks);
             } else {
                 setTaskType(completedTasks);
             }
         }
-    }, [currentTabValue, overdueTasks, upcomingTasks,completedTasks, modalShow])
+    }, [currentTabValue, overdueTasks, upcomingTasks,completedTasks, modalShow, taskType])
 
     //update task call
     const handleTaskUpdate = (event) => {
@@ -168,38 +156,29 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
 
         UpdateTaskInfo(
             currentIndex, 
-            setCurrentIndex,
             event,
             taskType,
             setTaskType,
             selectedDate,
             dayjs,
             false,
-            handleDueDatePopoverClose,
             setCurrentTaskDueDate,
-            upcomingTasks,
-            overdueTasks,
             completedTasks
         );
 
-        setDueDateClockIsOpen(false);
     };
 
     // TODO
     const handleTaskComplete = (event,index) => {
         UpdateTaskInfo(
             index,
-            setCurrentIndex,
             event,
             taskType,
             setTaskType,
             selectedDate,
             dayjs,
             false,
-            handleDueDatePopoverClose,
             setCurrentTaskDueDate,
-            upcomingTasks,
-            overdueTasks,
             completedTasks
         );
     }
@@ -335,9 +314,15 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                                 className='user-home-card-task-tabs'
                                 aria-label="full width tabs example"
                             >
-                            <Tab label="Ongoing" className='user-home-card-task-tab' {...a11yProps(0)} />
-                            <Tab label="Overdue" className='user-home-card-task-tab' {...a11yProps(1)} />
-                            <Tab label="Completed" className='user-home-card-task-tab' {...a11yProps(2)} />
+                            <Tab label={<>
+                            <span>Ongoing {upcomingTasks.length > 0 &&
+                                <span>({upcomingTasks.length})</span>}</span></>} className='user-home-card-task-tab' {...a11yProps(0)} />
+                            <Tab label={<>
+                            <span>Overdue {overdueTasks.length > 0 &&
+                                <span>({overdueTasks.length})</span>}</span></>} className='user-home-card-task-tab' {...a11yProps(1)} />
+                            <Tab label={<>
+                            <span>Completed {completedTasks.length > 0 &&
+                                <span>({completedTasks.length})</span>}</span></>} className='user-home-card-task-tab' {...a11yProps(2)} />
                             </Tabs>
                         </AppBar>
                         <SwipeableViews
@@ -378,17 +363,14 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
 
                                             <TaskCardContent 
                                                 today={today}
-                                                taskData={taskData}
+                                                taskData={taskType}
                                                 taskType={upcomingTasks}
                                                 currentTaskDueDate={currentTaskDueDate}
-                                                handleDueDatePopoverClose={(event) => handleDueDatePopoverClose(event)}
+                                                currentIndex={currentIndex}
                                                 setCurrentIndex={setCurrentIndex}
                                                 setCurrentTaskDueDate={setCurrentTaskDueDate}
-                                                handleTaskUpdate={(event) => handleTaskUpdate(event)}
                                                 selectedDate={selectedDate}
                                                 setSelectedDate={setSelectedDate}
-                                                setDueDateClockIsOpen={setDueDateClockIsOpen}
-                                                dueDateClockIsOpen={dueDateClockIsOpen}
                                                 getTagInfo={getTagInfo}
                                                 setCurrentTaskTags={setCurrentTaskTags}
                                                 setModalShow={setModalShow}
@@ -398,9 +380,10 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                                                 setCurrentTaskLastUpdatedOn={setCurrentTaskLastUpdatedOn}
                                                 setCurrentTaskStatus={setCurrentTaskStatus}
                                                 setCurrentTaskPriority={setCurrentTaskPriority}
-                                                dueDatePopoverAnchorEl={dueDatePopoverAnchorEl}
-                                                setDueDatePopoverAnchorEl={setDueDatePopoverAnchorEl}
                                                 handleTaskComplete={(event,index) => handleTaskComplete(event,index)}
+                                                dueDatePopoverIsOpen={dueDatePopoverIsOpen}
+                                                setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
+                                                setTaskType={setTaskType}
                                             />
                                         </TableBody> 
                                     </Table>
@@ -417,17 +400,14 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                                         <TableBody >
                                             <TaskCardContent 
                                                 today={today}
-                                                taskData={taskData}
+                                                taskData={taskType}
                                                 taskType={overdueTasks}
                                                 currentTaskDueDate={currentTaskDueDate}
-                                                handleDueDatePopoverClose={(event) => handleDueDatePopoverClose(event)}
+                                                currentIndex={currentIndex}
                                                 setCurrentIndex={setCurrentIndex}
                                                 setCurrentTaskDueDate={setCurrentTaskDueDate}
-                                                handleTaskUpdate={(event) => handleTaskUpdate(event)}
                                                 selectedDate={selectedDate}
                                                 setSelectedDate={setSelectedDate}
-                                                setDueDateClockIsOpen={setDueDateClockIsOpen}
-                                                dueDateClockIsOpen={dueDateClockIsOpen}
                                                 getTagInfo={getTagInfo}
                                                 setCurrentTaskTags={setCurrentTaskTags}
                                                 setModalShow={setModalShow}
@@ -437,9 +417,10 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                                                 setCurrentTaskLastUpdatedOn={setCurrentTaskLastUpdatedOn}
                                                 setCurrentTaskStatus={setCurrentTaskStatus}
                                                 setCurrentTaskPriority={setCurrentTaskPriority}
-                                                dueDatePopoverAnchorEl={dueDatePopoverAnchorEl}
-                                                setDueDatePopoverAnchorEl={setDueDatePopoverAnchorEl}
                                                 handleTaskComplete={(event,index) => handleTaskComplete(event,index)}
+                                                dueDatePopoverIsOpen={dueDatePopoverIsOpen}
+                                                setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
+                                                setTaskType={setTaskType}
                                             />
                                         </TableBody> 
                                     </Table>
@@ -456,17 +437,14 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                                         <TableBody >
                                             <TaskCardContent 
                                                 today={today}
-                                                taskData={taskData}
+                                                taskData={taskType}
                                                 taskType={completedTasks}
                                                 currentTaskDueDate={currentTaskDueDate}
-                                                handleDueDatePopoverClose={(event) => handleDueDatePopoverClose(event)}
+                                                currentIndex={currentIndex}
                                                 setCurrentIndex={setCurrentIndex}
                                                 setCurrentTaskDueDate={setCurrentTaskDueDate}
-                                                handleTaskUpdate={(event) => handleTaskUpdate(event)}
                                                 selectedDate={selectedDate}
                                                 setSelectedDate={setSelectedDate}
-                                                setDueDateClockIsOpen={setDueDateClockIsOpen}
-                                                dueDateClockIsOpen={dueDateClockIsOpen}
                                                 getTagInfo={getTagInfo}
                                                 setCurrentTaskTags={setCurrentTaskTags}
                                                 setModalShow={setModalShow}
@@ -476,9 +454,10 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                                                 setCurrentTaskLastUpdatedOn={setCurrentTaskLastUpdatedOn}
                                                 setCurrentTaskStatus={setCurrentTaskStatus}
                                                 setCurrentTaskPriority={setCurrentTaskPriority}
-                                                dueDatePopoverAnchorEl={dueDatePopoverAnchorEl}
-                                                setDueDatePopoverAnchorEl={setDueDatePopoverAnchorEl}
                                                 handleTaskComplete={(event,index) => handleTaskComplete(event,index)}
+                                                dueDatePopoverIsOpen={dueDatePopoverIsOpen}
+                                                setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
+                                                setTaskType={setTaskType}
                                             />
                                         </TableBody> 
                                     </Table>
@@ -522,9 +501,8 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                 handleTaskUpdate={(event) => handleTaskUpdate(event)}
                 allTagData={allTagData}
                 handleTagCreation={handleTagCreation}
-                upcomingTasks={upcomingTasks}
-                overdueTasks={overdueTasks}
                 completedTasks={completedTasks}
+                setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
             />
         </>
     );

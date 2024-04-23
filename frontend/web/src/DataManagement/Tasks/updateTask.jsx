@@ -1,25 +1,26 @@
 function UpdateTaskInfo  (
         currentRowIndex,
-        setCurrentRowIndex, 
         event,
         taskType,
         setTaskType,
         selectedDate,
         dayjs,
         moreTaskmodalOpen,
-        handleDueDatePopoverClose,
         setCurrentTaskDueDate,
-        upcomingTasks,
-        overdueTasks,
         completedTasks
     ) {
         // console.log({ ...taskType[currentRowIndex] });
         let task = { ...taskType[currentRowIndex] };
         let targetClassList = null;
-        if (event.currentTarget.classList.length > 1) {
-            targetClassList = event.currentTarget.getAttribute("class").split(' ');
+
+        if (event !== "due date") {
+            if (event.currentTarget.classList.length > 1) {
+                targetClassList = event.currentTarget.getAttribute("class").split(' ');
+            } else {
+                targetClassList = event.currentTarget.getAttribute("class");
+            }
         } else {
-            targetClassList = event.currentTarget.getAttribute("class");
+            targetClassList=["date-calendar-btn"];
         }
         // console.log(targetClassList);
         // console.log(selectedDate + " is the selected date");
@@ -28,17 +29,14 @@ function UpdateTaskInfo  (
             task.name = event.currentTarget.textContent;
         }
         //update task due date
-        else if (targetClassList.includes('date-calendar-btn') && selectedDate !== null) {
+        else if (targetClassList.includes('date-calendar-btn')) {
             // console.log(dayjs(selectedDate));
             // const newDate = dayjs(`${newYearString}-${newMonthString}-${newDayString}`).toDate();
-            const newDate = dayjs(selectedDate);
+            const newDate = dayjs(selectedDate).endOf('day');
             task.dueDate = newDate;
 
-            if (!moreTaskmodalOpen) {
-                handleDueDatePopoverClose();
-            } else {
-                setCurrentTaskDueDate(dayjs(task.dueDate).format(`MMM D`));
-                handleDueDatePopoverClose();
+            if (moreTaskmodalOpen) {
+                setCurrentTaskDueDate(dayjs(task.dueDate).format(`MMM D`).endOf('day'));
             }
         }
         //remove task due date 

@@ -58,3 +58,22 @@
     box-shadow: 0px 3px 3px -3px rgba(137, 106, 106, 0.2),0px 2px 2px 1px rgba(137, 106, 106, 0.2),0px 3px 5px 2px rgba(137, 106, 106, 0.2);
     background-color: #222529 !important;
 }
+.user-home-calendar-date-time-picker .mantine-TimeInput-input {
+    background-color: #222529 !important;
+    color: #fafafa !important;
+    width: 8.5rem;
+}
+.user-home-calendar-today {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #338b6f;
+    cursor: pointer;
+    border: 1px solid #338b6f;
+    padding: 6px 11px;
+    border-radius: 5px;
+}
+.user-home-calendar-today.clicked {
+    color: #fafafa;
+    background-color: #338b6f;
+    transition: all 0.4s ease;
+}

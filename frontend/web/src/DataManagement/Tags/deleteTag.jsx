@@ -15,7 +15,6 @@ function deleteTagInfo(
             // No content in response (successful deletion)
             const updatedTaskTagsData = currentTaskTags.filter((_, index) => index !== tagDeleteButtonClickedIndex);
             setCurrentTaskTags(updatedTaskTagsData);    
-            // console.log("Deleted item from task array!");
         }
     })
     .catch((error) => {

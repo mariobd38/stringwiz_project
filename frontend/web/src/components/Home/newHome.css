@@ -110,3 +110,7 @@
 .user-home-calendar-date-picker .mantine-DatePicker-day[data-selected="true"] {
     background-color: #338b6f !important;
 }
+.user-home-calendar-date-picker .mantine-focus-auto {
+    outline: none !important;
+    /* background-color: yellow; */
+}

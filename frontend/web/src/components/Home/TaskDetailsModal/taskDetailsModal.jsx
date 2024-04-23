@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+// import { Modal } from 'antd';
 
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 
@@ -43,7 +44,7 @@ const TaskDetailsModal = (props) => {
             currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskLastUpdatedOn,
             nonIncludedTaskTags, setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, setSelectedDate, currentTaskTags, setCurrentTaskTags,
             taskType, setTaskType,selectedDate, today,
-            onHide, show, setModalShow, allTagData,handleTagCreation,upcomingTasks,overdueTasks,completedTasks
+            onHide, show, setModalShow, allTagData,handleTagCreation,completedTasks,setDueDatePopoverIsOpen
          } = props;
 
     const [userFullName] = useLocalState("", "userFullName");
@@ -88,37 +89,26 @@ const TaskDetailsModal = (props) => {
     const handleTaskUpdate = (event) => {
         UpdateTaskInfo(
             currentIndex, 
-            setCurrentIndex,
             event,
             taskType,
             setTaskType,
             selectedDate,
             dayjs,
             false,
-            handleDueDatePopoverClose,
             setCurrentTaskDueDate,
-            upcomingTasks,
-            overdueTasks,
             completedTasks
         );
     }
 
     //task due date
-    const [dueDatePopoverAnchorEl, setDueDatePopoverAnchorEl] = useState(null);
-    const [dueDateClockIsOpen, setDueDateClockIsOpen] = useState(false);
-
     const handleDueDatePopoverClick = (event, index) => {
-        setDueDatePopoverAnchorEl(event.currentTarget);
         setCurrentIndex(index);
         setCurrentTaskDueDate(taskType[index].dueDate);
-        setDueDateClockIsOpen(false);
     };
 
     const handleDueDatePopoverClose = (event) => {
-        setDueDatePopoverAnchorEl(null);
         setSelectedDate(false);
         setCurrentTaskDueDate(taskType[currentIndex].dueDate);
-        setDueDateClockIsOpen(false);
     };
 
     //assignee profile card
@@ -300,6 +290,7 @@ const TaskDetailsModal = (props) => {
     return (
         <>
             <Modal
+                enforceFocus={false}
                 show={show}
                 onHide={handleTaskDetailsModalClose}
                 size="xl"
@@ -352,25 +343,23 @@ const TaskDetailsModal = (props) => {
                                         />
                                     </div>
                                 </div>
-
-                                <div className='d-flex flex-column' style={{ fontSize: "1.06rem"}}>
-                                    <span className='user-home-task-details-modal-head-text ps-2 me-3'>Due Date</span>
-                                        <div className='d-flex align-items-center user-home-task-details-modal-due-date-div' onClick={(event) => handleDueDatePopoverClick(event, currentIndex)}>
-                                            <span className='lato-font user-home-task-details-modal-due-date-actual'>
-                                                {currentTaskDateFormatter(currentTaskDueDate)}
-                                            </span>
-                                            {currentTaskDateFormatter(currentTaskDueDate) !== 'None' &&
-                                            <span className='user-home-task-details-modal-due-date-remove d-flex justify-content-center ms-4 me-3' onClick={(event) => { handleTaskUpdate(event); handleTaskUpdate(event); }}>
-                                                <CloseRoundedIcon className='user-home-task-details-modal-due-date-remove-icon'/>
-                                            </span>}
-                                    </div>
-
                                     <NewHomeDueDatePopover 
-                                        currentTaskDueDate={currentTaskDueDate} dueDatePopoverAnchorEl={dueDatePopoverAnchorEl} handleDueDatePopoverClose={handleDueDatePopoverClose} today={today} 
-                                        handleTaskUpdate={handleTaskUpdate} selectedDate={selectedDate} setSelectedDate={setSelectedDate} setDueDateClockIsOpen={setDueDateClockIsOpen} 
-                                        dueDateClockIsOpen={dueDateClockIsOpen}
+                                        popoverTarget={<div className='d-flex flex-column' style={{ fontSize: "1.06rem"}}>
+                                        <span className='user-home-task-details-modal-head-text ps-2 me-3'>Due Date</span>
+                                            <div className='d-flex align-items-center user-home-task-details-modal-due-date-div' onClick={(event) => handleDueDatePopoverClick(event, currentIndex)}>
+                                                <span className='lato-font user-home-task-details-modal-due-date-actual'>
+                                                    {currentTaskDateFormatter(currentTaskDueDate)}
+                                                </span>
+                                                {currentTaskDateFormatter(currentTaskDueDate) !== 'None' &&
+                                                <span className='user-home-task-details-modal-due-date-remove d-flex justify-content-center ms-4 me-3' onClick={(event) => { handleTaskUpdate(event); handleTaskUpdate(event); }}>
+                                                    <CloseRoundedIcon className='user-home-task-details-modal-due-date-remove-icon'/>
+                                                </span>}
+                                        </div></div>} 
+                                        setDueDatePopoverIsOpen={setDueDatePopoverIsOpen} currentIndex={currentIndex} taskType={taskType} setTaskType={setTaskType}
+                                        currentTaskDueDate={currentTaskDueDate} setCurrentTaskDueDate={setCurrentTaskDueDate} handleDueDatePopoverClose={handleDueDatePopoverClose} today={today} 
+                                        selectedDate={selectedDate} setSelectedDate={setSelectedDate}
                                     />
-                                </div>
+                                {/* </div> */}
 
                                 <div className='me-3 d-flex flex-column' style={{ fontSize: "1.06rem" }}>
                                     <div className=' user-home-task-details-modal-head-text' style={{width: "7rem"}}>Status</div>
@@ -383,7 +372,7 @@ const TaskDetailsModal = (props) => {
                                                     { name: "In Progress", icon: <RadioButtonCheckedRoundedIcon />, isActualOption: true },
                                                     { name: "Completed", icon: <CheckRoundedIcon />, isActualOption: true },
                                                 ]}
-                                                initialNameValue={currentTaskStatus} initialIconValue={<RadioButtonCheckedRoundedIcon />}
+                                                initialNameValue={currentTaskStatus} initialIconValue={currentTaskStatus==='Completed' ? <CheckRoundedIcon /> : <RadioButtonCheckedRoundedIcon />}
                                                 handleTaskUpdate={(event) => handleTaskUpdate(event)}
                                                 hasSearchBar={true} isStatusBtn={true}
                                                 taskType={taskType} currentIndex={currentIndex}
@@ -400,9 +389,9 @@ const TaskDetailsModal = (props) => {
                                             
                                             <ModelDropdown 
                                                 items={[
-                                                    { name: "Critical", icon: <TourRoundedIcon /*style={{color: "#c90825"}}*//>, isActualOption: true },
-                                                    { name: "High", icon: <TourRoundedIcon /*style={{color: "gold"}}*//>, isActualOption: true },
-                                                    { name: "Medium", icon: <TourRoundedIcon /*style={{color: "#0976d6"}}*//>, isActualOption: true },
+                                                    { name: "Critical", icon: <TourRoundedIcon />, isActualOption: true },
+                                                    { name: "High", icon: <TourRoundedIcon />, isActualOption: true },
+                                                    { name: "Medium", icon: <TourRoundedIcon />, isActualOption: true },
                                                     { name: "Low", icon: <TourRoundedIcon />, isActualOption: true },
                                                     { name: "Clear", icon: <NotInterestedRoundedIcon />, isActualOption: false },
                                                 ]}

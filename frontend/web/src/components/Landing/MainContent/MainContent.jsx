@@ -1,8 +1,6 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 
-import Container from 'react-bootstrap/Container';
-
 import Button from '@mui/material/Button';
 
 import coconut from '../../../assets/coconut.png';
@@ -54,7 +52,7 @@ const MainContent = () => {
     return (
         <main>
             <div className="header">
-                <Container className="pt-5">
+                <div className="container pt-5">
                     <div className='row'>
                         <div className='col-12 col-lg-6 m-auto'>
                             <h1 className='fafafa-color top-left-header-text text-center'>Collab like never before
@@ -100,7 +98,7 @@ const MainContent = () => {
                             </div>
                         </div>
                     </div>
-                </Container>
+                </div>
 
                 <div className="row m-0 pt-5">
                     <div className='col-1 col-md-2 d-flex align-items-center flex-column p-0'>
@@ -146,7 +144,7 @@ const MainContent = () => {
                 <div className='landing-page-features-div-header text-center pt-3'>
                     All-in-one products to manage every aspect of your business
                 </div>
-                <Container >
+                <div className='container'>
                     <div className='row d-flex mt-5 justify-content-center text-center'>
                         <div className='col-12 col-md-6 col-xl-4'>
                             <div className='landing-page-features-card-container m-auto mb-4 mb-md-0'>
@@ -227,7 +225,7 @@ const MainContent = () => {
                             </div>  
                         </div>
                     </div>
-                </Container>
+                </div>
             </div>
             
         </main>

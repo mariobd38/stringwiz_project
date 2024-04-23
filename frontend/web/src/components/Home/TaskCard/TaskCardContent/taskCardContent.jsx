@@ -8,7 +8,6 @@ import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded';
 import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import { Tooltip } from '@mantine/core';
 
-
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 
@@ -17,25 +16,19 @@ import NewHomeDueDatePopover from '../../newHomeDueDatePopover';
 import './taskCardContent.css';
 
 const TaskCardContent = (props) => {
-    const {today, taskData,taskType,currentTaskDueDate, setCurrentIndex, setCurrentTaskDueDate,handleDueDatePopoverClose,
-        handleTaskUpdate,selectedDate,setSelectedDate,setDueDateClockIsOpen,dueDateClockIsOpen,
+    const {today, taskData,taskType,currentTaskDueDate, currentIndex, setCurrentIndex, setCurrentTaskDueDate,
+        selectedDate,setSelectedDate,
         getTagInfo,setCurrentTaskTags,setModalShow,setCurrentTaskName,setCurrentTaskCreationDate,setCurrentTaskDescription,
-        setCurrentTaskLastUpdatedOn,setCurrentTaskStatus,setCurrentTaskPriority, dueDatePopoverAnchorEl, setDueDatePopoverAnchorEl,
-        handleTaskComplete
+        setCurrentTaskLastUpdatedOn,setCurrentTaskStatus,setCurrentTaskPriority,
+        handleTaskComplete,dueDatePopoverIsOpen,setDueDatePopoverIsOpen,setTaskType
     } 
     = props;
 
     const location = useLocation();
 
     const handleDueDatePopoverClick = (event, index) => {
-        setDueDatePopoverAnchorEl(event.currentTarget);
         setCurrentIndex(index);
         setCurrentTaskDueDate(taskData[index].dueDate);
-        setDueDateClockIsOpen(false);
-    };
-
-    const handleDueDatePopoverCloseCallback = (event) => {
-        handleDueDatePopoverClose(event);
     };
 
     const OpenTaskDetailsModal = async (event, index) => {
@@ -100,27 +93,32 @@ const TaskCardContent = (props) => {
                                 </div>
                             </Link>
                         </div>
-                        {!taskType[index].dueDate ? 
-                            <span>
-                                <Tooltip label="Add due date" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font' style={{backgroundColor: "#338b6f", borderRadius: "6px"}}> 
-                                    <div className='d-flex align-items-center user-home-calendar-icon-div' onClick={(event) => handleDueDatePopoverClick(event, index)}>
-                                        <CalendarTodayRoundedIcon className='user-home-calendar-icon'/>
-                                    </div>
-                                </Tooltip>
-                            </span>
-                            :
-                            <div style={{ color: "#a7a7a7" }} className={`lato-font, user-home-chosen-due-date-text`} onClick={(event) => handleDueDatePopoverClick(event, index)}
-                            >
-                                {formatDate(taskType[index].dueDate) === 'Overdue' ? (
-                                    <span className='error-message'>Overdue</span>
-                                ) : (
-                                    <span>{formatDate(taskType[index].dueDate)}</span>
-                                )}
-                            </div>
-                        }
+                        
                         <NewHomeDueDatePopover 
-                            currentTaskDueDate={currentTaskDueDate} dueDatePopoverAnchorEl={dueDatePopoverAnchorEl} handleDueDatePopoverClose={handleDueDatePopoverCloseCallback} today={today} handleTaskUpdate={handleTaskUpdate}
-                            selectedDate={selectedDate} setSelectedDate={setSelectedDate} setDueDateClockIsOpen={setDueDateClockIsOpen} dueDateClockIsOpen={dueDateClockIsOpen}
+                            popoverTarget={!taskType[index].dueDate ? 
+                                <span>
+                                    <Tooltip label="Add due date" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font' 
+                                    style={{backgroundColor: "#338b6f", borderRadius: "6px",visibility: dueDatePopoverIsOpen ? "hidden" : "visible"}}> 
+                                        <div className='d-flex align-items-center user-home-calendar-icon-div' onClick={(event) => handleDueDatePopoverClick(event, index)}>
+                                            <CalendarTodayRoundedIcon className='user-home-calendar-icon'/>
+                                        </div>
+                                    </Tooltip>
+                                </span>
+                                :
+                                <span style={{ color: "#a7a7a7" }} className={`lato-font, user-home-chosen-due-date-text`}
+                                >
+                                    {formatDate(taskType[index].dueDate) === 'Overdue' ? (
+                                        <span className='error-message' onClick={(event) => handleDueDatePopoverClick(event, index)}>Overdue</span>
+                                    ) : (
+                                        <span style={{color: "#e5e5e5"}} onClick={(event) => handleDueDatePopoverClick(event, index)}>{formatDate(taskType[index].dueDate)}</span>
+                                    )}
+                                </span>
+                            }
+                            setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
+                            currentTaskDueDate={currentTaskDueDate} setCurrentTaskDueDate={setCurrentTaskDueDate}
+                            today={today}
+                            selectedDate={selectedDate} setSelectedDate={setSelectedDate}
+                            currentIndex={currentIndex} taskType={taskType} setTaskType={setTaskType}
                         />
                     </div>
                 </TableCell>
