@@ -77,3 +77,31 @@
     background-color: #338b6f;
     transition: all 0.4s ease;
 }
+.user-home-calendar-time-picker .ant-picker-input input::placeholder,
+.user-home-calendar-time-picker .ant-picker-input .ant-picker-suffix {
+    color: #fafafa;
+}
+.ant-popover-inner {
+    background-color: #222529 !important;
+    border-radius: 10px !important;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25) !important;
+    transition-duration: 0.3s !important;
+    transition-property: all !important;
+    transition-timing-function: ease-in-out !important;
+    margin-top: 5px !important;
+}
+.user-home-calendar-time-picker .ant-picker-input input {
+    color: #fafafa !important;
+    font-family: 'Lato';
+}
+.user-home-calendar-clear {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fafafa;
+    cursor: pointer;
+    padding: 6px 11px;
+    border-radius: 5px;
+}
+.user-home-calendar-clear:hover {
+    background-color: #2c2f33;
+}

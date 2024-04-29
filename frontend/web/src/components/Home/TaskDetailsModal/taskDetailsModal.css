@@ -2,7 +2,7 @@
     z-index: 100;
 }
 .user-home-task-details-modal-body {
-    max-height: 700px !important;
+    max-height: 680px !important;
     min-height: 630px !important;
     overflow-y: auto;
 }
@@ -11,19 +11,22 @@
     z-index: 105;
 }
 .modal-dialog {
-    min-width: 80% !important;
+    min-width: 87.5% !important;
     margin: auto;
     transition: width 0.3s ease-in-out;
     overflow-y:auto !important;
+}
+.modal-content {
+    background-color: #222325;
+    color: #fafafa;
+    width: 97.5%;
+    transition: all 0.4s ease-in-out;
+    margin: auto;
 }
 @media (max-width: 1200px) {
     .modal-dialog {
         min-width: 95% !important;
     }
-}
-.modal-content {
-    background-color: #222325;
-    color: #fafafa;
 }
 .user-home-task-details-modal-assignee-initials-circle {
     position: relative;
@@ -42,6 +45,7 @@
     cursor: pointer;
     border-radius: 6px;
     padding: 0.45rem 0.6rem;
+    /* width: 8rem; */
 }
 .user-home-task-details-modal-head-text:hover {
     background-color: #2c2d2f;
@@ -105,8 +109,27 @@
     margin-right: 5px;
     transition: border 0.45s linear;
 }
-
-.user-home-task-details-modal-priority-btn:hover, .user-home-task-details-modal-no-status-btn:hover {
+.user-home-task-details-modal-status-set-complete-btn {
+    padding: 0.35rem 0.4rem;
+    border-radius: 5px;
+    border: 1.5px solid #323437;
+    color: #fafafa;
+    background-color: #222325 !important;
+    transition: border 0.45s linear;
+}
+.user-home-task-details-modal-next-status-btn {
+    padding: 0.35rem 0.4rem;
+    /* border-radius: 6px; */
+    border: 1.5px solid #323437;
+    color: #fafafa;
+    background-color: #222325 !important;
+    transition: border 0.45s linear;
+    border-radius: 0px 6px 6px 0px;
+    width : 2rem;
+}
+.user-home-task-details-modal-status-btn:hover, .user-home-task-details-modal-status-set-complete-btn:hover,
+.user-home-task-details-modal-priority-btn:hover, .user-home-task-details-modal-no-status-btn:hover,
+.user-home-task-details-modal-next-status-btn:hover {
     border-color: #7730e2;
     transition: border 0.45s linear;
 }
@@ -187,13 +210,17 @@
 .user-home-task-details-modal-tags-group {
     position: relative;
     margin-left: 0.45rem;
-    padding: 0.4rem 0.2rem;
+    padding: 0.4rem 0.3rem;
+    flex-wrap: wrap;
+    max-width: 340px;
     border-radius: 6px;
     background-color: #333437;
 }
 .user-home-task-details-modal-tags-button {
-    padding: 0.3rem 0.4rem !important;
+    padding: 0.4rem 0.6rem !important;
     position: relative;
+    border-radius: 15px;
+    margin: 3px 0px 5px 0px;
 }
 
 .user-home-task-details-modal-tags-button-close {
@@ -232,5 +259,6 @@
 .user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-text.unfocused {
     white-space: nowrap;
     overflow: hidden;
-    width: calc(100% - 65px) !important;
+    text-overflow: ellipsis;
+    width: calc(100% - 35px) !important;
 }

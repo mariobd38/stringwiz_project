@@ -23,7 +23,7 @@ import { useTheme } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import LockIcon from '@mui/icons-material/Lock';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 
@@ -348,7 +348,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                                                             <TableCell scope="row" className=' d-flex align-items-center justify-content-between table-cell'>
                                                                 <div className='d-flex align-items-center mb-1 m-0' style={{color: "#fafafa"}}>
                                                                     <div>
-                                                                        <CheckRoundedIcon className='user-home-task-check-icon' />
+                                                                        <CheckCircleOutlineRoundedIcon className='user-home-task-check-icon' />
                                                                     </div>
                                                                     <div>
                                                                         <input onKeyDown={handleTaskCreate} placeholder='Task name' autoFocus="autofocus" className={`ps-2 taskName-text user-home-new-task-input fafafa-color`} contentEditable={true} /> 

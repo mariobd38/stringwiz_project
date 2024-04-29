@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+
 // import { Modal } from 'antd';
 
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
@@ -21,7 +22,6 @@ import DriveFileRenameOutlineRoundedIcon from '@mui/icons-material/DriveFileRena
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import NotInterestedRoundedIcon from '@mui/icons-material/NotInterestedRounded';
 import RadioButtonCheckedRoundedIcon from '@mui/icons-material/RadioButtonCheckedRounded';
-import SellRoundedIcon from '@mui/icons-material/SellRounded';
 import TourRoundedIcon from '@mui/icons-material/TourRounded';
 
 import NewHomeDueDatePopover from '../newHomeDueDatePopover';
@@ -357,8 +357,8 @@ const TaskDetailsModal = (props) => {
                                         </div></div>} 
                                         setDueDatePopoverIsOpen={setDueDatePopoverIsOpen} currentIndex={currentIndex} taskType={taskType} setTaskType={setTaskType}
                                         currentTaskDueDate={currentTaskDueDate} setCurrentTaskDueDate={setCurrentTaskDueDate} handleDueDatePopoverClose={handleDueDatePopoverClose} today={today} 
-                                        selectedDate={selectedDate} setSelectedDate={setSelectedDate}
                                     />
+                                    
                                 {/* </div> */}
 
                                 <div className='me-3 d-flex flex-column' style={{ fontSize: "1.06rem" }}>
@@ -421,7 +421,7 @@ const TaskDetailsModal = (props) => {
                                                     onMouseLeave={() => handleTagOptionsDropdownMouseLeave(index)}
                                                 >
                                                     <span className='d-flex'>
-                                                        <SellRoundedIcon className='pe-2' />
+                                                        {/* <SellRoundedIcon className='pe-2' /> */}
                                                         {tagNameRenameButtonClicked && index === tagNameRenameButtonClickedIndex ?  
                                                             <input autoFocus='true' defaultValue={`${tag.name}`} className={`align-middle user-home-task-details-modal-tags-button-text-input`} 
                                                             ref={tagButtonTextRefs.current[index]} onKeyDown={(event) => handleTagRename(event,tag.name)}>

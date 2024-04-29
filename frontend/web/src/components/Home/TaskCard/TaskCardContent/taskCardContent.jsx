@@ -52,7 +52,7 @@ const TaskCardContent = (props) => {
     }
     
     const formatDate = (dateString) => {
-        const dueDateDiffFromToday = dayjs(dateString).diff(today, 'day');
+        const dueDateDiffFromToday = dayjs(dateString).startOf('day').diff(dayjs(today).startOf('day'), 'day');
 
         if (dueDateDiffFromToday < 6) {
             if (dueDateDiffFromToday < 0)
@@ -108,7 +108,7 @@ const TaskCardContent = (props) => {
                                 <span style={{ color: "#a7a7a7" }} className={`lato-font, user-home-chosen-due-date-text`}
                                 >
                                     {formatDate(taskType[index].dueDate) === 'Overdue' ? (
-                                        <span className='error-message' onClick={(event) => handleDueDatePopoverClick(event, index)}>Overdue</span>
+                                        <span style={{color: "#e10845ef"}} onClick={(event) => handleDueDatePopoverClick(event, index)}>Overdue</span>
                                     ) : (
                                         <span style={{color: "#e5e5e5"}} onClick={(event) => handleDueDatePopoverClick(event, index)}>{formatDate(taskType[index].dueDate)}</span>
                                     )}
@@ -117,7 +117,6 @@ const TaskCardContent = (props) => {
                             setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
                             currentTaskDueDate={currentTaskDueDate} setCurrentTaskDueDate={setCurrentTaskDueDate}
                             today={today}
-                            selectedDate={selectedDate} setSelectedDate={setSelectedDate}
                             currentIndex={currentIndex} taskType={taskType} setTaskType={setTaskType}
                         />
                     </div>
