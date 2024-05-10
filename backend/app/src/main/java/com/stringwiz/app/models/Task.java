@@ -73,6 +73,9 @@ public class Task {
     @Column(name = "due_date")
     private ZonedDateTime dueDate;
 
+    @Column(name = "due_date_time")
+    private ZonedDateTime dueDateTime;
+
     @CreationTimestamp
     @Column(name="created_on", nullable = false)
     private Timestamp createdOn;
@@ -81,7 +84,7 @@ public class Task {
     @Column(name="last_updated_on")
     private Timestamp lastUpdatedOn;
 
-    public Task(String name, String description, String status, String priority, User user, ZonedDateTime dueDate) {
+    public Task(String name, String description, String status, String priority, User user, ZonedDateTime dueDate, ZonedDateTime dueDateTime) {
         setName(name);
         setDescription(description);
         setStatus(status);
@@ -89,6 +92,7 @@ public class Task {
         setTaskIdNumber(new TaskIdNumberBuilder().buildTaskIdNumber());
         setUser(user);
         setDueDate(dueDate);
+        setDueDateTime(dueDateTime);
         Timestamp currentTime = new Timestamp(new Date().getTime());
         setCreatedOn(currentTime);
         setLastUpdatedOn(currentTime);

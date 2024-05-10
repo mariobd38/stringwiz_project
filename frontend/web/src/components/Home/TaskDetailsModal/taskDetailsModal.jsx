@@ -8,8 +8,6 @@ import dayjs from 'dayjs';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-// import { Modal } from 'antd';
-
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
@@ -43,7 +41,7 @@ const TaskDetailsModal = (props) => {
     const { 
             currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskLastUpdatedOn,
             nonIncludedTaskTags, setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, setSelectedDate, currentTaskTags, setCurrentTaskTags,
-            taskType, setTaskType,selectedDate, today,
+            taskType, setTaskType,selectedDate, today, currentTaskDueDateTime, setCurrentTaskDueDateTime,
             onHide, show, setModalShow, allTagData,handleTagCreation,completedTasks,setDueDatePopoverIsOpen
          } = props;
 
@@ -57,7 +55,7 @@ const TaskDetailsModal = (props) => {
     const currentTaskDateFormatter = (dateString) => {
         if (dateString === null)
             return 'None';
-        if (dayjs(dateString).year() === dayjs().year()) {
+        if (dayjs(dateString).year() === dayjs().year() && currentTaskDueDateTime) {
             return `${dayjs(dateString).format('MMM D, h:mm a')}`;
         } else {
             return `${dayjs(dateString).format('MMM D[,] YYYY')}`;
@@ -94,9 +92,9 @@ const TaskDetailsModal = (props) => {
             setTaskType,
             selectedDate,
             dayjs,
-            false,
             setCurrentTaskDueDate,
-            completedTasks
+            setCurrentTaskDueDateTime,
+            completedTasks,
         );
     }
 
@@ -104,11 +102,20 @@ const TaskDetailsModal = (props) => {
     const handleDueDatePopoverClick = (event, index) => {
         setCurrentIndex(index);
         setCurrentTaskDueDate(taskType[index].dueDate);
+        // if (taskType[index].dueDate) {
+        //     setCurrentTaskDueDateTime(dayjs(taskType[index].dueDate).format('HH:mm'));
+        // }
+        setCurrentTaskDueDateTime(taskType[index].dueDateTime);
     };
 
     const handleDueDatePopoverClose = (event) => {
         setSelectedDate(false);
         setCurrentTaskDueDate(taskType[currentIndex].dueDate);
+        // if (taskType[currentIndex].dueDate) {
+        //     setCurrentTaskDueDateTime(dayjs(taskType[currentIndex].dueDate).format('HH:mm'));
+        // }
+        setCurrentTaskDueDateTime(taskType[currentIndex].dueDateTime);
+
     };
 
     //assignee profile card
@@ -343,9 +350,10 @@ const TaskDetailsModal = (props) => {
                                         />
                                     </div>
                                 </div>
-                                    <NewHomeDueDatePopover 
-                                        popoverTarget={<div className='d-flex flex-column' style={{ fontSize: "1.06rem"}}>
+                                <div className='d-flex flex-column' style={{ fontSize: "1.06rem"}}>
                                         <span className='user-home-task-details-modal-head-text ps-2 me-3'>Due Date</span>
+                                        <NewHomeDueDatePopover 
+                                        popoverTarget={
                                             <div className='d-flex align-items-center user-home-task-details-modal-due-date-div' onClick={(event) => handleDueDatePopoverClick(event, currentIndex)}>
                                                 <span className='lato-font user-home-task-details-modal-due-date-actual'>
                                                     {currentTaskDateFormatter(currentTaskDueDate)}
@@ -354,12 +362,15 @@ const TaskDetailsModal = (props) => {
                                                 <span className='user-home-task-details-modal-due-date-remove d-flex justify-content-center ms-4 me-3' onClick={(event) => { handleTaskUpdate(event); handleTaskUpdate(event); }}>
                                                     <CloseRoundedIcon className='user-home-task-details-modal-due-date-remove-icon'/>
                                                 </span>}
-                                        </div></div>} 
+                                        </div>
+                                        } 
                                         setDueDatePopoverIsOpen={setDueDatePopoverIsOpen} currentIndex={currentIndex} taskType={taskType} setTaskType={setTaskType}
-                                        currentTaskDueDate={currentTaskDueDate} setCurrentTaskDueDate={setCurrentTaskDueDate} handleDueDatePopoverClose={handleDueDatePopoverClose} today={today} 
+                                        currentTaskDueDate={currentTaskDueDate} setCurrentTaskDueDate={setCurrentTaskDueDate} 
+                                        currentTaskDueDateTime={currentTaskDueDateTime} setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
+                                        handleDueDatePopoverClose={handleDueDatePopoverClose} today={today} 
                                     />
-                                    
-                                {/* </div> */}
+                                        
+                                </div>
 
                                 <div className='me-3 d-flex flex-column' style={{ fontSize: "1.06rem" }}>
                                     <div className=' user-home-task-details-modal-head-text' style={{width: "7rem"}}>Status</div>

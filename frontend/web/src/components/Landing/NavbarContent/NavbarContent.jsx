@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback,useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import Button from '@mui/material/Button';
@@ -8,8 +8,9 @@ import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import './NavbarContent.css';
 import CocollabLogo from '../../Logo/logo';
 
+const NavbarContent = (props) => {
+    const {navbarBackground,scrollPosition} = props; 
 
-function NavbarContent () {
     const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
     let navigate = useNavigate(); 
     const routeChange = (path) =>{ 
@@ -35,12 +36,12 @@ function NavbarContent () {
         return () => {
         window.removeEventListener('resize', closeOffcanvasIfLargeScreen);
         };
-    }, []);
+    }, [closeOffcanvasIfLargeScreen]);
   
     return (
-        <nav className="navbar navbar-expand-lg sticky-top landing-navbar">
+        <nav className="navbar navbar-expand-lg sticky-top landing-navbar" style={{backgroundColor: scrollPosition > 40 ? '#fafafa' : 'transparent'}}>
             <div className='container-fluid'>
-                <CocollabLogo width={2.1} paddingBottom={0.4} fontSize={2.6} textColor={'fafafa'}></CocollabLogo>
+                <CocollabLogo width={2.1} paddingBottom={0.4} fontSize={2.6} textColor={`${scrollPosition > 40 ? '4296af' : 'fafafa'}`}></CocollabLogo>
                     <button
                     className="navbar-toggler shadow-none border-0"
                     type="button"
@@ -73,40 +74,39 @@ function NavbarContent () {
                         <div className="offcanvas-body d-flex flex-column flex-lg-row p-4 p-lg-0">
                             <ul className="navbar-nav justify-content-center align-items-center fs-5 flex-grow-1 pe-3">
                                 <li className="nav-header-item mx-3 my-4 my-lg-0">
-                                    <a className='landing-nav-top-link' href={() => false}>
+                                    <a className={`${scrollPosition > 40 ? 'landing-white-nav-top-link' : 'landing-nav-top-link'}`} href={() => false}>
                                         Features
                                     </a>
                                 </li>
                                 <li className="nav-header-item mx-3 my-4 my-lg-0">
-                                    <a className='landing-nav-top-link' href={() => false}>
+                                    <a className={`${scrollPosition > 40 ? 'landing-white-nav-top-link' : 'landing-nav-top-link'}`} href={() => false}>
                                         Teams
                                     </a>
                                 </li>
                                 <li className="nav-header-item mx-3 my-4 my-lg-0" >
-                                    <a className='landing-nav-top-link' href={() => false}>
+                                    <a className={`${scrollPosition > 40 ? 'landing-white-nav-top-link' : 'landing-nav-top-link'}`} href={() => false}>
                                         Resources
                                     </a>
                                 </li>
                                 <li className="nav-header-item mx-3 my-4 my-lg-0">
-                                    <a className='landing-nav-top-link' href={() => false}>
+                                    <a className={`${scrollPosition > 40 ? 'landing-white-nav-top-link' : 'landing-nav-top-link'}`} href={() => false}>
                                         Enterprise
                                     </a>
                                 </li>
                                 <li className="nav-header-item ms-lg-3 my-4 my-lg-0">
-                                    <a className='landing-nav-top-link' href={() => false}>
+                                    <a className={`${scrollPosition > 40 ? 'landing-white-nav-top-link' : 'landing-nav-top-link'}`} href={() => false}>
                                         Pricing
                                     </a>
                                 </li>
                             </ul>
                             <div className="d-flex flex-column flex-lg-row mt-4 my-lg-0 justify-content-center align-items-center gap-2">
-                                <a onClick={() => routeChange('/login')} className='lato-font landing-login-link pe-3 px-1 py-1' style={{cursor: "pointer"}}>
-                                    Sign In
+                                <a href={() => false} onClick={() => routeChange('/login')} 
+                                className={`lato-font pe-3 px-1 py-1 ${scrollPosition > 40 ? 'landing-white-nav-login-link' : 'landing-login-link'}`} style={{cursor: "pointer"}}>
+                                    Log In
                                 </a>
-                                <a onClick={() => routeChange('/signup')}>
-                                    <Button className="landing-register-link fafafa-color px-3 py-1 lato-font">
-                                        Get Started
-                                    </Button>
-                                </a>
+                                <Button className="landing-register-link fafafa-color px-3 py-2 lato-font" onClick={() => routeChange('/signup')}>
+                                    Sign Up
+                                </Button>
                             </div>
                         </div>
                     </div>

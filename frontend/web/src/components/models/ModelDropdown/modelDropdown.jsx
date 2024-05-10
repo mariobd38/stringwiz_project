@@ -57,11 +57,6 @@ export const ModelDropdown = (props) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [currentItem, setCurrentItem] = useState({ name: initialNameValue, icon: initialIconValue });
 
-    useEffect(() => {
-        // console.log(initialIconValue===<RadioButtonCheckedRoundedIcon />);
-    })
-        
-
     const handleMenuItemClick = (event,item) => {
         setCurrentItem(item);
         

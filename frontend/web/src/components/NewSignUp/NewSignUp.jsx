@@ -97,7 +97,7 @@ const NewSignUp = () => {
                         <div className="">
                             <div className="text-center signup-top-text">
                                 Welcome to{' '}
-                                <a onClick={() => routeChange('/')} style={{cursor: "pointer"}}>
+                                <a href={() => false} onClick={() => routeChange('/')} style={{cursor: "pointer"}}>
                                     <CocollabLogo width={2.75} paddingBottom={0.55} fontSize={3.5}  textColor='4296af'></CocollabLogo> 
                                 </a>
                             </div>
@@ -171,7 +171,7 @@ const NewSignUp = () => {
                         </div>
                         <div className="py-3">
                             <p className="input-label text-center lato-font">
-                                Already a member? <a onClick={() => routeChange('/login')} className="signup-login-link ps-1">Sign In</a>
+                                Already a member? <a href={() => false} onClick={() => routeChange('/login')} className="signup-login-link ps-1">Log In</a>
                             </p>
                         </div>
                     </div>

@@ -8,7 +8,7 @@ import './LandingPage.css'
 const LandingPage = () => {
     return (
         <>
-            <NavbarContent />
+            {/* <NavbarContent /> */}
             <MainContent />
             <FooterContent />
         </>

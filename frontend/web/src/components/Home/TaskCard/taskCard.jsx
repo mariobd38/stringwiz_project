@@ -129,7 +129,8 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
 
     //due date popovers
     const [dueDatePopoverIsOpen, setDueDatePopoverIsOpen] = useState(false);
-    const [currentTaskDueDate, setCurrentTaskDueDate] = useState('');
+    const [currentTaskDueDate, setCurrentTaskDueDate] = useState(null);
+    const [currentTaskDueDateTime, setCurrentTaskDueDateTime] = useState(null);
     const [selectedDate, setSelectedDate] = useState(null);
 
     const [taskType, setTaskType] = useState(null);
@@ -153,7 +154,6 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
         if (selectedDate === null && currentTaskDueDate !== null) {
             setSelectedDate(currentTaskDueDate);
         }
-
         UpdateTaskInfo(
             currentIndex, 
             event,
@@ -161,9 +161,9 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
             setTaskType,
             selectedDate,
             dayjs,
-            false,
             setCurrentTaskDueDate,
-            completedTasks
+            setCurrentTaskDueDateTime,
+            completedTasks,
         );
 
     };
@@ -177,9 +177,9 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
             setTaskType,
             selectedDate,
             dayjs,
-            false,
             setCurrentTaskDueDate,
-            completedTasks
+            setCurrentTaskDueDateTime,
+            completedTasks,
         );
     }
     
@@ -366,11 +366,11 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                                                 taskData={taskType}
                                                 taskType={upcomingTasks}
                                                 currentTaskDueDate={currentTaskDueDate}
+                                                currentTaskDueDateTime={currentTaskDueDateTime}
                                                 currentIndex={currentIndex}
                                                 setCurrentIndex={setCurrentIndex}
                                                 setCurrentTaskDueDate={setCurrentTaskDueDate}
-                                                selectedDate={selectedDate}
-                                                setSelectedDate={setSelectedDate}
+                                                setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
                                                 getTagInfo={getTagInfo}
                                                 setCurrentTaskTags={setCurrentTaskTags}
                                                 setModalShow={setModalShow}
@@ -403,11 +403,11 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                                                 taskData={taskType}
                                                 taskType={overdueTasks}
                                                 currentTaskDueDate={currentTaskDueDate}
+                                                currentTaskDueDateTime={currentTaskDueDateTime}
                                                 currentIndex={currentIndex}
                                                 setCurrentIndex={setCurrentIndex}
                                                 setCurrentTaskDueDate={setCurrentTaskDueDate}
-                                                selectedDate={selectedDate}
-                                                setSelectedDate={setSelectedDate}
+                                                setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
                                                 getTagInfo={getTagInfo}
                                                 setCurrentTaskTags={setCurrentTaskTags}
                                                 setModalShow={setModalShow}
@@ -440,11 +440,11 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                                                 taskData={taskType}
                                                 taskType={completedTasks}
                                                 currentTaskDueDate={currentTaskDueDate}
+                                                currentTaskDueDateTime={currentTaskDueDateTime}
                                                 currentIndex={currentIndex}
                                                 setCurrentIndex={setCurrentIndex}
                                                 setCurrentTaskDueDate={setCurrentTaskDueDate}
-                                                selectedDate={selectedDate}
-                                                setSelectedDate={setSelectedDate}
+                                                setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
                                                 getTagInfo={getTagInfo}
                                                 setCurrentTaskTags={setCurrentTaskTags}
                                                 setModalShow={setModalShow}
@@ -488,11 +488,13 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, setUpcomingTasks
                 currentTaskLastUpdatedOn={currentTaskLastUpdatedOn}
                 currentTaskDescription={currentTaskDescription}
                 currentTaskDueDate={currentTaskDueDate}
+                currentTaskDueDateTime={currentTaskDueDateTime}
                 currentTaskStatus={currentTaskStatus}
                 currentTaskPriority={currentTaskPriority}
                 currentTaskTags={currentTaskTags}
                 nonIncludedTaskTags={nonIncludedTaskTags}
                 setCurrentTaskDueDate={setCurrentTaskDueDate}
+                setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
                 setCurrentIndex={setCurrentIndex}
                 setCurrentTaskPriority={setCurrentTaskPriority}
                 setCurrentTaskTags={setCurrentTaskTags}

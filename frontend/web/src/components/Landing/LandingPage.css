@@ -1,16 +1,17 @@
 .landing-register-link {
     background-color: #121212 !important;
     border: none;
-    border-radius: 8px !important;
+    border-radius: 16px !important;
+    font-weight: 600 !important;
     color: #fafafa !important;
     text-transform: capitalize !important;
+    font-size: 0.9rem !important;
 }
 .landing-register-link:hover {
-    background-color: #0e8b9f !important;
-    border-color: #0e8b9f !important;
+    background-color: #0e6b7f !important;
     color: #fafafa !important;
 }
 .landing-register-link:focus {
-    background-color: #0e8b9f !important;
+    background-color: #0e6b7f !important;
     color: #fafafa !important;
 }

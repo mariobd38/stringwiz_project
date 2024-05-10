@@ -19,7 +19,7 @@ public class TaskService {
     private TaskRepository taskRepository;
 
     public Task save(User user, Task task) {
-        Task taskDetails = new Task(task.getName(),task.getDescription(),task.getStatus(), task.getPriority(), user, task.getDueDate());
+        Task taskDetails = new Task(task.getName(),task.getDescription(),task.getStatus(), task.getPriority(), user, task.getDueDate(), task.getDueDateTime());
 
         return taskRepository.save(taskDetails);
     }
@@ -40,12 +40,15 @@ public class TaskService {
         return taskList;
     }
     public Task update(Task task) {
+        System.out.println("UPDATE CALLED");
         try {
             Task existingTask = taskRepository.findById(task.getId()).orElse(null);
             assert existingTask != null;
             existingTask.setName(task.getName());
             existingTask.setDescription(task.getDescription());
             existingTask.setDueDate(task.getDueDate());
+            System.out.println(task.getDueDateTime());
+            existingTask.setDueDateTime(task.getDueDateTime());
             existingTask.setPriority(task.getPriority());
             existingTask.setStatus(task.getStatus());
             existingTask.setLastUpdatedOn(new Timestamp(new Date().getTime()));

@@ -1,23 +1,46 @@
 .top-left-header-text {
-    font-size: 3rem;
+    font-size: 3.4rem;
     font-weight: 600;
-
     font-family: 'Nunito Sans', serif;
 }
 .coconut {
     width: 2.8rem !important;
     padding-top: 0.3rem;
 }
-.description {
+.landing-header-description-text {
     font-family: 'Montserrat', serif;
-    font-size: 1.07rem;
+    font-size: 1.1rem;
     color: #fafafa;
 }
-.header {
-    background: #0ebbcf; 
+.landing-header {
+    /* background: #0ebbcf; 
     background: -webkit-linear-gradient(to right, #0ebbcf, #2a54fd); 
-    background: linear-gradient(to right, #0ebbcf, #2a54fd);
+    background: linear-gradient(to right, #0ebbcf, #2a54fd); */
+    /* width: 100vw; */
+	/* background: linear-gradient(234deg, #1aa130, #1a7b97, #1a44ed); */
+	background: linear-gradient(234deg, #10d5ea, #128ee2, #1a44ed);
+	background-size: 180% 180%;
+	animation: gradient-animation 8s ease-in-out infinite;
+    /* 1a9120 */
 }
+.main-content-slide-logo {
+    height: 70px;
+    width: 70px;
+}
+
+
+@keyframes gradient-animation {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
 a {
     text-decoration: none;
 }
@@ -28,16 +51,34 @@ a {
     text-align: center;
     min-height: 100vh;
 }
-.register-home-page {
-    color: #dbdbdb !important;
-    text-transform: capitalize !important;
-    font-size: 0.98rem !important;
-    font-weight: 600 !important;
-    border-radius: 10px !important;
-    padding: 0.8rem 1.1rem !important;
-    font-family: 'Nunito Sans', serif !important;
-    background-color: #092669 !important;
-    border: none !important;
+.landing-get-started-button {
+    color: #fafafa;
+    text-transform: capitalize;
+    font-size: 0.98rem;
+    font-weight: 600;
+    border-radius: 18px;
+    padding: 0.8rem 1.1rem;
+    font-family: 'Nunito Sans', serif;
+    background-color: #092669;
+    border: none;
+    transition: all 0.3s linear;
+    display: flex;
+    align-items: center;
+}
+.landing-learn-more-button {
+    color: #fafafa;
+    text-transform: capitalize;
+    font-size: 0.98rem;
+    font-weight: 600;
+    border-radius: 18px;
+    padding: 0.8rem 1.1rem;
+    font-family: 'Nunito Sans', serif;
+    border: 2px solid #fafafa;
+    transition: all 0.2s linear;
+}
+.landing-learn-more-button:hover {
+    color: #193679;
+    border-color: #193679;
 }
 .learn_more-home-page {
     font-family: 'Nunito Sans', serif !important;
@@ -49,11 +90,11 @@ a {
     border-radius: 10px !important;
     padding: 0.6rem 1rem !important;
 }
-.register-home-page:hover, .learn_more-home-page:hover {
-    background-color: #1d3a7d !important;
+.landing-get-started-button:hover, .learn_more-home-page:hover {
+    background-color: #193679 !important;
 }
 .illustration-landing {
-    width: 15rem;
+    width: 13rem;
 }
 .bottom-half, .top-half {
     height: 50%;
@@ -136,7 +177,8 @@ a {
     height: 90px !important;
 }
 .landing-page-features-card-button {
-    /* color: #07d3de; */
+    color: #1976d2;
+    padding: 8px 8px !important;
     font-family: 'Nunito Sans' !important;
     background-color: none !important;
     font-size: 1.07rem !important;
@@ -183,21 +225,10 @@ a {
 .logos-slide {
     white-space: nowrap;
 }
-/* .landing-page-logos-container:before {
-    left: 0;
-    background: linear-gradient(to left, rgba(255,255,255,0), #fafafa);
+.logos-slider {
+    padding: 60px 0px;
+    white-space: nowrap;
+    position: relative;
+    mask-image: linear-gradient(90deg, transparent, #fff 20%, #fff 80%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #fff 20%, #fff 80%, transparent)
 }
-.landing-page-logos-container::after {
-    right: 0;
-    background: linear-gradient(to right, rgba(255,255,255,0), #fafafa);
-} */
-
-/* .logos-slide {
-    display: inline-block;
-    animation: 28s slide infinite linear;
-} */
-
-.logos-slide img {
-    height: 100px;
-    margin: 0 50px;
-}  

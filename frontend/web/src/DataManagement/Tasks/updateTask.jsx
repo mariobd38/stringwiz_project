@@ -5,16 +5,28 @@ function UpdateTaskInfo  (
         setTaskType,
         selectedDate,
         dayjs,
-        moreTaskmodalOpen,
         setCurrentTaskDueDate,
-        completedTasks
+        setCurrentTaskDueDateTime,
+        completedTasks,
     ) {
         // console.log({ ...taskType[currentRowIndex] });
         let dueDateRelated = false;
         let task = { ...taskType[currentRowIndex] };
         let targetClassList = null;
 
-        if (event !== "due date" && event !== "due time") {
+        if (event === "clear date time") {
+            task.dueDateTime = null;
+            // setCurrentTaskDueDate(null);
+            dueDateRelated=true;
+            setCurrentTaskDueDateTime(null);
+        } else if (event === "clear date") {
+            task.dueDate = null;
+            task.dueDateTime = null;
+            setCurrentTaskDueDate(null);
+            dueDateRelated=true;
+            setCurrentTaskDueDateTime(null);
+
+        } else if (event !== "due date" && event !== "due time") {
             if (event.currentTarget.classList.length > 1) {
                 targetClassList = event.currentTarget.getAttribute("class").split(' ');
             } else {
@@ -23,21 +35,18 @@ function UpdateTaskInfo  (
         } else if (event !== "due date") {
             //
             task.dueDate = dayjs(selectedDate);
-            console.log(task.dueDate);
-            if (moreTaskmodalOpen) {
-                console.log(dayjs(task.dueDate));
-                setCurrentTaskDueDate(dayjs(task.dueDate));
-            }
+            task.dueDateTime = dayjs(selectedDate);
+            setCurrentTaskDueDate(dayjs(task.dueDate));
+            setCurrentTaskDueDateTime(dayjs(task.dueDateTime));
             dueDateRelated=true;
         } else {
+            console.log(task.dueDateTime);
             //update task due date
+            task.dueDate =  (task.dueDateTime) ? dayjs(selectedDate) : dayjs(selectedDate).endOf('day');
             // task.dueDate = dayjs(selectedDate).endOf('day');
-            task.dueDate = dayjs(selectedDate);
+            // task.dueDate = dayjs(selectedDate);
 
-            if (moreTaskmodalOpen) {
-                // setCurrentTaskDueDate(dayjs(task.dueDate).format(`MMM D`).endOf('day'));
-                setCurrentTaskDueDate(dayjs(task.dueDate));
-            }
+            setCurrentTaskDueDate(dayjs(task.dueDate));
             dueDateRelated=true;
         }
 
@@ -46,9 +55,11 @@ function UpdateTaskInfo  (
                 task.name = event.currentTarget.textContent;
             }
             //remove task due date 
-            if (targetClassList.includes('user-home-task-details-modal-due-date-remove') || targetClassList.includes('user-home-calendar-clear')) {
+            if (targetClassList.includes('user-home-task-details-modal-due-date-remove')) {
                 task.dueDate = null;
+                task.dueDateTime = null;
                 setCurrentTaskDueDate(null);
+                setCurrentTaskDueDateTime(null);
             }
             //update task description
             else if (targetClassList.includes('user-home-task-details-modal-description-textarea')) {
@@ -84,6 +95,7 @@ function UpdateTaskInfo  (
             }
         }
         console.log(task.dueDate);
+        console.log(task.dueDateHasTime);
 
         const taskInfo = {
             id: task.id,
@@ -92,6 +104,7 @@ function UpdateTaskInfo  (
             status: task.status,
             priority: task.priority,
             dueDate: task.dueDate,
+            dueDateTime: task.dueDateTime,
         };
 
         return new Promise((resolve, reject) => {

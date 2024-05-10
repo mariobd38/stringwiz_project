@@ -16,9 +16,8 @@ import NewHomeDueDatePopover from '../../newHomeDueDatePopover';
 import './taskCardContent.css';
 
 const TaskCardContent = (props) => {
-    const {today, taskData,taskType,currentTaskDueDate, currentIndex, setCurrentIndex, setCurrentTaskDueDate,
-        selectedDate,setSelectedDate,
-        getTagInfo,setCurrentTaskTags,setModalShow,setCurrentTaskName,setCurrentTaskCreationDate,setCurrentTaskDescription,
+    const {today, taskData,taskType,currentTaskDueDate, currentTaskDueDateTime, currentIndex, setCurrentIndex, setCurrentTaskDueDate,
+        setCurrentTaskDueDateTime, getTagInfo,setCurrentTaskTags,setModalShow,setCurrentTaskName,setCurrentTaskCreationDate,setCurrentTaskDescription,
         setCurrentTaskLastUpdatedOn,setCurrentTaskStatus,setCurrentTaskPriority,
         handleTaskComplete,dueDatePopoverIsOpen,setDueDatePopoverIsOpen,setTaskType
     } 
@@ -29,6 +28,11 @@ const TaskCardContent = (props) => {
     const handleDueDatePopoverClick = (event, index) => {
         setCurrentIndex(index);
         setCurrentTaskDueDate(taskData[index].dueDate);
+        // if (taskData[index].dueDateTime) {
+        //     setCurrentTaskDueDateTime(dayjs(taskData[index].dueDateTime).format('HH:mm'));
+        // }
+        setCurrentTaskDueDateTime(taskData[index].dueDateTime);
+
     };
 
     const OpenTaskDetailsModal = async (event, index) => {
@@ -43,6 +47,10 @@ const TaskCardContent = (props) => {
             setCurrentTaskLastUpdatedOn(taskType[index].lastUpdatedOn);
             setCurrentTaskDescription(taskType[index].description);
             setCurrentTaskDueDate(taskType[index].dueDate);
+            // if (taskData[index].dueDateTime) {
+                // setCurrentTaskDueDateTime(dayjs(taskData[index].dueDateTime).format('HH:mm'));
+                // }
+            setCurrentTaskDueDateTime(taskData[index].dueDateTime);
             setCurrentTaskStatus(taskType[index].status);
             setCurrentTaskPriority(taskType[index].priority);
             setCurrentIndex(index);
@@ -71,7 +79,6 @@ const TaskCardContent = (props) => {
         }
     };
 
-
     return (
         <>
             {taskType.map((row, index) => (
@@ -95,7 +102,10 @@ const TaskCardContent = (props) => {
                         </div>
                         
                         <NewHomeDueDatePopover 
-                            popoverTarget={!taskType[index].dueDate ? 
+                            popoverTarget={taskType[index].status === 'Completed' ? 
+                                <span style={{color: "#358b4b", cursor: "pointer"}} onClick={(event) => handleDueDatePopoverClick(event, index)}>Completed</span>
+                                :
+                                !taskType[index].dueDate ? 
                                 <span>
                                     <Tooltip label="Add due date" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font' 
                                     style={{backgroundColor: "#338b6f", borderRadius: "6px",visibility: dueDatePopoverIsOpen ? "hidden" : "visible"}}> 
@@ -116,6 +126,7 @@ const TaskCardContent = (props) => {
                             }
                             setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
                             currentTaskDueDate={currentTaskDueDate} setCurrentTaskDueDate={setCurrentTaskDueDate}
+                            currentTaskDueDateTime={currentTaskDueDateTime} setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
                             today={today}
                             currentIndex={currentIndex} taskType={taskType} setTaskType={setTaskType}
                         />

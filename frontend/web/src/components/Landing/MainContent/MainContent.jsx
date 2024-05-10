@@ -1,27 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
-import Button from '@mui/material/Button';
+import { motion } from 'framer-motion';
 
-import coconut from '../../../assets/coconut.png';
-import time_management from '../../../assets/illustrations/landing/time_management.png';
-import sharing_ideas from '../../../assets/illustrations/landing/sharing_ideas.png';
-import achievement from '../../../assets/illustrations/landing/achievement.png';
-import CocollabLogo from '../../../components/Logo/logo';
+import team_work from '../../../assets/illustrations/landing/team_work.png';
+import archery_goals from '../../../assets/illustrations/landing/archery_goals.png';
+import shared_goals from '../../../assets/illustrations/landing/shared_goals.png';
 
 import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import EventRoundedIcon from '@mui/icons-material/EventRounded';
 import FolderRoundedIcon from '@mui/icons-material/FolderRounded';
 import SubjectRoundedIcon from '@mui/icons-material/SubjectRounded';
 
-import Amazon_logo from '../../../assets/logos/amazon_logo.png';
-import Github_logo from '../../../assets/logos/github_logo.svg';
-import Lyft_logo from '../../../assets/logos/lyft_logo.svg';
-import Oracle_logo from '../../../assets/logos/oracle_logo.svg';
-import Pinterest_logo from '../../../assets/logos/pinterest_logo.svg';
-import Salesforce_logo from '../../../assets/logos/salesforce_logo.png';
+import Adobe_logo from '../../../assets/logos/adobe_logo.png';
+import Hubspot_logo from '../../../assets/logos/hubspot_logo.png';
+import Gitlab_logo from '../../../assets/logos/gitlab_logo.png';
+import Tripadvisor_logo from '../../../assets/logos/tripadvisor_logo.png';
+import Houzz_logo from '../../../assets/logos/houzz_logo.png';
+
+import NavbarContent from '../NavbarContent/NavbarContent';
 
 import './MainContent.css'
 
@@ -48,59 +48,125 @@ const MainContent = () => {
     //     }
     // }, [logos]);
 
+    const slides = [
+        { icon: <img className='mt-1 main-content-slide-logo' src={Hubspot_logo} alt="hubspot" /> },
+        { icon: <img className='mt-1 main-content-slide-logo' src={Gitlab_logo} alt="gitlab" /> },
+        { icon: <img className='mt-1 main-content-slide-logo' src={Adobe_logo} alt="adobe"  /> },
+        { icon: <img className='mt-1 main-content-slide-logo' src={Tripadvisor_logo} alt="tripadvisor" /> },
+        { icon: <img className='mt-1 main-content-slide-logo' src={Houzz_logo} alt="houzz"  /> },
+    ];
+    const duplicatedSlides = [...slides,...slides];
+
+    const [scrollPosition, setScrollPosition] = useState(0);
+    const handleScroll = () => {
+        const position = window.pageYOffset;
+        setScrollPosition(position);
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [scrollPosition]);
+
 
     return (
-        <main>
-            <div className="header">
-                <div className="container pt-5">
+        <div>
+        <main className='landing-header'>
+            <NavbarContent navbarBackground={"#fafafa"} scrollPosition={scrollPosition}/>
+            <div >
+            
+
+            
+            <div className="">
+                <div className="container py-5">
                     <div className='row'>
                         <div className='col-12 col-lg-6 m-auto'>
-                            <h1 className='fafafa-color top-left-header-text text-center'>Collab like never before
-                                <span>
+                            <div style={{lineHeight: "4rem"}}
+                            className='fafafa-color top-left-header-text d-flex text-center justify-content-md-between'>Collab like never before
+                                {/* <span>
                                     <img src={coconut} className="coconut mw-100 ms-1 pb-3 ms-xl-2 w-100 text-center" alt="coconut" />
-                                </span>
-                            </h1>
+                                </span> */}
+                            </div>
 
-                            <div className='text-center'>
-                                <div className='fafafa-color description pt-3' style={{lineHeight: "1.3rem"}}>
-                                    <p>Achieve effective results individually and collectively. </p>
+                            <div className=''>
+                                <div className='fafafa-color landing-header-description-text pt-3' style={{lineHeight: "1.8rem"}}>
+                                    <p>Bringing users closer to effective results individually and collectively. 
+                                        Discover what you can achieve with the platform made for collaboration. 
+                                    </p>
                                     <p>Simple features. Simple solutions. </p>
                                 </div>
                                 
-                                <div className="right-header-block pt-2 pb-4">
-                                    <div className="d-flex justify-content-center pt-2">
-                                        <a onClick={() => routeChange('/signup')} href={() => false}>
-                                            <Button className="register-home-page">
-                                                Get Started
-                                            </Button>
-                                        </a>
+                                <div className="pt-4 pb-4 text-center justify-content-md-between">
+                                    <div className="d-flex flex-column flex-sm-row justify-content-center justify-content-lg-start gap-3">
+                                        <button className="landing-get-started-button " onClick={() => routeChange('/signup')}>
+                                            Get Started
+                                        </button>
+                                        <button className="landing-learn-more-button">
+                                            Learn More
+                                        </button>
+                                    </div>
+                                    <div className="landing-header-description-text d-flex justify-content-center justify-content-lg-start pt-4" style={{ fontSize: '0.9em', color: '#fafafa' }}>
+                                        No credit card needed · Start with a free plan
                                     </div>
                 
-                                    <p className="description text-center pt-3" style={{ fontSize: '0.9em', color: '#fafafa' }}>
-                                        No credit card needed · Start with a free plan
-                                    </p>
                                 </div>
                             </div>
                         </div>
                         <div className='col-12 col-lg-6'>
-                            <div className='d-md-flex justify-content-md-around'>
+                            <div className='d-md-flex justify-content-md-center gap-5'>
                                 <div className='text-center'>
-                                    <img src={time_management} className="illustration-landing" alt="" />
+                                    <img src={archery_goals} className="illustration-landing" alt="" />
                                 </div>
                                 <div className='py-4 text-center'>
-                                    <img src={achievement} className="illustration-landing" alt="" />
+                                    <img src={team_work} className="illustration-landing" alt="" />
                                 </div>
                             </div>
                             <div className='d-flex justify-content-center'>
                                 <div>
-                                    <img src={sharing_ideas} className="illustration-landing" alt="" />
+                                    <img src={shared_goals} className="illustration-landing" alt="" />
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
+                    <div className='mt-2 d-none d-sm-block'>
+                        
+                        <div className="relative overflow-hidden mx-auto logos-slider" style={{ width: "100%" }}>
+                            <div className="position-absolute inset-0"></div>
+                            <motion.div
+                                className="d-flex"
+                                animate={{
+                                    x: ['0%', '-100%'],
+                                    transition: {
+                                        ease: 'linear',
+                                        duration: 15,
+                                        repeat: Infinity,
+                                    }
+                                }}
+                            >
+                                {duplicatedSlides.map((slide, index) => (
+                                    <div key={index} className="flex-shrink-0" style={{ width: `${100 / slides.length}%` }}>
+                                        <div className="d-flex align-items-center justify-content-center h-100">
+                                            {slide.icon}
+                                        </div>
+                                    </div>
+                                ))}
+                            </motion.div>
+                        </div>
+
+                        <div className='m-auto d-flex justify-content-center nunito-sans-font fafafa-color' style={{fontSize: "1.6rem"}}>
+                            Find out why we are trusted by developers from top companies
+                        </div>
+                    </div>
+                </div>
                 </div>
 
-                <div className="row m-0 pt-5">
+
+                
+                {/* <div className="row m-0 pt-5">
                     <div className='col-1 col-md-2 d-flex align-items-center flex-column p-0'>
                         <div className='top-half '></div>
                         <div className='bottom-half'></div>
@@ -116,7 +182,7 @@ const MainContent = () => {
                                 <h1 className='nunito-sans-font landing-info-header'>Better vision for better connections</h1>
                                 <p className='nunito-sans-font pb-0' >Discover unlimited possibilities across our powerful features</p>
                                 <p className='nunito-sans-font' style={{lineHeight:"0.2rem"}}>Plan, manage, and collab on the go.</p>                                
-                                <Button className='learn_more-home-page mt-2'>Learn More</Button>
+                                <button className='learn_more-home-page mt-2'>Learn More</button>
                             </div>
                         </div>                        
                     </div>
@@ -124,23 +190,10 @@ const MainContent = () => {
                         <div className='top-half'></div>
                         <div className='bottom-half'></div>
                     </div>
-                </div>
-            </div>
-            <div className='my-5 landing-page-logos-container'>
-                <div className='text-center pb-4 landing-page-logos-container-text'>
-                    Discover why we are trusted by developers from top companies
-                </div>
-                <div className="logos-slide d-flex justify-content-center">
-                    <img className='mt-2' src={Amazon_logo} alt="amazon" style={{width: "11rem"}} />
-                    <img className='mt-1' src={Github_logo} alt="github" style={{width: "5rem"}} />
-                    <img className='mt-1' src={Oracle_logo} alt="oracle" style={{width: "10rem", height: "6rem"}} />
-                    <img className='mt-1' src={Lyft_logo} alt="oracle" style={{width: "10rem", height: "6rem"}} />
-                    <img src={Salesforce_logo} alt="salesforce" style={{width: "7rem", height: "7rem"}} />
-                    <img src={Pinterest_logo} alt="salesforce" style={{width: "4.3rem"}} />
-                </div>
+                </div> */}
             </div>
 
-            <div className='landing-page-features-div my-4'>
+            <div className='landing-page-features-div py-4'>
                 <div className='landing-page-features-div-header text-center pt-3'>
                     All-in-one products to manage every aspect of your business
                 </div>
@@ -154,7 +207,7 @@ const MainContent = () => {
                                     <AssignmentRoundedIcon className='landing-page-features-card-icon' style={{color: "#e63946"}}/>
                                     <div className='landing-page-features-card-name'>Task Management</div>
                                     <div className='landing-page-features-card-desc pt-2'>Stay organized, set priorities, and track progress with ease.</div>
-                                    <Button className='landing-page-features-card-button'>Discover</Button>
+                                    <button className='landing-page-features-card-button'>Discover</button>
 
                                 </div>
                             </div>  
@@ -167,8 +220,7 @@ const MainContent = () => {
                                     <FolderRoundedIcon className='landing-page-features-card-icon' style={{color: "#ffb703"}}/>
                                     <div className='landing-page-features-card-name'>Project Management</div>
                                     <div className='landing-page-features-card-desc mx-3 pt-2'>Streamline your projects with our comprehensive project management tools.</div>
-                                    <Button className='landing-page-features-card-button'>Discover</Button>
-
+                                    <button className='landing-page-features-card-button'>Discover</button>
                                 </div>
                             </div>  
                         </div>
@@ -180,8 +232,7 @@ const MainContent = () => {
                                     <EventRoundedIcon className='landing-page-features-card-icon' style={{color: "#2a9d8f"}}/>
                                     <div className='landing-page-features-card-name'>Calendar</div>
                                     <div className='landing-page-features-card-desc mx-3 pt-2'>Easily manage your time, schedule meetings, and track important events.</div>
-                                    <Button className='landing-page-features-card-button'>Discover</Button>
-
+                                    <button className='landing-page-features-card-button'>Discover</button>
                                 </div>
                             </div>  
                         </div>
@@ -193,7 +244,7 @@ const MainContent = () => {
                                     <DashboardIcon className='landing-page-features-card-icon' style={{color: "#560bad"}}/>
                                     <div className='landing-page-features-card-name'>Boards</div>
                                     <div className='landing-page-features-card-desc mx-3 pt-2'>Effortlessly organize tasks and projects with customizable CocoBoards.</div>
-                                    <Button className='landing-page-features-card-button'>Discover</Button>
+                                    <button className='landing-page-features-card-button'>Discover</button>
                                 </div>
                             </div>  
                         </div>
@@ -206,7 +257,7 @@ const MainContent = () => {
                                     <SubjectRoundedIcon className='landing-page-features-card-icon' style={{color: "#4cc9f0"}}/>
                                     <div className='landing-page-features-card-name'>Documentation</div>
                                     <div className='landing-page-features-card-desc mx-4 pt-2'>Manage and collaborate on documents with advanced version control and access management.</div>
-                                    <Button className='landing-page-features-card-button'>Discover</Button>
+                                    <button className='landing-page-features-card-button'>Discover</button>
                                 </div>
                             </div>  
                         </div>
@@ -219,7 +270,7 @@ const MainContent = () => {
                                     <GroupsRoundedIcon className='landing-page-features-card-icon' style={{color: "#03045e"}}/>
                                     <div className='landing-page-features-card-name'>Meetings</div>
                                     <div className='landing-page-features-card-desc mx-1 pt-2'>Conduct meetings with integrated scheduling, agenda management, and seamless video conferencing.</div>
-                                    <Button className='landing-page-features-card-button'>Discover</Button>
+                                    <button className='landing-page-features-card-button'>Discover</button>
 
                                 </div>
                             </div>  
@@ -229,6 +280,7 @@ const MainContent = () => {
             </div>
             
         </main>
+        </div>
     );
 };
 
