@@ -1,26 +1,25 @@
 import React, { useState, useEffect, useMemo } from 'react';
 
 import dayjs from 'dayjs';
-// import { Popover } from '@mantine/core';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
 import { DatesProvider, DatePicker } from '@mantine/dates';
+
 import { Popover, Space, TimePicker } from 'antd';
 import { DatePicker as AntDatePicker }  from 'antd';
 
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded';
 
-import {UpdateTaskInfo} from './../../DataManagement/Tasks/updateTask';
+import { UpdateTaskInfo } from './../../DataManagement/Tasks/updateTask';
 
 import './newHomeDueDatePopover.css';
 
 const NewHomeDueDatePopover = (props) => {
 
     const {popoverTarget, currentTaskDueDate, setCurrentTaskDueDate, today, currentTaskDueDateTime, setCurrentTaskDueDateTime,
-        setDueDatePopoverIsOpen,currentIndex,taskType,setTaskType} = props;
+        currentIndex,taskType,setTaskType, dueDatePopoverIsOpen, setDueDatePopoverIsOpen} = props;
 
     const [todayIsActive, setTodayIsActive] = useState(false);
-    const [date, setDate] = useState(currentTaskDueDate);
     const [initialDueDate, setInitialDueDate] = useState(dayjs(currentTaskDueDate));
 
     const handleDueDateIsToday = () => {
@@ -61,7 +60,7 @@ const NewHomeDueDatePopover = (props) => {
                 updatedDateTime = dayjs(date).set('hour', dayjs(currentTaskDueDateTime).format('HH')).set('minute', dayjs(currentTaskDueDateTime).format('m'));
             else
                 updatedDateTime = dayjs(date).endOf('day').toDate();
-            console.log(updatedDateTime);
+            
             UpdateTaskInfo(
                 currentIndex, 
                 "due date",
@@ -112,16 +111,13 @@ const NewHomeDueDatePopover = (props) => {
         } else {
             setTodayIsActive(false);
         }
-        // console.log(timeInput);
     }, []);
 
     dayjs.extend(customParseFormat);
     const dateFormatList = ['YYYY-MM-DD', 'M-D-YY', 'M-D-YYYY', 'MM-DD-YY', 'MM-DD-YYYY'];
     const [open, setOpen] = useState(false);
-    const [datePickerFormatPlaceholder, setDatePickerFormatPlaceholder] = useState(null);
     const handleDatePickerClick = () => {
         setOpen(false);
-        setDatePickerFormatPlaceholder('M/D/YYYY');
     };
     const handleDueDateInputChange = (event) => {
         let input = event.target.value;
@@ -145,22 +141,16 @@ const NewHomeDueDatePopover = (props) => {
                     setCurrentTaskDueDateTime
                 );
             }
-
         }
-
     }
-    useEffect(() => {
-        // console.log(dayjs(currentTaskDueDateTime));
-    })
 
     const content = (
         <div>
             <Space className='pb-2 mx-2 d-flex justify-content-end align-items-center'>
                 <AntDatePicker 
-                    onBlur={() => setDatePickerFormatPlaceholder(null)} 
                     defaultValue={currentTaskDueDate ? dayjs(currentTaskDueDate) : undefined}
                     value={currentTaskDueDate ? dayjs(currentTaskDueDate) : undefined}
-                    placeholder={datePickerFormatPlaceholder ? datePickerFormatPlaceholder : 'Select date'} 
+                    placeholder={'Select date'} 
                     className='user-home-calendar-date-input user-home-calendar-time-picker' 
                     open={open}
                     variant="filled"
@@ -176,14 +166,15 @@ const NewHomeDueDatePopover = (props) => {
                     placeholder='Add time' 
                     disabled={!currentTaskDueDate} 
                     defaultValue={currentTaskDueDateTime ? dayjs(currentTaskDueDateTime) : undefined}
-                    // value={currentTaskDueDateTime ? dayjs(currentTaskDueDateTime) : undefined}
+                    //value={currentTaskDueDateTime ? dayjs(currentTaskDueDateTime) : undefined}
                     style={{backgroundColor: "#323539", border: "none"}} 
                     variant="filled"
                     className='user-home-calendar-time-picker' 
                     use12Hours
                     format="h:mm a" 
                     autoFocus={false} 
-                    onChange={handleDueDateTimeChange} 
+                    onChange={handleDueDateTimeChange}
+                    //onChange={(time) => setCurrentTaskDueDateTime(time)}
                 />
             </Space>
             <DatesProvider >
@@ -196,12 +187,9 @@ const NewHomeDueDatePopover = (props) => {
                     className='user-home-calendar-date-picker pb-0 fafafa-color p-1'  
                 /> */}
                 <DatePicker
-                    //defaultDate={new Date(2015, 1)}
-                    //onDateChange={handleDueDateChange}
-                    
                     defaultDate={currentTaskDueDate ? new Date(dayjs(currentTaskDueDate).format('YYYY'), dayjs(currentTaskDueDate).format('MM')-1) : undefined}
-                    date={!dayjs(date).isSame(initialDueDate, 'day') ? undefined : currentTaskDueDate}
-                    defaultValue={currentTaskDueDate ? new Date(dayjs(currentTaskDueDate).format('YYYY'), dayjs(currentTaskDueDate).format('MM')-1) : undefined}
+                    date={!dayjs(currentTaskDueDate).isSame(initialDueDate, 'day') ? undefined : currentTaskDueDate}
+                    defaultValue={currentTaskDueDate ? new Date(dayjs(currentTaskDueDate).format('YYYY'), dayjs(currentTaskDueDate).format('MM')) : undefined}
                     value={currentTaskDueDate} 
                     onChange={handleDueDateChange} 
                     className='user-home-calendar-date-picker pb-0 fafafa-color p-1'  
@@ -209,7 +197,6 @@ const NewHomeDueDatePopover = (props) => {
 
                     {/* <hr className='fafafa-color'/> */}
                 <div className='d-flex justify-content-center align-items-center mx-2 pt-2'>
-                    
                     <button className={`lato-font user-home-calendar-today ${todayIsActive && 'clicked'} `}
                     onClick={handleDueDateIsToday}>
                         Today
@@ -227,9 +214,12 @@ const NewHomeDueDatePopover = (props) => {
     return (
         <div>
             <Space wrap>
-                <Popover arrow={mergedArrow} content={content} trigger="click" style={{borderRadius: "10px",backgroundColor: "#222529", border: "none", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)" }}>
-                {popoverTarget}
+                <Popover arrow={mergedArrow} content={content} trigger="click" opened={dueDatePopoverIsOpen} onOpenChange={() => setDueDatePopoverIsOpen((o) => !o)}
+                onClose={() => console.log("hello")}
+                style={{borderRadius: "10px",backgroundColor: "#222529", border: "none", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)" }}>
+                    {popoverTarget}
                 </Popover>
+                
             </Space>
         </div>
     );

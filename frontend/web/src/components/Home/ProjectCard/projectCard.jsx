@@ -6,7 +6,6 @@ import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import SwipeableViews from 'react-swipeable-views';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -23,6 +22,8 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import LockIcon from '@mui/icons-material/Lock';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
+
+import './projectCard.css';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -83,7 +84,7 @@ const ProjectCard = () => {
     return (
         <>
             <Card
-                style={{ width:'85%', fontFamily: 'Nunito Sans', border: "2px solid #313234", borderRadius: "10px" }}
+                className='project-card-card'
             >
                 <Card.Header 
                     style={{
@@ -132,12 +133,12 @@ const ProjectCard = () => {
                                             <TableBody >
                                                 <ClickAwayListener onClickAway={handleNewTaskClickAway}>
                                                     <Box sx={{ position: 'relative' }}>
-                                                        <Button className='user-home-create-task-button-dark d-flex align-items-center ms-2 mb-2'
+                                                        <button className='user-home-create-task-button-dark d-flex align-items-center ms-2 mb-2'
                                                             style={{ color: "#919191" }} onClick={handleNewTaskClick}
                                                         >
                                                             <AddRoundedIcon className='me-1' style={{ width: "1rem", marginBottom: ".09rem" }}/>
                                                             <span className='me-1' style={{ fontSize: '0.95rem' }}>Create project</span>
-                                                        </Button>
+                                                        </button>
                                                         <div className='w-100 table-row-dark'>
                                                         {newTaskRowOpen ? (
                                                             <TableRow className='table-row-new-dark ' style={{backgroundColor: "#1E1F21", width: "100%"}} >

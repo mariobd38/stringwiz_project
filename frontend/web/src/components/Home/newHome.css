@@ -50,67 +50,48 @@
     font-size: 1rem !important;
     font-family: 'Lato' !important;
     border-bottom: none !important;
-    border-top-left-radius: 10px !important;
-    border-top-right-radius: 10px !important;
+    border-top-left-radius: 6px !important;
+    border-top-right-radius: 6px !important;
+}
+.user-home-card-task-tab:hover {
+    background-color: #2e2f31;
 }
 
 /* calendar */
-.user-home-calendar-date-picker .MuiPickersCalendarHeader-labelContainer .MuiButtonBase-root,
-.user-home-calendar-date-picker .MuiButtonBase-root,
-.user-home-calendar-date-picker .MuiDayCalendar-root .MuiDayCalendar-header .MuiTypography-root,
-.user-home-calendar-date-picker .MuiDayCalendar-weekContainer .MuiButtonBase-root{
-    color: #fafafa !important;
-    border: none !important;
+.user-home-right-side-block, .task-card-parent, .calendar-block-parent,.milestone-block-parent {
+    transition: width 0.35s ease;
 }
-.MuiPickersYear-yearButton {
-    text-align: center !important;
+@media (min-width: 991px) {
+    .user-home-right-side-block {
+      width: 46%;
+    }
+    .task-card-parent {
+        width: 54%;
+    }
 }
-.user-home-calendar-current-day-item {
-    color: #c8c8c8;
-    /* width: 70%; */
-    background-color: #323539;
-    border-radius: 8px;
-    align-items: center;
-    padding: 10px 15px;
-    /* justify-content: center; */
+@media (min-width: 1200px) {
+    .user-home-right-side-block {
+      width: 39%;
+    }
+    .task-card-parent {
+        width: 61%;
+    }
 }
-.user-home-calendar-current-daytime-item {
-    border-radius: 8px;
-    padding: 6px 8px;
-    color: #fafafa;
+@media (min-width: 1310px) {
+    .user-home-right-side-block {
+      width: 36%;
+    }
+    .task-card-parent {
+        width: 64%;
+    }
 }
-.user-home-calendar-current-daytime-item.upcoming {
-    background-color: #0d6f22;
+@media (max-width: 991px) {
+    .calendar-block-parent, .milestone-block-parent {
+      width: 50%;
+    }
 }
-.user-home-calendar-current-daytime-item.delayed {
-    background-color: rgb(175, 31, 31,0.75);
-}
-
-
-/* new calendar */
-.user-home-calendar-text {
-    color: #fafafa;
-    font-family: "Lato";
-    font-weight: 600;
-    font-size: 1.2rem;
-}
-.user-home-calendar-date-picker .mantine-DatePicker-weekday,
-.user-home-calendar-date-picker .mantine-DatePicker-monthCell button,
-.user-home-calendar-date-picker .mantine-DatePicker-monthsListControl,
-.user-home-calendar-date-picker .mantine-DatePicker-yearsListControl {
-    color: #fafafa;
-}
-.user-home-calendar-date-picker .mantine-DatePicker-monthCell button:not([data-selected="true"]):hover,
-.user-home-calendar-date-picker .mantine-DatePicker-calendarHeaderControl:hover,
-.user-home-calendar-date-picker .mantine-DatePicker-calendarHeaderLevel:hover,
-.user-home-calendar-date-picker .mantine-DatePicker-monthsListControl:hover,
-.user-home-calendar-date-picker .mantine-DatePicker-yearsListControl:hover {
-    background-color: #323539 !important;
-}
-.user-home-calendar-date-picker .mantine-DatePicker-day[data-selected="true"] {
-    background-color: #338b6f !important;
-}
-.user-home-calendar-date-picker .mantine-focus-auto {
-    outline: none !important;
-    /* background-color: yellow; */
+@media (max-width: 880px) {
+    .calendar-block-parent,.milestone-block-parent {
+      width: 100%;
+    }
 }

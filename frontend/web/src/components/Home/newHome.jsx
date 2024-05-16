@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
-import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
-
 import {getTaskInfo} from './../../DataManagement/Tasks/getTasks';
 
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import HomeHeader from '../Home/HomeHeader/homeHeader';
 import HomeNavbar from './HomeNavbar/homeNavbar';
 import TaskCard from './TaskCard/taskCard';
 import ProjectCard from './ProjectCard/projectCard';
 import HomeSidebar from './HomeSidebar/homeSidebar';
+import CalendarBlock from './CalendarBlock/calendarBlock';
 import MilestoneBlock from './MilestoneBlock/milestoneBlock';
-
-import { DatePicker, DatesProvider } from '@mantine/dates';
 
 // import StatBlocks from './HomeHeader/StatBlocks/statBlocks';
 
@@ -53,31 +49,7 @@ const NewHome = () => {
         setCompletedTasks(completed);
     }, [taskData,dayjs]);
 
-    useEffect(() => {
-        if (today) {
-            setSelectedDate(dayjs(today));
-            setNoEventScheduledDate(dayjs(today).format('MMM D, YYYY'));
-        }
-    }, [today,dayjs]);
-
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
-
-    const [selectedDate, setSelectedDate] = useState(dayjs(today));
-    const [noEventScheduledDate, setNoEventScheduledDate] = useState(dayjs(today).format('MMM D, YYYY'));
-    const handleEventDateSelection = (date) => {
-        setNoEventScheduledDate(dayjs(date).format('MMM D, YYYY'));
-        setSelectedDate(date);
-    };
-
-
-    const[taskDataWithMatchingDates, setTaskDataWithMatchingDates] = useState([]);
-    useEffect(() => {
-        if(taskData) {
-            setTaskDataWithMatchingDates(taskData.filter(taskRow =>
-                dayjs(taskRow.dueDate).isSame(dayjs(selectedDate), 'day')
-            ));
-        }
-    }, [taskData,selectedDate,dayjs])
 
     return (
         <>
@@ -100,74 +72,43 @@ const NewHome = () => {
 
                 <HomeHeader />
 
-                {/* <StatBlocks upcomingTasks={upcomingTasks} /> */}
-
                 <div className='container' style={{width: "100%"}}>
                     <div className='row'>
-                        <div className="col-xl-8 col-8">
+                        <div className="col-lg-8 task-card-parent">
                             
                             <div className='py-3'>
                                 <div className='d-flex justify-content-between py-2'>
-                                    <TaskCard taskData={taskData} setTaskData={setTaskData} today={today} 
-                                    upcomingTasks={upcomingTasks} setUpcomingTasks={setUpcomingTasks} overdueTasks={overdueTasks} setOverdueTasks={setOverdueTasks}
-                                    completedTasks={completedTasks} setCompletedTasks={setCompletedTasks}
+                                    <TaskCard 
+                                    taskData={taskData} setTaskData={setTaskData} today={today} 
+                                    upcomingTasks={upcomingTasks} overdueTasks={overdueTasks}
+                                    completedTasks={completedTasks}
                                     allTagData={allTagData} setAllTagData={setAllTagData}/>
                                 </div>
                             </div>
 
                             <div className='d-flex justify-content-between py-2'>
-                                <ProjectCard />
+                                <ProjectCard 
+                                />
                             </div>
                         </div>
 
-                        <div className="col-xl-4 col-12">
-                            <div className='mt-4 d-md-block'>
-
-
-                                <div className='pt-3 pb-4 px-4 mb-4' style={{ backgroundColor: "#222529", borderRadius: "10px",border: "2px solid #313234" }} >
-                                    <div className='d-flex justify-content-between pb-3'>
-                                        <div className='user-home-calendar-text'>
-                                            Calendar
-                                        </div>
-                                        <div>
-                                            <MoreHorizRoundedIcon style={{color: "#fafafa"}}/>
-                                        </div>
-                                    </div>
-                                    <div className='pt-2'>
-                                        <div className='d-flex justify-content-center mb-4'>
-                                            <DatesProvider>
-                                                <DatePicker size="sm" value={selectedDate} onChange={handleEventDateSelection} className='user-home-calendar-date-picker' style={{color: "#fafafa"}}/>
-                                            </DatesProvider>
-                                        </div>
-                                        {taskDataWithMatchingDates.length > 0 ? taskDataWithMatchingDates.map((item, index) => (
-                                            <div
-                                                key={item.name}
-                                                className='d-flex mb-3 mt-3 justify-content-between lato-font user-home-calendar-current-day-item'
-                                            >  
-                                                <div  className='d-flex justify-content-center align-items-center'>
-                                                    <CheckRoundedIcon className='user-home-task-check-icon' />
-                                                    <span className='ps-2'>{item.name}</span>
-                                                </div>
-                                                <div className={`user-home-calendar-current-daytime-item ${dayjs(item.dueDate)>=dayjs(today) ? 'upcoming' : 'delayed'}`} >
-                                                    {dayjs(item.dueDate).format('h:mm a')}
-                                                </div>
-                                            </div>
-                                        )) : 
-                                        <div style={{color: "#c8c8c8",padding: "16px 0px"}} className='d-flex lato-font justify-content-center text-center mb-3' 
-                                           >
-                                            No events or tasks scheduled for {noEventScheduledDate}
-                                        </div>
-                                        }
-                                        <div className='d-flex justify-content-center'>
-                                            <button className='user-home-create-milestone-button-dark' >
-                                                Create an event
-                                            </button>
-                                        </div>
-                                    </div>
+                        <div className="col-lg-4 col-md-12 col-12 user-home-right-side-block">
+                            <div className='mt-4 d-md-block col-12'>
+                            <div className="row">
+                                <div className='col-lg-12 calendar-block-parent'>
+                                    <CalendarBlock 
+                                        taskData={taskData}
+                                        today={today}
+                                    />
                                 </div>
+                                <div className='col-lg-12 milestone-block-parent'>
+                                    <MilestoneBlock />
 
-                                <MilestoneBlock />
+                                </div>
+                                
                             </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>

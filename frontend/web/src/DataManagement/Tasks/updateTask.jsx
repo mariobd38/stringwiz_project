@@ -40,7 +40,6 @@ function UpdateTaskInfo  (
             setCurrentTaskDueDateTime(dayjs(task.dueDateTime));
             dueDateRelated=true;
         } else {
-            console.log(task.dueDateTime);
             //update task due date
             task.dueDate =  (task.dueDateTime) ? dayjs(selectedDate) : dayjs(selectedDate).endOf('day');
             // task.dueDate = dayjs(selectedDate).endOf('day');
@@ -94,8 +93,6 @@ function UpdateTaskInfo  (
                 task.status = 'Completed';
             }
         }
-        console.log(task.dueDate);
-        console.log(task.dueDateHasTime);
 
         const taskInfo = {
             id: task.id,
@@ -122,7 +119,6 @@ function UpdateTaskInfo  (
             })
             .then((newData) => {
                 let updatedTaskType = [...taskType];
-                console.log(newData);
                 updatedTaskType[currentRowIndex] = newData;
                 setTaskType(updatedTaskType); 
                 resolve();

@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 import { motion } from 'framer-motion';
 
+
 import team_work from '../../../assets/illustrations/landing/team_work.png';
 import archery_goals from '../../../assets/illustrations/landing/archery_goals.png';
 import shared_goals from '../../../assets/illustrations/landing/shared_goals.png';
 
 import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
-import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import EventRoundedIcon from '@mui/icons-material/EventRounded';
@@ -84,11 +84,8 @@ const MainContent = () => {
                 <div className="container py-5">
                     <div className='row'>
                         <div className='col-12 col-lg-6 m-auto'>
-                            <div style={{lineHeight: "4rem"}}
-                            className='fafafa-color top-left-header-text d-flex text-center justify-content-md-between'>Collab like never before
-                                {/* <span>
-                                    <img src={coconut} className="coconut mw-100 ms-1 pb-3 ms-xl-2 w-100 text-center" alt="coconut" />
-                                </span> */}
+                            <div style={{lineHeight: "4rem"}} className='fafafa-color top-left-header-text d-flex  justify-content-md-between'>
+                                Collab like never before
                             </div>
 
                             <div className=''>

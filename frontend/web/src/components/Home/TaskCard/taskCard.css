@@ -1,12 +1,23 @@
 /* .user-home-card-task-tab[tabindex="0"] {
     background-color: #232426 !important;
 } */
+.task-card-card {
+    font-family: 'Nunito Sans';
+    width: 90%;
+    border: 2px solid #313234;
+    border-radius: 10px;
+}
+@media (max-width: 1200px) {
+    .task-card-card {
+        width: 100%;
+    }
+}
 .user-home-create-task-button-dark {
-    font-family: 'Nunito Sans', serif !important;
-    text-transform: initial !important;
-    font-weight: 600 !important;
-    padding: 0.06rem 0.4rem !important;
-    border-radius: 7px !important;
+    font-family: 'Nunito Sans', serif;
+    text-transform: initial;
+    font-weight: 600;
+    padding: 6px;
+    border-radius: 7px;
 }
 .user-home-create-task-button-dark:hover {
     background-color: #25262a !important;
@@ -17,7 +28,6 @@
 }
 .table-container-wrapper {
     height: 22rem; 
-    /* min-height: 17rem;  */
     overflow: auto;
 }
 .table-container {

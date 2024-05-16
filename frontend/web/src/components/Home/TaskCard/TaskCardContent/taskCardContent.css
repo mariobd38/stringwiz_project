@@ -18,6 +18,8 @@
     overflow: hidden !important;
     border: none !important;
     border-radius: 10px;
+    padding: 14px 16px !important;
+    height: 55px !important;
 }
 .table-cell:hover {
     background-color: #2f3032 !important;
@@ -31,8 +33,7 @@
 }
 .user-home-task-check-icon:hover {
     cursor: pointer;
-    color: #006A4E !important;
-    border-color: #006A4E !important;
+    color: #048a66 !important;
 }
 .task-name-link {
     color: inherit;

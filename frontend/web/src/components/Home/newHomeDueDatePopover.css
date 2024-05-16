@@ -78,10 +78,14 @@
     transition: all 0.4s ease;
 }
 .user-home-calendar-time-picker .ant-picker-input input::placeholder {
-    color: #bababa;
+    color: #cfcfcf;
 }
 .user-home-calendar-time-picker .ant-picker-input .ant-picker-suffix {
     color: #fafafa;
+}
+.user-home-calendar-time-picker .ant-picker-input input[disabled] ~ .ant-picker-suffix,
+.user-home-calendar-time-picker .ant-picker-input input[disabled]::placeholder {
+    color: #909090 !important;
 }
 .ant-popover-inner {
     background-color: #222529 !important;

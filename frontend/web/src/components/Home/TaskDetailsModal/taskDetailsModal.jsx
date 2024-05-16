@@ -42,7 +42,7 @@ const TaskDetailsModal = (props) => {
             currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskLastUpdatedOn,
             nonIncludedTaskTags, setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, setSelectedDate, currentTaskTags, setCurrentTaskTags,
             taskType, setTaskType,selectedDate, today, currentTaskDueDateTime, setCurrentTaskDueDateTime,
-            onHide, show, setModalShow, allTagData,handleTagCreation,completedTasks,setDueDatePopoverIsOpen
+            onHide, show, setModalShow, allTagData,handleTagCreation,completedTasks,dueDatePopoverIsOpen,setDueDatePopoverIsOpen
          } = props;
 
     const [userFullName] = useLocalState("", "userFullName");
@@ -76,12 +76,14 @@ const TaskDetailsModal = (props) => {
         if (location.pathname === '/home/modal' && !show) {
 
             const timeout = setTimeout(() => {
-                const newUrl = '/home';
-                window.history.replaceState(null, null, newUrl);
+                // const newUrl = '/home';
+                // window.history.replaceState(null, null, newUrl);
+                navigate('/home');
             }, 300);
             return () => clearTimeout(timeout);
+                // navigate('/home');
         }
-    }, [location.pathname, show, setModalShow]);
+    }, [location.pathname, show, navigate]);
 
     //task description
     const handleTaskUpdate = (event) => {
@@ -359,14 +361,15 @@ const TaskDetailsModal = (props) => {
                                                     {currentTaskDateFormatter(currentTaskDueDate)}
                                                 </span>
                                                 {currentTaskDateFormatter(currentTaskDueDate) !== 'None' &&
-                                                <span className='user-home-task-details-modal-due-date-remove d-flex justify-content-center ms-4 me-3' onClick={(event) => { handleTaskUpdate(event); handleTaskUpdate(event); }}>
+                                                <span className='user-home-task-details-modal-due-date-remove d-flex justify-content-center ms-4 me-3' onClick={(event) => { event.stopPropagation(); handleTaskUpdate(event); }}>
                                                     <CloseRoundedIcon className='user-home-task-details-modal-due-date-remove-icon'/>
                                                 </span>}
                                         </div>
                                         } 
-                                        setDueDatePopoverIsOpen={setDueDatePopoverIsOpen} currentIndex={currentIndex} taskType={taskType} setTaskType={setTaskType}
+                                        currentIndex={currentIndex} taskType={taskType} setTaskType={setTaskType}
                                         currentTaskDueDate={currentTaskDueDate} setCurrentTaskDueDate={setCurrentTaskDueDate} 
                                         currentTaskDueDateTime={currentTaskDueDateTime} setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
+                                        dueDatePopoverIsOpen={dueDatePopoverIsOpen} setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
                                         handleDueDatePopoverClose={handleDueDatePopoverClose} today={today} 
                                     />
                                         

@@ -39,7 +39,8 @@ const NavbarContent = (props) => {
     }, [closeOffcanvasIfLargeScreen]);
   
     return (
-        <nav className="navbar navbar-expand-lg sticky-top landing-navbar" style={{backgroundColor: scrollPosition > 40 ? '#fafafa' : 'transparent'}}>
+        <nav className="navbar navbar-expand-lg sticky-top landing-navbar" style={{backgroundColor: scrollPosition > 40 ? navbarBackground : 'transparent',
+        borderBottom: scrollPosition > 40 ? '1.2px solid #c9c9c9' : 'none'}}>
             <div className='container-fluid'>
                 <CocollabLogo width={2.1} paddingBottom={0.4} fontSize={2.6} textColor={`${scrollPosition > 40 ? '4296af' : 'fafafa'}`}></CocollabLogo>
                     <button

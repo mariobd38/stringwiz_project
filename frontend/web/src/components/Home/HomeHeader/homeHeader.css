@@ -54,9 +54,13 @@
 .home-header-invite-button {
     padding: 2px 13px 2px 9px;
     border-radius: 8px !important;
-    background-color: #fafafa;
-    color: rgb(34, 37, 41);
+    border: 1px solid #fafafa;
+    color: #dfdfdf;
     font-weight: 600;
     font-family: 'Lato';
     font-size: 1.03rem;
+}
+.home-header-invite-button:hover {
+    background-color: #2a2b2d;
+    color: #fafafa;
 }

@@ -31,7 +31,7 @@ public class TaskService {
             if (currentTask.getDueDate() != null) {
                 DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
                 ZonedDateTime z = ZonedDateTime.parse(currentTask.getDueDate().toString(), formatter.withZone(ZoneId.of("UTC")));
-                ZoneId pstZone = ZoneId.of("America/Los_Angeles");
+                ZoneId pstZone = ZoneId.systemDefault();
                 ZonedDateTime dueDatesPst = z.withZoneSameInstant(pstZone);
 
                 currentTask.setDueDate(dueDatesPst);

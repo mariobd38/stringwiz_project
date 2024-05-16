@@ -6,7 +6,7 @@ import './milestoneBlock.css';
 
 const MilestoneBlock = () => {
     return (
-        <div className='pt-3 pb-4 px-4' style={{ backgroundColor: "#222529", borderRadius: "10px" }} >
+        <div className='pt-3 pb-4 px-4' style={{ backgroundColor: "#222529", borderRadius: "10px",border: "2px solid #313234" }} >
             <div className='d-flex justify-content-between'>
                 <div style={{color: "#fafafa", fontFamily: "Lato",fontWeight: "600", fontSize: "1.2rem"}}>
                     Milestones
@@ -27,7 +27,7 @@ const MilestoneBlock = () => {
                     </svg>
 
                 </div>
-                <div style={{color: "#c8c8c8"}} className='d-flex lato-font justify-content-center pb-3'>
+                <div style={{color: "#c8c8c8"}} className='d-flex lato-font text-center justify-content-center pb-3'>
                     You do not have any milestones yet
                 </div>
                 <div className='d-flex justify-content-center'>
