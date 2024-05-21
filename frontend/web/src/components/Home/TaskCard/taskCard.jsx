@@ -458,6 +458,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, overdueTasks,
                 completedTasks={completedTasks}
                 dueDatePopoverIsOpen={dueDatePopoverIsOpen}
                 setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
+                setCurrentTaskStatus={setCurrentTaskStatus}
             />
         </>
     );

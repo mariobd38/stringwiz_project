@@ -1,7 +1,5 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useClickAway } from 'react-use';
-
-import Button from 'react-bootstrap/Button';
 
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
@@ -49,13 +47,24 @@ export const ModelDropdown = (props) => {
     const { items, 
         hasItemTypesOption, hasArrow, hasHeaderDescText, hasSearchBar,handleTagCreation,
         initialNameValue, initialIconValue, isPriorityDropdown, setCurrentTaskPriority, isDropdownOnRightSide,
-        isStatusBtn, taskType, currentIndex, allTagData,currentTaskTags,setCurrentTaskTags,isTagOptionsBtn
+        isStatusBtn, taskType, currentIndex, allTagData,currentTaskTags,setCurrentTaskTags,isTagOptionsBtn, currentTaskStatus,
+        setCurrentTaskStatus
     } = props;
 
     const isTagDropdown = initialNameValue === '';
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [currentItem, setCurrentItem] = useState({ name: initialNameValue, icon: initialIconValue });
+    const statuses = useMemo(() => { return ['To Do', 'In Progress', 'Completed']; }, []);
+    const [nextStatus, setNextStatus] = useState(statuses[statuses.indexOf(currentTaskStatus)+1]);
+
+    useEffect(() => {
+        if (statuses.indexOf(currentTaskStatus) === statuses.length - 1) {
+            setNextStatus(statuses[0]);
+        } else {
+            setNextStatus(statuses[statuses.indexOf(currentTaskStatus)+1]);
+        }
+    }, [currentTaskStatus,statuses]);
 
     const handleMenuItemClick = (event,item) => {
         setCurrentItem(item);
@@ -72,7 +81,10 @@ export const ModelDropdown = (props) => {
                 setCurrentItem({name: null, icon: null});
                 setCurrentTaskPriority(null);
             }
-        } 
+        } else {
+            setCurrentItem({name: item.name, icon: item.icon});
+            setCurrentTaskStatus(item.name);
+        }
         
         setIsDropdownOpen(!isDropdownOpen);
     }
@@ -116,7 +128,6 @@ export const ModelDropdown = (props) => {
 
     async function handleNextStatusClick (event)  {
         await props.handleTaskUpdate(event);
-        let statuses = ['To Do', 'In Progress', 'Completed'];
         if (statuses.indexOf(taskType[currentIndex].status) === statuses.length - 1) {
             taskType[currentIndex].status = statuses[0];
         } else {
@@ -125,6 +136,7 @@ export const ModelDropdown = (props) => {
         const nextStatusName = taskType[currentIndex].status;
         const nextStatusIcon = items.find(item => item.name === nextStatusName).icon;
         setCurrentItem({name: nextStatusName, icon: nextStatusIcon});
+        setCurrentTaskStatus(nextStatusName);
     }
     
     const ref = useRef(null);
@@ -220,20 +232,34 @@ export const ModelDropdown = (props) => {
                     }
                     
 
-                    {hasSearchBar &&
+                    {hasSearchBar && !isStatusBtn ?
                         <div className='d-flex align-items-center' style={{borderBottom: "1px solid #898989"}}>
                             <form className="model-dropdown-search" role='search' onSubmit={(event) => {event.preventDefault(); return false;}}>
                                 <input
                                     className="form-control model-dropdown-search-input me-2"
                                     type="text"
-                                    placeholder={`${isTagDropdown ? 'Search or create new..' : 'Search'}`}                                               
+                                    placeholder={`${isTagDropdown ? 'Search or create new tag' : 'Search'}`}                                               
                                     aria-label="Search"
                                     onChange={isTagDropdown ? handleTagSearch : undefined}
                                     onKeyDown={isTagDropdown ? handleTagSearch : undefined}
                                     value={isTagDropdown ? tagInputValue : ''}
                                 />
                             </form>
-                        </div>
+                        </div> : hasSearchBar && 
+                        <div className='d-flex align-items-center' style={{borderBottom: "1px solid #898989"}}>
+                        <form className="model-dropdown-search" role='search' onSubmit={(event) => {event.preventDefault(); return false;}}>
+                            <input
+                                className="form-control model-dropdown-search-input me-2"
+                                type="text"
+                                placeholder='Search or create new status'                                             
+                                aria-label="Search"
+                                // onChange={isTagDropdown ? handleTagSearch : undefined}
+                                // onKeyDown={isTagDropdown ? handleTagSearch : undefined}
+                                // value={isTagDropdown ? tagInputValue : ''}
+                            />
+                        </form>
+                    </div>
+
                     }
                     {tagAlreadyAttached &&
                     <div className="m-0 pt-2 ps-2 pb-1">Tag already attached</div>
@@ -277,13 +303,15 @@ export const ModelDropdown = (props) => {
         
             {isStatusBtn &&
             <>
-                <button className='user-home-task-details-modal-next-status-btn d-flex align-items-center justify-content-center' onClick={handleNextStatusClick}>
-                    <ArrowForwardIosRoundedIcon style={{width: "1.2rem",color:"#fafafa"}}/>
-                </button>
+                <Tooltip label={`Next status › ${nextStatus}`} position="bottom" offset={10} withArrow openDelay={400} className='fafafa-color lato-font' style={{backgroundColor: "#338b6f", borderRadius: "6px"}}> 
+                    <button className='user-home-task-details-modal-next-status-btn d-flex align-items-center justify-content-center' onClick={handleNextStatusClick}>
+                        <ArrowForwardIosRoundedIcon style={{width: "1.2rem",color:"#fafafa"}}/>
+                    </button>
+                </Tooltip>
 
-                <Button className='ms-2 user-home-task-details-modal-status-set-complete-btn d-flex align-items-center user-home-task-set-complete' onClick={handleSetCompleteTask}>
+                <button className='ms-2 user-home-task-details-modal-status-set-complete-btn d-flex align-items-center user-home-task-set-complete' onClick={handleSetCompleteTask}>
                     <CheckRoundedIcon style={{width: "1.7rem", color: "#989898"}}/>
-                </Button>
+                </button>
             </>
             }
         </div>

@@ -1,0 +1,89 @@
+/* new */
+.header {
+  /* height: rem(60px); */
+  padding-left: var(--mantine-spacing-md);
+  padding-right: var(--mantine-spacing-md);
+  height: 5.75rem;
+  transition: background-color 0.4s ease-in-out;
+  /* border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4)); */
+}
+
+.link {
+  /* width: 80px; */
+  display: flex;
+  align-items: center;
+  height: 50%;
+  padding-left: var(--mantine-spacing-md);
+  padding-right: var(--mantine-spacing-md);
+  text-decoration: none;
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+  font-weight: 500;
+  /* font-size: var(--mantine-font-size-md); */
+
+  @media (max-width: $mantine-breakpoint-md) {
+    height: rem(48px);
+    display: flex;
+  }
+
+  /* Ensure flex display for exactly md breakpoint */
+  @media (min-width: $mantine-breakpoint-md) and (max-width: $mantine-breakpoint-lg) {
+    display: flex;
+    /* background: red; */
+    flex-direction: row;
+  }
+
+  /* @mixin hover {
+    background-color: light-dark(
+      var(--mantine-color-gray-0),
+      var(--mantine-color-dark-6)
+    );
+  } */
+}
+.solutionslink, .platformlink {
+    display: flex;
+  align-items: center;
+  height: 50%;
+  padding-left: var(--mantine-spacing-md);
+  padding-right: var(--mantine-spacing-md);
+  text-decoration: none;
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+  font-weight: 500;
+
+  @media (max-width: $mantine-breakpoint-md) {
+    height: rem(42px);
+    display: flex;
+  }
+
+  @media (min-width: $mantine-breakpoint-md) and (max-width: $mantine-breakpoint-lg) {
+    display: flex;
+    flex-direction: row;
+  }
+}
+.link:hover {
+  background: #2a82cf86;
+  border-radius: 5px;
+}
+
+.subLink {
+  width: 100%;
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
+  border-radius: var(--mantine-radius-md);
+  border: 1px solid #ffffff;
+
+  @mixin hover {
+    background-color: #f6f6f6;
+  }
+}
+
+.dropdownFooter {
+  background-color: light-dark(
+    var(--mantine-color-gray-0),
+    var(--mantine-color-dark-7)
+  );
+  margin: calc(var(--mantine-spacing-md) * -1);
+  margin-top: var(--mantine-spacing-md);
+  padding: var(--mantine-spacing-md) calc(var(--mantine-spacing-md) * 2);
+  padding-bottom: var(--mantine-spacing-xl);
+  border-top: rem(1px) solid
+    light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-5));
+}

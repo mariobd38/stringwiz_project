@@ -42,7 +42,7 @@ const TaskDetailsModal = (props) => {
             currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskLastUpdatedOn,
             nonIncludedTaskTags, setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, setSelectedDate, currentTaskTags, setCurrentTaskTags,
             taskType, setTaskType,selectedDate, today, currentTaskDueDateTime, setCurrentTaskDueDateTime,
-            onHide, show, setModalShow, allTagData,handleTagCreation,completedTasks,dueDatePopoverIsOpen,setDueDatePopoverIsOpen
+            onHide, show, setModalShow, allTagData,handleTagCreation,completedTasks,dueDatePopoverIsOpen,setDueDatePopoverIsOpen,setCurrentTaskStatus
          } = props;
 
     const [userFullName] = useLocalState("", "userFullName");
@@ -388,8 +388,8 @@ const TaskDetailsModal = (props) => {
                                                 ]}
                                                 initialNameValue={currentTaskStatus} initialIconValue={currentTaskStatus==='Completed' ? <CheckRoundedIcon /> : <RadioButtonCheckedRoundedIcon />}
                                                 handleTaskUpdate={(event) => handleTaskUpdate(event)}
-                                                hasSearchBar={true} isStatusBtn={true}
-                                                taskType={taskType} currentIndex={currentIndex}
+                                                hasSearchBar={true} isStatusBtn={true} currentTaskStatus={currentTaskStatus}
+                                                taskType={taskType} currentIndex={currentIndex} setCurrentTaskStatus={setCurrentTaskStatus}
                                             />
                                         </span>
                                     </div>

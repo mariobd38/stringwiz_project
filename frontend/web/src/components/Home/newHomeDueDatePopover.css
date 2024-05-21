@@ -25,9 +25,6 @@
 .user-home-time-picker .MuiTimePickerToolbar-ampmSelection .MuiButtonBase-root .MuiTypography-root:hover {
     color: #3874CB !important;
 }
-/* .user-home-time-picker .MuiTimePickerToolbar-ampmSelection .MuiButtonBase-root:active .MuiTypography-root {
-    color: red !important;
-} */
 .date-time-picker-btn {
     cursor: pointer;
 }
@@ -35,7 +32,6 @@
     background-color: #222529 !important;
     font-family: 'Lato', serif;
 }
-
 .date-calendar-btn {
     background-color: #222529 !important;
     color: #fafafa !important;
