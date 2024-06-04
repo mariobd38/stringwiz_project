@@ -37,9 +37,9 @@ const HomeSidebar = (props) => {
                 <button className={`toggle-btn ${openSidebarToggle ? 'active' : ''}`} onClick={handleOpenSidebarToggle}>
                     {openSidebarToggle 
                     ?
-                        <KeyboardDoubleArrowLeftRoundedIcon sx={{color: "#222529"}}/>
+                        <KeyboardDoubleArrowLeftRoundedIcon sx={{color: "#222529", width: "20px"}}/>
                     :
-                        <KeyboardDoubleArrowRightRoundedIcon sx={{color: "#222529"}}/>
+                        <KeyboardDoubleArrowRightRoundedIcon sx={{color: "#222529", width: "20px"}}/>
                         
                     }
                 </button>

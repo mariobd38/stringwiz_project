@@ -20,7 +20,7 @@ const TaskCardContent = (props) => {
     const {today, taskData,taskType,currentTaskDueDate, currentTaskDueDateTime, currentIndex, setCurrentIndex, setCurrentTaskDueDate,
         setCurrentTaskDueDateTime, getTagInfo,setCurrentTaskTags,setModalShow,setCurrentTaskName,setCurrentTaskCreationDate,setCurrentTaskDescription,
         setCurrentTaskLastUpdatedOn,setCurrentTaskStatus,setCurrentTaskPriority,
-        handleTaskComplete,dueDatePopoverIsOpen,setDueDatePopoverIsOpen,setTaskType,isTaskTabCompleted
+        handleTaskComplete,dueDatePopoverIsOpen,setDueDatePopoverIsOpen,setTaskType,isTaskTabCompleted, setCurrentTaskDescriptionHtml
     } 
     = props;
 
@@ -46,6 +46,7 @@ const TaskCardContent = (props) => {
             setCurrentTaskCreationDate(taskType[index].createdOn);
             setCurrentTaskLastUpdatedOn(taskType[index].lastUpdatedOn);
             setCurrentTaskDescription(taskType[index].description);
+            setCurrentTaskDescriptionHtml(taskType[index].descriptionHtml);
             setCurrentTaskDueDate(taskType[index].dueDate);
             setCurrentTaskDueDateTime(taskData[index].dueDateTime);
             setCurrentTaskStatus(taskType[index].status);

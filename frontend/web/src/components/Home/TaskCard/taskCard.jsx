@@ -121,6 +121,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, overdueTasks,
     const [currentTaskCreationDate, setCurrentTaskCreationDate] = useState('');
     const [currentTaskLastUpdatedOn, setCurrentTaskLastUpdatedOn] = useState('');
     const [currentTaskDescription, setCurrentTaskDescription] = useState('');
+    const [currentTaskDescriptionHtml, setCurrentTaskDescriptionHtml] = useState('');
     // const [currentTaskIdNumber, setCurrentTaskIdNumber] = useState('');
     const [currentTaskStatus, setCurrentTaskStatus] = useState('');
     const [currentTaskPriority, setCurrentTaskPriority] = useState('');
@@ -202,6 +203,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, overdueTasks,
             }
         };
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentIndex, currentTaskTags]);
 
     const updateTaskTags = (updatedTags) => {
@@ -326,6 +328,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, overdueTasks,
                                                 setCurrentTaskName={setCurrentTaskName}
                                                 setCurrentTaskCreationDate={setCurrentTaskCreationDate}
                                                 setCurrentTaskDescription={setCurrentTaskDescription}
+                                                setCurrentTaskDescriptionHtml={setCurrentTaskDescriptionHtml}
                                                 setCurrentTaskLastUpdatedOn={setCurrentTaskLastUpdatedOn}
                                                 setCurrentTaskStatus={setCurrentTaskStatus}
                                                 setCurrentTaskPriority={setCurrentTaskPriority}
@@ -364,6 +367,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, overdueTasks,
                                                 setCurrentTaskName={setCurrentTaskName}
                                                 setCurrentTaskCreationDate={setCurrentTaskCreationDate}
                                                 setCurrentTaskDescription={setCurrentTaskDescription}
+                                                setCurrentTaskDescriptionHtml={setCurrentTaskDescriptionHtml}
                                                 setCurrentTaskLastUpdatedOn={setCurrentTaskLastUpdatedOn}
                                                 setCurrentTaskStatus={setCurrentTaskStatus}
                                                 setCurrentTaskPriority={setCurrentTaskPriority}
@@ -402,6 +406,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, overdueTasks,
                                                 setCurrentTaskName={setCurrentTaskName}
                                                 setCurrentTaskCreationDate={setCurrentTaskCreationDate}
                                                 setCurrentTaskDescription={setCurrentTaskDescription}
+                                                setCurrentTaskDescriptionHtml={setCurrentTaskDescriptionHtml}
                                                 setCurrentTaskLastUpdatedOn={setCurrentTaskLastUpdatedOn}
                                                 setCurrentTaskStatus={setCurrentTaskStatus}
                                                 setCurrentTaskPriority={setCurrentTaskPriority}
@@ -439,6 +444,7 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, overdueTasks,
                 currentTaskCreationDate={currentTaskCreationDate}
                 currentTaskLastUpdatedOn={currentTaskLastUpdatedOn}
                 currentTaskDescription={currentTaskDescription}
+                currentTaskDescriptionHtml={currentTaskDescriptionHtml}
                 currentTaskDueDate={currentTaskDueDate}
                 currentTaskDueDateTime={currentTaskDueDateTime}
                 currentTaskStatus={currentTaskStatus}

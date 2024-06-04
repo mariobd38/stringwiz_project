@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef,createRef } from 'react';
+
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLocalState } from "../../../utils/useLocalStorage";
 import { useClickAway } from 'react-use';
@@ -8,7 +9,7 @@ import dayjs from 'dayjs';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-import { TextareaAutosize } from '@mui/base/TextareaAutosize';
+// import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
@@ -35,15 +36,31 @@ import { updateTagInfo } from '../../../DataManagement/Tags/updateTag';
 import { deleteTagInfo } from '../../../DataManagement/Tags/deleteTag';
 import TaskDeletionModal from './TaskDeletionModal/taskDeletionModal';
 import TaskDetailsModalHeader from './TaskDetailsModalHeader/taskDetailsModalHeader';
+
+import { RichTextEditor, Link } from '@mantine/tiptap';
+import { useEditor } from '@tiptap/react';
+import Highlight from '@tiptap/extension-highlight';
+import StarterKit from '@tiptap/starter-kit';
+import Underline from '@tiptap/extension-underline';
+import TextAlign from '@tiptap/extension-text-align';
+import Superscript from '@tiptap/extension-superscript';
+import SubScript from '@tiptap/extension-subscript';
+import Placeholder from '@tiptap/extension-placeholder';
+
+
+import '@mantine/tiptap/styles.css';
 import './taskDetailsModal.css';
+
 
 const TaskDetailsModal = (props) => {
     const { 
             currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskLastUpdatedOn,
             nonIncludedTaskTags, setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, setSelectedDate, currentTaskTags, setCurrentTaskTags,
             taskType, setTaskType,selectedDate, today, currentTaskDueDateTime, setCurrentTaskDueDateTime,
-            onHide, show, setModalShow, allTagData,handleTagCreation,completedTasks,dueDatePopoverIsOpen,setDueDatePopoverIsOpen,setCurrentTaskStatus
+            onHide, show, setModalShow, allTagData,handleTagCreation,completedTasks,dueDatePopoverIsOpen,setDueDatePopoverIsOpen,setCurrentTaskStatus, currentTaskDescriptionHtml
          } = props;
+    
+    const content = currentTaskDescriptionHtml;
 
     const [userFullName] = useLocalState("", "userFullName");
     const [firstName, lastName] = userFullName.split(' ');
@@ -296,6 +313,45 @@ const TaskDetailsModal = (props) => {
         setTagDeleteButtonClicked(false);
     }
 
+    const editor = useEditor({
+        extensions: [
+          StarterKit,
+          Underline,
+          Link,
+          Superscript,
+          SubScript,
+          Highlight.configure({ multicolor: true }),
+          TextAlign.configure({ types: ['heading', 'paragraph'] }),
+          Placeholder.configure(
+            { placeholder: "Write your task description"  }),
+        ],
+        content,
+        onUpdate(props) {
+            // console.log(props.editor.getHTML());
+            // console.log(event.currentTarget);
+            const description = props.editor.getHTML();
+            UpdateTaskInfo(
+                currentIndex, 
+                "description",
+                taskType,
+                setTaskType,
+                selectedDate,
+                dayjs,
+                setCurrentTaskDueDate,
+                setCurrentTaskDueDateTime,
+                completedTasks,
+                description
+            );
+        }
+      });
+
+      useEffect(() => {
+        editor?.commands.setContent(content || "", false, {
+            preserveWhitespace: true,
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [content]);
+
     return (
         <>
             <Modal
@@ -435,7 +491,6 @@ const TaskDetailsModal = (props) => {
                                                     onMouseLeave={() => handleTagOptionsDropdownMouseLeave(index)}
                                                 >
                                                     <span className='d-flex'>
-                                                        {/* <SellRoundedIcon className='pe-2' /> */}
                                                         {tagNameRenameButtonClicked && index === tagNameRenameButtonClickedIndex ?  
                                                             <input autoFocus='true' defaultValue={`${tag.name}`} className={`align-middle user-home-task-details-modal-tags-button-text-input`} 
                                                             ref={tagButtonTextRefs.current[index]} onKeyDown={(event) => handleTagRename(event,tag.name)}>
@@ -500,13 +555,67 @@ const TaskDetailsModal = (props) => {
                     </div> 
 
                     <div className='mt-3'>
-                        <div className="user-home-task-details-modal-description m-0 p-0">
+                        {/* <div className="user-home-task-details-modal-description m-0 p-0">
                             <TextareaAutosize
                                 placeholder='Write a description for your task'
                                 className='form-control user-home-task-details-modal-description-textarea'
                                 onChange={handleTaskUpdate}
                                 defaultValue={`${currentTaskDescription !== null ? currentTaskDescription : ''}`}
                             />
+                        </div> */}
+                        <div className="rich-text-editor-wrapper">
+                            <RichTextEditor editor={editor} style={{borderRadius: "8px"}} className='user-home-task-details-rte'>
+                                <RichTextEditor.Toolbar sticky stickyOffset={60} className='user-home-task-details-modal-rte-toolbar' >
+                                    <RichTextEditor.ControlsGroup className='user-home-task-details-modal-rte-controls-group'>
+                                        <RichTextEditor.Bold />
+                                        <RichTextEditor.Italic />
+                                        <RichTextEditor.Underline />
+                                        <RichTextEditor.Strikethrough />
+                                        <RichTextEditor.ClearFormatting />
+                                        <RichTextEditor.Highlight />
+                                        <RichTextEditor.Code />
+                                    </RichTextEditor.ControlsGroup>
+
+                                    <RichTextEditor.ControlsGroup className='user-home-task-details-modal-rte-controls-group'>
+                                    <RichTextEditor.H1 />
+                                    <RichTextEditor.H2 />
+                                    <RichTextEditor.H3 />
+                                    <RichTextEditor.H4 />
+                                    </RichTextEditor.ControlsGroup>
+
+                                    <RichTextEditor.ControlsGroup className='user-home-task-details-modal-rte-controls-group'>
+                                    <RichTextEditor.Blockquote />
+                                    <RichTextEditor.Hr />
+                                    <RichTextEditor.BulletList />
+                                    <RichTextEditor.OrderedList />
+                                    <RichTextEditor.Subscript />
+                                    <RichTextEditor.Superscript />
+                                    </RichTextEditor.ControlsGroup>
+
+                                    <RichTextEditor.ControlsGroup className='user-home-task-details-modal-rte-controls-group'>
+                                    <RichTextEditor.Link />
+                                    <RichTextEditor.Unlink />
+                                    </RichTextEditor.ControlsGroup>
+
+                                    <RichTextEditor.ControlsGroup className='user-home-task-details-modal-rte-controls-group'>
+                                    <RichTextEditor.AlignLeft />
+                                    <RichTextEditor.AlignCenter />
+                                    <RichTextEditor.AlignJustify />
+                                    <RichTextEditor.AlignRight />
+                                    </RichTextEditor.ControlsGroup>
+
+                                    <RichTextEditor.ControlsGroup className='user-home-task-details-modal-rte-controls-group'>
+                                    <RichTextEditor.Undo />
+                                    <RichTextEditor.Redo />
+                                    </RichTextEditor.ControlsGroup>
+                                </RichTextEditor.Toolbar>
+
+                                <RichTextEditor.Content bg='#222325' content={content} className='user-home-task-details-modal-rte-content'
+                                    
+                                    // onChange={handleTaskUpdate}
+                                    // defaultValue={`${currentTaskDescriptionHtml !== null ? currentTaskDescriptionHtml : ''}`}
+                                />
+                            </RichTextEditor>
                         </div>
                     </div>   
 

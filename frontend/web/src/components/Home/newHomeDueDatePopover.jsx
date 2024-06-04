@@ -111,6 +111,7 @@ const NewHomeDueDatePopover = (props) => {
         } else {
             setTodayIsActive(false);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     dayjs.extend(customParseFormat);

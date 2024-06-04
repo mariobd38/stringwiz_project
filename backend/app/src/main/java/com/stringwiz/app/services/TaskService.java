@@ -19,7 +19,8 @@ public class TaskService {
     private TaskRepository taskRepository;
 
     public Task save(User user, Task task) {
-        Task taskDetails = new Task(task.getName(),task.getDescription(),task.getStatus(), task.getPriority(), user, task.getDueDate(), task.getDueDateTime());
+        Task taskDetails = new Task(task.getName(),task.getDescription(),task.getDescriptionHtml(), task.getStatus(),
+                task.getPriority(), user, task.getDueDate(), task.getDueDateTime());
 
         return taskRepository.save(taskDetails);
     }
@@ -46,6 +47,7 @@ public class TaskService {
             assert existingTask != null;
             existingTask.setName(task.getName());
             existingTask.setDescription(task.getDescription());
+            existingTask.setDescriptionHtml(task.getDescriptionHtml());
             existingTask.setDueDate(task.getDueDate());
             System.out.println(task.getDueDateTime());
             existingTask.setDueDateTime(task.getDueDateTime());

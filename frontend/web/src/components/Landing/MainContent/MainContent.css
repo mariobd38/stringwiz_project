@@ -20,8 +20,8 @@
     /* 1a9120 */
 }
 .main-content-slide-logo {
-    height: 70px;
-    width: 70px;
+    height: 45px;
+    width: 45px;
 }
 
 @keyframes gradient-animation {
@@ -77,9 +77,49 @@ a {
 .illustration-landing {
     width: 13rem;
 }
-.landing-page-features-div {
-    background-color: #fafafa;
-    color: #fafafa;
+
+.landing-home-screenshot {
+    box-shadow: 0 24px 38px rgba(0, 0, 0, 0.35);
+    border-radius: 8px;
+    width: 1050px;
+    height: 500px;
+    transition: all 0.5s ease;
+}
+@media (max-width: 1150px) {
+    .landing-home-screenshot {
+        width: 950px;
+        height: 500px;
+    }
+}
+@media (max-width: 1000px) {
+    .landing-home-screenshot {
+        width: 800px;
+        height: 450px;
+    }
+}
+@media (max-width: 850px) {
+    .landing-home-screenshot {
+        width: 700px;
+        height: 350px;
+    }
+}
+@media (max-width: 700px) {
+    .landing-home-screenshot {
+        width: 500px;
+        height: 250px;
+    }
+}
+@media (max-width: 525px) {
+    .landing-home-screenshot {
+        width: 400px;
+        height: 200px;
+    }
+}
+@media (max-width: 420px) {
+    .landing-home-screenshot {
+        width: 300px;
+        height: 150px;
+    }
 }
 
 @keyframes slide {
@@ -120,17 +160,17 @@ a {
     white-space: nowrap;
 }
 .logos-slider {
-    padding: 60px 0px;
+    padding: 30px 0px;
     white-space: nowrap;
     position: relative;
-    mask-image: linear-gradient(90deg, transparent, #fff 20%, #fff 80%, transparent);
-    -webkit-mask-image: linear-gradient(90deg, transparent, #fff 20%, #fff 80%, transparent)
+    mask-image: linear-gradient(90deg, transparent, #fff 10%, #fff 90%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #fff 10%, #fff 90%, transparent)
 }
 
 
 .landing-main-content-features-wrapper {
     background-color: #edf2f4;
-    padding: calc(var(--mantine-spacing-xl) * 2) var(--mantine-spacing-xl);
+    padding: calc(var(--mantine-spacing-lg) * 2) var(--mantine-spacing-xl);
 }
   
 .landing-main-content-features-title {
@@ -143,7 +183,6 @@ a {
     margin-bottom: var(--mantine-spacing-md);
     color: #121212;
 }
-
 
 
 .landing-main-content-use-cases-wrapper {
@@ -183,13 +222,31 @@ a {
   transition: width 250ms ease;
 }
 .landing-main-content-use-cases-carousel .mantine-Carousel-controls button {
-    background-color: #222222;
+    background-color: #356b8d;
 }
 .landing-main-content-use-cases-carousel .mantine-Carousel-controls button svg {
     color: #fafafa;
 }
-.landing-main-content-use-cases-indicator {
-    color: #222222;
-    width: rem(16);
-    height: rem(16);
+.landing-main-content-use-cases-all {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    position: relative;
 }
+.landing-main-content-use-cases-all-arrow {
+    display: inline-block;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .landing-main-content-use-cases-all:hover .landing-main-content-use-cases-all-arrow {
+    animation: moveLeftRight 0.9s ease-in-out infinite;
+  }
+  
+  @keyframes moveLeftRight {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(-5px);
+    }
+  }

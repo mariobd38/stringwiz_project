@@ -48,6 +48,9 @@ public class Task {
 
     private String description;
 
+    @Column(name = "description_html")
+    private String descriptionHtml;
+
     private String status;
 
     private String priority;
@@ -84,9 +87,10 @@ public class Task {
     @Column(name="last_updated_on")
     private Timestamp lastUpdatedOn;
 
-    public Task(String name, String description, String status, String priority, User user, ZonedDateTime dueDate, ZonedDateTime dueDateTime) {
+    public Task(String name, String description, String descriptionHtml, String status, String priority, User user, ZonedDateTime dueDate, ZonedDateTime dueDateTime) {
         setName(name);
         setDescription(description);
+        setDescriptionHtml(descriptionHtml);
         setStatus(status);
         setPriority(priority);
         setTaskIdNumber(new TaskIdNumberBuilder().buildTaskIdNumber());
