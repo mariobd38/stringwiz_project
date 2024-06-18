@@ -5,7 +5,7 @@
 
 .landing-nav-top-link,
 .landing-white-nav-top-link {
-  font-size: 1.1em;
+  font-size: 1.15em;
   display: inline-block;
   position: relative;
   text-decoration: none;
@@ -13,6 +13,7 @@
   transition: color 0.5s ease-in-out;
   display: flex;
   align-items: center;
+  font-family: 'Lato' !important;
 }
 .landing-nav-top-link {
   color: #fafafa !important;
@@ -20,46 +21,26 @@
 .landing-white-nav-top-link {
   color: #181d26 !important;
 }
-/* .landing-nav-top-link:after,
-.landing-white-nav-top-link:after {
-  position: absolute;
-  content: "";
-  bottom: -0.2rem;
-  left: 0;
-  height: 0.075rem;
-  width: 0;
-  transition: width 0.3s ease-in-out;
-}
-.landing-nav-top-link:after {
-  color: #fafafa;
-  background-color: #fafafa;
-}
-.landing-white-nav-top-link:after {
-  color: #181d26;
-  background-color: #181d26;
-}
-.landing-nav-top-link:hover:after,
-.landing-white-nav-top-link:hover:after {
-  width: 100%;
-} */
 
+.landing-login-link, .landing-white-nav-login-link {
+  font-size: 1.05rem !important;
+  font-weight: 600;
+  transition: width 0.3s ease-in-out;
+  border-radius: 8px !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+.landing-login-link:hover, .landing-white-nav-login-link:hover {
+  background-color: #329bf6 !important;
+}
 .landing-login-link {
   color: #fafafa !important;
-  font-size: 1.1rem;
-  font-weight: 600;
-  transition: width 0.3s ease-in-out;
 }
 .landing-white-nav-login-link {
-  color: #4296af !important;
-  font-size: 1.1rem;
-  font-weight: 600;
-  transition: width 0.3s ease-in-out;
-}
-.landing-login-link:hover {
-  color: #dadada !important;
+  color: #228be6 !important;
 }
 .landing-white-nav-login-link:hover {
-  color: #22768f !important;
+  background-color: #e1e1e1 !important;
 }
 
 .landing-navbar-collapse-login-button {
@@ -75,4 +56,17 @@
   color: #ffffff !important; 
   font-size: 1.02rem !important;
   max-width: 80px;
+}
+.landing-register-link {
+  background-color: #121212 !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  color: #fafafa !important;
+  text-transform: capitalize !important;
+  font-size: 1.05rem !important;
+  font-family: 'Lato';
+  border: none !important;
+}
+.landing-register-link:hover {
+  background-color: #329bf6 !important;
 }

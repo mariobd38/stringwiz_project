@@ -176,7 +176,7 @@ const MainContent = () => {
 
                 <div className='landing-page-features-div my-3'>
 
-                    <div className='landing-main-content-features-wrapper px-3 px-md-5'>
+                    <div className='landing-main-content-features-wrapper px-3 px-md-5 m-0'>
                         <div className='d-none d-sm-block' style={{marginBottom: "180px"}}>
                             <div className="mx-auto logos-slider" style={{ width: "100%" }}>
                                 <div className='d-flex justify-content-center' >
@@ -199,7 +199,7 @@ const MainContent = () => {
 
 
                         
-                        <Grid gutter={80}>
+                        <Grid gutter={{ base: 30, xs: 'md', md: 'xl', xl: 80 }}>
                             <Grid.Col span={{ base: 12, md: 5 }}>
                                 <Title className='landing-main-content-features-title' order={1}>
                                     The platform made for collaboration

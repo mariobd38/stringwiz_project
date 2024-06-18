@@ -57,8 +57,11 @@ public class User implements UserDetails {
     @Column(nullable = false,unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String password;
+
+    @Column
+    private String picture;
 
     @CreationTimestamp
     @Column(name="created_on")
@@ -93,38 +96,26 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public User(String fullName, String email, String password) {
+    public User(String fullName, String email, String password, String picture) {
         this.fullName = fullName.replaceAll("\\s+", " ");
         setFirstName();
         setLastName();
         this.email = email;
         this.password = password;
+        this.picture = picture;
         Timestamp currentTime = new Timestamp(new Date().getTime());
         this.createdOn = currentTime;
         this.lastUpdatedOn = currentTime;
     }
 
-    public void setFirstName() {
-        this.firstName = fullName.substring(0,fullName.indexOf(' '));
-    }
-
-    public void setLastName() {
-        this.lastName = fullName.substring(fullName.indexOf(' ')+1).trim();
-    }
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
-
         List<Role.RoleNames> roleNames = new RoleSelectorUtil().getRolesFromEmail(email);
         List<SimpleGrantedAuthority> result = new ArrayList<>();
         for(Role.RoleNames roleName : roleNames) {
             result.add(new SimpleGrantedAuthority(roleName.name()));
         }
         return result;
-
-
 //        return List.of(new SimpleGrantedAuthority(Role.RoleNames.USER.name()),new SimpleGrantedAuthority(Role.RoleNames.USER.name()));
     }
 
@@ -151,5 +142,13 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    private void setFirstName() {
+        this.firstName = fullName.substring(0,fullName.lastIndexOf(" "));
+    }
+
+    private void setLastName() {
+        this.lastName = fullName.substring(fullName.lastIndexOf(" ")+1);
     }
 }

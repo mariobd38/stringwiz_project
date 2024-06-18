@@ -196,13 +196,24 @@ const NavbarContent = (props) => {
                     </Group>
 
                     <Group visibleFrom="md">
-                        <a href={() => false} onClick={() => routeChange('/login')} 
+                        {/* <a href={() => false} onClick={() => routeChange('/login')} 
                             className={`lato-font pe-3 px-1 py-1 ${scrollPosition > 40 ? 'landing-white-nav-login-link' : 'landing-login-link'}`} style={{cursor: "pointer"}}>
                             Log In
                         </a>
                         <Button className="landing-register-link fafafa-color px-3 py-0 lato-font" onClick={() => routeChange('/signup')}>
                             Sign Up
-                        </Button>
+                        </Button> */}
+
+                        <div className='d-flex gap-2'>
+
+                            <Button href={() => false} onClick={() => routeChange('/login')} 
+                                className={`px-3 ${scrollPosition > 40 ? 'landing-white-nav-login-link' : 'landing-login-link'}`}>
+                                Log In
+                            </Button>
+                            <Button className="landing-register-link px-3" onClick={() => routeChange('/signup')}>
+                                Sign Up
+                            </Button>
+                        </div>
                     </Group>
 
                     <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="md" />

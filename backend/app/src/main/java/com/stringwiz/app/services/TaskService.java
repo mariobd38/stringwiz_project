@@ -41,7 +41,6 @@ public class TaskService {
         return taskList;
     }
     public Task update(Task task) {
-        System.out.println("UPDATE CALLED");
         try {
             Task existingTask = taskRepository.findById(task.getId()).orElse(null);
             assert existingTask != null;
@@ -49,7 +48,6 @@ public class TaskService {
             existingTask.setDescription(task.getDescription());
             existingTask.setDescriptionHtml(task.getDescriptionHtml());
             existingTask.setDueDate(task.getDueDate());
-            System.out.println(task.getDueDateTime());
             existingTask.setDueDateTime(task.getDueDateTime());
             existingTask.setPriority(task.getPriority());
             existingTask.setStatus(task.getStatus());

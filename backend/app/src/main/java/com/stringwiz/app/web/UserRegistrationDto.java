@@ -17,7 +17,4 @@ public class UserRegistrationDto {
     @NonNull
     @Length(min = 8)
     private String password;
-    @NonNull
-    @Length(min = 8)
-    private String confirmPassword;
 }

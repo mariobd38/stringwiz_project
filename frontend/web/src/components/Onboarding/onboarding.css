@@ -1,0 +1,120 @@
+.onboarding-add-new-profile-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    color: white;
+    background-color: #c3c5c9;
+    transition: all 0.8s ease;
+}
+.onboarding-add-new-profile-button:hover {
+    background-color: #228be6 !important;
+    cursor: pointer;
+}
+.onboarding-modal .mantine-Modal-title {
+    /* font-family: "Sora", sans-serif !important; */
+    font-size: 20px !important;
+    font-weight: 600;
+}
+.onboarding-customize-profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    color: #fafafa;
+    font-size: 35px;
+    font-weight: 500;
+    transition: all 0.4s linear;
+}
+.onboarding-color-swatch-highlight {
+    background: none;
+    border: none;
+    padding: 4px 18px;
+    margin: 0;
+    width: 2rem;
+    border: 2.5px solid;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+.onboarding-color-swatch-highlight.notActive:hover {
+    border-style: solid;
+    border-color: #cacaca !important;
+}
+.onboarding-color-swatch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.onboarding-new-profile-parent {
+    border-radius: 50% !important;
+    width: 6rem !important;
+    height: 6rem !important;
+    position:relative;
+    transition: all 0.4s ease;
+}
+/* .onboarding-new-profile-parent:hover {
+    width: 5.4rem !important;
+    height: 5.4rem !important;
+} */
+.onboarding-new-profile {
+    color: #fafafa;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+
+/* .onboarding-profile-circle-hider {
+    color: #262729; 
+    width: 2rem !important;
+    position: absolute;
+    top: 10px;
+    right: 0;
+    margin: -0.2rem; 
+    z-index: 1000000000000;
+
+}
+.onboarding-profile-selected {
+    width: 2.2rem !important;
+    height: 2.2rem !important;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    margin: -0.05rem;
+    color: rgb(4, 156, 4);
+    z-index: 1000000000000;
+} */
+
+.onboarding-profile-selected {
+    position: absolute !important;
+    border-radius: 50% !important;
+    background-color: green !important;
+    width: 30px !important;
+    height: 30px !important;
+    right: 0 !important;
+    top: 0 !important;
+    border: 3px solid white !important;
+}
+.onboarding-profile-selected-icon {
+    height:25px !important;
+    width:25px !important;
+    display:flex !important;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    padding:3px;
+    position:relative;
+    margin: auto;
+}
+
+
+.onboarding-upload-file-wrapper .ant-upload {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}

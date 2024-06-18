@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useCookies } from "../../../utils/useCookies";
 import { useLocalState } from "../../../utils/useLocalStorage";
 
 import './homeHeader.css';

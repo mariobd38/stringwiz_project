@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import com.asana.Client;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @SpringBootTest
 class AppApplicationTests {
 	@Value("${JIRA_API_EMAIL}")
@@ -17,6 +19,8 @@ class AppApplicationTests {
 	private String jira_domain;
 	@Value("${JIRA_API_ISSUE_ID}")
 	private String jira_issue_id;
+	@Value("${JIRA_API_TASK_ID}")
+	private String jira_task_id;
 	@Value("${JIRA_API_PERSONAL_TOKEN}")
 	private String jira_personal_token;
 	@Value("${ASANA_API_PERSONAL_TOKEN}")
@@ -30,16 +34,25 @@ class AppApplicationTests {
 				.asJson();
 
 		// Handle the response
-		System.out.println(response.getStatus());
-		System.out.println(response.getBody());
 
 
 		Client client = Client.accessToken(asana_personal_token);
 
-		Task result = client.tasks.getTask("1205745017546286")
+		Task result = client.tasks.getTask(jira_task_id)
 				.option("pretty", true)
 				.execute();
-		System.out.println(result.name);
+		assertEquals("do hw", result.name);
+	}
+
+	@Test
+	void testFullNameSplit() {
+		String name = "Juan Carlos Diaz";
+
+		String fName = name.substring(0,name.lastIndexOf(" "));
+		String lName = name.substring(name.lastIndexOf(" ")+1);
+
+		assertEquals("Juan Carlos", fName);
+		assertEquals("Diaz", lName);
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.stringwiz.app.controllers;
 
 import com.stringwiz.app.services.CustomUserService;
+import com.stringwiz.app.utils.CookieUtil;
 import com.stringwiz.app.utils.JwtUtil;
 import com.stringwiz.app.web.UserAuthenticationDto;
 import com.stringwiz.app.web.UserRegistrationDto;
@@ -47,12 +48,7 @@ public class AuthController {
 
             User user = (User) authenticate.getPrincipal();
             user.setPassword(null);
-
-            Cookie cookie = new Cookie(JWT_COOKIE_NAME, jwtUtil.generateToken(user));
-            cookie.setHttpOnly(true);
-            cookie.setPath("/");
-            cookie.setSecure(true);
-            response.addCookie(cookie);
+            CookieUtil.addCookie(response, JWT_COOKIE_NAME, jwtUtil.generateToken(user));
 
             return ResponseEntity.ok().body(user);
         } catch (BadCredentialsException ex) {
@@ -63,18 +59,12 @@ public class AuthController {
     @PostMapping("/api/auth/signup")
     public ResponseEntity<?> register(@RequestBody UserRegistrationDto request,HttpServletResponse response) {
         try {
-            List<String> errorMessages = customUserService.userRegistrationValidation(request); // validates user registration data
-            if (!errorMessages.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages);
-            }
-            User user = new User(request.getFullName(), request.getEmail(), request.getPassword());
+            User user = new User(request.getFullName(), request.getEmail(), request.getPassword(),null);
             //emailUtil.sendEmail(request.getEmail());
 
             customUserService.saveUser(user);
 
-            String jwtToken = jwtUtil.generateToken(user);
-
-            Cookie cookie = new Cookie(JWT_COOKIE_NAME, jwtToken);
+            Cookie cookie = new Cookie(JWT_COOKIE_NAME, jwtUtil.generateToken(user));
             cookie.setHttpOnly(true);
             cookie.setPath("/");
             cookie.setSecure(true);

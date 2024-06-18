@@ -1,0 +1,70 @@
+
+
+/* .signup-next-steps-parent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 0px;
+}
+.signup-next-steps-text-field .mantine-Input-input {
+    border: calc(0.0625rem * var(--mantine-scale)) solid #ced4da !important;
+    border-radius: 8px;
+    padding: 0.5rem 7px !important;
+    transition: width 0.5s ease;
+    width: 100% !important;
+}
+.signup-next-steps-text-field .mantine-Input-wrapper .mantine-Input-input {
+    font-size: 14.5px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 0px 10px !important;
+}
+.signup-next-steps-text-field .mantine-Input-wrapper .mantine-Input-input::placeholder {
+    color: #8e949a !important;
+}
+.appSignUpBody { 
+    width:100%;
+    bottom:0;
+    left:0;
+  }
+  .waves {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: -1;
+  }
+.wave {
+  background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg) repeat-x;
+  position: absolute;
+  bottom: -20px;
+  z-index: -1;
+  width: 6400px;
+  height: 198px;
+  animation: wave 7.5s cubic-bezier( 0.36, 0.45, 0.63, 0.53) -.125s infinite, swell 7s ease -1.25s infinite;
+
+  transform: translate3d(0, 0, 0);
+}
+.wave:nth-of-type(2) {
+    bottom: -30px;
+    animation: wave 7.5s cubic-bezier( 0.36, 0.45, 0.63, 0.53) -.125s infinite, swell 7s ease -1.25s infinite;
+    opacity: 1;
+}
+
+@keyframes wave {
+  0% {
+    margin-left: 0;
+  }
+  100% {
+    margin-left: -1600px;
+  }
+}
+
+@keyframes swell {
+  0%, 100% {
+    transform: translate3d(0,-25px,0);
+  }
+  50% {
+    transform: translate3d(0,5px,0);
+  }
+} */

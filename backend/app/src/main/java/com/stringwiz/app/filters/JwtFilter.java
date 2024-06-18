@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,10 +25,19 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired private UserDetailsService userDetailsService;
     @Value("${JWT_COOKIE_ATTRIBUTE_NAME}")
     private String JWT_COOKIE_NAME;
+    @Value("${OAUTH2_GOOGLE_CALLBACK_URI}")
+    private String OAUTH2_GOOGLE_CALLBACK;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String jwt;
         final String userEmail;
+
+        String requestURI = request.getRequestURI();
+        if (requestURI.startsWith(OAUTH2_GOOGLE_CALLBACK)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {

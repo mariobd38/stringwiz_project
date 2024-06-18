@@ -11,21 +11,25 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-    @Autowired
-    private UserDetailsService userDetailsService;
+    @Autowired private UserDetailsService userDetailsService;
     @Autowired private JwtFilter jwtFilter;
+    @Autowired private OAuth2AuthorizedClientService authorizedClientService;
+
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -39,18 +43,34 @@ public class SecurityConfiguration {
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .cors(cors -> cors.configurationSource(request -> {
+                    var corsConfiguration = new CorsConfiguration();
+                    corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000"));
+                    corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    corsConfiguration.setAllowedHeaders(List.of("*"));
+                    corsConfiguration.setAllowCredentials(true);
+                    return corsConfiguration;
+                }))
+                //.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(eh -> eh.authenticationEntryPoint((request,response,ex) ->
                         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage())))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers(new AntPathRequestMatcher("/api/auth/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/oauth2/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/google/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/user/exists")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/**")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/api/tasks/**")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/api/tags/**")).authenticated()
-                        .requestMatchers(new AntPathRequestMatcher("/api/user/**")).authenticated()
-                        .anyRequest().authenticated());
+                        .requestMatchers(new AntPathRequestMatcher("/api/user/logout")).authenticated()
+                        .anyRequest().authenticated())
+                        .oauth2Login(oauth2Login ->
+                            oauth2Login
+                                .defaultSuccessUrl("/oauth2/redirect", true)
+                                .failureUrl("/loginFailure")
+                                .authorizedClientService(authorizedClientService)
+                        );
         return http.build();
     }
 
