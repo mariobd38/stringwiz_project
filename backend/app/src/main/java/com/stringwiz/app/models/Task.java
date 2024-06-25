@@ -21,6 +21,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
@@ -46,9 +47,10 @@ public class Task {
     @Column(nullable = false)
     private String name;
 
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String description;
 
-    @Column(name = "description_html")
+    @Column(name = "description_html",columnDefinition = "MEDIUMTEXT")
     private String descriptionHtml;
 
     private String status;

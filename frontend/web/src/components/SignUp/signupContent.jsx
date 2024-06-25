@@ -176,9 +176,9 @@ const SignupContent = (props) => {
             } else {
                 console.error("Unexpected error with user registration");
             }
-            } catch (error) {
-                console.error(error);
-                console.error("Error with api call to register user");
+        } catch (error) {
+            console.error(error);
+            console.error("Error with api call to register user");
         }
     }
     

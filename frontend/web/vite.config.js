@@ -22,7 +22,7 @@ export default defineConfig(() => {
                 pathRewrite: { '^/api': '' },
             },
             '/api/upload': {
-              target: 'https://660d2bd96ddfa2943b33731c.mockapi.io',
+              target: 'http://localhost:8080',
               changeOrigin: true,
               secure: false,
               pathRewrite: { '^/api/upload': '/api/upload' },

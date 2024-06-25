@@ -30,7 +30,7 @@ public class OAuth2Controller {
     private String JWT_COOKIE_NAME;
 
     @GetMapping("/google/callback")
-    public ResponseEntity<?> getUserDataFromAuthorization(@RequestParam("code") String code, HttpServletResponse response) {
+    public ResponseEntity<?> exchangeAuthorizationForUserData(@RequestParam("code") String code, HttpServletResponse response) {
         try {
             Map<String, String> tokens = oAuth2TokenRetrievalService.getTokens(code);
             String jwt = tokens.get("jwt");

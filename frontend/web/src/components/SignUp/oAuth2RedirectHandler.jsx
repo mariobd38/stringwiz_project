@@ -1,23 +1,10 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { OAUTH2_CALLBACK_URI } from '../../constants';
 
-import { useLocalStorage } from '@mantine/hooks';
 import { useAuth } from '../../AuthContext/authProvider';
 
 const OAuth2RedirectHandler = () => {
-    const [userEmail, setUserEmail] = useLocalStorage({
-        key: 'userEmail',
-        defaultValue: '',
-    });
-    const [userFullName, setUserFullName] = useLocalStorage({
-        key: 'userFullName',
-        defaultValue: '',
-    });
-    const [userProfile, setUserProfile] = useLocalStorage({
-        key: 'userProfile',
-        defaultValue: null,
-    });
     const { setIsAuthenticated } = useAuth();
     
     const navigate = useNavigate();
@@ -41,11 +28,8 @@ const OAuth2RedirectHandler = () => {
             })
             .then((data) => {
                 setIsAuthenticated(true);
-                setUserEmail(data['email']);
-                setUserFullName(data['fullName']);
-                setUserProfile(data['picture']);
-
-                navigate('/onboarding');
+                console.log(data.picture);
+                navigate('/onboarding', { state: { picture: data.picture }});
             })
             .catch((error) => {
                 console.error(error); 
@@ -55,7 +39,7 @@ const OAuth2RedirectHandler = () => {
         console.error('Error during authentication:', error);
         //   navigate('/login');
         }
-    }, [navigate, setIsAuthenticated, setUserEmail, setUserFullName, setUserProfile]);
+    }, [navigate, setIsAuthenticated]);
 };
 
 export default OAuth2RedirectHandler;

@@ -1,34 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import SignUpHeader from '../../../src/components/SignUp/signupHeader';
 
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 
-import { Upload } from 'antd';
-import ImgCrop from 'antd-img-crop';
-
-
-import { IconCloudUpload } from '@tabler/icons-react';
-
 import {
     Text,
     Button,
-    Modal,
-    Group,
     Avatar,
-    ColorSwatch,
-    Image,
-    SimpleGrid
 } from '@mantine/core';
-import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useDisclosure } from '@mantine/hooks';
 
-import { readLocalStorageValue } from '@mantine/hooks';
-
-import '@mantine/dropzone/styles.css';
 import './onboarding.css';
-
+import { getUserInfo } from '../../DataManagement/Users/getUserInfo';
+import { selectProfile } from '../../DataManagement/Users/selectProfile';
+import OnboardingProfileModal from './OnboardingProfileModal/onboardingProfileModal';
 
 const initialColorSwatchList = [
     { color: "#414141", active: true },
@@ -48,310 +36,189 @@ const initialColorSwatchList = [
 ]
 
 const Onboarding = () => {
-    const fullName = readLocalStorageValue({ key: 'userFullName' });
-    const firstName = fullName.split(' ')[0];
-    const lastName = fullName.split(' ')[fullName.split(' ').length-1];
-    const initials = firstName[0] + lastName[0];
-    const profile = readLocalStorageValue({ key: 'userProfile' });
+    const [userInfo, setUserInfo] = useState({ email: '', fullName: '', picture: null, profile: null});
+    const navigate = useNavigate();
     
     const [customizedProfileColor, setCustomizedProfileColor] = useState("#414141");
     const [colorSwatchList, setColorSwatchList] = useState(initialColorSwatchList);
     const [opened, { open, close }] = useDisclosure(false);
 
-    const midIndex = Math.ceil(colorSwatchList.length / 2);
-    const [firstRow, setFirstRow] = useState(colorSwatchList.slice(0, midIndex));
-    const [secondRow, setSecondRow] = useState(colorSwatchList.slice(midIndex));
-
     const [hoveredIndex, setHoveredIndex] = useState(null);
+    const location = useLocation();
+    const [picture, setPicture] = useState(location.state && location.state.picture ? location.state.picture : null);
+    const [initials, setInitials] = useState('')
+    useEffect(() => {
+        // getUserInfo(setUserInfo);
+        const fetchUserData = async () => {
+            await getUserInfo(setUserInfo);
+            // setLoading(false); // Set loading to false after data is fetched
+        };
+        fetchUserData();
+    },[]);
 
-const handleMouseEnter = (index) => {
-    setHoveredIndex(index);
-};
+    useEffect(() => {
+        if (userInfo.fullName) {
+            const nameParts = userInfo.fullName.split(' ');
+            const firstName = nameParts[0];
+            const lastName = nameParts.length > 1 ? nameParts[nameParts.length - 1] : '';
+            setInitials(firstName[0] + (lastName[0] || ''));
+        }
+    }, [userInfo.fullName]);
 
-const handleMouseLeave = () => {
-    setHoveredIndex(null);
-};
 
-const handleAvatarClick = (index) => {
-    const updatedProfileOptions = profileOptions.map((item, i) =>
-        i === index
-            ? {
-                ...item,
-                option: (
-                    <Avatar className='onboarding-new-profile-parent' style={{ backgroundColor: item.color, overflow: "visible" }}>
-                        <span className='onboarding-new-profile'>{initials}</span>
+    useEffect(() => {
+        if (location.state && location.state.picture) {
+            setPicture(location.state.picture);
+            console.log(location.state.picture);
+        }
+    }, [location.state]);
+
+    const listUpdate = (color, list) => {
+        setCustomizedProfileColor(color);
+        const updatedColorSwatchList = list.map((swatch) =>
+            swatch.color === color ? { ...swatch, active: true } : { ...swatch, active: false }
+        );
+
+        setColorSwatchList(updatedColorSwatchList);
+    }
+
+    const handleMouseEnter = (index) => {
+        setHoveredIndex(index);
+    };
+
+    const handleMouseLeave = () => {
+        setHoveredIndex(null);
+    };
+
+    const defaultProfileOption = {
+        option: (
+            <Avatar className='onboarding-new-profile-parent'
+                    style={{ backgroundImage: `url(${picture})`, backgroundSize: 'cover', overflow: "visible" }}>
+                
+                <div className="onboarding-profile-selected">
+                    <CheckRoundedIcon className="onboarding-profile-selected-icon" />
+                </div>
+            </Avatar>
+        ),
+        text: <Text pt={10} fw={500} fz={17}>Default</Text>,
+        color: null, avatarType: 'default', thumbUrl: null, file: null
+    };
+
+    const onOpen = () => {
+        open();
+        if (activeFile != null) {
+            const newColor = colorSwatchList.length > 0 && colorSwatchList[0].color;
+            listUpdate(newColor, colorSwatchList);
+        }
+    };
+
+    const [profileOptions, setProfileOptions] = useState(picture ? [defaultProfileOption] : []);
+    const [selectedProfile, setSelectedProfile] = useState(picture ? profileOptions[0] : []);
+    
+    const handleAvatarClick = (index) => {
+
+        const updatedProfileOptions = profileOptions.map((item, i) => ({
+            ...item,
+            option: (
+                <Avatar className='onboarding-new-profile-parent'
+                        style={{ backgroundColor: item.color && item.color, 
+                            backgroundImage: item.avatarType === 'default' ? `url(${picture})` : (item.avatarType === 'image' ? `url(${item.thumbUrl})` : 'none'),
+                            backgroundSize: 'cover', overflow: "visible" }}>
+                    
+                    {/* <span className='onboarding-new-profile'>{(i !== 0 && item.avatarType === 'color') && initials}</span> */}
+                    <span className='onboarding-new-profile'>{(item.avatarType === 'color') && initials}</span>
+                    {i === index && (
                         <div className="onboarding-profile-selected">
                             <CheckRoundedIcon className="onboarding-profile-selected-icon" />
                         </div>
-                    </Avatar>
-                )
-            }
-            : {
-                ...item,
-                option: (
-                    <Avatar className='onboarding-new-profile-parent' style={{ backgroundColor: item.color, overflow: "visible" }}>
-                        <span className='onboarding-new-profile'>{initials}</span>
-                    </Avatar>
-                )
-            }
-    );
-
-    setProfileOptions(updatedProfileOptions);
-};
-
-    const [profileOptions, setProfileOptions] = useState(profile !== undefined ? [
-        { option: 
-            <Avatar className='onboarding-new-profile-parent'
-                            style={{ backgroundImage: `url(${profile})`, backgroundSize: 'cover',overflow: "visible"}}>
- 
-                        <div className="onboarding-profile-selected">
-                            <CheckRoundedIcon className="onboarding-profile-selected-icon" />
-                        </div> 
-                    </Avatar>
-        // <Avatar src={profile} alt="google profile" className='onboarding-new-profile-parent'  style={{ borderRadius: "50%", width: "5rem",height: "5rem" }}>
-
-        // </Avatar>
-        ,
-        text: <Text pt={10} fw={500} fz={17}>Default</Text>,
-        color: null }
-    ] : []);
-
-    const handleColorClick = (color) => {
-        setCustomizedProfileColor(color);
-        const updatedColorSwatchList = colorSwatchList.map((swatch) =>
-            swatch.color === color ? { ...swatch, active: true } : { ...swatch, active: false }
-        );
-        setColorSwatchList(updatedColorSwatchList);
-        const midIndex = Math.ceil(updatedColorSwatchList.length / 2);
-        setFirstRow(updatedColorSwatchList.slice(0, midIndex));
-        setSecondRow(updatedColorSwatchList.slice(midIndex));
+                    )}
+                </Avatar>
+            )
+        }));
+        setSelectedProfile(profileOptions[index]);
+        console.log(profileOptions);
+        setProfileOptions(updatedProfileOptions);
     };
-
-
-    const handleSaveProfile = () => {
-        setProfileOptions([...profileOptions, 
-            { option: <Avatar className='onboarding-new-profile-parent' 
-                            style={{ backgroundColor: customizedProfileColor,overflow: "visible" }}>
-                        <span className='onboarding-new-profile'>
-                            {initials}
-                        </span>
-                        {/* <div className="onboarding-profile-selected">
-                            <CheckRoundedIcon className="onboarding-profile-selected-icon" />
-                        </div>  */}
-                    </Avatar>,
-                text: null, color: customizedProfileColor }]);
-
-        const updatedColorSwatchList = colorSwatchList.filter(swatch => swatch.color !== customizedProfileColor);
-        
-
-        const newColor = updatedColorSwatchList.length > 0 && updatedColorSwatchList[0].color;
-        setCustomizedProfileColor(newColor);
-        const newColorSwatchList = updatedColorSwatchList.map((swatch) =>
-            swatch.color === newColor ? { ...swatch, active: true } : { ...swatch, active: false }
-        );
-
-
-        const midIndex = Math.ceil(newColorSwatchList.length / 2);
-        setColorSwatchList(newColorSwatchList);
-        setFirstRow(newColorSwatchList.slice(0, midIndex));
-        setSecondRow(newColorSwatchList.slice(midIndex));
-        close();
-    }
-
-
 
     //upload
-    const [fileList, setFileList] = useState([
-      ]);
-      const onChange = ({ fileList: newFileList }) => {
-        setFileList(newFileList);
-      };
-      const onPreview = async (file) => {
-        let src = file.url;
-        if (!src) {
-          src = await new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file.originFileObj);
-            reader.onload = () => resolve(reader.result);
-          });
-        }
-        const image = new Image();
-        image.src = src;
-        const imgWindow = window.open(src);
-        imgWindow?.document.write(image.outerHTML);
-      };
+    const [activeFile, setActiveFile] = useState(null);
 
 
-    const [files, setFiles] = useState([]);
-
-    const previews = files.map((file, index) => {
-        const imageUrl = URL.createObjectURL(file);
-        return  <div key={index} className='d-flex align-items-center justify-content-center' style={{width: "6rem",height: "6rem", borderRadius: "50%"}}>
-                    <img style={{width: "6rem",height: "6rem", borderRadius: "50%"}}  src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} alt={`Preview ${index}`} />
-                </div>;
-    });
-
-    const handleFilesChange = (event) => {
-        setFiles(Array.from(event.target.files));
-    };
-
+    const handleContinueWithProfileAvatar = () => {
+        selectProfile(selectedProfile,setUserInfo);
+        navigate('/home', { state: { userInfo }});
+    }
 
     return (
         <div className='w-100'>
             <SignUpHeader />
-            {/* <div className='d-flex justify-content-between'> */}
-                <div >
-                    {/* <div className=''> */}
-                        <div className="pt-4 px-5">
-                            <div style={{minHeight: "54px"}}>
-                                <Text fw={690} fz={35} c='#222222' ta='center'>Welcome to Cocollabs!</Text>
-                            </div>
-                            <Text fw={500} fz={25} c='#2a2b2d' ta='center' pt={60}>Select a profile avatar</Text>
 
-                            <div className={`d-flex w-100 flex-wrap pt-5 justify-content-center ${profileOptions.length !== 0 && 'gap-5'}`}>
-                                <div className='d-flex flex-column align-items-center'>
-                                    <span className='d-flex gap-5 flex-wrap justify-content-center'>
-                                        {profileOptions.map((item, index) => (
-                                            
-                                            <div
-                                                key={index}
-                                                className='d-flex flex-column align-items-center'
-                                                style={{
-                                                    borderRadius: "50%",
-                                                    cursor: "pointer",
-                                                    transform: hoveredIndex === index ? "scale(1.1)" : "scale(1)",
-                                                    transition: "transform 0.3s ease"
-                                                }}
-                                                onClick={() => handleAvatarClick(index)}
-                                                onMouseEnter={() => handleMouseEnter(index)}
-                                                onMouseLeave={handleMouseLeave}
-                                            >
-                                                <span>{item.option}</span>
-                                                {item.text}
-                                            </div>
-                                        ))}
-                                    </span>
-                                </div>
+            <div>
+                <div className="pt-4 px-5">
+                    <div style={{minHeight: "54px"}}>
+                        <Text fw={690} fz={35} c='#222222' ta='center'>Welcome to Cocollabs!</Text>
+                    </div>
+                    <Text fw={500} fz={25} c='#2a2b2d' ta='center' pt={60}>Select a profile avatar</Text>
+
+                    <div className={`d-flex w-100 flex-wrap pt-5 justify-content-center ${profileOptions.length !== 0 && 'gap-5'}`}>
+                        <div className='d-flex flex-column align-items-center'>
+                            <span className='d-flex gap-5 flex-wrap justify-content-center'>
                                 
-                                <div className='d-flex flex-column align-items-center'>
-                                    {colorSwatchList.length > 0 && 
-                                    <span className='d-flex gap-5'>
-                                        <div className='d-flex flex-column align-items-center'>
-                                            <span className='onboarding-add-new-profile-button' onClick={open}>
-                                                <AddRoundedIcon style={{width: "2.5rem",height: "2.5rem"}}/>
-                                            </span>
-                                            <Text pt={10} fw={500} align='center' fz={17}>Customize</Text>
-                                        </div>
-
-                                        <div className='d-flex flex-column align-items-center'>
-                                            {/* <span className='onboarding-add-new-profile-button'>
-                                                <IconCloudUpload style={{width: "2.5rem",height: "2.5rem"}}/>
-                                            </span> */}
-
-
-                                            <Upload
-                                                action="/api/upload"
-                                                withCredentials={true}
-                                                onChange={onChange}
-                                                onPreview={onPreview}
-                                                className='onboarding-upload-file-wrapper'
-                                            >
-                                                <span className='onboarding-add-new-profile-button'>
-                                                    <IconCloudUpload style={{width: "2.5rem",height: "2.5rem"}}/>
-                                                </span>
-                                                <Text pt={10} fw={500} fz={17}>Upload</Text>
-                                            </Upload>
-
-
-                                            {/* <Dropzone className='p-0' style={{border: "none"}} accept={IMAGE_MIME_TYPE} onDrop={setFiles}>
-                                                <span className='onboarding-add-new-profile-button'>
-                                                    <IconCloudUpload style={{width: "2.5rem",height: "2.5rem"}}/>
-                                                </span>
-                                            </Dropzone>
-                                            <Text pt={10} fw={500} fz={17}>Upload</Text>
-
-                                                <SimpleGrid cols={{ base: 1, sm: 4 }} mt={previews.length > 0 ? 'xl' : 0}>
-                                                    {previews}
-                                                </SimpleGrid> */}
-
-                                        </div>
-                                    </span>
+                                {profileOptions.map((item, index) => (
                                     
-                                    }
-
-                                    <Modal removeScrollProps={{ allowPinchZoom: true }} size='lg' opened={opened} onClose={close} className='onboarding-modal' title="Profile Picker" centered radius={12}>
-                                        <div className='d-flex flex-column '>
-                                            <div className='d-flex justify-content-center pt-3 pb-4'>
-                                                <span className='onboarding-customize-profile' style={{background: customizedProfileColor }}>
-                                                    {initials}
-                                                </span>
-                                            </div>
-
-                                            <div className='d-flex justify-content-between'>
-                                                <div>
-                                                    <Text fw={500} fz={17} c='#303030' pb={10}>Select an avatar color</Text>
-
-                                                    <div className="d-flex justify-content-start">
-                                                        <Group gap={15}>
-
-                                                            {firstRow.map((item) => (
-                                                                <div key={item.color} onClick={() => handleColorClick(item.color)}
-                                                                    className={`onboarding-color-swatch-highlight ${!item.active && 'notActive'} `} 
-                                                                    style={{borderColor: item.active ? item.color : 'white', cursor: item.active ? 'default' : 'pointer'}}>
-
-                                                                    <ColorSwatch
-                                                                        className='onboarding-color-swatch'
-                                                                        color={item.color}
-                                                                    >
-                                                                        {item.active && <CheckRoundedIcon style={{ padding: "2px", color: "#fafafa" }} />}
-                                                                    </ColorSwatch>
-                                                                </div>
-                                                            ))}
-                                                        </Group>
-                                                    </div>
-                                                    <div className="d-flex justify-content-start pt-2">
-                                                        <Group gap={15}>
-                                                            {secondRow.map((item) => (
-                                                                <div key={item.color} onClick={() => handleColorClick(item.color)}
-                                                                    className={`onboarding-color-swatch-highlight ${!item.active && 'notActive'} `} 
-                                                                    style={{borderColor: item.active ? item.color : 'white', cursor: item.active ? 'default' : 'pointer'}}>
-
-                                                                    <ColorSwatch
-                                                                        className='onboarding-color-swatch'
-                                                                        color={item.color}
-                                                                    >
-                                                                        {item.active && <CheckRoundedIcon style={{ padding: "2px", color: "#fafafa" }} />}
-                                                                    </ColorSwatch>
-                                                                </div>
-                                                            ))}
-                                                        </Group>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className='pt-4 d-flex justify-content-end'>
-                                                <Button onClick={handleSaveProfile}>Save</Button>
-                                            </div>
-                                            
-                                        </div>
-                                    </Modal>
-
-                                    {/* {colorSwatchList.length > 0 && <Text pt={10} fw={500} fz={17}>Customize</Text>
-                                        
-                                    } */}
-                                </div>
-                            </div>
-                            <div className='d-flex flex-column justify-content-center align-items-center pt-5'>
-                                <Button px={20} py={3}>Continue</Button>
-                            </div>
+                                    <div
+                                        key={index}
+                                        className='d-flex flex-column align-items-center'
+                                        style={{
+                                            borderRadius: "50%",
+                                            cursor: "pointer",
+                                            transform: hoveredIndex === index ? "scale(1.1)" : "scale(1)",
+                                            transition: "transform 0.3s ease"
+                                        }}
+                                        onClick={() => handleAvatarClick(index)}
+                                        onMouseEnter={() => handleMouseEnter(index)}
+                                        onMouseLeave={handleMouseLeave}
+                                    >
+                                        <span>{item.option}</span>
+                                        {item.text}
+                                    </div>
+                                ))}
+                            </span>
                         </div>
+                            
+                        <div className='d-flex flex-column align-items-center'>
+                            {colorSwatchList.length > 0 && 
+                            <span className='d-flex'>
+                                <div className='d-flex flex-column align-items-center'>
+                                    <span className='onboarding-add-new-profile-button' onClick={onOpen}>
+                                        <AddRoundedIcon style={{width: "2.5rem",height: "2.5rem"}}/>
+                                    </span>
+                                    <Text pt={10} fw={500} align='center' fz={17}>Customize</Text>
+                                </div>
 
-                        {/* <div className="col-12 col-xl-5 bg-primary pt-5">a</div> */}
-                    {/* </div> */}
+                                <div className='d-flex flex-column align-items-center'>
+                                </div>
+                            </span>
+                            }
+
+                            <OnboardingProfileModal 
+                                opened={opened}
+                                close={close}
+                                initials={initials}
+                                setProfileOptions={setProfileOptions}
+                                activeFile={activeFile}
+                                setActiveFile={setActiveFile}
+                                customizedProfileColor={customizedProfileColor}
+                                setCustomizedProfileColor={setCustomizedProfileColor}
+                            />
+
+                        </div>
+                    </div>
+                    <div className='d-flex flex-column justify-content-center align-items-center pt-5'>
+                        <Button px={20} py={3} radius='md' onClick={handleContinueWithProfileAvatar}>Continue</Button>
+                    </div>
                 </div>
-            {/* </div> */}
-            {/* {fullName}
-                <img src={profile} alt="" style={{borderRadius: "50%"}}/> */}
-            
+            </div>
         </div>
     );
 };

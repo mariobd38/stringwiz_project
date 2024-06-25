@@ -6,7 +6,6 @@ import SignupContent from '../signupContent';
 
 import { VerifyEmailRegex } from '../../../utils/emailRegexFormat';
 import { userExists } from '../../../DataManagement/Users/userExists';
-import './signUpNextSteps.css';
 
 const SignUpNextSteps = (props) => {
     let navigate = useNavigate();

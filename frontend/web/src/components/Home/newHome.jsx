@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import {getTaskInfo} from './../../DataManagement/Tasks/getTasks';
 
@@ -22,6 +23,10 @@ const NewHome = () => {
     const [completedTasks, setCompletedTasks] = useState([]);
     const [today, setToday] = useState(null);
     const [allTagData, setAllTagData] = useState([]);
+
+    const location = useLocation();
+    const passedUserInfo = location.state?.userInfo;
+    // console.log(passedUserInfo);
     
     useEffect(() => {
         getTaskInfo(setTaskData);

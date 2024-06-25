@@ -63,6 +63,7 @@ public class SecurityConfiguration {
                         .requestMatchers(new AntPathRequestMatcher("/api/**")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/api/tasks/**")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/api/tags/**")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/api/onboarding/**")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/api/user/logout")).authenticated()
                         .anyRequest().authenticated())
                         .oauth2Login(oauth2Login ->
