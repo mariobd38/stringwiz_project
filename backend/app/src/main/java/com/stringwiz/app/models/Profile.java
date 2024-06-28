@@ -1,5 +1,6 @@
 package com.stringwiz.app.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.stringwiz.app.web.ProfileDto;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -41,6 +42,7 @@ public class Profile {
 
     @JoinColumn(name = "file_id", referencedColumnName = "id", nullable = true)
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private ProfileFile profileFile;
 
     @OneToOne(fetch = FetchType.LAZY)

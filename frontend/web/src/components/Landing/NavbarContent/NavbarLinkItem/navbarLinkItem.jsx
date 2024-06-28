@@ -6,14 +6,11 @@ import {
     Text,
     ThemeIcon,
     rem,
-    useMantineTheme,
   } from '@mantine/core';
 
 import classes from './../../NavbarContent/NavbarContent.module.css';
 
 const NavbarLinkItem = ({ mockdata, drawerOpened }) => {
-    const theme = useMantineTheme();
-
     const [paddingStart, setPaddingStart] = useState(drawerOpened ? 22.5 : 0);
     const [alignment, setAlignment] = useState(drawerOpened ? 'start' : 'center');
   
@@ -45,7 +42,7 @@ const NavbarLinkItem = ({ mockdata, drawerOpened }) => {
             <UnstyledButton className={classes.subLink} key={item.title} mb={drawerOpened ? 5 : 0} py={5} >
                 <Group wrap="nowrap" mx={10} my={5} align={alignment} ps={paddingStart}>
                     <ThemeIcon size={34} variant="default" radius="md" className="d-flex align-items-center">
-                        <item.icon style={{ width: rem(22), height: rem(22) }} color={theme.colors.blue[6]} />
+                        <item.icon style={{ width: rem(22), height: rem(22) }} color='#367179' />
                     </ThemeIcon>
                     <div>
                         <Text size="sm" fw={500}>

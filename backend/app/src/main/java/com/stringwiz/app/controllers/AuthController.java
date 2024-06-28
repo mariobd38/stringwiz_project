@@ -4,8 +4,10 @@ import com.stringwiz.app.services.CustomUserService;
 import com.stringwiz.app.utils.CookieUtil;
 import com.stringwiz.app.utils.JwtUtil;
 import com.stringwiz.app.web.UserAuthenticationDto;
+import com.stringwiz.app.web.UserPlatformDto;
 import com.stringwiz.app.web.UserRegistrationDto;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,25 +52,22 @@ public class AuthController {
             user.setPassword(null);
             CookieUtil.addCookie(response, JWT_COOKIE_NAME, jwtUtil.generateToken(user));
 
-            return ResponseEntity.ok().body(user);
+            UserPlatformDto userDto = new UserPlatformDto(user.getFullName(), user.getEmail(), user.getPicture());
+            return ResponseEntity.ok().body(userDto);
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
     @PostMapping("/api/auth/signup")
-    public ResponseEntity<?> register(@RequestBody UserRegistrationDto request,HttpServletResponse response) {
+    public ResponseEntity<?> register(@RequestBody UserRegistrationDto requestBody, HttpServletRequest request, HttpServletResponse response) {
         try {
-            User user = new User(request.getFullName(), request.getEmail(), request.getPassword(),null);
+            User user = new User(requestBody.getFullName(), requestBody.getEmail(), requestBody.getPassword(),null);
             //emailUtil.sendEmail(request.getEmail());
 
             customUserService.saveUser(user);
-
-            Cookie cookie = new Cookie(JWT_COOKIE_NAME, jwtUtil.generateToken(user));
-            cookie.setHttpOnly(true);
-            cookie.setPath("/");
-            cookie.setSecure(true);
-            response.addCookie(cookie);
+            CookieUtil.deleteCookie(request,response,JWT_COOKIE_NAME);
+            CookieUtil.addCookie(response, JWT_COOKIE_NAME, jwtUtil.generateToken(user));
 
             return ResponseEntity.ok().build();
         } catch(Exception exception) {

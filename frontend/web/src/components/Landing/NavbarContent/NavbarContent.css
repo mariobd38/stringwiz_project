@@ -10,7 +10,7 @@
   position: relative;
   text-decoration: none;
   font-weight: 600;
-  transition: color 0.5s ease-in-out;
+  transition: color 0.4s ease-in-out;
   display: flex;
   align-items: center;
   font-family: 'Lato' !important;
@@ -29,18 +29,18 @@
   border-radius: 8px !important;
   background-color: transparent !important;
   border: none !important;
+  font-family: 'Lato';
 }
 .landing-login-link:hover, .landing-white-nav-login-link:hover {
-  background-color: #329bf6 !important;
+  color: #33b915 !important;
 }
 .landing-login-link {
   color: #fafafa !important;
+  transition: color 0.4s ease-in-out;
 }
 .landing-white-nav-login-link {
-  color: #228be6 !important;
-}
-.landing-white-nav-login-link:hover {
-  background-color: #e1e1e1 !important;
+  color: #222222 !important;
+  transition: color 0.4s ease-in-out;
 }
 
 .landing-navbar-collapse-login-button {
@@ -68,5 +68,5 @@
   border: none !important;
 }
 .landing-register-link:hover {
-  background-color: #329bf6 !important;
+  background-color: #139905 !important;
 }

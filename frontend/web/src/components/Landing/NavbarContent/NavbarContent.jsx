@@ -1,18 +1,17 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 
-import { IconChalkboard,IconAd2,IconBrandProducthunt,IconApps,IconSTurnRight,IconCalendarWeek,IconFiles,IconClipboardList,IconChevronRight,IconSettings,
+import { IconChevronDown,IconChalkboard,IconAd2,IconBrandProducthunt,IconApps,IconSTurnRight,IconCalendarWeek,IconFiles,IconClipboardList,IconChevronRight,IconSettings,
     IconBrush,IconTargetArrow,IconTimeline,IconChartHistogram,IconLayoutKanban } from '@tabler/icons-react';
 import { HoverCard,Group,UnstyledButton,Text,SimpleGrid,Divider,Center,Box,Button,Burger,Drawer,Collapse,ScrollArea,
         rem,useMantineTheme } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
-import CocollabLogo from '../../Logo/logo';
+import Logo2 from '../../Logo/logo2';
 import NavbarLinkItem from './NavbarLinkItem/navbarLinkItem';
 
 import './NavbarContent.css';
 import classes from './NavbarContent.module.css';
-
 
 const platformMockdata = [
     {
@@ -104,7 +103,10 @@ const NavbarContent = (props) => {
             <header className={classes.header} style={{backgroundColor: scrollPosition > 40 ? navbarBackground : 'transparent',
         borderBottom: scrollPosition > 40 ? '1.2px solid #c9c9c9' : 'none'}}>
                 <Group justify="space-between" h="100%">
-                    <CocollabLogo width={2.1} paddingBottom={0.4} fontSize={2.6} textColor={`${scrollPosition > 40 ? '4296af' : 'fafafa'}`}></CocollabLogo>
+                    <button style={{width: "12.5rem"}}>
+                        <Logo2 strokeColor={`${scrollPosition > 40 ? '#0f5255' : '#fafafa'}`}/>
+                    </button>
+                    {/* <CocollabLogo width={2.1} paddingBottom={0.4} fontSize={2.6} textColor={`${scrollPosition > 40 ? '4296af' : 'fafafa'}`}></CocollabLogo> */}
 
                     <Group h="100%" gap={15} visibleFrom="md" >
                         <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
@@ -113,44 +115,25 @@ const NavbarContent = (props) => {
                                 className={`${classes.link} ${scrollPosition > 40 ? 'landing-white-nav-top-link' : 'landing-nav-top-link'}`}
                                 >
                                     <Center inline>
-                                        <Box component="span" mr={5}>
+                                        <Box component="span" mr={4}>
                                         Platform
                                         </Box>
-                                        {/* <IconChevronDown
+                                        <IconChevronDown
                                             style={{ width: rem(16), height: rem(16) }}
                                             color={scrollPosition > 40 ? '#121212' : '#fafafa'}
-                                        /> */}
+                                        />
                                     </Center>
                                 </a>
                             </HoverCard.Target>
 
                             <HoverCard.Dropdown style={{ overflow: 'hidden', transform: scrollPosition > 40 ? 'translateY(15px)' : 'translateY(-2px)'  }}>
                                 <Group justify="space-between" mb="sm">
-                                    <Text fw={500}>Products</Text>
-                                    {/* <Anchor href="#" fz="xs">
-                                        View all
-                                    </Anchor> */}
+                                    <Text fw={600}>Products</Text>
                                 </Group>
 
-                                {/* <Divider my="xs" /> */}
-
-                                    <SimpleGrid cols={2} spacing={0}>
+                                <SimpleGrid cols={2} spacing={0}>
                                     {platformLinks}
-                                    </SimpleGrid>
-
-                                {/* <div className={classes.dropdownFooter}>
-                                    <Group justify="space-between">
-                                        <div>
-                                            <Text fw={500} fz="sm">
-                                                Get started
-                                            </Text>
-                                            <Text size="xs" c="dimmed">
-                                                Their food sources have decreased, and their numbers
-                                            </Text>
-                                        </div>
-                                        <Button variant="default">Get started</Button>
-                                    </Group>
-                                </div> */}
+                                </SimpleGrid>
                             </HoverCard.Dropdown>
                         </HoverCard>
 
@@ -163,24 +146,23 @@ const NavbarContent = (props) => {
                                         <Box component="span" mr={5}>
                                         Solutions
                                         </Box>
+                                        <IconChevronDown
+                                            style={{ width: rem(16), height: rem(16) }}
+                                            color={scrollPosition > 40 ? '#121212' : '#fafafa'}
+                                        />
                                     </Center>
                                 </a>
                             </HoverCard.Target>
 
                             <HoverCard.Dropdown style={{ overflow: 'hidden',transform: scrollPosition > 40 ? 'translateY(15px)' : 'translateY(-2px)' }}>
                                 <Group  mb="sm">
-                                    <Text fw={500} style={{width: "50%"}}>Teams</Text>
-                                    <Text fw={500}>Use Cases</Text>
-                                    {/* <Anchor href="#" fz="xs">
-                                        View all
-                                    </Anchor> */}
+                                    <Text fw={600} style={{width: "50%"}}>Teams</Text>
+                                    <Text fw={600}>Use Cases</Text>
                                 </Group>
 
-                                {/* <Divider my="xs" /> */}
-
-                                    <SimpleGrid cols={2} spacing={0}>
+                                <SimpleGrid cols={2} spacing={0}>
                                     {solutionsLinks}
-                                    </SimpleGrid>
+                                </SimpleGrid>
                             </HoverCard.Dropdown>
                         </HoverCard>
                         <a href={() => false}
@@ -191,25 +173,18 @@ const NavbarContent = (props) => {
                         <a href={() => false}
                         className={`${classes.link} ${scrollPosition > 40 ? 'landing-white-nav-top-link' : 'landing-nav-top-link'}`}
                         >
-                        Enterprise
+                        Pricing
                         </a>
                     </Group>
 
                     <Group visibleFrom="md">
-                        {/* <a href={() => false} onClick={() => routeChange('/login')} 
-                            className={`lato-font pe-3 px-1 py-1 ${scrollPosition > 40 ? 'landing-white-nav-login-link' : 'landing-login-link'}`} style={{cursor: "pointer"}}>
-                            Log In
-                        </a>
-                        <Button className="landing-register-link fafafa-color px-3 py-0 lato-font" onClick={() => routeChange('/signup')}>
-                            Sign Up
-                        </Button> */}
 
-                        <div className='d-flex gap-2'>
+                        <div className='d-flex gap-2 align-items-center'>
 
-                            <Button href={() => false} onClick={() => routeChange('/login')} 
+                            <a href='/login'
                                 className={`px-3 ${scrollPosition > 40 ? 'landing-white-nav-login-link' : 'landing-login-link'}`}>
                                 Log In
-                            </Button>
+                            </a>
                             <Button className="landing-register-link px-3" onClick={() => routeChange('/signup')}>
                                 Sign Up
                             </Button>
@@ -224,13 +199,15 @@ const NavbarContent = (props) => {
                 opened={drawerOpened}
                 onClose={closeDrawer}
                 size="100%"
-                padding="md"
-                title=<CocollabLogo width={1.7} paddingBottom={0.3} fontSize={2.2} textColor={`4296af`}></CocollabLogo>
+                padding="lg"
+                title=<button  style={{width: "12.5rem"}}>
+                        <Logo2 strokeColor={'#222222'}/>
+                    </button>
                 hiddenFrom="md"
                 zIndex={1000000}
             >
                 <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
-                    <Divider my="md" />
+                    <Divider mb="md" />
                     <UnstyledButton className={classes.link + " w-100"} onClick={togglePlatform}>
                         <Center inline className='d-flex justify-content-between w-100'>
                             <Box component="span" className={classes.platformlink}>
@@ -260,6 +237,8 @@ const NavbarContent = (props) => {
 
                     <a href={() => false} className={classes.link}>
                         Resources
+                        
+                        
                     </a>
                     <a href={() => false} className={classes.link}>
                         Enterprise

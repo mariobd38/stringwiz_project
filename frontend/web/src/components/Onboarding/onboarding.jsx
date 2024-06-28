@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import SignUpHeader from '../../../src/components/SignUp/signupHeader';
-
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 
@@ -13,10 +11,12 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
-import './onboarding.css';
+import SignUpHeader from '../../../src/components/SignUp/signupHeader';
 import { getUserInfo } from '../../DataManagement/Users/getUserInfo';
 import { selectProfile } from '../../DataManagement/Users/selectProfile';
 import OnboardingProfileModal from './OnboardingProfileModal/onboardingProfileModal';
+
+import './onboarding.css';
 
 const initialColorSwatchList = [
     { color: "#414141", active: true },
@@ -48,10 +48,8 @@ const Onboarding = () => {
     const [picture, setPicture] = useState(location.state && location.state.picture ? location.state.picture : null);
     const [initials, setInitials] = useState('')
     useEffect(() => {
-        // getUserInfo(setUserInfo);
         const fetchUserData = async () => {
             await getUserInfo(setUserInfo);
-            // setLoading(false); // Set loading to false after data is fetched
         };
         fetchUserData();
     },[]);
@@ -69,7 +67,6 @@ const Onboarding = () => {
     useEffect(() => {
         if (location.state && location.state.picture) {
             setPicture(location.state.picture);
-            console.log(location.state.picture);
         }
     }, [location.state]);
 
@@ -107,8 +104,11 @@ const Onboarding = () => {
     const onOpen = () => {
         open();
         if (activeFile != null) {
-            const newColor = colorSwatchList.length > 0 && colorSwatchList[0].color;
-            listUpdate(newColor, colorSwatchList);
+            const activeSwatch = colorSwatchList.find(swatch => swatch.active);
+            if (!activeSwatch) {
+                const newColor = colorSwatchList.length > 0 && colorSwatchList[0].color;
+                listUpdate(newColor, colorSwatchList);
+            }
         }
     };
 
@@ -136,13 +136,11 @@ const Onboarding = () => {
             )
         }));
         setSelectedProfile(profileOptions[index]);
-        console.log(profileOptions);
         setProfileOptions(updatedProfileOptions);
     };
 
     //upload
     const [activeFile, setActiveFile] = useState(null);
-
 
     const handleContinueWithProfileAvatar = () => {
         selectProfile(selectedProfile,setUserInfo);
@@ -210,6 +208,10 @@ const Onboarding = () => {
                                 setActiveFile={setActiveFile}
                                 customizedProfileColor={customizedProfileColor}
                                 setCustomizedProfileColor={setCustomizedProfileColor}
+                                colorSwatchList={colorSwatchList}
+                                setColorSwatchList={setColorSwatchList}
+                                setSelectedProfile={setSelectedProfile}
+                                picture={picture}
                             />
 
                         </div>

@@ -20,33 +20,16 @@ import { IconCloudUpload } from '@tabler/icons-react';
 
 import './onboardingProfileModal.css';
 
-
-const initialColorSwatchList = [
-    { color: "#414141", active: true },
-    { color: "#767e86", active: false },
-    { color: "#fa5252", active: false },
-    { color: "#d63970", active: false },
-    { color: "#be4bdb", active: false },
-    { color: "#8960f2", active: false },
-    { color: "#4c6ef5", active: false },
-    { color: "#228be6", active: false },
-    { color: "#15aabf", active: false },
-    { color: "#12b886", active: false },
-    { color: "#40c057", active: false },
-    { color: "#82c91e", active: false },
-    { color: "#fab005", active: false },
-    { color: "#fd7e14", active: false },
-]
-
 const OnboardingProfileModal = (props) => {
-    const { opened,close, initials, setProfileOptions, activeFile, setActiveFile, customizedProfileColor, setCustomizedProfileColor } = props;
+    const { opened,close, initials, setProfileOptions, activeFile, setActiveFile, customizedProfileColor, setCustomizedProfileColor,
+        colorSwatchList, setColorSwatchList, setSelectedProfile, picture
+     } = props;
 
-    const [colorSwatchList, setColorSwatchList] = useState(initialColorSwatchList);
     //upload
     const [fileList, setFileList] = useState([]);
 
-    const handleSaveProfile = () => {
-        setProfileOptions(prevOptions => {
+    const handleSavedProfile = () => {
+        return prevOptions => {
             const newProfileOption = {
                 option: (
                     <Avatar className='onboarding-new-profile-parent'
@@ -54,6 +37,9 @@ const OnboardingProfileModal = (props) => {
                         <span className='onboarding-new-profile'>
                             {customizedProfileColor ? initials : <img src={activeFile.thumbUrl} alt="file" style={{ width: "6rem", height: "6rem", borderRadius: "50%" }} />} 
                         </span>
+                        <div className="onboarding-profile-selected">
+                            <CheckRoundedIcon className="onboarding-profile-selected-icon" />
+                        </div>
                     </Avatar>
                 ),
                 text: null, 
@@ -61,22 +47,69 @@ const OnboardingProfileModal = (props) => {
                 avatarType: customizedProfileColor ? 'color' : 'image',
                 thumbUrl: activeFile ? activeFile.thumbUrl : null, file: activeFile
             };
-            const isDefaultProfile = prevOptions.length === 0 || prevOptions[prevOptions.length - 1].avatarType === 'default';
+            // if (!Array.isArray(prevOptions)) {
+            //     if (prevOptions.avatarType === 'default') {
+            //         return [prevOptions, newProfileOption];
+            //     } else {
+            //         return [newProfileOption];
+            //     }
+            // }
+            // const isDefaultProfile = prevOptions.length === 0 || prevOptions[prevOptions.length - 1].avatarType === 'default';
 
+            // if (isDefaultProfile) {
+            //     // Append the new profile option
+            //     return [...prevOptions, newProfileOption];
+            // } else {
+            //     // Replace the last item with the new profile option
+            //     return [...prevOptions.slice(0, prevOptions.length - 1), newProfileOption];
+            // }
+
+            const removeSelectedState = profileOption => ({
+                ...profileOption,
+                option: (
+                    <Avatar className='onboarding-new-profile-parent'
+                            style={{ backgroundColor: profileOption.color, overflow: "visible" }}>
+                        <span className='onboarding-new-profile'>
+                            {profileOption.avatarType === 'color' ? initials : <img src={picture} alt="file" style={{ width: "6rem", height: "6rem", borderRadius: "50%" }} />} 
+                        </span>
+                    </Avatar>
+                )
+            });
+    
+            if (!Array.isArray(prevOptions)) {
+                if (prevOptions.avatarType === 'default') {
+                    // Create a new array with the new profile option
+                    return [prevOptions, newProfileOption];
+                } else {
+                    // Replace the object with an array containing the new profile option
+                    return [newProfileOption];
+                }
+            }
+    
+            const isDefaultProfile = prevOptions.length === 0 || prevOptions[prevOptions.length - 1].avatarType === 'default';
+    
             if (isDefaultProfile) {
                 // Append the new profile option
-                return [...prevOptions, newProfileOption];
+                return [...prevOptions.map(removeSelectedState), newProfileOption];
             } else {
                 // Replace the last item with the new profile option
-                return [...prevOptions.slice(0, prevOptions.length - 1), newProfileOption];
+                return [
+                    ...prevOptions.slice(0, prevOptions.length - 1).map(removeSelectedState),
+                    newProfileOption
+                ];
             }
-        });
+        };
+    }
+
+    const handleSaveProfile = () => {
+        const saved = handleSavedProfile();
+        setProfileOptions(saved);
 
         if (!customizedProfileColor) {
             const updatedFileList = fileList.filter(file => file.uid !== activeFile.uid);
             setFileList(updatedFileList);
-            
-        } 
+        }
+        setSelectedProfile(saved);
         close();
     }
 

@@ -26,7 +26,6 @@ const NewHome = () => {
 
     const location = useLocation();
     const passedUserInfo = location.state?.userInfo;
-    // console.log(passedUserInfo);
     
     useEffect(() => {
         getTaskInfo(setTaskData);
@@ -58,7 +57,7 @@ const NewHome = () => {
 
     return (
         <>
-            <HomeNavbar></HomeNavbar>
+            <HomeNavbar passedUserInfo={passedUserInfo}></HomeNavbar>
             <div className='container m-0 p-0'>
                 <HomeSidebar className='user-home-sidebar p-0'
                 openSidebarToggle={openSidebarToggle}

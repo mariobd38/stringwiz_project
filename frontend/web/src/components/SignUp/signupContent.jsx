@@ -28,7 +28,6 @@ import { SlackButton } from './slackButton';
 import { VerifyEmailRegex } from '../../utils/emailRegexFormat';
 import { userExists } from '../../DataManagement/Users/userExists';
 import { useAuth } from '../../AuthContext/authProvider';
-import { useLocalStorage } from '@mantine/hooks';
 
 const requirements = [
     { re: /[0-9]/ },
@@ -75,14 +74,6 @@ const SignupContent = (props) => {
     const { handleGoogleLogin,setInputEmail,showOAuth2Buttons,inputEmail,nextSteps } = props;
 
     const { setIsAuthenticated } = useAuth();
-    const [userEmail, setUserEmail] = useLocalStorage({
-        key: 'userEmail',
-        defaultValue: '',
-      });
-    const [userFullName, setUserFullName] = useLocalStorage({
-        key: 'userFullName',
-        defaultValue: '',
-      });
 
     const [invalidEmailErrorText, setInvalidEmailErrorText] = useState('');
     const navigate = useNavigate(); 
@@ -133,11 +124,15 @@ const SignupContent = (props) => {
         .fill(0)
         .map((_, index) => (
             <Progress
-                styles={{ section: { transition: 'all 0.7s ease' } }}
+                className='signup-content-progress-bar'
+                styles={{ section: { transition: 'all 1.2s ease-in-out' } }}
+                style={{visibility: `${form.values.password.length === 0 ? 'hidden' : 'visible'}`}}
                 value={strength}
                 color={strength > 80 ? 'teal' : strength > 60 ? 'blue' : strength > 40 ? 'yellow' : strength > 20 ? 'orange' : 'red'}
                 key={index}
-                size={6}
+                // bg={form.values.password.length === 0 ? '#343537' : '#e9ecef'}
+                size={15}
+                radius='xl'
             />
     ));
 
@@ -168,10 +163,6 @@ const SignupContent = (props) => {
 
             if (response.status === 200) {
                 setIsAuthenticated(true);
-                console.log(inputEmail);
-                console.log(fullName);
-                setUserFullName(fullName);
-                setUserEmail(inputEmail);
                 navigate('/onboarding');
             } else {
                 console.error("Unexpected error with user registration");
@@ -194,7 +185,7 @@ const SignupContent = (props) => {
                         spacing="sm"
                         className='m-auto'
                         icon={
-                            <CheckCircleOutlineRoundedIcon style={{color: "#127bd6"}}/>
+                            <CheckCircleOutlineRoundedIcon style={{color: "#0f5255"}}/>
                         }
                         >
                             <List.Item fw={400} style={{fontSize: "15px"}}>Track and complete tasks </List.Item>
@@ -214,17 +205,13 @@ const SignupContent = (props) => {
             <div className='w-100' style={{borderRadius: "7px"}}>
                 <Paper px="xl" pb="xl" className='py-4 signup-content-wrapper-paper'>
                     <div className='pt-4'>
-                        <Text style={{fontSize: "35px"}} fw={600} ta="center" mb="xs">
+                        <Text style={{fontSize: "33px"}} fw={600} ta="center" mb="xs" c='#fafafa' ff='Lato'>
                             Get started with Cocollabs
                         </Text>
 
-                        <Text style={{fontSize: "15.5px", color: "#444648" }} fw={300} ta="center" mb="xl">
+                        <Text style={{fontSize: "15.5px", color: "#d9dbdd" }} fw={300} ta="center" mb="xl">
                             It&apos;s free! No credit card required.
                         </Text>
-
-                        {/* <Text style={{fontSize: "15px"}} c='dimmed' fw={400} ta="center">
-                            Plan. Manage. Collab.
-                        </Text> */}
 
                         {showOAuth2Buttons &&
                         <>
@@ -232,10 +219,10 @@ const SignupContent = (props) => {
                                 <GoogleButton size="md" onClick={handleGoogleLogin} radius="md" px="0" className='py-2 sign-up-oauth-button' style={{fontSize: "17px",background: "#fafafa"}}>
                                     Continue with Google
                                 </GoogleButton>
-                                <SlackButton size="md" radius="md" px="0" className='py-2 sign-up-oauth-button' style={{fontSize: "17px",background: "#fafafa"}}>Continue with Slack</SlackButton>
+                                {/* <SlackButton size="md" radius="md" px="0" className='py-2 sign-up-oauth-button' style={{fontSize: "17px",background: "#fafafa"}}>Continue with Slack</SlackButton> */}
                             </Group>
 
-                            <Divider label="OR" className='signup-content-wrapper-paper-divider' labelPosition="center" my="xl" />
+                            <Divider label="OR" color='teal' className='signup-content-wrapper-paper-divider' labelPosition="center" my="xl" />
                         </>}
 
                         {nextSteps ? 
@@ -288,7 +275,7 @@ const SignupContent = (props) => {
                                 </Stack>
                                 
                                 {form.values.password && form.values.password.length > 0 &&
-                                    <Text c='#858789' fw={400} align='center' mt={5} ff='Lato, sans-serif'>
+                                    <Text c='#858789' fw={400} align='center' mt={9} ff='Lato, sans-serif'>
                                         Strength: {strength > 80 ? 'Excellent!' : strength > 60 ? 'Good' : strength > 40 ? 'Fair' : strength > 20 ? 'Needs work' : 'Low'}
                                 </Text>}
 
@@ -298,7 +285,7 @@ const SignupContent = (props) => {
 
                                 <Group mt="xl" mb="lg">
                                     
-                                    <Button type="submit" radius="md" px="18" py="3" fw={700} w="100%" fz="15" onClick={handleEmailSignUp}>
+                                    <Button type="submit" bg='teal' className='signup-content-signup-button' radius="md" px="18" py="3" fw={700} w="100%" fz="15" onClick={handleEmailSignUp}>
                                         Sign Up
                                     </Button>
                                 </Group>
@@ -324,7 +311,7 @@ const SignupContent = (props) => {
                                 </Stack>
                                 {
                                     invalidEmailErrorText.length > 0 && 
-                                    <Text style={{fontSize: "14.5px", color: "#dc2a2a" }} fw={400} ta='center'>
+                                    <Text style={{fontSize: "14.5px", color: "#ec4848" }} pt='5' fw={400} ta='center'>
                                         {invalidEmailErrorText}
                                     </Text>
                                 }
@@ -332,11 +319,11 @@ const SignupContent = (props) => {
                             
 
                             <Group mt="xl" className='d-flex justify-content-between py-4'>
-                                <Anchor component="button" type="button" c="dimmed" size="sm" onClick={() => routeChange('/login')} >
+                                <Anchor component="button" type="button" c="#d9dbdd" size="sm" onClick={() => routeChange('/login')} >
                                     Already have an account? Login
                                 </Anchor>
                                 
-                                <Button type="submit" radius="md" px="18" py="3" fw={700} style={{fontSize: "15px"}} onClick={handleEmailSignUp}>
+                                <Button bg='teal' type="submit" className='signup-content-signup-button' radius="xl" px="18" py="3" fw={700} style={{fontSize: "15px"}} onClick={handleEmailSignUp}>
                                     Sign Up
                                 </Button>
                             </Group>

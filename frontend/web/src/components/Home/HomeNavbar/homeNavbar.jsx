@@ -15,9 +15,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Settings from '@mui/icons-material/Settings';
 
 import { Divider, Input, InputAdornment, ListItemIcon, Menu, MenuItem } from '@mui/material';
-
 import { Tooltip } from '@mantine/core';
-
 
 import CocollabLogo from '../../Logo/logo';
 
@@ -25,9 +23,12 @@ import { userLogout } from '../../../DataManagement/Users/logout';
 
 import './homeNavbar.css';
 
-const HomeNavbar = () => {
+const HomeNavbar = (props) => {
+    const { passedUserInfo } = props;
+    // console.log(passedUserInfo.fullName);
+    
+    // const [userFullName] = useState(passedUserInfo.fullName);
     let [userFullName] = useLocalState("", "userFullName");
-
 
     const [firstName, lastName] = userFullName.split(' ');
 
@@ -44,6 +45,7 @@ const HomeNavbar = () => {
         setUserBtnAnchorEl(null);
     };
 
+    // const [userEmail] = useState(passedUserInfo.email);
     const [userEmail] = useLocalState('', 'userEmail');
     const initials = (firstName[0] + lastName[0]).toUpperCase();
 

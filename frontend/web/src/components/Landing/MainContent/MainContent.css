@@ -1,20 +1,21 @@
 .top-left-header-text {
-    font-size: 2.8rem;
-    font-weight: 600;
-    font-family: 'Verdana', serif;
+    font-size: 3.3rem !important;
+    /* font-weight: 600;
+    font-family: 'Verdana', serif; */
+    font-weight: 700 !important;
+    font-family: 'Lato', serif;
+    /* padding-bottom: 30px !important; */
 }
 .landing-header-description-text {
-    font-family: 'Verdana', serif;
-    font-size: 1.1rem;
+    font-family: 'Lato', serif !important;
+    width: 90%;
     color: #fafafa;
 }
 .landing-header {
-    /* background: #0ebbcf; 
-    background: -webkit-linear-gradient(to right, #0ebbcf, #2a54fd); 
-    background: linear-gradient(to right, #0ebbcf, #2a54fd); */
     /* width: 100vw; */
 	/* background: linear-gradient(234deg, #1aa130, #1a7b97, #1a44ed); */
-	background: linear-gradient(234deg, #20e5fa, #128ee2, #0a34dd);
+	/* background: linear-gradient(234deg, #008080, #05484b, #105356); */
+    background-color: #0f5255;
 	background-size: 180% 180%;
 	animation: gradient-animation 9s ease-in-out infinite;
     /* 1a9120 */
@@ -40,22 +41,26 @@ a {
     text-decoration: none;
 }
 .landing-get-started-button, .landing-learn-more-button {
-    color: #fafafa;
-    text-transform: capitalize;
-    font-size: 0.98rem;
-    font-weight: 600;
-    border-radius: 12px;
-    padding: 0.8rem 1.1rem;
-    font-family: 'Nunito Sans', serif;
+    color: #fafafa !important;
+    text-transform: capitalize !important;
+    font-size: 1.01rem !important;
+    font-weight: 600 !important;
+    border-radius: 12px !important;
+    padding: 0.6rem 1.1rem !important;
+    font-family: 'Nunito Sans', serif !important;
+    border: none !important;
+    transition: all 0.7s ease !important;
 }
 .landing-get-started-button {
     /* background-color: #092669; */
-    background: linear-gradient(133deg, rgb(16, 16, 228), rgb(28, 120, 232));
-    border: none;
-    transition: all 0.3s linear;
+    /* background: linear-gradient(133deg, rgb(16, 16, 228), rgb(28, 120, 232)); */
+    background: #fafafa !important;
+    color: #05484b !important;
+    font-family: 700 !important;
 }
 .landing-learn-more-button {
-    border: 1.5px solid #fafafa;
+    background-color: #222222 !important;
+    /* border: 1.5px solid #fafafa; */
     transition: all 0.2s linear;
 }
 @media (max-width: 575px) {
@@ -67,23 +72,27 @@ a {
         align-items: center;
     }
 }
-.landing-learn-more-button:hover {
-    color: #1b419b;
-    border-color: #1b419b;
-}
-.landing-get-started-button:hover {
-    background-color: #193679 !important;
+.landing-get-started-button:hover,.landing-learn-more-button:hover {
+    transform: scale(1.08); /* This will make the button 5% bigger */
 }
 .illustration-landing {
-    width: 13rem;
+    width: 15.2rem;
 }
+@media (min-width: 992px) {
+    .main-content-team-work-div {
+        padding-right: 200px !important;
+    }
+    .main-content-shared-goals-div {
+        padding-left: 200px !important;
+    }
+}
+
 
 .landing-home-screenshot {
     box-shadow: 0 24px 38px rgba(0, 0, 0, 0.35);
     border-radius: 8px;
     width: 1050px;
     height: 500px;
-    transition: all 0.5s ease;
 }
 @media (max-width: 1150px) {
     .landing-home-screenshot {
@@ -194,7 +203,7 @@ a {
     text-transform: uppercase;
     font-weight: 800 !important;
     font-size: var(--mantine-font-size-md) !important;
-    color: #127bd6 !important;
+    color: #468189 !important;
     letter-spacing: rem(0.5px);
 }
 .landing-main-content-use-cases-card {
@@ -250,3 +259,6 @@ a {
       transform: translateX(-5px);
     }
   }
+
+
+

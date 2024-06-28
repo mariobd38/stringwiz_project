@@ -76,7 +76,7 @@ const Login = () => {
             if (response.status === 200) {
                 const data = await response.json();
                 setUserEmail(data['email']);
-                setUserFullName(data['firstName'] + " " + data['lastName']);
+                setUserFullName(data['fullName']);
                 setIsAuthenticated(true);
                 window.location.href = '/home';
             } else if (response.status === 401) {
@@ -104,10 +104,10 @@ const Login = () => {
                     <div className="sign-in-header">
                         <div className='d-flex justify-content-center'>
                             <a onClick={() => routeChange('/')} style={{cursor: "pointer"}}>
-                                <CocollabLogo   width={screenWidth > 422 ? 2.7 : screenWidth >  380 ? 2.4 : 2}
-                                                paddingBottom={0.45}
-                                                fontSize={screenWidth > 422 ? 3.5 : screenWidth >  380 ? 3 : 2.8}
-                                                textColor={'4296af'} value={email} onChange={(e) => setEmail(e.target.value)}>
+                                <CocollabLogo width={screenWidth > 422 ? 2.7 : screenWidth >  380 ? 2.4 : 2}
+                                    paddingBottom={0.45}
+                                    fontSize={screenWidth > 422 ? 3.5 : screenWidth >  380 ? 3 : 2.8}
+                                    textColor={'4296af'} value={email} onChange={(e) => setEmail(e.target.value)}>
                                 </CocollabLogo>
                             </a>
                         </div>
