@@ -9,8 +9,8 @@ import { useLocalState } from '../../../utils/useLocalStorage';
 import './homeSidebar.css'
 
 const HomeSidebar = (props) => {
-    const {openSidebarToggle, setOpenSidebarToggle} = props;
-    const [userFullName] = useLocalState("", "userFullName");
+    const {userFullName,openSidebarToggle, setOpenSidebarToggle} = props;
+    // const [userFullName] = useLocalState("", "userFullName");
     const firstLetter = userFullName[0].toUpperCase();
 
     const handleOpenSidebarToggle = () => {

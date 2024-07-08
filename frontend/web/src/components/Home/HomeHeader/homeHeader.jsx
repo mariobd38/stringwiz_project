@@ -42,24 +42,6 @@ const HomeHeader = () => {
     return (
         <>
             <div className='pt-5'>
-                {/* <div className='d-flex flex-column flex-md-row justify-content-between align-items-center py-2 home-header-block'>
-                    <div className='fafafa-color greeting mb-3 mb-md-0'>
-                        {greeting}, {firstName}
-                    </div>
-                    <div className='d-flex align-items-center gap-4'>
-                        <div className='header-day-number'>
-                            {date.getDate()}
-                        </div>
-                        <div className='header-day-block'>
-                            <div>  
-                                {dayOfWeek}
-                            </div>
-                            <div>  
-                                {month},<span className='ms-1'>{date.getFullYear()}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
                 <div className='d-flex align-items-center justify-content-between'>
                     <div className='fafafa-color lato-font-600' style={{fontSize: "1.2rem"}}>
                         {dayOfWeek}, {month} {date.getDate()}, {date.getFullYear()}

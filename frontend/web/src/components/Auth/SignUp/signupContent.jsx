@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import achievement from '../../assets/illustrations/signup/achievement.png';
+import achievement from '../../../assets/illustrations/signup/achievement.png';
 
 import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
-import { IconMail,IconUser,IconLock } from '@tabler/icons-react';
+import { IconSquareArrowLeft,IconMail,IconUser,IconLock } from '@tabler/icons-react';
 
 import { useFocusWithin } from '@mantine/hooks';
 import {
@@ -18,16 +18,17 @@ import {
     Anchor,
     Stack,
     List, 
+    Image,
     rem,
     Progress
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
-import { GoogleButton } from './googleButton';
-import { SlackButton } from './slackButton';
-import { VerifyEmailRegex } from '../../utils/emailRegexFormat';
-import { userExists } from '../../DataManagement/Users/userExists';
-import { useAuth } from '../../AuthContext/authProvider';
+import { GoogleButton } from '../OAuthButtons/googleButton';
+// import { SlackButton } from './slackButton';
+import { VerifyEmailRegex } from '../../../utils/emailRegexFormat';
+import { userExists } from '../../../DataManagement/Users/userExists';
+import { useAuth } from '../../../AuthContext/authProvider';
 
 const requirements = [
     { re: /[0-9]/ },
@@ -130,7 +131,6 @@ const SignupContent = (props) => {
                 value={strength}
                 color={strength > 80 ? 'teal' : strength > 60 ? 'blue' : strength > 40 ? 'yellow' : strength > 20 ? 'orange' : 'red'}
                 key={index}
-                // bg={form.values.password.length === 0 ? '#343537' : '#e9ecef'}
                 size={15}
                 radius='xl'
             />
@@ -169,17 +169,17 @@ const SignupContent = (props) => {
             }
         } catch (error) {
             console.error(error);
-            console.error("Error with api call to register user");
+            console.error("Error with API call to register user");
         }
     }
     
 
     return (
-        <div className='signup-content-wrapper d-flex flex-column-reverse flex-lg-row'>
-            <div className='w-100 py-4' style={{background: "#fafafa"}}>
+        <div className=' d-flex flex-column-reverse flex-lg-row'>
+            <div className='w-100 py-4 signup-left-info-block' style={{background: "#fafafa"}}>
 
                 <div className='mx-5 pt-4'>
-                    <Text pb='20' fw={700} ta="center" style={{fontSize: "27px",color: "#272839", width: "80%", margin: "auto"}}>Trusted, intuitive interface made for productivity</Text>
+                    <Text pb='20' fw={700} ta="center" fz={27}  m='auto' c='#272839' w='80%'>Trusted, intuitive interface made for productivity</Text>
                     <div className='mb-5 d-flex align-items-center'>
                         <List
                         spacing="sm"
@@ -188,35 +188,36 @@ const SignupContent = (props) => {
                             <CheckCircleOutlineRoundedIcon style={{color: "#0f5255"}}/>
                         }
                         >
-                            <List.Item fw={400} style={{fontSize: "15px"}}>Track and complete tasks </List.Item>
-                            <List.Item fw={400} style={{fontSize: "15px"}}>Collaborate with your team </List.Item>
-                            <List.Item fw={400} style={{fontSize: "15px"}}>Create documents</List.Item>
-                            <List.Item fw={400} style={{fontSize: "15px"}}>Monitor timelines and milestones</List.Item>
+                            <List.Item fw={400} fz={15}>Track and complete tasks </List.Item>
+                            <List.Item fw={400} fz={15}>Collaborate with your team </List.Item>
+                            <List.Item fw={400} fz={15}>Create documents</List.Item>
+                            <List.Item fw={400} fz={15}>Monitor timelines and milestones</List.Item>
                         </List>
                     </div>
 
                     <div className='col-12 d-flex justify-content-center'>
 
-                        <img src={achievement} className="illustration" alt="Cocollabs" style={{width: "26rem"}}/>
+                        {/* <img src={achievement} className=" " alt="Cocollabs" style={{width: "26rem"}}/> */}
+                        <Image src={achievement} w={420} className='signup-image' />
                     </div>
                 </div>
             </div>
 
             <div className='w-100' style={{borderRadius: "7px"}}>
-                <Paper px="xl" pb="xl" className='py-4 signup-content-wrapper-paper'>
+                <Paper px="xl" pb="xl" className='py-4 signup-content-wrapper-paper' style={{minHeight: "94vh"}}>
                     <div className='pt-4'>
-                        <Text style={{fontSize: "33px"}} fw={600} ta="center" mb="xs" c='#fafafa' ff='Lato'>
+                        <Text fz={33} fw={600} ta="center" mb="xs" c='#fafafa' ff='Lato'>
                             Get started with Cocollabs
                         </Text>
 
-                        <Text style={{fontSize: "15.5px", color: "#d9dbdd" }} fw={300} ta="center" mb="xl">
+                        <Text fz={15.5} c={"#e9ebed"} fw={300} ta="center" mb="xl">
                             It&apos;s free! No credit card required.
                         </Text>
 
                         {showOAuth2Buttons &&
                         <>
                             <Group mt="lg" className='d-flex flex-column' w='100%'>
-                                <GoogleButton size="md" onClick={handleGoogleLogin} radius="md" px="0" className='py-2 sign-up-oauth-button' style={{fontSize: "17px",background: "#fafafa"}}>
+                                <GoogleButton size="md" onClick={handleGoogleLogin} radius="md" px="0" className='py-2 sign-up-oauth-button' fz={17} bg={"#fafafa"}>
                                     Continue with Google
                                 </GoogleButton>
                                 {/* <SlackButton size="md" radius="md" px="0" className='py-2 sign-up-oauth-button' style={{fontSize: "17px",background: "#fafafa"}}>Continue with Slack</SlackButton> */}
@@ -226,12 +227,18 @@ const SignupContent = (props) => {
                         </>}
 
                         {nextSteps ? 
-                        <div className='d-flex flex-column align-items-center' style={{width: "100%"}}>
+                        <div className='d-flex flex-column align-items-center w-100'>
                             <form style={{width: "80%"}} className='signup-user-info-block' onSubmit={form.onSubmit((values) => handleSignUpWithEmailRequest(values))}>
-                                <div className='d-flex justify-content-center mb-3'>
-                                    <Button className='signup-user-info-block-email'  radius="xl" fw={800}>
-                                        <IconMail style={{ width: rem(18), height: rem(18) }} stroke={2.5} className='me-2'/>{inputEmail}
-                                    </Button>
+                                <div className='d-flex align-items-center mb-4 justify-content-between'>
+                                    <div>
+                                        <IconSquareArrowLeft style={{ width: rem(30), height: rem(30) }} className='signup-back-arrow-icon' onClick={() => routeChange('/signup')} />
+                                    </div>
+
+                                    <div className='text-center' style={{ flex: 1 }}>
+                                        <Button className='signup-user-info-block-email' radius="xl" fw={800}>
+                                            <IconMail style={{ width: rem(18), height: rem(18) }} stroke={2.5} className='me-2'/>{inputEmail}
+                                        </Button>
+                                    </div>
                                 </div>
 
                                 <Stack className='d-flex align-items-center'>
@@ -242,11 +249,7 @@ const SignupContent = (props) => {
                                             type="text"
                                             autoComplete='off'
                                             leftSection={<IconUser style={{ width: rem(18), height: rem(18) }} stroke={2.5}/>}
-                                            className='w-100 signup-user-input-field'
-                                            // value={fullName}
-                                            // onFocus={() => setIsFullNameFocused(true)}
-                                            // onBlur={() => setIsFullNameFocused(false)}
-                                            // onChange={(e) => setFullName(e.target.value)}
+                                            className='w-100 auth-user-input-field'
                                             size="lg"
                                             radius="md"
                                             key={form.key('fullName')}
@@ -261,11 +264,7 @@ const SignupContent = (props) => {
                                             type="password"
                                             autoComplete='off'
                                             leftSection={<IconLock style={{ width: rem(18), height: rem(18) }} stroke={2.5}/>}
-                                            className='w-100 signup-user-input-field'
-                                            // value={password}
-                                            // onFocus={() => setIsPasswordFocused(true)}
-                                            // onBlur={() => setIsPasswordFocused(false)}
-                                            // onChange={(e) => setPassword(e.target.value)}
+                                            className='w-100 auth-user-input-field'
                                             size="lg"
                                             radius="md"
                                             key={form.key('password')}
@@ -285,7 +284,7 @@ const SignupContent = (props) => {
 
                                 <Group mt="xl" mb="lg">
                                     
-                                    <Button type="submit" bg='teal' className='signup-content-signup-button' radius="md" px="18" py="3" fw={700} w="100%" fz="15" onClick={handleEmailSignUp}>
+                                    <Button type="submit" bg='teal' className='auth-content-signup-button' radius="md" px="18" py="3" fw={700} w="100%" fz="15" onClick={handleEmailSignUp}>
                                         Sign Up
                                     </Button>
                                 </Group>
@@ -293,8 +292,8 @@ const SignupContent = (props) => {
                             </form>
                         </div>
                         :
-                        <div className='signup-content-email-block'>
-                            <div style={{width: "100%", height: "55px"}}>
+                        <div className='auth-content-block'>
+                            <div style={{width: "100%", minHeight: "55px"}}>
                                 <Stack className='d-flex align-items-center'>
                                     <TextInput
                                         label="Enter your email"
@@ -305,25 +304,25 @@ const SignupContent = (props) => {
                                         value={inputEmail}
                                         onChange={(e) => setInputEmail(e.target.value)}
                                         radius="md"
-                                        className='w-100 signup-user-input-field'
+                                        className='w-100 auth-user-input-field'
                                         size="lg"
                                     />
                                 </Stack>
                                 {
                                     invalidEmailErrorText.length > 0 && 
-                                    <Text style={{fontSize: "14.5px", color: "#ec4848" }} pt='5' fw={400} ta='center'>
+                                    <Text fz={14.5} c='#ec4848' pt='5' fw={400} ta='center'>
                                         {invalidEmailErrorText}
                                     </Text>
                                 }
                             </div>
                             
 
-                            <Group mt="xl" className='d-flex justify-content-between py-4'>
-                                <Anchor component="button" type="button" c="#d9dbdd" size="sm" onClick={() => routeChange('/login')} >
+                            <Group className='d-flex justify-content-between py-3'>
+                                <Anchor href='/login' c="#e9ebed" size="sm">
                                     Already have an account? Login
                                 </Anchor>
                                 
-                                <Button bg='teal' type="submit" className='signup-content-signup-button' radius="xl" px="18" py="3" fw={700} style={{fontSize: "15px"}} onClick={handleEmailSignUp}>
+                                <Button bg='teal' type="submit" className='auth-content-signup-button' radius="xl" px="18" py="3" fw={700} fz={15} onClick={handleEmailSignUp}>
                                     Sign Up
                                 </Button>
                             </Group>

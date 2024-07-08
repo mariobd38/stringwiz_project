@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import SignupHeader from '../signupHeader';
+import AuthHeader from '../../authHeader';
 import SignupContent from '../signupContent';
 
-import { VerifyEmailRegex } from '../../../utils/emailRegexFormat';
-import { userExists } from '../../../DataManagement/Users/userExists';
+import { VerifyEmailRegex } from '../../../../utils/emailRegexFormat';
+import { userExists } from '../../../../DataManagement/Users/userExists';
 
 const SignUpNextSteps = (props) => {
     let navigate = useNavigate();
@@ -44,7 +44,7 @@ const SignUpNextSteps = (props) => {
 
     return (
         <div className='w-100'>
-            <SignupHeader />
+            <AuthHeader />
             <SignupContent 
                 // email={email}
                 // setEmail={setEmail}

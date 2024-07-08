@@ -1,18 +1,19 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import NewHome from "./components/Home/newHome";
 import TaskDetailsModal from "./components/Home/TaskDetailsModal/taskDetailsModal";
 import LandingPage from "./components/Landing/LandingPage";
-import Login from "./components/Login/login";
-import SignUp from "./components/SignUp/signup"
-import SignUpNextSteps from "./components/SignUp/SignUpNextSteps/signUpNextSteps";
+import Login from "./components/Auth/Login/login";
+import SignUp from "./components/Auth/SignUp/signup"
+import SignUpNextSteps from "./components/Auth/SignUp/SignUpNextSteps/signUpNextSteps";
 import Onboarding from "./components/Onboarding/onboarding";
 import PrivateRoute from "./PrivateRoute/privateRoute";
 import { AuthProvider } from "./AuthContext/authProvider";
-import OAuth2RedirectHandler from "./components/SignUp/oAuth2RedirectHandler";
+import OAuth2RedirectHandler from "./components/Auth/SignUp/oAuth2RedirectHandler";
 
 import './App.css';
+import LoginNextSteps from "./components/Auth/Login/LoginNextSteps/loginNextSteps";
 
 function App() {
   const location = useLocation();
@@ -39,6 +40,7 @@ function App() {
 
 
           <Route path="/login" element={<Login/> } />
+          <Route path="/app/login" element={<LoginNextSteps/> } />
 
           <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
 

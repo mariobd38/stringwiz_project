@@ -9,11 +9,8 @@ import lombok.NonNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserAuthenticationDto {
-//    @NonNull
-//    @NotEmpty
     private String email;
 
-//    @Size(min = 8,message = "Invalid password. Must be at least 8 characters long.")
     @NonNull
     String password;
 }

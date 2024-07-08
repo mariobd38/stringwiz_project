@@ -2,30 +2,30 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 6rem;
-    height: 6rem;
+    width: 5.5rem;
+    height: 5.5rem;
+    border: 3px dashed #d5d7dbfa;
     border-radius: 50%;
-    color: white;
-    background-color: #c3c5c9;
-    transition: all 0.8s ease;
+    color: #a0a2a6fa;
+    background-color: white;
+    transition: all 0.7s ease;
 }
 .onboarding-add-new-profile-button:hover {
-    background-color: #228be6 !important;
     cursor: pointer;
+    color: #39ab37;
+    border-color: #39ab37 !important;
 }
 .onboarding-new-profile-parent {
     border-radius: 50% !important;
-    width: 6rem !important;
-    height: 6rem !important;
+    width: 7rem !important;
+    height: 7rem !important;
     position:relative;
     transition: all 0.4s ease;
-}
-.onboarding-new-profile-parent {
     --avatar-bg: none !important;
 }
 .onboarding-new-profile {
     color: #fafafa;
-    font-size: 28px;
+    font-size: 38px;
     font-weight: 500;
 }
 
@@ -33,22 +33,24 @@
     position: absolute !important;
     border-radius: 50% !important;
     background-color: green !important;
-    width: 30px !important;
-    height: 30px !important;
+    width: 35px !important;
+    height: 35px !important;
     right: 0 !important;
     top: 0 !important;
-    border: 3px solid white !important;
+    border: 3px solid #f1f4f6 !important;
+    transition: all 0.4s ease;
 }
 .onboarding-profile-selected-icon {
-    height:25px !important;
-    width:25px !important;
+    height:29px !important;
+    width:29px !important;
     display:flex !important;
     color: white;
     justify-content: center;
     align-items: center;
-    padding:3px;
+    padding: 3px;
     position:relative;
     margin: auto;
+    transition: all 0.4s ease;
 }
 
 .ant-upload:hover,
@@ -71,4 +73,56 @@
 }
 .ant-upload-list-item.selected {
     border-color:#228be6 !important;
+}
+/* .onboarding-profile-options-parent-parent {
+    background-color: #eaedf3;
+    border-radius: 20px;
+    padding: 20px 25px;
+    cursor: pointer;
+} */
+.onboarding-profile-options-parent {
+    cursor: pointer;
+    background-color: #f1f4f6;
+    border-radius: 20px;
+    padding: 25px 40px 30px 40px;
+    box-shadow: rgba(137, 59, 151, 0.25) 0px 5px 25px 5px, rgba(17, 59, 151, 0.25) 0px 10px 10px;
+}
+.text-name {
+    white-space: nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    width: 125px;
+}
+.onboarding-steps-inner-content {
+    background-color: #f9f9f9 !important;
+    border:none !important;
+}
+.onboarding-bottom-button {
+    transition: all 1.2s ease;
+}
+
+@media(max-width: 360px) {
+    .onboarding-profile-options-parent {
+        padding: 15px 30px 20px 30px;
+    }
+    .onboarding-new-profile-parent {
+        width: 6rem !important;
+        height: 6rem !important;
+    }
+    .onboarding-profile-selected {
+        width: 30px !important;
+        height: 30px !important;
+    }
+    .onboarding-profile-selected-icon {
+        width: 25px !important;
+        height: 25px !important;
+        padding: 2px;
+    }
+    .onboarding-new-profile {
+        font-size: 33px;
+    }
+    .onboarding-bottom-button {
+        width: 150px !important;
+    }
+
 }

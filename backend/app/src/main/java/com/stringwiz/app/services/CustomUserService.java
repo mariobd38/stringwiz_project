@@ -6,10 +6,6 @@ import com.stringwiz.app.models.User;
 import com.stringwiz.app.repositories.RoleRepository;
 import com.stringwiz.app.repositories.UserRepository;
 import com.stringwiz.app.utils.RoleSelectorUtil;
-import com.stringwiz.app.validations.UserAuthenticationDataValidation;
-import com.stringwiz.app.web.UserAuthenticationDto;
-import com.stringwiz.app.web.UserRegistrationDto;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,7 +22,6 @@ public class CustomUserService implements UserService {
     @Autowired private UserRepository userRepository;
     @Autowired private RoleRepository roleRepository;
     @Autowired private PasswordEncoder passwordEncoder;
-    @Autowired private UserAuthenticationDataValidation authDataValidation;
     @Override
     public void saveUser(User user) {
         if (user.getPassword() != null)
@@ -55,13 +50,5 @@ public class CustomUserService implements UserService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByEmail(email);
         return user.orElseThrow(() -> new UsernameNotFoundException("Invalid username or password."));
-    }
-
-    public String userAuthenticationValidation(UserAuthenticationDto request) {
-        String errorMessage = null;
-        if (authDataValidation.emailOrPasswordMissing(request.getEmail(), request.getPassword())) {
-            errorMessage = "Email and/or password is missing";
-        }
-        return errorMessage;
     }
 }

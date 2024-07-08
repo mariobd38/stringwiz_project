@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 
-import { GOOGLE_AUTH_URL } from '../../constants';
+import { GOOGLE_AUTH_URL } from '../../../constants';
 
-import SignupHeader from './signupHeader';
-import SignupContent from './signupContent';
-import './signup.css'
+import AuthHeader from './../authHeader';
+import LoginContent from './loginContent';
 
-const SignUp = () => {
+import './../auth.css';
+import './login.css'
+
+const Login = () => {
     const [inputEmail,setInputEmail] = useState("");
 
     const handleGoogleLogin = async () => {
@@ -15,8 +17,8 @@ const SignUp = () => {
 
     return (
         <div className='w-100'>
-            <SignupHeader />
-            <SignupContent 
+            <AuthHeader />
+            <LoginContent 
                 handleGoogleLogin={handleGoogleLogin}
                 inputEmail={inputEmail}
                 setInputEmail={setInputEmail}
@@ -26,4 +28,4 @@ const SignUp = () => {
     );
 };
 
-export default SignUp;
+export default Login;

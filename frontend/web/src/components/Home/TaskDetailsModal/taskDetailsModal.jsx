@@ -54,7 +54,7 @@ import './taskDetailsModal.css';
 
 const TaskDetailsModal = (props) => {
     const { 
-            currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskLastUpdatedOn,
+            userFullName, userEmail, currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskLastUpdatedOn,
             nonIncludedTaskTags, setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, setSelectedDate, currentTaskTags, setCurrentTaskTags,
             taskType, setTaskType,selectedDate, today, currentTaskDueDateTime, setCurrentTaskDueDateTime,
             onHide, show, setModalShow, allTagData,handleTagCreation,completedTasks,dueDatePopoverIsOpen,setDueDatePopoverIsOpen,setCurrentTaskStatus, currentTaskDescriptionHtml
@@ -62,7 +62,7 @@ const TaskDetailsModal = (props) => {
     
     const content = currentTaskDescriptionHtml;
 
-    const [userFullName] = useLocalState("", "userFullName");
+    // const [userFullName] = useLocalState("", "userFullName");
     const [firstName, lastName] = userFullName.split(' ');
     const initials = (firstName[0] + lastName[0]).toUpperCase();
 
@@ -405,6 +405,7 @@ const TaskDetailsModal = (props) => {
                                             assigneeContent={assigneeContent}
                                             initials={initials}
                                             userFullName={userFullName}
+                                            userEmail={userEmail}
                                         />
                                     </div>
                                 </div>

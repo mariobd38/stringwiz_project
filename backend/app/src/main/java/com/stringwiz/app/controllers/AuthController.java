@@ -3,6 +3,7 @@ package com.stringwiz.app.controllers;
 import com.stringwiz.app.services.CustomUserService;
 import com.stringwiz.app.utils.CookieUtil;
 import com.stringwiz.app.utils.JwtUtil;
+import com.stringwiz.app.utils.UserPlatformDtoConverter;
 import com.stringwiz.app.web.UserAuthenticationDto;
 import com.stringwiz.app.web.UserPlatformDto;
 import com.stringwiz.app.web.UserRegistrationDto;
@@ -35,15 +36,10 @@ public class AuthController {
     @PostMapping("/api/auth/login")
     public ResponseEntity<?> login(@RequestBody UserAuthenticationDto request, HttpServletResponse response) {
         try {
-            String errorMessage = customUserService.userAuthenticationValidation(request);
-            if (errorMessage != null) {
-                System.out.println(errorMessage);
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
-            }
             Authentication authenticate = authenticationManager
                 .authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.getEmail(),
+                            request.getEmail().toLowerCase(),
                             request.getPassword()
                     )
                 );
@@ -52,7 +48,8 @@ public class AuthController {
             user.setPassword(null);
             CookieUtil.addCookie(response, JWT_COOKIE_NAME, jwtUtil.generateToken(user));
 
-            UserPlatformDto userDto = new UserPlatformDto(user.getFullName(), user.getEmail(), user.getPicture());
+//            UserPlatformDto userDto = new UserPlatformDto(user.getFullName(), user.getEmail(), user.getPicture(), null);
+            UserPlatformDto userDto = UserPlatformDtoConverter.convertToDto(user);
             return ResponseEntity.ok().body(userDto);
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -60,9 +57,10 @@ public class AuthController {
     }
 
     @PostMapping("/api/auth/signup")
-    public ResponseEntity<?> register(@RequestBody UserRegistrationDto requestBody, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> signup(@RequestBody UserRegistrationDto requestBody, HttpServletRequest request, HttpServletResponse response) {
         try {
-            User user = new User(requestBody.getFullName(), requestBody.getEmail(), requestBody.getPassword(),null);
+            User user = new User(
+                    requestBody.getFullName(), requestBody.getEmail().toLowerCase(), requestBody.getPassword(),null);
             //emailUtil.sendEmail(request.getEmail());
 
             customUserService.saveUser(user);

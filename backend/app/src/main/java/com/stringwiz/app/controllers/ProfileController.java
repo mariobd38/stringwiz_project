@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class ProfileController {
     @Autowired ProfileRepository profileRepository;
     @Autowired UserRepository userRepository;
 
-    @PostMapping("/onboarding/profile")
+    @PostMapping("/api/onboarding/profile")
     public ResponseEntity<?> uploadFile(@AuthenticationPrincipal User user, @RequestBody ProfileDto request) {
         try {
             String avatarType = request.getAvatarType();
@@ -76,6 +76,8 @@ public class ProfileController {
             profile.setUser(user);
         }
         profile.setProfileFile(profileFile);
+        profile.setType("image");
+        profile.setColor(null);
         profileRepository.save(profile);
 
         user.setProfile(profile);

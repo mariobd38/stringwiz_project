@@ -15,4 +15,17 @@ public class UserPlatformDto {
     @NonNull
     private String email;
     private String picture;
+    private ProfileDto profileDto;
+
+    public ProfileDto getProfileDto(Profile profile) {
+        return new ProfileDto(
+                profile.getColor(),
+                new ProfileFileDto(
+                        profile.getProfileFile().getBase64Data(),
+                        profile.getProfileFile().getName(),
+                        profile.getProfileFile().getType()
+                ),
+                profile.getType()
+        );
+    }
 }

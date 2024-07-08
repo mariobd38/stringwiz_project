@@ -1,0 +1,73 @@
+/* new */
+.signup-login-button {
+    padding: 4px 17px !important;
+    font-size: 19px !important;
+    border: 2px solid #329bf6 !important;
+    background-color: transparent !important;
+    color: #329bf6 !important;
+    border-radius: 8px !important;
+}
+.signup-content-wrapper-paper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* background: #124540 !important; */
+    background: #10504e !important;
+    border-radius: 0px !important;
+}
+.signup-content-wrapper-paper-divider .mantine-Divider-label {
+    color: #12b886;
+    font-family: 'Nunito Sans';
+}
+.sign-up-oauth-button {
+    width: 80% !important;
+    transition: width 0.5s ease;
+}
+.signup-user-info-block {
+    width: 80% !important;
+    justify-content: space-between !important;
+    transition: width 0.5s ease;
+}
+@media(max-width: 480px) {
+    .sign-up-oauth-button, .signup-user-info-block {
+        width: 100% !important;
+    }
+}
+
+.sign-up-oauth-button:hover {
+    background-color: #eaedef !important;
+}
+
+.signup-user-info-block-email {
+    display: flex;
+    justify-content: center;
+    padding: 3px 20px !important;
+    background-color:#edfff1 !important;
+    color: #367179 !important;
+    /* border: 2px solid #228be6 !important; */
+    font-size: 15px !important;
+}
+
+.signup-back-arrow-icon {
+    color: #edfff1;
+    cursor: pointer !important;
+}
+.signup-back-arrow-icon:hover {
+    color: #bdcfc1 !important;
+}
+
+.signup-image {
+    transition: width 0.5s ease;
+}
+
+@media(max-width: 1300px) {
+    .signup-image {
+        width: 380px !important;
+    }
+}
+
+@media(max-width: 991px) {
+    .signup-left-info-block {
+        display: none !important;
+    }
+}

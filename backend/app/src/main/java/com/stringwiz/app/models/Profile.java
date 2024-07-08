@@ -45,6 +45,7 @@ public class Profile {
     @JsonIgnore
     private ProfileFile profileFile;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
 //    @OneToOne(mappedBy = "profile")

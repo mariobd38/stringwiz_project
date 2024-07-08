@@ -1,0 +1,42 @@
+.auth-content-block {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    justify-content: center;
+    width: 80%;
+    transition: width 0.5s ease;
+}
+@media(max-width: 480px) {
+    .auth-content-block {
+        width: 100% !important;
+    }
+}
+
+.auth-user-input-field label {
+    font-size: 15px;
+    color: #fafafa;
+    font-weight: 500 !important;
+    padding-bottom: 5px;
+}
+.auth-user-input-field .mantine-Input-wrapper .mantine-Input-input {
+    font-size: 16px !important;
+    font-family: 'Lato';
+}
+.auth-user-input-field .mantine-Input-wrapper[data-error] .mantine-Input-input input::placeholder,
+.auth-user-input-field .mantine-Input-wrapper[data-error] .mantine-Input-input::placeholder,
+.auth-user-input-field .mantine-Input-wrapper[data-error],
+.auth-user-input-field .mantine-Input-wrapper[data-error] .mantine-Input-section {
+    color: #adb5bd !important;
+    --input-color: #222222 !important;
+}
+
+.auth-content-signup-button {
+    transition: background-color 0.5s ease;
+}
+.auth-content-signup-button:hover {
+    background-color: #029866 !important;
+}
+
+.auth-user-input-field .mantine-InputWrapper-error {
+    font-size: 14.5px;
+}

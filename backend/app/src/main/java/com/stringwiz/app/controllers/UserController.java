@@ -5,6 +5,8 @@ import com.stringwiz.app.models.Task;
 import com.stringwiz.app.models.User;
 import com.stringwiz.app.repositories.UserRepository;
 import com.stringwiz.app.utils.JwtUtil;
+import com.stringwiz.app.utils.UserPlatformDtoConverter;
+import com.stringwiz.app.web.ProfileDto;
 import com.stringwiz.app.web.UserPlatformDto;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,9 +43,10 @@ public class UserController {
             }
 
             User user = optionalUser.get();
-            UserPlatformDto userPlatformDto = new UserPlatformDto(user.getFullName(),user.getEmail(), user.getPicture());
+            //ProfileDto profileDto = new UserPlatformDto().getProfileDto(user.getProfile());
+            //UserPlatformDto userPlatformDto = new UserPlatformDto(user.getFullName(),user.getEmail(), user.getPicture(), profileDto);
+            UserPlatformDto userPlatformDto = UserPlatformDtoConverter.convertToDto(user);
             return ResponseEntity.ok(userPlatformDto);
-
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing the request");
         }
@@ -53,6 +56,16 @@ public class UserController {
     public ResponseEntity<Boolean> doesUserExist(@RequestParam("email") String email) {
         Optional<User> user = userRepository.findByEmail(email);
         return ResponseEntity.ok(user.isPresent());
+    }
+
+    @GetMapping("/api/user/isOAuth")
+    public ResponseEntity<Boolean> isOAuthUser(@RequestParam("email") String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isPresent()) {
+            User existing = user.get();
+            return ResponseEntity.ok(existing.getPassword() == null || existing.getPassword().isEmpty());
+        }
+        return ResponseEntity.ok(false);
     }
 
     @GetMapping("/api/user/logout")

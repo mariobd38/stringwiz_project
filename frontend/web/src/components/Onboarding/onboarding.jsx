@@ -10,8 +10,9 @@ import {
     Avatar,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { Steps, theme } from 'antd';
 
-import SignUpHeader from '../../../src/components/SignUp/signupHeader';
+import AuthHeader from '../../../src/components/Auth/authHeader';
 import { getUserInfo } from '../../DataManagement/Users/getUserInfo';
 import { selectProfile } from '../../DataManagement/Users/selectProfile';
 import OnboardingProfileModal from './OnboardingProfileModal/onboardingProfileModal';
@@ -46,16 +47,20 @@ const Onboarding = () => {
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const location = useLocation();
     const [picture, setPicture] = useState(location.state && location.state.picture ? location.state.picture : null);
-    const [initials, setInitials] = useState('')
+    const [initials, setInitials] = useState('');
+    const [fullName, setFullName] = useState('');
+    const [missingProfileErrorText, setMissingProfileErrorText] = useState('');
+
     useEffect(() => {
         const fetchUserData = async () => {
-            await getUserInfo(setUserInfo);
+            setUserInfo(await getUserInfo());
         };
         fetchUserData();
     },[]);
 
     useEffect(() => {
         if (userInfo.fullName) {
+            setFullName(userInfo.fullName);
             const nameParts = userInfo.fullName.split(' ');
             const firstName = nameParts[0];
             const lastName = nameParts.length > 1 ? nameParts[nameParts.length - 1] : '';
@@ -90,7 +95,7 @@ const Onboarding = () => {
     const defaultProfileOption = {
         option: (
             <Avatar className='onboarding-new-profile-parent'
-                    style={{ backgroundImage: `url(${picture})`, backgroundSize: 'cover', overflow: "visible" }}>
+                    style={{ backgroundImage: picture ? `url(${picture})` : 'none', backgroundSize: 'cover', overflow: "visible" }}>
                 
                 <div className="onboarding-profile-selected">
                     <CheckRoundedIcon className="onboarding-profile-selected-icon" />
@@ -103,6 +108,7 @@ const Onboarding = () => {
 
     const onOpen = () => {
         open();
+        setMissingProfileErrorText('');
         if (activeFile != null) {
             const activeSwatch = colorSwatchList.find(swatch => swatch.active);
             if (!activeSwatch) {
@@ -143,82 +149,164 @@ const Onboarding = () => {
     const [activeFile, setActiveFile] = useState(null);
 
     const handleContinueWithProfileAvatar = () => {
-        selectProfile(selectedProfile,setUserInfo);
-        navigate('/home', { state: { userInfo }});
+        if (selectedProfile.length === 0) {
+            setMissingProfileErrorText('Please select a profile before continuing.');
+        } else {
+            setMissingProfileErrorText('');
+            selectProfile(selectedProfile,setUserInfo);
+            navigate('/home', { state: { userInfo }});
+        }
     }
+    //steps
+    const steps = [
+        {
+          title: 'First',
+          content: 
+          <div className='py-3'>
+            <Text fw={700} fz={20} c='#4a4b4d' ta='center' pt={20} tt='uppercase' ff='Nunito Sans'>Select a profile avatar</Text>
 
-    return (
-        <div className='w-100'>
-            <SignUpHeader />
-
-            <div>
-                <div className="pt-4 px-5">
-                    <div style={{minHeight: "54px"}}>
-                        <Text fw={690} fz={35} c='#222222' ta='center'>Welcome to Cocollabs!</Text>
-                    </div>
-                    <Text fw={500} fz={25} c='#2a2b2d' ta='center' pt={60}>Select a profile avatar</Text>
-
-                    <div className={`d-flex w-100 flex-wrap pt-5 justify-content-center ${profileOptions.length !== 0 && 'gap-5'}`}>
-                        <div className='d-flex flex-column align-items-center'>
-                            <span className='d-flex gap-5 flex-wrap justify-content-center'>
+            <div className={`d-flex w-100 flex-wrap pt-5 justify-content-center ${profileOptions.length !== 0 && 'gap-5'}`}>
+                <div className='d-flex flex-column align-items-center'>
+                    <span className='d-flex gap-5 flex-wrap justify-content-center'>
+                        
+                        {profileOptions.map((item, index) => (
+                            // <div  className='onboarding-profile-options-parent-parent'
+                            //     >
                                 
-                                {profileOptions.map((item, index) => (
+                                <div key={index} className='onboarding-profile-options-parent d-flex align-items-center flex-column m-auto'
+                                    style={{transform: hoveredIndex === index ? "translateY(-12.5px)" : "translateY(0px)", transition: "transform 0.5s ease"}} 
+                                    onMouseEnter={() => handleMouseEnter(index)}
+                                    onMouseLeave={handleMouseLeave}
+                                    onClick={() => handleAvatarClick(index)}
+                                >
                                     
                                     <div
-                                        key={index}
                                         className='d-flex flex-column align-items-center'
                                         style={{
                                             borderRadius: "50%",
                                             cursor: "pointer",
-                                            transform: hoveredIndex === index ? "scale(1.1)" : "scale(1)",
-                                            transition: "transform 0.3s ease"
                                         }}
-                                        onClick={() => handleAvatarClick(index)}
-                                        onMouseEnter={() => handleMouseEnter(index)}
-                                        onMouseLeave={handleMouseLeave}
                                     >
+                                        
                                         <span>{item.option}</span>
-                                        {item.text}
+                                        {/* {item.text} */}
+                                        <Text c='#343639' ta='center' ff='Lato' fw='600' fz='19' pt='10' className='text-name'>{fullName}</Text>
                                     </div>
-                                ))}
-                            </span>
-                        </div>
-                            
-                        <div className='d-flex flex-column align-items-center'>
-                            {colorSwatchList.length > 0 && 
-                            <span className='d-flex'>
-                                <div className='d-flex flex-column align-items-center'>
-                                    <span className='onboarding-add-new-profile-button' onClick={onOpen}>
-                                        <AddRoundedIcon style={{width: "2.5rem",height: "2.5rem"}}/>
-                                    </span>
-                                    <Text pt={10} fw={500} align='center' fz={17}>Customize</Text>
                                 </div>
+                            // </div>
+                        ))}
+                    </span>
+                </div>
+                <div className='d-flex align-items-center py-5'>
 
-                                <div className='d-flex flex-column align-items-center'>
-                                </div>
-                            </span>
-                            }
+                    <div className='d-flex flex-column align-items-center'>
+                        {colorSwatchList.length > 0 && 
+                        <span className='d-flex align-items-center'>
+                            <div className='d-flex flex-column align-items-center'>
+                                <span className='onboarding-add-new-profile-button' onClick={onOpen}>
+                                    <AddRoundedIcon style={{width: "3.2rem",height: "3.2rem"}}/>
+                                </span>
+                            </div>
 
-                            <OnboardingProfileModal 
-                                opened={opened}
-                                close={close}
-                                initials={initials}
-                                setProfileOptions={setProfileOptions}
-                                activeFile={activeFile}
-                                setActiveFile={setActiveFile}
-                                customizedProfileColor={customizedProfileColor}
-                                setCustomizedProfileColor={setCustomizedProfileColor}
-                                colorSwatchList={colorSwatchList}
-                                setColorSwatchList={setColorSwatchList}
-                                setSelectedProfile={setSelectedProfile}
-                                picture={picture}
-                            />
+                            <div className='d-flex flex-column align-items-center'>
+                            </div>
+                        </span>
+                        }
 
-                        </div>
+                        <OnboardingProfileModal 
+                            opened={opened}
+                            close={close}
+                            initials={initials}
+                            setProfileOptions={setProfileOptions}
+                            activeFile={activeFile}
+                            setActiveFile={setActiveFile}
+                            customizedProfileColor={customizedProfileColor}
+                            setCustomizedProfileColor={setCustomizedProfileColor}
+                            colorSwatchList={colorSwatchList}
+                            setColorSwatchList={setColorSwatchList}
+                            setSelectedProfile={setSelectedProfile}
+                            picture={picture}
+                        />
+
                     </div>
-                    <div className='d-flex flex-column justify-content-center align-items-center pt-5'>
-                        <Button px={20} py={3} radius='md' onClick={handleContinueWithProfileAvatar}>Continue</Button>
+                </div>
+            </div>
+            {
+                missingProfileErrorText.length > 0 && 
+                <Text ta='center' pt={15} c='#dc3838' ff='Lato'>{missingProfileErrorText}</Text>
+            }
+          </div>,
+        },
+        // {
+        //   title: 'Second',
+        //   content: 'Second-content',
+        // },
+        // {
+        //   title: 'Last',
+        //   content: 'Last-content',
+        // },
+    ];
+
+    const { token } = theme.useToken();
+    const [current, setCurrent] = useState(0);
+    // const next = () => {
+    //     setCurrent(current + 1);
+    // };
+    // const prev = () => {
+    //     setCurrent(current - 1);
+    // };
+    // const items = steps.map((item) => ({
+    //     key: item.title,
+    //     title: item.title,
+    // }));
+    const contentStyle = {
+        lineHeight: '260px',
+        textAlign: 'center',
+        color: token.colorTextTertiary,
+        backgroundColor: token.colorFillAlter,
+        borderRadius: token.borderRadiusLG,
+        border: `1px dashed ${token.colorBorder}`,
+        marginTop: 16,
+    };
+
+    return (
+        <div className='w-100'>
+            <AuthHeader />
+
+            <div>
+                <div className="py-4 px-5">
+                    {/* <Steps current={current} items={items} /> */}
+                    <div className='onboarding-steps-inner-content' style={contentStyle}>{steps[current].content}</div>
+                    <div className='d-flex gap-3 flex-column justify-content-center align-items-center w-100 pt-5'>
+                        <Button className='onboarding-bottom-button' ff='Lato' fz={16} w={300} py={3} radius='md' bg='teal' bd='1.5px solid teal' onClick={handleContinueWithProfileAvatar}>Continue</Button>
+                        <Button className='onboarding-bottom-button' ff='Lato' fz={16} w={300} py={3} radius='md' c='teal' bg='white' bd='1.5px solid teal'>Skip for now</Button>
                     </div>
+                    {/* <div
+                        style={{
+                        marginTop: 24,
+                        }}
+                    >
+                        {current < steps.length - 1 && (
+                        <Button type="primary" onClick={() => next()}>
+                            Next
+                        </Button>
+                        )}
+                        {current === steps.length - 1 && (
+                        <Button type="primary" >
+                            Done
+                        </Button>
+                        )}
+                        {current > 0 && (
+                        <Button
+                            style={{
+                            margin: '0 8px',
+                            }}
+                            onClick={() => prev()}
+                        >
+                            Previous
+                        </Button>
+                        )}
+                    </div> */}
                 </div>
             </div>
         </div>

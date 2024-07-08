@@ -191,7 +191,7 @@ const NavbarContent = (props) => {
                         </div>
                     </Group>
 
-                    <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="md" />
+                    <Burger opened={drawerOpened} className='navbar-content-burger' onClick={toggleDrawer} hiddenFrom="md" />
                 </Group>
             </header>
 

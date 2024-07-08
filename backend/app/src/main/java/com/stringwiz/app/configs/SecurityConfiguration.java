@@ -60,6 +60,7 @@ public class SecurityConfiguration {
                         .requestMatchers(new AntPathRequestMatcher("/oauth2/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/google/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/user/exists")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/user/isOAuth")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/**")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/api/tasks/**")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/api/tags/**")).authenticated()

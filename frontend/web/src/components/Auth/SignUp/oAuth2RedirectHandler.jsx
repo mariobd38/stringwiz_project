@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { OAUTH2_CALLBACK_URI } from '../../constants';
+import { OAUTH2_CALLBACK_URI } from '../../../constants';
 
-import { useAuth } from '../../AuthContext/authProvider';
+import { useAuth } from '../../../AuthContext/authProvider';
 
 const OAuth2RedirectHandler = () => {
     const { setIsAuthenticated } = useAuth();
@@ -28,7 +28,6 @@ const OAuth2RedirectHandler = () => {
             })
             .then((data) => {
                 setIsAuthenticated(true);
-                console.log(data.picture);
                 navigate('/onboarding', { state: { picture: data.picture }});
             })
             .catch((error) => {

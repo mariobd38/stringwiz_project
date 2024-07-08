@@ -73,7 +73,7 @@ function a11yProps(index) {
     };
 }
 
-const TaskCard = ({taskData, setTaskData, today, upcomingTasks, overdueTasks,
+const TaskCard = ({userFullName, userEmail, taskData, setTaskData, today, upcomingTasks, overdueTasks,
     completedTasks,
     allTagData, setAllTagData}) => {
     const [currentIndex, setCurrentIndex] = useState(null);
@@ -432,6 +432,8 @@ const TaskCard = ({taskData, setTaskData, today, upcomingTasks, overdueTasks,
             </Card>
 
             <TaskDetailsModal
+                userFullName={userFullName}
+                userEmail={userEmail}
                 show={modalShow}
                 onHide={() => 
                     setModalShow(false)

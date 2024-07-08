@@ -47,22 +47,7 @@ const OnboardingProfileModal = (props) => {
                 avatarType: customizedProfileColor ? 'color' : 'image',
                 thumbUrl: activeFile ? activeFile.thumbUrl : null, file: activeFile
             };
-            // if (!Array.isArray(prevOptions)) {
-            //     if (prevOptions.avatarType === 'default') {
-            //         return [prevOptions, newProfileOption];
-            //     } else {
-            //         return [newProfileOption];
-            //     }
-            // }
-            // const isDefaultProfile = prevOptions.length === 0 || prevOptions[prevOptions.length - 1].avatarType === 'default';
-
-            // if (isDefaultProfile) {
-            //     // Append the new profile option
-            //     return [...prevOptions, newProfileOption];
-            // } else {
-            //     // Replace the last item with the new profile option
-            //     return [...prevOptions.slice(0, prevOptions.length - 1), newProfileOption];
-            // }
+            setSelectedProfile(newProfileOption);
 
             const removeSelectedState = profileOption => ({
                 ...profileOption,
@@ -70,7 +55,7 @@ const OnboardingProfileModal = (props) => {
                     <Avatar className='onboarding-new-profile-parent'
                             style={{ backgroundColor: profileOption.color, overflow: "visible" }}>
                         <span className='onboarding-new-profile'>
-                            {profileOption.avatarType === 'color' ? initials : <img src={picture} alt="file" style={{ width: "6rem", height: "6rem", borderRadius: "50%" }} />} 
+                            {profileOption.avatarType === 'color' ? initials : <img src={picture} alt="file" style={{ width: "7rem", height: "7rem", borderRadius: "50%" }} />} 
                         </span>
                     </Avatar>
                 )
@@ -78,10 +63,8 @@ const OnboardingProfileModal = (props) => {
     
             if (!Array.isArray(prevOptions)) {
                 if (prevOptions.avatarType === 'default') {
-                    // Create a new array with the new profile option
                     return [prevOptions, newProfileOption];
                 } else {
-                    // Replace the object with an array containing the new profile option
                     return [newProfileOption];
                 }
             }
@@ -89,16 +72,15 @@ const OnboardingProfileModal = (props) => {
             const isDefaultProfile = prevOptions.length === 0 || prevOptions[prevOptions.length - 1].avatarType === 'default';
     
             if (isDefaultProfile) {
-                // Append the new profile option
                 return [...prevOptions.map(removeSelectedState), newProfileOption];
             } else {
-                // Replace the last item with the new profile option
                 return [
                     ...prevOptions.slice(0, prevOptions.length - 1).map(removeSelectedState),
                     newProfileOption
                 ];
             }
         };
+        setSelectedProfile()
     }
 
     const handleSaveProfile = () => {
@@ -109,6 +91,7 @@ const OnboardingProfileModal = (props) => {
             const updatedFileList = fileList.filter(file => file.uid !== activeFile.uid);
             setFileList(updatedFileList);
         }
+
         setSelectedProfile(saved);
         close();
     }

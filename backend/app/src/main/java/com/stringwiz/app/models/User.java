@@ -83,6 +83,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //    @JoinColumn(name = "profile_id", referencedColumnName = "id")
 //    @OneToOne(cascade = CascadeType.ALL)
@@ -102,7 +103,7 @@ public class User implements UserDetails {
     }
 
     public User(String fullName, String email, String password, String picture) {
-        this.fullName = fullName.replaceAll("\\s+", " ");
+        setFullName(fullName);
         setFirstName();
         setLastName();
         this.email = email;
@@ -147,6 +148,19 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    private void setFullName(String fullName) {
+        String[] fullNameArr = fullName.replaceAll("\\s+", " ").split("\\s+");
+        StringBuilder sb = new StringBuilder();
+        for (String word : fullNameArr) {
+            if (word.length() > 0) {
+                sb.append(word.substring(0, 1).toUpperCase());
+                sb.append(word.substring(1).toLowerCase());
+                sb.append(" ");
+            }
+        }
+        this.fullName = sb.toString().trim();
     }
 
     private void setFirstName() {

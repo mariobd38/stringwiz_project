@@ -1,21 +1,22 @@
-function getUserInfo(setUserInfo) {
-    fetch(`/api/user/getInfo`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    }).then((response) => {
+async function getUserInfo() {
+    try {
+        const response = await fetch('/api/user/getInfo', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: 'include' // If you need to send cookies
+        });
         if (!response.ok) {
             throw new Error("Network response was not ok");
         }
-        return response.json();
-    })
-    .then((data) => {
-        setUserInfo(data);
-    })
-    .catch((error) => {
-        console.error(error); 
-    });
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error('Failed to fetch user info:', error);
+        return null;
+    }
 }
 
-export {getUserInfo}
+export { getUserInfo };

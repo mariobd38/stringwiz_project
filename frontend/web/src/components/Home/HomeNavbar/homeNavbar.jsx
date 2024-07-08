@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useLocalState } from "../../../utils/useLocalStorage";
 import Cookies from 'js-cookie';
 
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
@@ -24,11 +23,9 @@ import { userLogout } from '../../../DataManagement/Users/logout';
 import './homeNavbar.css';
 
 const HomeNavbar = (props) => {
-    const { passedUserInfo } = props;
-    // console.log(passedUserInfo.fullName);
+    const { userFullName, userEmail } = props;
     
-    // const [userFullName] = useState(passedUserInfo.fullName);
-    let [userFullName] = useLocalState("", "userFullName");
+    // let [userFullName] = useLocalState("", "userFullName");
 
     const [firstName, lastName] = userFullName.split(' ');
 
@@ -45,8 +42,7 @@ const HomeNavbar = (props) => {
         setUserBtnAnchorEl(null);
     };
 
-    // const [userEmail] = useState(passedUserInfo.email);
-    const [userEmail] = useLocalState('', 'userEmail');
+    // const [userEmail] = useLocalState('', 'userEmail');
     const initials = (firstName[0] + lastName[0]).toUpperCase();
 
     const logout = () => {
