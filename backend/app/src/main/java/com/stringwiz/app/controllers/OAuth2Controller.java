@@ -7,6 +7,8 @@ import com.stringwiz.app.services.OAuth2TokenRetrievalService;
 import com.stringwiz.app.utils.CookieUtil;
 import com.stringwiz.app.utils.JwtOAuth2Util;
 import com.stringwiz.app.utils.JwtUtil;
+import com.stringwiz.app.utils.UserPlatformDtoConverter;
+import com.stringwiz.app.web.UserPlatformDto;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,13 +41,14 @@ public class OAuth2Controller {
 
             User newUser = new User(userData.get("fullName"), userData.get("email"), null, userData.get("picture"));
             Optional<User> user = userRepository.findByEmail(newUser.getEmail());
-            if (user.isEmpty()) { //user not found
+            if (user.isEmpty()) {
                 customUserService.saveUser(newUser);
             }
             String appJwt = jwtUtil.generateToken(user.orElse(newUser));
             CookieUtil.addCookie(response, JWT_COOKIE_NAME, appJwt);
-
-            return ResponseEntity.ok().body(user.orElse(newUser));
+            UserPlatformDto userDto = UserPlatformDtoConverter.convertToDto(user.orElse(newUser));
+            return ResponseEntity.ok().body(userDto);
+            //return ResponseEntity.ok().body(user.orElse(newUser));
         }
         catch(Exception exception) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();

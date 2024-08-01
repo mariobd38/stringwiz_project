@@ -99,9 +99,7 @@ const LoginContent = (props) => {
 
             if (response.status === 200) {
                 const data = await response.json();
-                console.log(data);
                 setIsAuthenticated(true);
-                // navigate('/onboarding');
                 navigate('/home', { state: { data }});
             } else if (response.status === 401) {
                 setInvalidPasswordErrorText('Invalid Password');

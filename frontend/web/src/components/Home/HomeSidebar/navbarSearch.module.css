@@ -1,0 +1,160 @@
+.navbar {
+    height: 100%;
+    z-index: 10;
+    padding: var(--mantine-spacing-md);
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #323539;
+    top: 72px;
+    position: fixed;
+    background-color: #222529;
+    transition: width 0.4s ease; /* Smooth transition effect */
+  }
+  
+  .section {
+    margin-left: calc(var(--mantine-spacing-md) * -1);
+    margin-right: calc(var(--mantine-spacing-md) * -1);
+    margin-bottom: var(--mantine-spacing-md);
+  
+    &:not(:last-of-type) {
+      border-bottom: 1px solid #323539;
+    }
+  }
+  
+  .searchCode {
+    font-weight: 700;
+    font-size: rem(10px);
+    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
+    border: rem(1px) solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-7));
+  }
+  
+  .mainLinks {
+    padding-left: calc(var(--mantine-spacing-md) - var(--mantine-spacing-xs));
+    padding-right: calc(var(--mantine-spacing-md) - var(--mantine-spacing-xs));
+    padding-bottom: var(--mantine-spacing-md);
+  }
+  
+  .mainLink.active {
+    display: flex;
+    align-items: center;
+    width: 90% !important;
+    /* background-color: red !important; */
+    /* background-color: red !important; */
+    font-size: var(--mantine-font-size-xs);
+    padding: rem(8px) var(--mantine-spacing-xs);
+    border-radius: var(--mantine-radius-sm);
+    font-weight: 500;
+    color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+    &:hover {
+      background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+      color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+    }
+  }
+  .mainLink {
+    display: flex;
+    align-items: center;
+    margin:auto;
+    margin-bottom: 13px;
+    /* background-color: red !important; */
+    padding:10px;
+    font-size: var(--mantine-font-size-xs);
+    padding: rem(18px);
+    border-radius: var(--mantine-radius-sm);
+    font-weight: 500;
+    color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+    width: calc(2.475rem * var(--mantine-scale)) !important; 
+    min-width: calc(2.475rem * var(--mantine-scale)) !important; 
+    height: calc(2.475rem * var(--mantine-scale)) !important; 
+
+    &:hover {
+      /* background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6)); */
+      background-color: #2e3135 !important;
+      color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+    }
+  }
+  .mainLink:last-child {
+    margin-bottom: 0px;
+  }
+  .mainLink.profile {
+    padding: 8px;
+    background-color: transparent !important;
+    width: auto !important;
+  }
+
+.mainLink.active,.mainLink.profile {
+    min-width:auto !important;
+    height:auto !important;
+}
+
+
+
+
+
+
+
+
+
+  .mainLinkInner {
+    position:relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    /* padding:10px; */
+  }
+  
+  .mainLinkIcon.active {
+    margin-right: var(--mantine-spacing-sm);
+    color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-2));
+  }
+  .mainLinkIcon {
+    margin-right:0;
+    color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-2));
+  }
+  
+  .mainLinkBadge {
+    padding: 0;
+    width: rem(20px);
+    height: rem(20px);
+    pointer-events: none;
+  }
+  
+  .collections {
+    padding-left: calc(var(--mantine-spacing-md) - rem(6px));
+    padding-right: calc(var(--mantine-spacing-md) - rem(6px));
+    padding-bottom: var(--mantine-spacing-md);
+  }
+  
+  .collectionsHeader {
+    padding-left: calc(var(--mantine-spacing-md) + rem(2px));
+    padding-right: var(--mantine-spacing-md);
+    margin-bottom: rem(5px);
+  }
+  
+  .collectionLink {
+    display: block;
+    padding: rem(8px) var(--mantine-spacing-xs);
+    text-decoration: none;
+    border-radius: var(--mantine-radius-sm);
+    font-size: var(--mantine-font-size-xs);
+    color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+    line-height: 1;
+    font-weight: 500;
+  
+    &:hover {
+      background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+      color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+    }
+  }
+  
+  .iconWrapper {
+    position: relative; /* Ensures the badge is positioned relative to this container */
+  }
+  
+  .badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(70%, -60%); /* Adjusts the badge position to be more accurate */
+    background-color: red; /* Optional: Adjust the background color as needed */
+  }

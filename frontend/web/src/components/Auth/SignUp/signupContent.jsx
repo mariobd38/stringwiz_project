@@ -86,13 +86,11 @@ const SignupContent = (props) => {
         let userExistsVar = false;
         if (inputEmail) {
             try {
-                console.log(inputEmail);
                 userExistsVar = await userExists(inputEmail);
             } catch (error) {
                 console.error(error); 
             }
         }
-        console.log(inputEmail);
         if (userExistsVar) {
             setInvalidEmailErrorText('A user with that email already exists.');
         } else if (inputEmail === '' || !VerifyEmailRegex(inputEmail)) {

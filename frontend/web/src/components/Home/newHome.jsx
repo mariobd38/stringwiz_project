@@ -31,44 +31,24 @@ const NewHome = () => {
     const [userFullName, setUserFullName] = useState(passedUserInfo?.fullName || '');
     const [userEmail, setUserEmail] = useState(passedUserInfo?.email || '');
     const [userProfilePicture, setUserProfilePicture] = useState('');
-    const [userInfo, setUserInfo] = useState(passedUserInfo || null);
-
-    // useEffect(() => {
-    //     if (!passedUserInfo) {
-    //         getUserInfo().then(data => {
-    //             setUserInfo(data);
-    //             setUserFullName(data.fullName);
-    //             setUserEmail(data.email);
-    //             setUserProfilePicture(data.profilePicture);
-    //         });
-    //     }
-    // }, []);
-
-    // useEffect(() => {
-    //     console.log(userFullName);
-    // }, );
+    const [userProfileDto, setUserProfileDto] = useState('');
+    // const [userInfo, setUserInfo] = useState(passedUserInfo || null);
 
     useEffect(() => {
         const fetchData = async () => {
             if (!passedUserInfo) {
-                const data = await getUserInfo(setUserInfo);
-                console.log(data);
+                const data = await getUserInfo(passedUserInfo || null);
                 if (data) {
-                    setUserInfo(data);
+                    // setUserInfo(data);
                     setUserFullName(data.fullName);
                     setUserEmail(data.email);
-                    setUserProfilePicture(data.profilePicture);
+                    setUserProfilePicture(data.picture);
+                    setUserProfileDto(data.profileDto);
                 }
             }
         };
         fetchData();
     }, [passedUserInfo]);
-
-    useEffect(() => {
-        console.log(userFullName);
-    }, [userFullName]);
-    
-    // console.log(userFullName);
     
     useEffect(() => {
         getTaskInfo(setTaskData);
@@ -103,18 +83,23 @@ const NewHome = () => {
             {userFullName && <HomeNavbar 
                 userFullName={userFullName}
                 userEmail={userEmail}
+                userProfilePicture={userProfilePicture}
+                userProfileDto={userProfileDto}
             />}
             <div className='container m-0 p-0'>
                 {userFullName &&
                 <HomeSidebar className='user-home-sidebar p-0'
                     userFullName={userFullName}
+                    userEmail={userEmail}
                     openSidebarToggle={openSidebarToggle}
-                    setOpenSidebarToggle={setOpenSidebarToggle}
                 />}
             </div>
 
             <div className={`row user-home-all-content ${openSidebarToggle && 'open' }`}>
-                <HomeHeader />
+                <HomeHeader 
+                    openSidebarToggle={openSidebarToggle}
+                    setOpenSidebarToggle={setOpenSidebarToggle}
+                />
 
                 <div className='container' style={{width: "100%"}}>
                     <div className='row'>

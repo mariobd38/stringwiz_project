@@ -78,7 +78,6 @@ const TaskCard = ({userFullName, userEmail, taskData, setTaskData, today, upcomi
     allTagData, setAllTagData}) => {
     const [currentIndex, setCurrentIndex] = useState(null);
     const [newTaskRowOpen, setNewTaskRowOpen] = useState(false);
-    const [userTasks, setUserTasks] = useLocalState([], "userTasks");
 
     const [currentTabValue, setCurrentTabValue] = React.useState(0);
 
@@ -109,9 +108,8 @@ const TaskCard = ({userFullName, userEmail, taskData, setTaskData, today, upcomi
                 null,
                 null,
                 setTaskData,
-                setUserTasks,
-                taskData,
-                userTasks );
+                taskData
+            );
             setNewTaskRowOpen(false);
         }
     };

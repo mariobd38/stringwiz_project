@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { useLocalStorage } from '@mantine/hooks';
+
 import { GOOGLE_AUTH_URL } from '../../../constants';
 
 import AuthHeader from './../authHeader';
@@ -10,9 +12,14 @@ import './signup.css'
 
 const SignUp = () => {
     const [inputEmail,setInputEmail] = useState("");
+    const [authOrigin, setAuthOrigin] = useLocalStorage({
+        key: 'auth_origin',
+        defaultValue: '',
+    });
 
     const handleGoogleLogin = async () => {
-        window.location.href = GOOGLE_AUTH_URL;
+        window.location.href = `${GOOGLE_AUTH_URL}`;
+        setAuthOrigin('signup');
     };
 
     return (

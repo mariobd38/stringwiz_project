@@ -46,7 +46,7 @@ const Onboarding = () => {
 
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const location = useLocation();
-    const [picture, setPicture] = useState(location.state && location.state.picture ? location.state.picture : null);
+    const [picture, setPicture] = useState(location.state && location.state.data.picture ? location.state.data.picture : null);
     const [initials, setInitials] = useState('');
     const [fullName, setFullName] = useState('');
     const [missingProfileErrorText, setMissingProfileErrorText] = useState('');

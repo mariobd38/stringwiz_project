@@ -1,9 +1,16 @@
 import React, { useEffect } from 'react';
+
+import { IconUserPlus,IconLayoutSidebar,IconHome } from '@tabler/icons-react';
 import { useLocalState } from "../../../utils/useLocalStorage";
+
+import {
+    Text
+  } from '@mantine/core';
 
 import './homeHeader.css';
 
-const HomeHeader = () => {
+const HomeHeader = (props) => {
+    const {openSidebarToggle, setOpenSidebarToggle} = props;
     const dayjs = require('dayjs');
 
     var now = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -16,6 +23,15 @@ const HomeHeader = () => {
     const [backgroundImage, setBackgroundImage] = useLocalState(null, "backgroundImage");
 
     const [currentColorMode, setCurrentColorMode] = useLocalState("dark", "colorMode");
+
+    const handleOpenSidebarToggle = () => {
+        setOpenSidebarToggle(!openSidebarToggle);
+        if (openSidebarToggle) {
+            document.body.classList.remove('active');
+        } else {
+            document.body.classList.add('active');
+        }
+    }
 
     useEffect(() => {
         const storedMode = currentColorMode;
@@ -41,22 +57,26 @@ const HomeHeader = () => {
 
     return (
         <>
-            <div className='pt-5'>
-                <div className='d-flex align-items-center justify-content-between'>
+            <div>
+                <div className='d-flex align-items-center'>
+                    <IconLayoutSidebar className='me-3 home-header-sidebar-icon' onClick={handleOpenSidebarToggle}/>
+                    <span className='fafafa-color lato-font d-flex ' style={{fontWeight: "600",fontSize: "17px"}}>
+                        <IconHome className='me-2'/>
+                        <span>Home</span>
+                    </span>
+                </div>
+                <div className='d-flex align-items-center justify-content-between pt-3'>
+
                     <div className='fafafa-color lato-font-600' style={{fontSize: "1.2rem"}}>
-                        {dayOfWeek}, {month} {date.getDate()}, {date.getFullYear()}
+                        {/* <IconLayoutSidebar className='me-2' /> */}
+                        <span>{dayOfWeek}, {month} {date.getDate()}, {date.getFullYear()}</span>
+                        
                     </div>
 
                     <div className=''>
                         <button className='home-header-invite-button d-flex align-items-center'>
                             <span className='mb-2'>
-                                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="12" cy="8" r="4" stroke="#fafafa" strokeWidth="2" strokeLinecap="round"/>
-                                    <path fillRule="evenodd" clipRule="evenodd" d="M13.3267 15.0759C12.8886 15.0255 12.4452 15 12 15C10.0805 15 8.19383 15.4738 6.63113 16.3732C5.06902 17.2721 3.88124 18.5702 3.33091 20.1106C3.1451 20.6307 3.41608 21.203 3.93617 21.3888C4.45626 21.5746 5.02851 21.3036 5.21432 20.7835C5.57558 19.7723 6.39653 18.8157 7.62872 18.1066C8.64272 17.523 9.86375 17.1503 11.158 17.0368C11.4889 16.0601 12.3091 15.3092 13.3267 15.0759Z" fill="#fafafa"/>
-                                    <path d="M18 14L18 22" stroke="#fafafa" strokeWidth="2.5" strokeLinecap="round"/>
-                                    <path d="M22 18L14 18" stroke="#fafafa" strokeWidth="2.5" strokeLinecap="round"/>
-                                </svg>
-
+                                <IconUserPlus />
                             </span>
                             <span className='ps-2'>Invite</span>
                         </button>

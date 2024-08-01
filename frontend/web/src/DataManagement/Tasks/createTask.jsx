@@ -8,9 +8,8 @@ function createTaskInfo(
     taskDueDate,
     setMissingNameError,
     setTaskData,
-    setUserTasks,
-    taskData,
-    userTasks) {
+    taskData
+    ) {
     // if (!taskName) {
     //     setMissingNameError(true);
     //     return;
@@ -74,12 +73,6 @@ function createTaskInfo(
             taskIdNumber: data.taskIdNumber,
         };
         setTaskData([...taskData, createdTask]);
-
-
-        let taskList = userTasks;
-        if(taskList === "") taskList = [];
-        taskList.push(taskTableInfo);
-        setUserTasks(JSON.parse(JSON.stringify(taskList)));
       })
       .catch((error) => {
         console.error(error); 

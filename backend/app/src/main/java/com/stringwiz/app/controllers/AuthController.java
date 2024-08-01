@@ -7,7 +7,6 @@ import com.stringwiz.app.utils.UserPlatformDtoConverter;
 import com.stringwiz.app.web.UserAuthenticationDto;
 import com.stringwiz.app.web.UserPlatformDto;
 import com.stringwiz.app.web.UserRegistrationDto;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +47,7 @@ public class AuthController {
             user.setPassword(null);
             CookieUtil.addCookie(response, JWT_COOKIE_NAME, jwtUtil.generateToken(user));
 
-//            UserPlatformDto userDto = new UserPlatformDto(user.getFullName(), user.getEmail(), user.getPicture(), null);
+            //UserPlatformDto userDto = new UserPlatformDto(user.getFullName(), user.getEmail(), user.getPicture(), null);
             UserPlatformDto userDto = UserPlatformDtoConverter.convertToDto(user);
             return ResponseEntity.ok().body(userDto);
         } catch (BadCredentialsException ex) {

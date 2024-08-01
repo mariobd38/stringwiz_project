@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+
+import { readLocalStorageValue } from '@mantine/hooks';
 import { useNavigate } from 'react-router-dom';
 import { OAUTH2_CALLBACK_URI } from '../../../constants';
 
@@ -13,8 +15,10 @@ const OAuth2RedirectHandler = () => {
         const params = new URLSearchParams(window.location.search);
         const code = params.get('code');
         const error = params.get('error');
+        const authOrigin = readLocalStorageValue({ key: 'auth_origin' });
+
         if (code) {
-            fetch(`${OAUTH2_CALLBACK_URI}?code=${code}`, {
+            fetch(`${OAUTH2_CALLBACK_URI}?code=${code}&authOrigin=${authOrigin}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -28,7 +32,15 @@ const OAuth2RedirectHandler = () => {
             })
             .then((data) => {
                 setIsAuthenticated(true);
-                navigate('/onboarding', { state: { picture: data.picture }});
+                if (authOrigin === 'login') {
+                    navigate('/home', { state: { data: data } });
+                } else if (authOrigin === 'signup') {
+                    // navigate('/onboarding', { state: { picture: data.picture } });
+                    navigate('/onboarding', { state: { data: data } });
+                } else {
+                    navigate('/');
+                }
+                localStorage.removeItem('auth_origin');
             })
             .catch((error) => {
                 console.error(error); 
