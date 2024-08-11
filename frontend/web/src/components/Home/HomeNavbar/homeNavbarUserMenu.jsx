@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Cookies from 'js-cookie';
 import { userLogout } from '../../../DataManagement/Users/logout';
@@ -7,6 +7,7 @@ import { constructImageSrc } from '../../../utils/constructImageSrc';
 import { IconSettings, IconTrash,IconArchive,IconHelp,IconBell,IconUser,IconChevronDown,IconLogout } from '@tabler/icons-react';
 
 import { Avatar,Text,Menu, rem } from '@mantine/core';
+import { useScrollLock } from '../../../utils/useScrollLock';
 
 const HomeNavbarUserMenu = (props) => {
     const {userProfileDto,userProfilePicture, userFullName  } = props;
@@ -17,9 +18,24 @@ const HomeNavbarUserMenu = (props) => {
         userLogout();
     };
 
+    const [menuOpened, setMenuOpened] = useState(false);
+    const { disableScroll, enableScroll } = useScrollLock();  // Destructure the functions from the hook
+
+
     return (
         <>
-            <Menu shadow="md" width={300} position="bottom-end" offset={12}>
+            <Menu shadow="md" width={300} position="bottom-end" offset={12} 
+            closeOnEscape
+            opened={menuOpened}
+            onOpen={() => {
+                disableScroll();
+                setMenuOpened(true);
+            }}
+            onClose={() => {
+                enableScroll();
+                setMenuOpened(false);
+            }}
+            >
                 <div className='d-flex align-items-center'>
                     <Menu.Target className='d-flex align-items-center user-home-avatar-menu-target' style={{borderRadius: "8px", cursor: "pointer", padding: "6px 8px"}}>
                         <div>

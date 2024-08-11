@@ -227,3 +227,36 @@ body.active .toggle-btn {
     white-space: nowrap;
 }
 
+
+
+
+/* .resize-handle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4px;
+    height: 100%;
+    cursor: ew-resize;
+    background-color: #4c566a;
+  } */
+
+  
+  /* Styling for the resize handle */
+  .resize-handle {
+    width: 4px; /* Handle width */
+    cursor: col-resize; /* Cursor change on hover */
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    /* background-color: #666666f5; */
+    opacity: 0.6;
+    transition: all 0.8s ease-in-out;
+  }
+  .resize-handle:hover {
+    /* right: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important; */
+    background-color: #525559 !important;
+    
+  }

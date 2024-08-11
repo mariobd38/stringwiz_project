@@ -22,6 +22,7 @@ const NewHomeDueDatePopover = (props) => {
     const [todayIsActive, setTodayIsActive] = useState(false);
     const [initialDueDate, setInitialDueDate] = useState(dayjs(currentTaskDueDate));
 
+    // console.log(currentTaskDueDate);
     const handleDueDateIsToday = () => {
         setTodayIsActive(true);
         handleDueDateChange(dayjs(today).endOf('day').toDate());
@@ -196,14 +197,13 @@ const NewHomeDueDatePopover = (props) => {
                     className='user-home-calendar-date-picker pb-0 fafafa-color p-1'  
                 />
 
-                    {/* <hr className='fafafa-color'/> */}
-                <div className='d-flex justify-content-center align-items-center mx-2 pt-2'>
+                {/* <div className='d-flex justify-content-center align-items-center mx-2 pt-2'>
                     <button className={`lato-font user-home-calendar-today ${todayIsActive && 'clicked'} `}
                     onClick={handleDueDateIsToday}>
                         Today
                     </button>
                     
-                </div>
+                </div> */}
             </DatesProvider> 
         </div>
     );

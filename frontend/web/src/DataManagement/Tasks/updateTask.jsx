@@ -1,7 +1,7 @@
 const STATUSES = ['To Do', 'In Progress', 'Completed'];
 
 function handleSpecialCaseUpdates(event, task, selectedDate, dayjs, setCurrentTaskDueDate, setCurrentTaskDueDateTime, taskDescription) {
-    switch (event) {
+  switch (event) {
         case "clear date time":
             task.dueDateTime = null;
             setCurrentTaskDueDateTime(null);

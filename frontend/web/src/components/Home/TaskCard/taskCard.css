@@ -1,15 +1,14 @@
-/* .user-home-card-task-tab[tabindex="0"] {
-    background-color: #232426 !important;
-} */
 .task-card-card {
-    font-family: 'Nunito Sans';
-    width: 90%;
-    border: 2px solid #313234;
-    border-radius: 10px;
+    font-family: 'Nunito Sans' !important;
+    width: 90% !important;
+    border: 2px solid #313234 !important;
+    border-radius: 10px !important;
+    padding:0 !important;
+    background-color: transparent !important;
 }
 @media (max-width: 1200px) {
     .task-card-card {
-        width: 100%;
+        width: 100% !important;
     }
 }
 .user-home-create-task-button-dark {
@@ -38,22 +37,44 @@
     background-color: #eeeeee !important;
 }
 
-/* .table-row:hover .table-cell-icon, .table-row:hover .user-home-task-check  {
-    display: block !important;
-} */
 
-/* .new-svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-width: 100%;
-height: 100%;
-    box-sizing: border-box;
-    display: block;
-    background-color: #0e4166;
-background-image: linear-gradient(to bottom, rgba(14, 65, 102, 0.86), #0e4166);
-} */
-.css-1vw5i9y-MuiButtonBase-root-MuiTab-root.user-home-card-task-tab.Mui-selected {
-    color: #7aeecd !important;
-    font-weight: 800;
+/* new */
+.user-home-card-body .ant-tabs {
+    padding:15px !important;
+}
+.user-home-card-body .ant-tabs .ant-tabs-nav::before {
+    display: none;
+}
+.user-home-card-body .ant-tabs-tab {
+    color: #999999;
+    font-family: 'Lato';
+    font-size: 17px;
+    padding:8px 14px;
+    border-radius: 6px;
+    width: 33% !important;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+}
+.user-home-card-body .ant-tabs-tab:hover {
+    background-color: #35363a;
+}
+.user-home-card-body  .ant-tabs-tab-active .ant-tabs-tab-btn,
+.user-home-card-body .ant-tabs-tab-btn:active,
+.user-home-card-body .ant-tabs-tab-btn:focus,
+.user-home-card-body .ant-tabs-tab:hover {
+    color:#eaeaea !important;
+}
+
+.ant-tabs-nav-list {
+    width:100% !important;
+}
+.ant-tabs-nav-list .ant-tabs-ink-bar {
+    transition: width 0s ease-in-out, left 0s ease-in-out, right 0s ease-in-out !important;
+    border-radius: 10px !important;
+    background-color: #2fa295 !important;
+    transform: translateX(-50%) !important;
+}
+.user-home-card-body  .ant-tabs .ant-tabs-nav-operations {
+    display: none;
 }

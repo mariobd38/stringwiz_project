@@ -6,7 +6,6 @@ function createTaskInfo(
     taskStatus,
     taskPriority,
     taskDueDate,
-    setMissingNameError,
     setTaskData,
     taskData
     ) {

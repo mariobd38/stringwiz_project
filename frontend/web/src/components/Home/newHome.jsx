@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import {getTaskInfo} from './../../DataManagement/Tasks/getTasks';
-
 import HomeHeader from '../Home/HomeHeader/homeHeader';
 import HomeNavbar from './HomeNavbar/homeNavbar';
 import TaskCard from './TaskCard/taskCard';
@@ -15,11 +13,14 @@ import MilestoneBlock from './MilestoneBlock/milestoneBlock';
 
 import './newHome.css';
 import { getUserInfo } from '../../DataManagement/Users/getUserInfo';
+import { getTaskInfo } from './../../DataManagement/Tasks/getTasks';
 
 const NewHome = () => {
     const dayjs = require('dayjs');
     const [taskData, setTaskData] = useState([]);
-    const [upcomingTasks, setUpcomingTasks] = useState([]);
+    const [ongoingTasks, setOngoingTasks] = useState([]);
+    const [todaysTasks, setTodaysTasks] = useState([]);
+    const [unscheduledTasks, setUnscheduledTasks] = useState([]);
     const [overdueTasks, setOverdueTasks] = useState([]);
     const [completedTasks, setCompletedTasks] = useState([]);
     const [today, setToday] = useState(null);
@@ -57,24 +58,36 @@ const NewHome = () => {
             setToday(now);
 
             const todays_date = now;
-            const upcoming = [];
+            const ongoing = [];
+            const unscheduled = [];
+            const today = [];
             const overdue = [];
             const completed = [];
-
             taskData.forEach((task) => {
-                
-                if ((task.dueDate == null || task.dueDate >= todays_date) && task.status !== 'Completed') {
-                    upcoming.push(task);
-                } else if (todays_date > task.dueDate && task.status !== 'Completed') {
+                const currentDueDate = task.dueDate ? dayjs(task.dueDate).format('YYYY-MM-DD') : null;
+                // console.log(currentDueDate);
+                if (currentDueDate === todays_date && task.status !== 'Completed') {
+                    today.push(task);
+                } else if ((currentDueDate >= todays_date) && task.status !== 'Completed') {
+                    ongoing.push(task);
+                } 
+                else if (currentDueDate === null && task.status !== 'Completed') {
+                    unscheduled.push(task);
+                } 
+                else if (todays_date > currentDueDate && task.status !== 'Completed') {
                     overdue.push(task);
-                }else if (task.status === 'Completed') {
+                } else if (task.status === 'Completed') {
                     completed.push(task);
                 } 
             });
-        setUpcomingTasks(upcoming);
+            // console.log(today);
+        setTodaysTasks(today);
+        setOngoingTasks(ongoing);
+        setUnscheduledTasks(unscheduled);
         setOverdueTasks(overdue);
         setCompletedTasks(completed);
     }, [taskData,dayjs]);
+    // console.log(todaysTasks);
 
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
 
@@ -92,6 +105,7 @@ const NewHome = () => {
                     userFullName={userFullName}
                     userEmail={userEmail}
                     openSidebarToggle={openSidebarToggle}
+                    setOpenSidebarToggle={setOpenSidebarToggle}
                 />}
             </div>
 
@@ -112,7 +126,10 @@ const NewHome = () => {
                                     userFullName={userFullName}
                                     userEmail={userEmail}
                                     taskData={taskData} setTaskData={setTaskData} today={today} 
-                                    upcomingTasks={upcomingTasks} overdueTasks={overdueTasks}
+                                    ongoingTasks={ongoingTasks} 
+                                    todaysTasks={todaysTasks}
+                                    unscheduledTasks={unscheduledTasks}
+                                    overdueTasks={overdueTasks}
                                     completedTasks={completedTasks}
                                     allTagData={allTagData} setAllTagData={setAllTagData}/>}
                                 </div>
@@ -126,21 +143,20 @@ const NewHome = () => {
 
                         <div className="col-lg-4 col-md-12 col-12 user-home-right-side-block">
                             <div className='mt-4 d-md-block col-12'>
-                            <div className="row">
-                                <div className='col-lg-12 calendar-block-parent'>
-                                    <CalendarBlock 
-                                        taskData={taskData}
-                                        today={today}
-                                    />
-                                </div>
-                                <div className='col-lg-12 milestone-block-parent'>
-                                    <MilestoneBlock />
+                                <div className="row">
+                                    <div className='col-lg-12 calendar-block-parent'>
+                                        <CalendarBlock 
+                                            taskData={taskData}
+                                            today={today}
+                                        />
+                                    </div>
+                                    <div className='col-lg-12 milestone-block-parent'>
+                                        <MilestoneBlock />
 
+                                    </div>
+                                    
                                 </div>
-                                
                             </div>
-                            </div>
-                            
                         </div>
                     </div>
                 </div>

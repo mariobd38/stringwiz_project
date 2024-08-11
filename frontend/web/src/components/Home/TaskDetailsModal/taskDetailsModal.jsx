@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef,createRef } from 'react';
 
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useLocalState } from "../../../utils/useLocalStorage";
 import { useClickAway } from 'react-use';
 
 import dayjs from 'dayjs';
@@ -9,19 +8,18 @@ import dayjs from 'dayjs';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-// import { TextareaAutosize } from '@mui/base/TextareaAutosize';
-
-import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import CircleRoundedIcon from '@mui/icons-material/CircleRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ColorLensRoundedIcon from '@mui/icons-material/ColorLensRounded';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import DriveFileRenameOutlineRoundedIcon from '@mui/icons-material/DriveFileRenameOutlineRounded';
-import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import NotInterestedRoundedIcon from '@mui/icons-material/NotInterestedRounded';
 import RadioButtonCheckedRoundedIcon from '@mui/icons-material/RadioButtonCheckedRounded';
-import TourRoundedIcon from '@mui/icons-material/TourRounded';
+
+
+import {
+    IconDots,IconCheck,IconX,IconFlag3Filled
+} from '@tabler/icons-react';
 
 import NewHomeDueDatePopover from '../newHomeDueDatePopover';
 import { TagOptionsDropdown } from './TagOptionsDropdown/tagOptionsDropdown';
@@ -31,7 +29,6 @@ import { ModelDropdown } from '../../models/ModelDropdown/modelDropdown';
 import { ProfileCard } from './ProfileCard/profileCard';
 import { TagColorDropdown } from './TagColorDropdown/tagColorDropdown';
 import TaskDetailsModalSubheader from './taskDetailsModalSubheader';
-
 import { updateTagInfo } from '../../../DataManagement/Tags/updateTag';
 import { deleteTagInfo } from '../../../DataManagement/Tags/deleteTag';
 import TaskDeletionModal from './TaskDeletionModal/taskDeletionModal';
@@ -54,10 +51,10 @@ import './taskDetailsModal.css';
 
 const TaskDetailsModal = (props) => {
     const { 
-            userFullName, userEmail, currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskDescription, currentTaskLastUpdatedOn,
-            nonIncludedTaskTags, setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, setSelectedDate, currentTaskTags, setCurrentTaskTags,
+            userFullName, userEmail, currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskLastUpdatedOn,
+            nonIncludedTaskTags, setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, setSelectedDate, currentTaskTags, setCurrentTaskTags,setCurrentTaskDescriptionHtml,
             taskType, setTaskType,selectedDate, today, currentTaskDueDateTime, setCurrentTaskDueDateTime,
-            onHide, show, setModalShow, allTagData,handleTagCreation,completedTasks,dueDatePopoverIsOpen,setDueDatePopoverIsOpen,setCurrentTaskStatus, currentTaskDescriptionHtml
+            onHide, show, allTagData,handleTagCreation,completedTasks,dueDatePopoverIsOpen,setDueDatePopoverIsOpen,setCurrentTaskStatus, currentTaskDescriptionHtml
          } = props;
     
     const content = currentTaskDescriptionHtml;
@@ -84,7 +81,7 @@ const TaskDetailsModal = (props) => {
         if (modalBackdrop) {
             modalBackdrop.remove();
         }
-
+        setCurrentTaskDescriptionHtml(null);
         onHide();
         navigate(-1);
     }
@@ -101,6 +98,7 @@ const TaskDetailsModal = (props) => {
                 // navigate('/home');
         }
     }, [location.pathname, show, navigate]);
+    
 
     //task description
     const handleTaskUpdate = (event) => {
@@ -158,7 +156,7 @@ const TaskDetailsModal = (props) => {
         <div className='d-flex align-items-center user-home-task-details-modal-assignee-div'>
             <div className='me-2 user-home-task-details-modal-assignee-initials-circle'>
                 <CircleRoundedIcon className="assignee-circle-icon-hider" />
-                    <CancelRoundedIcon className="assignee-circle-icon-remove"/>
+                    <IconX className="assignee-circle-icon-remove"/>
                 {initials}
 
             </div>
@@ -312,6 +310,13 @@ const TaskDetailsModal = (props) => {
         deleteTagInfo(currentTaskTags,setCurrentTaskTags,tagDeleteButtonClickedIndex);
         setTagDeleteButtonClicked(false);
     }
+    
+    const taskTypeRef = useRef(taskType);
+    const currentIndexRef = useRef(currentIndex);
+    useEffect(() => {
+        taskTypeRef.current = taskType;
+        currentIndexRef.current = currentIndex;
+      }, [taskType,currentIndex]);
 
     const editor = useEditor({
         extensions: [
@@ -327,13 +332,11 @@ const TaskDetailsModal = (props) => {
         ],
         content,
         onUpdate(props) {
-            // console.log(props.editor.getHTML());
-            // console.log(event.currentTarget);
             const description = props.editor.getHTML();
             UpdateTaskInfo(
-                currentIndex, 
+                currentIndexRef.current, 
                 "description",
-                taskType,
+                taskTypeRef.current,
                 setTaskType,
                 selectedDate,
                 dayjs,
@@ -342,6 +345,7 @@ const TaskDetailsModal = (props) => {
                 completedTasks,
                 description
             );
+            
         }
       });
 
@@ -351,6 +355,7 @@ const TaskDetailsModal = (props) => {
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [content]);
+
 
     return (
         <>
@@ -441,9 +446,9 @@ const TaskDetailsModal = (props) => {
                                                 items={[
                                                     { name: "To Do", icon: <RadioButtonCheckedRoundedIcon />, isActualOption: true },
                                                     { name: "In Progress", icon: <RadioButtonCheckedRoundedIcon />, isActualOption: true },
-                                                    { name: "Completed", icon: <CheckRoundedIcon />, isActualOption: true },
+                                                    { name: "Completed", icon: <IconCheck />, isActualOption: true },
                                                 ]}
-                                                initialNameValue={currentTaskStatus} initialIconValue={currentTaskStatus==='Completed' ? <CheckRoundedIcon /> : <RadioButtonCheckedRoundedIcon />}
+                                                initialNameValue={currentTaskStatus} initialIconValue={currentTaskStatus==='Completed' ? <IconCheck /> : <RadioButtonCheckedRoundedIcon />}
                                                 handleTaskUpdate={(event) => handleTaskUpdate(event)}
                                                 hasSearchBar={true} isStatusBtn={true} currentTaskStatus={currentTaskStatus}
                                                 taskType={taskType} currentIndex={currentIndex} setCurrentTaskStatus={setCurrentTaskStatus}
@@ -460,13 +465,13 @@ const TaskDetailsModal = (props) => {
                                             
                                             <ModelDropdown 
                                                 items={[
-                                                    { name: "Critical", icon: <TourRoundedIcon />, isActualOption: true },
-                                                    { name: "High", icon: <TourRoundedIcon />, isActualOption: true },
-                                                    { name: "Medium", icon: <TourRoundedIcon />, isActualOption: true },
-                                                    { name: "Low", icon: <TourRoundedIcon />, isActualOption: true },
+                                                    { name: "Critical", icon: <IconFlag3Filled />, isActualOption: true },
+                                                    { name: "High", icon: <IconFlag3Filled />, isActualOption: true },
+                                                    { name: "Medium", icon: <IconFlag3Filled />, isActualOption: true },
+                                                    { name: "Low", icon: <IconFlag3Filled />, isActualOption: true },
                                                     { name: "Clear", icon: <NotInterestedRoundedIcon />, isActualOption: false },
                                                 ]}
-                                                initialNameValue={currentTaskPriority} initialIconValue={<TourRoundedIcon />}
+                                                initialNameValue={currentTaskPriority} initialIconValue={<IconFlag3Filled />}
                                                 handleTaskUpdate={(event) => handleTaskUpdate(event)}
                                                 hasClearBtn={true} 
                                                 isPriorityDropdown={true} setCurrentTaskPriority={setCurrentTaskPriority}
@@ -509,7 +514,7 @@ const TaskDetailsModal = (props) => {
                                                                 { name: "Change color", icon: <ColorLensRoundedIcon/> },
                                                                 { name: "Delete", icon: <DeleteOutlineOutlinedIcon /> },
                                                             ]}
-                                                            initialIconValue={<MoreHorizRoundedIcon />}
+                                                            initialIconValue={<IconDots />}
                                                             isDropdownOnRightSide={false}
                                                             tagDropdownStates={tagDropdownStates}
                                                             setTagDropdownStates={setTagDropdownStates}
@@ -565,12 +570,13 @@ const TaskDetailsModal = (props) => {
                             />
                         </div> */}
                         <div className="rich-text-editor-wrapper">
-                            <RichTextEditor editor={editor} style={{borderRadius: "8px"}} className='user-home-task-details-rte'>
+                            <RichTextEditor editor={editor} 
+                            style={{borderRadius: "8px"}} className='user-home-task-details-rte'>
                                 <RichTextEditor.Toolbar sticky stickyOffset={60} className='user-home-task-details-modal-rte-toolbar' >
                                     <RichTextEditor.ControlsGroup className='user-home-task-details-modal-rte-controls-group'>
-                                        <RichTextEditor.Bold />
-                                        <RichTextEditor.Italic />
-                                        <RichTextEditor.Underline />
+                                        {/* <RichTextEditor.Bold /> */}
+                                        {/* <RichTextEditor.Italic />
+                                        <RichTextEditor.Underline /> */}
                                         <RichTextEditor.Strikethrough />
                                         <RichTextEditor.ClearFormatting />
                                         <RichTextEditor.Highlight />
@@ -586,9 +592,8 @@ const TaskDetailsModal = (props) => {
 
                                     <RichTextEditor.ControlsGroup className='user-home-task-details-modal-rte-controls-group'>
                                     <RichTextEditor.Blockquote />
-                                    <RichTextEditor.Hr />
-                                    <RichTextEditor.BulletList />
-                                    <RichTextEditor.OrderedList />
+                                    {/* <RichTextEditor.Hr /> */}
+                                    {/* <RichTextEditor.OrderedList /> */}
                                     <RichTextEditor.Subscript />
                                     <RichTextEditor.Superscript />
                                     </RichTextEditor.ControlsGroup>
@@ -611,10 +616,8 @@ const TaskDetailsModal = (props) => {
                                     </RichTextEditor.ControlsGroup>
                                 </RichTextEditor.Toolbar>
 
-                                <RichTextEditor.Content bg='#222325' content={content} className='user-home-task-details-modal-rte-content'
-                                    
-                                    // onChange={handleTaskUpdate}
-                                    // defaultValue={`${currentTaskDescriptionHtml !== null ? currentTaskDescriptionHtml : ''}`}
+                                <RichTextEditor.Content bg='#222325' content={content}
+                                className='user-home-task-details-modal-rte-content'
                                 />
                             </RichTextEditor>
                         </div>

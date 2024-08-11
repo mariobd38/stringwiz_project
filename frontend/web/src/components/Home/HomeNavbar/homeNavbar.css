@@ -1,3 +1,7 @@
+body.scroll-lock {
+    overflow: hidden;
+  }
+
 .create-home-navbar-button {
     background-color: #3a3c3e !important;
     font-size: 1rem !important;

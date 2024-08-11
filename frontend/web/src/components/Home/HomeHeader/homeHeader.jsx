@@ -65,7 +65,7 @@ const HomeHeader = (props) => {
                         <span>Home</span>
                     </span>
                 </div>
-                <div className='d-flex align-items-center justify-content-between pt-3'>
+                <div className='d-flex align-items-center justify-content-between mt-3'>
 
                     <div className='fafafa-color lato-font-600' style={{fontSize: "1.2rem"}}>
                         {/* <IconLayoutSidebar className='me-2' /> */}

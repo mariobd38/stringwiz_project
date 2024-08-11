@@ -8,7 +8,7 @@
     top: 85px;
     transition: margin 0.27s linear;
 
-    margin: 0 2.5rem 0 5.8rem;
+    margin: 0 1rem 0 5.8rem;
 }
 .user-home-all-content.open {
     
@@ -22,7 +22,6 @@
 .user-home-right-content {
     width: 26.3rem;
     border-radius: 10px !important;
-    /* border-left: 1px solid #222222; */
 }
 
 /* task and project cards */

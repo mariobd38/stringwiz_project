@@ -12,21 +12,22 @@
     background-color: #2f3032 !important;
 }
 .table-cell {
-    font-family: 'Nunito Sans', serif !important;
+    font-family: 'Lato', serif !important;
+    font-size: 15px;
     /* padding: 0.85rem 0rem !important; */
-    margin: 0rem 1.2rem !important;
+    /* margin: 0rem -1rem !important; */
     overflow: hidden !important;
     border: none !important;
-    border-radius: 10px;
-    padding: 14px 16px !important;
-    height: 55px !important;
+    border-radius: 6px;
+    /* padding: 14px 16px !important; */
+    height: 50px !important;
 }
 .table-cell:hover {
     background-color: #2f3032 !important;
 }
-.table-cell-icon:hover {
+/* .table-cell-icon:hover {
     display: inline !important;
-}
+} */
 .user-home-task-check-icon {
     width: 1.15rem !important;
     height: 1.15rem !important;
@@ -65,11 +66,16 @@
 }
 .user-home-calendar-icon-div {
     color: #e7e7e7;
-    border: 1px dashed #73cbaf;
+    border: 1px solid #969696;
     padding: 0.35rem 0.2rem;
     cursor: pointer;
-    border-radius: 50%;
+    border-radius: 6px;
     visibility: hidden;
+    display: flex;
+    align-items: center;
+}
+.user-home-calendar-icon-div:hover {
+    background-color: #414243;
 }
 .user-home-calendar-icon {
     color: #e7e7e7;
@@ -78,4 +84,90 @@
 }
 .user-home-chosen-due-date-text {
     cursor: pointer;
+}
+
+.table-cell-icon {
+    display: none;
+}
+
+.table-cell:hover .user-home-chosen-due-date-text {
+    display: none;
+}
+
+.table-cell:hover .table-cell-icon {
+    display: inline !important;
+}
+
+.table-cell-tooltip {
+    display: none;
+}
+
+/* Display icons when the table cell is active */
+.table-cell.active .table-cell-icon {
+    display: inline !important;
+}
+.table-cell.active .table-cell-icon div {
+    visibility: visible;
+}
+
+/* Optional: Ensure that when a cell is active, the due date text is hidden as well */
+.table-cell.active .user-home-chosen-due-date-text {
+    display: none;
+}
+
+/* Your other styles */
+.task-card-content-accordion {
+    font-family: 'Lato';
+    padding: 5px 0px !important;
+    border-radius: 4px;
+}
+
+.task-card-content-accordion .mantine-Accordion-chevron {
+    margin-inline-end: var(--mantine-spacing-sm);
+    margin-inline-start: 0 !important;
+    padding: 3px 3px;
+    width: 25px;
+    display: flex;
+    justify-content: left;
+    border-radius: 4px;
+}
+
+.task-card-content-accordion .mantine-Accordion-chevron:hover {
+    background-color: #303133;
+}
+
+.task-card-content-accordion .mantine-Accordion-label {
+    flex: 0;
+}
+
+.task-card-content-accordion .mantine-Accordion-icon {
+    margin: 0px 7px !important;
+    margin-inline-end: var(--mantine-spacing-sm) !important;
+}
+
+.task-card-content-accordion:hover {
+    background-color: transparent !important;
+}
+
+.task-card-content-accordion-panel .mantine-Accordion-content {
+    padding: 0;
+    padding-top: calc(var(--mantine-spacing-xs) / 2);
+}
+
+.user-home-task-set-complete:hover {
+    color: teal;
+    cursor: pointer;
+}
+
+
+.task-card-content-dropdown-item {
+    width: 87% !important;
+    color: #fafafa !important;
+    font-family: 'Lato';
+}
+.mantine-dropdown-model .mantine-Menu-item {
+    background-color: #232426;
+}
+.task-card-content-dropdown-item:hover {
+    background-color: #303133;
 }

@@ -47,7 +47,7 @@ const HomeNavbar = (props) => {
 
     return (
         <div>
-            <nav className="navbar w-100" style={{position: "fixed",zIndex: "1", height: "4.5rem", backgroundColor: "#222222" }}>
+            <nav className="navbar w-100" style={{position: "fixed",zIndex: "11", height: "4.5rem", backgroundColor: "#222222" }}>
                 <div className='container-fluid' >
                     <div className="row w-100 m-0 mx-2">
                         <div className='col-0 col-lg-3 d-flex align-items-center p-0 '>
