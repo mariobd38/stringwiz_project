@@ -3,6 +3,7 @@ import React from 'react';
 
 import NewHome from "./components/Home/newHome";
 import TaskDetailsModal from "./components/Home/TaskDetailsModal/taskDetailsModal";
+import TaskDetailsModalNew from "./components/Home/TaskDetailsModal/taskDetailsModalNew";
 import LandingPage from "./components/Landing/LandingPage";
 import Login from "./components/Auth/Login/login";
 import SignUp from "./components/Auth/SignUp/signup"
@@ -33,7 +34,7 @@ function App() {
           {background && (
               <Route path="/home/modal" element={
                 <PrivateRoute>
-                  <TaskDetailsModal/>
+                  <TaskDetailsModalNew/>
                 </PrivateRoute>
               } />
           )}

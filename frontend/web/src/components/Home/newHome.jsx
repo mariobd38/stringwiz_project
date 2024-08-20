@@ -24,7 +24,6 @@ const NewHome = () => {
     const [overdueTasks, setOverdueTasks] = useState([]);
     const [completedTasks, setCompletedTasks] = useState([]);
     const [today, setToday] = useState(null);
-    const [allTagData, setAllTagData] = useState([]);
 
     const location = useLocation();
 
@@ -131,7 +130,10 @@ const NewHome = () => {
                                     unscheduledTasks={unscheduledTasks}
                                     overdueTasks={overdueTasks}
                                     completedTasks={completedTasks}
-                                    allTagData={allTagData} setAllTagData={setAllTagData}/>}
+                                    userProfileDto={userProfileDto}
+                                    userProfilePicture={userProfilePicture}
+                                    />}
+                                    
                                 </div>
                             </div>
 

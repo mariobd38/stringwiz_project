@@ -114,3 +114,10 @@
 .ant-picker-now-btn {
     color: #fafafa;
 }
+
+
+
+/* new */
+.due-date-popover-space-parent .ant-space-item {
+    height: 100% !important;
+}

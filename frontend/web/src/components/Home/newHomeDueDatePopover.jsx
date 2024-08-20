@@ -148,7 +148,7 @@ const NewHomeDueDatePopover = (props) => {
 
     const content = (
         <div>
-            <Space className='pb-2 mx-2 d-flex justify-content-end align-items-center'>
+            <Space className='pb-2 mx-2 d-flex justify-content-end align-items-center h-100'>
                 <AntDatePicker 
                     defaultValue={currentTaskDueDate ? dayjs(currentTaskDueDate) : undefined}
                     value={currentTaskDueDate ? dayjs(currentTaskDueDate) : undefined}
@@ -214,9 +214,9 @@ const NewHomeDueDatePopover = (props) => {
 
     return (
         <div>
-            <Space wrap>
+            <Space wrap className='due-date-popover-space-parent h-100'>
                 <Popover arrow={mergedArrow} content={content} trigger="click" opened={dueDatePopoverIsOpen} onOpenChange={() => setDueDatePopoverIsOpen((o) => !o)}
-                onClose={() => console.log("hello")}
+                className='h-100'
                 style={{borderRadius: "10px",backgroundColor: "#222529", border: "none", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)" }}>
                     {popoverTarget}
                 </Popover>

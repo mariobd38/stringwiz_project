@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import dayjs from 'dayjs';
 
@@ -10,19 +10,20 @@ import { Tabs } from "antd";
 import {createTaskInfo} from './../../../DataManagement/Tasks/createTask';
 import {UpdateTaskInfo} from './../../../DataManagement/Tasks/updateTask';
 import { getTagInfo } from '../../../DataManagement/Tags/getTags';
-import { getAllTagsInfo } from '../../../DataManagement/Tags/getAllTags';
-import { createTagInfo } from '../../../DataManagement/Tags/createTag';
 
-import TaskDetailsModal from '../TaskDetailsModal/taskDetailsModal';
+import TaskDetailsModalNew from '../TaskDetailsModal/taskDetailsModalNew';
 import TaskCardContent from './TaskCardContent/taskCardContent';
+
+import { UpdateTaskInfoNew } from '../../../DataManagement/Tasks/updateTaskNew';
 
 import checklist from '../../../assets/illustrations/home/checklist.png';
 
 import './taskCard.css'
 
-const TaskCard = ({userFullName, userEmail, taskData, setTaskData, today, ongoingTasks, todaysTasks,unscheduledTasks, overdueTasks,
-    completedTasks,
-    allTagData, setAllTagData}) => {
+const TaskCard = (props) => {
+
+    const {userFullName, userEmail, taskData, setTaskData, today, ongoingTasks, todaysTasks,unscheduledTasks, overdueTasks,
+        completedTasks,userProfileDto,userProfilePicture} = props; 
     const [currentIndex, setCurrentIndex] = useState(null);
     const [newTaskRowOpen, setNewTaskRowOpen] = useState(false);
 
@@ -102,56 +103,24 @@ const TaskCard = ({userFullName, userEmail, taskData, setTaskData, today, ongoin
         );
     }
     
-    //tag related info
-    const [nonIncludedTaskTags, setNonIncludedTaskTags] = useState([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const allTagsData =  await getAllTagsInfo(setAllTagData);
-                // const filteredTags = allTagsData.filter(tag => !currentTaskTags.includes(tag.name));
-                const currentTaskTagsSet = new Set(currentTaskTags.map(tag => tag.name));
-                const filteredTags = allTagsData.filter(tag => !currentTaskTagsSet.has(tag.name));
-                setNonIncludedTaskTags(filteredTags);
-                // console.log(filteredTags);
-                setAllTagData(allTagsData);
-            } catch(error) {
-                //
-            }
-        };
-        fetchData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentIndex, currentTaskTags]);
-
-    const updateTaskTags = (updatedTags) => {
-        const updatedTasks = [...taskType];
-        updatedTasks[currentIndex].tags = updatedTags;
-        setTaskType(updatedTasks);
-        setCurrentTaskTags([...updatedTags]);
-    };
-
-    const handleTagCreation = async (tagName) => {
-        try {
-            const newTag = await createTagInfo(taskType[currentIndex].id, tagName);
-    
-            if (newTag) {
-                const updatedTags = [...currentTaskTags, newTag];
-                setCurrentTaskTags(updatedTags);
-                updateTaskTags(updatedTags);
-            } else {
-                console.error('Error creating tag: Tag data is null');
-            }
-        } catch (error) {
-            console.error('Error creating tag:', error);
-        }
-    };
-
-    // const theme = useTheme();
+    const handleTaskUpdateNew = (element,value, attribute, taskType,setTaskType,index) => {
+        UpdateTaskInfoNew(
+            element,
+            value,
+            attribute,
+            taskType,
+            setTaskType,
+            index
+        );
+    }
 
     const items = [
         {
           key: '1',
-          label: 'Ongoing',
+          label: <> 
+                    <Text className='d-flex' c='#f5f6f9' ff='Nunito Sans'>Onoing<Text ms={15}  c='#959699'>{ongoingTasks.length+todaysTasks.length+unscheduledTasks.length}</Text></Text>
+            </>,
           children: 
           <div className='table-container-wrapper'>
                 <Table>
@@ -206,6 +175,7 @@ const TaskCard = ({userFullName, userEmail, taskData, setTaskData, today, ongoin
                             setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
                             setTaskType={setTaskType}
                             isTaskTabCompleted={false}
+                            handleTaskUpdateNew={(element,value, attribute, taskType,setTaskType,index) => handleTaskUpdateNew(element,value, attribute, taskType,setTaskType,index)}
                         />
                     </Table.Tbody> 
                 </Table>
@@ -248,6 +218,7 @@ const TaskCard = ({userFullName, userEmail, taskData, setTaskData, today, ongoin
                             setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
                             setTaskType={setTaskType}
                             isTaskTabCompleted={false}
+                            handleTaskUpdateNew={(element,value, attribute, taskType,setTaskType,index) => handleTaskUpdateNew(element,value, attribute, taskType,setTaskType,index)}
                         />
                     </Table.Tbody> 
                 </Table>
@@ -291,6 +262,7 @@ const TaskCard = ({userFullName, userEmail, taskData, setTaskData, today, ongoin
                                 setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
                                 setTaskType={setTaskType}
                                 isTaskTabCompleted={true}
+                                handleTaskUpdateNew={(element,value, attribute, taskType,setTaskType,index) => handleTaskUpdateNew(element,value, attribute, taskType,setTaskType,index)}
                             />
                         </Table.Tbody> 
                     </Table>
@@ -332,7 +304,7 @@ const TaskCard = ({userFullName, userEmail, taskData, setTaskData, today, ongoin
                 </div>
             </Card>
 
-            <TaskDetailsModal
+            <TaskDetailsModalNew
                 userFullName={userFullName}
                 userEmail={userEmail}
                 show={modalShow}
@@ -350,7 +322,6 @@ const TaskCard = ({userFullName, userEmail, taskData, setTaskData, today, ongoin
                 currentTaskStatus={currentTaskStatus}
                 currentTaskPriority={currentTaskPriority}
                 currentTaskTags={currentTaskTags}
-                nonIncludedTaskTags={nonIncludedTaskTags}
                 setCurrentTaskDueDate={setCurrentTaskDueDate}
                 setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
                 setCurrentIndex={setCurrentIndex}
@@ -359,12 +330,13 @@ const TaskCard = ({userFullName, userEmail, taskData, setTaskData, today, ongoin
                 setCurrentTaskTags={setCurrentTaskTags}
                 setSelectedDate={setSelectedDate}
                 today={today}
-                allTagData={allTagData}
-                handleTagCreation={handleTagCreation}
                 completedTasks={completedTasks}
                 dueDatePopoverIsOpen={dueDatePopoverIsOpen}
                 setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
                 setCurrentTaskStatus={setCurrentTaskStatus}
+                userProfileDto={userProfileDto}
+                userProfilePicture={userProfilePicture}
+                handleTaskUpdateNew={(element,value, attribute, taskType,setTaskType,index) => handleTaskUpdateNew(element,value, attribute, taskType,setTaskType,index)}
             />
         </>
     );

@@ -66,3 +66,8 @@
     border-color: #9850ff;
     transition: all 0.55s linear;
 }
+
+/* new */
+.profile-card-avatar img {
+    border-radius: 50%;
+}

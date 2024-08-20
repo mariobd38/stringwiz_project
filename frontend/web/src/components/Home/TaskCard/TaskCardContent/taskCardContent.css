@@ -21,13 +21,11 @@
     border-radius: 6px;
     /* padding: 14px 16px !important; */
     height: 50px !important;
+    transition: all 0.2s ease;
 }
 .table-cell:hover {
     background-color: #2f3032 !important;
 }
-/* .table-cell-icon:hover {
-    display: inline !important;
-} */
 .user-home-task-check-icon {
     width: 1.15rem !important;
     height: 1.15rem !important;
@@ -160,14 +158,16 @@
 }
 
 
-.task-card-content-dropdown-item {
+/* .task-card-content-dropdown-item {
     width: 87% !important;
     color: #fafafa !important;
     font-family: 'Lato';
-}
+    margin: 4px 0px;
+} */
+
 .mantine-dropdown-model .mantine-Menu-item {
     background-color: #232426;
 }
-.task-card-content-dropdown-item:hover {
+/* .task-card-content-dropdown-item:hover {
     background-color: #303133;
-}
+} */

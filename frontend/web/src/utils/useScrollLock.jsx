@@ -2,6 +2,10 @@ import { useState } from 'react';
 
 export function useScrollLock() {
   const [scrollY, setScrollY] = useState(0);
+  
+  const modalBody = document.querySelector('.ant-modal-body');
+  const parentDropdown = document.querySelector('.mantine-dropdown-model.parent');
+  const childDropdown = document.querySelector('.mantine-dropdown-model.child');
 
   const disableScroll = () => {
     const currentScrollY = window.scrollY;
@@ -11,11 +15,11 @@ export function useScrollLock() {
     document.body.style.left = '0';
     document.body.style.right = '0';
     document.body.style.pointerEvents = 'none';
-    // if (dropdownElement)
-      // dropdownElement.style.pointerEvents = 'auto';
+    modalBody && modalBody.classList.add('no-pointer-events');
+    parentDropdown && childDropdown && parentDropdown.classList.add('no-pointer-events');
   };
 
-  const enableScroll = () => {
+  const enableScroll = (parent) => {
     document.body.style.position = '';
     document.body.style.top = '';
     document.body.style.left = '';
@@ -23,6 +27,7 @@ export function useScrollLock() {
     document.body.style.overflow = '';  // Reset the overflow
     window.scrollTo(0, scrollY);  // Restore the scroll position
     document.body.style.pointerEvents = '';
+    modalBody && modalBody.classList.remove('no-pointer-events');
   };
 
   return { disableScroll, enableScroll };

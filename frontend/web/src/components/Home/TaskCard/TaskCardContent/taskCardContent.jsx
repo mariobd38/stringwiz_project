@@ -4,9 +4,9 @@ import { Link, useLocation } from 'react-router-dom';
  
 import dayjs from 'dayjs';
 
-import { Tooltip,Accordion, Table, Center, Text, Menu,rem } from '@mantine/core';
+import { Tooltip,Accordion, Table, Center, Text } from '@mantine/core';
 import {
-    IconChevronRight,IconCheck,IconCircle,IconCircleCheck,IconCalendarMonth,IconCircleCheckFilled,IconFlag3Filled,IconLoader,IconUser,IconTrash
+    IconChevronDown,IconCircle,IconCircleCheck,IconCalendarMonth,IconCircleCheckFilled,IconFlag3Filled,IconLoader,IconUser,IconTrash
   } from '@tabler/icons-react';
 
 import NewHomeDueDatePopover from '../../newHomeDueDatePopover';
@@ -14,15 +14,13 @@ import { MantineDropdown } from '../../../models/ModelDropdown2/mantineDropdown'
 import PriorityDropdownContent from '../../DropdownContent/priorityDropdownContent';
 import StatusDropdownContent from '../../DropdownContent/statusDropdownContent';
 
-import { UpdateTaskInfoNew } from '../../../../DataManagement/Tasks/updateTaskNew';
-
 import './taskCardContent.css';
 
 const TaskCardContent = (props) => {
     const {today,taskType,taskTypeObj,currentTaskDueDate, currentTaskDueDateTime, currentIndex, setCurrentIndex, setCurrentTaskDueDate,
         setCurrentTaskDueDateTime, getTagInfo,setCurrentTaskTags,setModalShow,setCurrentTaskName,setCurrentTaskCreationDate,setCurrentTaskDescription,
         setCurrentTaskLastUpdatedOn,setCurrentTaskStatus,setCurrentTaskPriority,handleTaskComplete,dueDatePopoverIsOpen,setDueDatePopoverIsOpen,
-        setTaskType,isTaskTabCompleted, setCurrentTaskDescriptionHtml
+        setTaskType,isTaskTabCompleted, setCurrentTaskDescriptionHtml,handleTaskUpdateNew
     } = props;
 
     const location = useLocation();
@@ -60,18 +58,18 @@ const TaskCardContent = (props) => {
 
         if (dueDateDiffFromToday < 6) {
             if (dueDateDiffFromToday < 0)
-                return `Due ${dayjs(dateString).format('MMMM D')}`;
+                return `${dayjs(dateString).format('MMMM D')}`;
             if (dueDateDiffFromToday === 0)
-                return 'Due today';
+                return 'Today';
             if (dueDateDiffFromToday === 1)
-                return 'Due tomorrow';
-            return `Due ${dayjs(dateString).format('dddd')}`;
+                return 'Tomorrow';
+            return `${dayjs(dateString).format('dddd')}`;
         }
 
         if (dayjs(dateString).year() === dayjs().year()) {
-            return `Due ${dayjs(dateString).format('MMM D')}`;
+            return `${dayjs(dateString).format('MMM D')}`;
         } else {
-            return `Due ${dayjs(dateString).format('MMM D, YYYY')}`;
+            return `${dayjs(dateString).format('MMM D, YYYY')}`;
         }
     };
       
@@ -97,17 +95,6 @@ const TaskCardContent = (props) => {
             setOpenMenuRowIndex(null);
         }
     };
-
-    const handleTaskUpdateNew = (element,value, attribute, taskType,setTaskType,index) => {
-        UpdateTaskInfoNew(
-            element,
-            value,
-            attribute,
-            taskType,
-            setTaskType,
-            index
-        );
-    }
 
 
     const rows = (taskTypeName,taskType) => {
@@ -167,7 +154,7 @@ const TaskCardContent = (props) => {
                         
                         </span>
                         <span className='table-cell-icon'>
-                            <Tooltip label="Set assignee" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font'
+                            <Tooltip label="Change assignee" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font'
                             style={{ backgroundColor: "#338b6f", borderRadius: "6px" }}>
                                 <div className='user-home-calendar-icon-div'>
                                     <IconUser className='user-home-calendar-icon' />
@@ -185,10 +172,8 @@ const TaskCardContent = (props) => {
                                         </div>
                                     </Tooltip>
                                 }
-                                
-                                dropdown={<StatusDropdownContent element={element} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} setTaskType={setTaskType} idx={index}/> }
-                                rowIndex={index}
-                                onMenuToggle={handleMenuToggle}
+                                width={190} dropdown={<StatusDropdownContent element={element} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} setTaskType={setTaskType} idx={index}/> }
+                                rowIndex={index} onMenuToggle={handleMenuToggle} position='bottom-end'
                             />
                         </span>
 
@@ -202,9 +187,8 @@ const TaskCardContent = (props) => {
                                         </div>
                                     </Tooltip>
                                 }
-                                dropdown={<PriorityDropdownContent element={element} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} setTaskType={setTaskType} idx={index} /> }
-                                rowIndex={index}
-                                onMenuToggle={handleMenuToggle}
+                                width={210} dropdown={<PriorityDropdownContent element={element} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} setTaskType={setTaskType} idx={index} /> }
+                                rowIndex={index} onMenuToggle={handleMenuToggle} position='bottom-end'
                             />
                         </span>
 
@@ -284,9 +268,7 @@ const TaskCardContent = (props) => {
         },
       ];
 
-    //   console.log(taskTypeObj);
-      const [chevronRotations, setChevronRotations] = useState({});
-
+    const [chevronRotations, setChevronRotations] = useState({});
     const handleAccordionChange = (value) => {
         setChevronRotations((prevRotations) => {
         const newRotations = { ...prevRotations };
@@ -311,9 +293,9 @@ const TaskCardContent = (props) => {
             <Center w="max-content">
                 <Accordion.Control
                 chevron={
-                    <IconChevronRight
+                    <IconChevronDown
                     style={{
-                        transform: chevronRotations[`accordion-item-${index}`] ? 'rotate(90deg)' : 'rotate(0deg)',
+                        transform: chevronRotations[`accordion-item-${index}`] ? 'rotate(-90deg)' : 'rotate(0deg)',
                         transition: 'transform 0.3s ease',
                     }}
                     />

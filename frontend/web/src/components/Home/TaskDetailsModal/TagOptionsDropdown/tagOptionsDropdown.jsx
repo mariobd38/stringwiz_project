@@ -1,101 +1,130 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import { Menu,Text, Input } from '@mantine/core';
+import { Divider } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { IconDots,IconTrash } from '@tabler/icons-react';
+
+import { updateTagInfo } from '../../../../DataManagement/Tags/updateTag';
+import { MantineDropdown } from '../../../models/ModelDropdown2/mantineDropdown';
 
 import "./tagOptionsDropdown.css";
 
-
-const MenuButton = ({name,icon,index,onClick}) => {
-    return (
-        <button onClick={(event) => (onClick ? onClick(event,index) : null)} 
-            className={`model-dropdown-item-menu-button`}>
-            <span className="tod-model-dropdown-current-icon">{icon}</span>
-            {name} 
-        </button>
-    );
-};
-
-const MenuItem = ({ name, index, icon, onClick }) => {
-    return (
-        <>
-            <MenuButton
-                onClick={(event, index) => onClick(event, index)}
-                icon={icon}
-                name={name}
-                index={index}
-            />
-        </>
-    );
-};
+const tagColors = [
+    {color: '#fb7185', name: 'Rose'},
+    {color: '#f472b6', name: 'Pink'},
+    {color: '#c084fc', name: 'Purple'},
+    {color: '#60a5fa', name: 'Blue'},
+    {color: '#22b3be', name: 'Cyan'},
+    {color: '#2da49f', name: 'Teal'},
+    {color: '#4abe60', name: 'Green'},
+    {color: '#daac15', name: 'Yellow'},
+    {color: '#fb923c', name: 'Orange'},
+    {color: '#9ca3af', name: 'Gray'}
+];
 
 export const TagOptionsDropdown = (props) => {
-    const { items,initialIconValue,isDropdownOnRightSide,
-        tagDropdownStates,setTagDropdownStates,index,tagButtonTextRef,tagButtonOptionRef,
-        tagNameRenameButtonClicked,setTagNameRenameButtonClicked,onTagNameRenameButtonClick,
-        setTagColorChangeButtonClicked,onTagColorChangeButtonClick,setTagDeleteButtonClicked,onTagDeleteButtonClicked
+    const { tagItems, allTagData,handleAddTag,childDropdownOpened,setChildDropdownOpened
     } = props;
-            
-    const handleMenuItemClick = (event,item) => {
-        if (item.name === 'Rename') {
-            tagButtonTextRef.current.focus();
-            tagButtonTextRef.current.setAttribute('contentEditable', 'true');
-            setTagNameRenameButtonClicked(true);
-            onTagNameRenameButtonClick(index); 
-        } else if (item.name === 'Change color') {
-            setTagColorChangeButtonClicked(true);
-            onTagColorChangeButtonClick(index); 
-        } else if (item.name === 'Delete') {
-            //
-            setTagDeleteButtonClicked(true);
-            onTagDeleteButtonClicked(index);
+
+    const [activeChildDropdownIndex, setActiveChildDropdownIndex] = useState(null);
+
+    const handleCloseChildDropdown = () => {
+        setChildDropdownOpened(false);
+    };
+
+    const handleTagRename = (event,tagItem) => {
+        if (event.key === 'Enter') {
+            const newTagName = event.target.value;
+            updateTagInfo(
+                event,
+                allTagData,
+                tagItem.name,
+                newTagName,
+                null,
+                tagItem
+            );
         }
-
-        setTagDropdownStates((prevState) => ({
-                ...prevState,
-                [index]: false
-            }));
     }
 
-    const handleOpenDropdownMenu = (event) => {
+    const handleOpenTagsOptionsMenu = (event, index) => {
         event.stopPropagation();
-        
-        setTagDropdownStates((prevState) => {
-            const newState = { ...prevState };
-            const isDropdownOpen = newState[index];
-            for (const key in prevState) {
-                newState[key] = false; 
-            }
-            newState[index] = !isDropdownOpen;
-            return newState;
-        });
+        event.preventDefault();
+        setActiveChildDropdownIndex(index);
+        setChildDropdownOpened(true);
+    };
+
+    const handleTagColorChange = (tagItem,colorItem) => {
+        updateTagInfo(
+            null,
+            allTagData,
+            null,
+            null,
+            colorItem.color,
+            tagItem
+        );
     }
+
     return (
-        <div className="d-flex" style={{zIndex: "11399923"}}>
-            <span
-                className={`tod-dropdown tod-tag-options-dropdown ${tagDropdownStates[index] ? "open" : "" }`}
-            >
-                <span className={`user-home-task-details-modal-tags-button-options ${tagNameRenameButtonClicked ? 'tag-rename-active' : 'tag-rename-inactive'} ${tagDropdownStates && tagDropdownStates[index] ? 'dropdown-open' : 'dropdown-closed'}
-                '}`} 
-                onClick={handleOpenDropdownMenu} ref={tagButtonOptionRef} >
-                    {initialIconValue}
-                </span>
+        <div className='model-dropdown-items '>
+
+            {tagItems.map((tagItem, index) => (
                 
-                <div className={`tod-model-dropdown-menu ${isDropdownOnRightSide ? 'tag-options-right' : 'tag-options-left'}`}
-                 style={{position: "absolute"}}
+                <Menu.Item
+                    key={index}
+                    className='task-card-content-dropdown-item'
+                    onClick={() => handleAddTag(tagItem)}
+                    rightSection={
+                        <MantineDropdown 
+                            target={
+                                <div className='tag-options-button-div' onClick={(event) => handleOpenTagsOptionsMenu(event, index)}>
+                                    <IconDots color='#fafafa' width='17' />
+                                </div>
+                            }
+                            width={240} 
+                            dropdown={
+                                <div>
+                                    <div className='px-1'>
+                                        <Menu.Label className='ps-0' w='auto' m='auto'>Tag Name</Menu.Label>
+                                        <Input 
+                                            placeholder="Name" 
+                                            defaultValue={tagItems[index] && tagItems[index].name} 
+                                            onKeyDown={(event) => handleTagRename(event,tagItem)}
+                                            className='tag-options-input'
+                                        />
+                                    </div>
+                                    <div className='px-1'>
+                                        <Menu.Label className='ps-0' w='auto' m='auto'>Colors</Menu.Label>
+                                        {tagColors.map((colorItem, index) => (
+                                            <Menu.Item w='87%' key={index} onClick={() => handleTagColorChange(tagItem,colorItem)}>
+                                                <div className='d-flex gap-3 align-items-center'>
+                                                    <div style={{backgroundColor: colorItem.color, width: "20px",height: "20px", borderRadius: "3px" }} />
+                                                    <span className='fafafa-color'>{colorItem.name}</span>
+                                                </div>
+                                                
+                                            </Menu.Item>
+                                        ))}
+                                    </div>
+                                    <Divider />
+                                    <div className="px-1">
+                                        <Menu.Item w='87%' color='#fafafa'>
+                                            <div className='d-flex align-items-center gap-3'>
+                                                <IconTrash width={20}/>
+                                                <span>Delete</span>
+                                            </div>
+                                        </Menu.Item>
+                                    </div>
+                                </div>
+                                
+                            }
+                            childDropdownOpened={childDropdownOpened && activeChildDropdownIndex === index}
+                            isChild={true} isParent={false} handleCloseChildDropdown={handleCloseChildDropdown} position='top-start'
+                        />
+                    }
                 >
-                    
-                    <div>
-                        {items.map((item, index) => (
-                            <MenuItem
-                                key={item.name}
-                                name={item.name}
-                                icon={item.icon ? item.icon : ''}
-                                index={index}
-                                onClick={(event) => handleMenuItemClick(event,item)}
-                            />
-                        ))
-                        }
-                    </div>
-                </div>
-            </span>
-        </div>
+                    <Text w='fit-content' className='user-home-task-details-modal-head-text-dropdown-value' bg={`${tagItem.color}`}>{tagItem.name}</Text>
+                </Menu.Item>
+            ))}
+            </div>
     );
 };

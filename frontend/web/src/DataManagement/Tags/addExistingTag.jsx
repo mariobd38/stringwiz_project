@@ -1,14 +1,11 @@
 
-async function addExistingTagInfo(
-    taskId, tagId) {
-    
+async function addExistingTagInfo(taskId, tagId) {
     try {
         const response = await fetch(`/api/tags/addTag?taskId=${taskId}&tagId=${tagId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-        // body: JSON.stringify(requestPayload),
         });
             
         if (!response.ok) {
@@ -22,8 +19,6 @@ async function addExistingTagInfo(
             dateCreated: data.createdOn,
             color: data.color,
         };
-    //     setTagData([...tagData, addedTag]);
-        console.log(data);
         return addedTag;
     
     } catch(error) {

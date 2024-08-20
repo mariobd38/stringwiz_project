@@ -1,7 +1,10 @@
 function updateTaskAttribute(task,value, attribute) {
     switch (attribute) {
         case "priority":
-            task.priority = value;
+            if (value === 'None')
+                task.priority = null;
+            else
+                task.priority = value;
             break;
         case "status":
             task.status = value;

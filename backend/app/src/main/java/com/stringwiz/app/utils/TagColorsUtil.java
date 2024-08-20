@@ -33,18 +33,16 @@ public class TagColorsUtil {
 
     private List<String> getColors() {
         return List.of(
-                "#e65551",
-                "#e76d89",
-                "#dfa0ab",
-                "#f68e32",
-                "#dfaf2b",
-                "#0ec9ad",
-                "#0aa665",
-                "#146882",
-                "#0d6efd",
-                "#8568af",
-                "#c557ff",
-                "#2c2d2f"
+                "#fb7185", //rose
+                "#f472b6", //pink
+                "#c084fc", //purple
+                "#60a5fa", //blue
+                "#22b3be", //cyan
+                "#2da49f", //teal
+                "#4abe60", //green
+                "#daac15", //yellow
+                "#fb923c", //orange
+                "#9ca3af"  //gray
         );
     }
 

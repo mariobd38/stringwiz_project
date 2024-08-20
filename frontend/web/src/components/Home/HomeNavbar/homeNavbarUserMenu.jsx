@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import Cookies from 'js-cookie';
 import { userLogout } from '../../../DataManagement/Users/logout';
@@ -18,6 +18,7 @@ const HomeNavbarUserMenu = (props) => {
         userLogout();
     };
 
+    const dropdownRef = useRef(null);
     const [menuOpened, setMenuOpened] = useState(false);
     const { disableScroll, enableScroll } = useScrollLock();  // Destructure the functions from the hook
 
@@ -52,7 +53,8 @@ const HomeNavbarUserMenu = (props) => {
                 </div>
 
                 <Menu.Dropdown 
-                    style={{borderRadius: "8px"}}
+                    ref={dropdownRef}
+                    style={{borderRadius: "8px",pointerEvents: menuOpened ? "auto" : "none"}}
                     className={`user-home-navbar-menu-dropdown`}
                 >
                     
