@@ -1,5 +1,8 @@
 function updateTaskAttribute(task,value, attribute) {
     switch (attribute) {
+        case "name":
+            task.name = value;
+            break;
         case "priority":
             if (value === 'None')
                 task.priority = null;
@@ -8,6 +11,10 @@ function updateTaskAttribute(task,value, attribute) {
             break;
         case "status":
             task.status = value;
+            break;
+        case "clear due date":
+            task.dueDate = value;
+            task.dueDateTime = value;
             break;
         default:
             break;
@@ -44,7 +51,6 @@ async function UpdateTaskInfoNew(
     setTaskType,
     index,
   ) {
-
     updateTaskAttribute(task,value,attribute);
     const taskInfo = {
         id: task.id,

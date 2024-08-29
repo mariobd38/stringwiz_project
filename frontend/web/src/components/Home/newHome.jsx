@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
+
+import { Button } from '@mantine/core';
+
 import HomeHeader from '../Home/HomeHeader/homeHeader';
 import HomeNavbar from './HomeNavbar/homeNavbar';
 import TaskCard from './TaskCard/taskCard';
@@ -14,6 +17,7 @@ import MilestoneBlock from './MilestoneBlock/milestoneBlock';
 import './newHome.css';
 import { getUserInfo } from '../../DataManagement/Users/getUserInfo';
 import { getTaskInfo } from './../../DataManagement/Tasks/getTasks';
+import { getGoogleTaskInfo } from '../../DataManagement/Tasks/getGoogleTasks';
 
 const NewHome = () => {
     const dayjs = require('dayjs');
@@ -32,6 +36,9 @@ const NewHome = () => {
     const [userEmail, setUserEmail] = useState(passedUserInfo?.email || '');
     const [userProfilePicture, setUserProfilePicture] = useState('');
     const [userProfileDto, setUserProfileDto] = useState('');
+    // const [userEmail] = useLocalState('', 'userEmail');
+    const [initials, setInitials] = useState(passedUserInfo?.fullName || '');
+    // const initials = (firstName[0] + lastName[0]).toUpperCase();
     // const [userInfo, setUserInfo] = useState(passedUserInfo || null);
 
     useEffect(() => {
@@ -39,8 +46,8 @@ const NewHome = () => {
             if (!passedUserInfo) {
                 const data = await getUserInfo(passedUserInfo || null);
                 if (data) {
-                    // setUserInfo(data);
                     setUserFullName(data.fullName);
+                    setInitials((data.fullName.split(' ')[0][0] + data.fullName.split(' ')[1][0]).toUpperCase());
                     setUserEmail(data.email);
                     setUserProfilePicture(data.picture);
                     setUserProfileDto(data.profileDto);
@@ -90,10 +97,15 @@ const NewHome = () => {
 
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
 
+    const getGoogleTasks = () => {
+        getGoogleTaskInfo();
+    }
+
     return (
         <>
             {userFullName && <HomeNavbar 
                 userFullName={userFullName}
+                initials={initials}
                 userEmail={userEmail}
                 userProfilePicture={userProfilePicture}
                 userProfileDto={userProfileDto}
@@ -115,14 +127,55 @@ const NewHome = () => {
                 />
 
                 <div className='container' style={{width: "100%"}}>
+                    {/* ONLY FOR GOOGLE OAUTH USERS */}
+                    {userProfilePicture && <Button onClick={getGoogleTasks}>Access Google tasks</Button>}
+
+
                     <div className='row'>
-                        <div className="col-lg-8 task-card-parent">
+                        {/* <div className='d-flex justify-content-between'>
+                            <div>
+
+                            {userFullName &&
+                                    <TaskCard 
+                                    userFullName={userFullName}
+                                    initials={initials}
+                                    userEmail={userEmail}
+                                    taskData={taskData} setTaskData={setTaskData} today={today} 
+                                    ongoingTasks={ongoingTasks} 
+                                    todaysTasks={todaysTasks}
+                                    unscheduledTasks={unscheduledTasks}
+                                    overdueTasks={overdueTasks}
+                                    completedTasks={completedTasks}
+                                    userProfileDto={userProfileDto}
+                                    userProfilePicture={userProfilePicture}
+                                    />}
+                            </div>
+                            <div>
+                            {userFullName &&
+                                    <TaskCard 
+                                    userFullName={userFullName}
+                                    initials={initials}
+                                    userEmail={userEmail}
+                                    taskData={taskData} setTaskData={setTaskData} today={today} 
+                                    ongoingTasks={ongoingTasks} 
+                                    todaysTasks={todaysTasks}
+                                    unscheduledTasks={unscheduledTasks}
+                                    overdueTasks={overdueTasks}
+                                    completedTasks={completedTasks}
+                                    userProfileDto={userProfileDto}
+                                    userProfilePicture={userProfilePicture}
+                                    />}
+                            </div>
+
+                        </div> */}
+                        <div className="task-card-parent">
                             
                             <div className='py-3'>
                                 <div className='d-flex justify-content-between py-2'>
                                     {userFullName &&
                                     <TaskCard 
                                     userFullName={userFullName}
+                                    initials={initials}
                                     userEmail={userEmail}
                                     taskData={taskData} setTaskData={setTaskData} today={today} 
                                     ongoingTasks={ongoingTasks} 
@@ -143,7 +196,7 @@ const NewHome = () => {
                             </div>
                         </div>
 
-                        <div className="col-lg-4 col-md-12 col-12 user-home-right-side-block">
+                        <div className="user-home-right-side-block">
                             <div className='mt-4 d-md-block col-12'>
                                 <div className="row">
                                     <div className='col-lg-12 calendar-block-parent'>

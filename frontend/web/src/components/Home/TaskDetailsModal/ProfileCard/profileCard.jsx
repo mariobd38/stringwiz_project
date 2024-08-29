@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import UserAvatar from "../../UserAvatar/userAvatar";
 
 import { HoverCard, Button, Avatar } from '@mantine/core';
 
@@ -12,7 +13,7 @@ import { constructImageSrc } from "../../../../utils/constructImageSrc";
 import "./profileCard.css";
 
 export const ProfileCard = (props) => {
-    const { userFullName, userEmail,userProfileDto, userProfilePicture, target } = props;
+    const { userFullName, initials, userEmail,userProfileDto, userProfilePicture, target } = props;
 
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const currentTime = new Date().toLocaleTimeString('en-US', { timeZone: timeZone, hour: 'numeric', minute: '2-digit' });
@@ -32,7 +33,6 @@ export const ProfileCard = (props) => {
         }, 1500); 
     }
 
-
     return (       
         <>
             <HoverCard width={320} shadow="md" openDelay={650} closeDelay={500} zIndex={10000} offset={12}>
@@ -42,13 +42,15 @@ export const ProfileCard = (props) => {
                 <HoverCard.Dropdown bg='#232426' c='#fafafa'>
 
                     <div className="d-flex justify-content-between">
-                        <Avatar size='xl' className='me-2 profile-card-avatar'
-                        src={userProfileDto !== null &&
-                        userProfileDto.avatarType === 'image' ? constructImageSrc(userProfileDto.pfd.data, userProfileDto.avatarType) : 'none'}
-                        style={{backgroundImage: userProfilePicture !== null && userProfileDto == null ? `url(${userProfilePicture})` : 'none', overflow: "visible",
-                        cursor: "pointer",backgroundSize: 'cover', borderRadius: "50%"}} 
-                        >
-                        </Avatar>
+                        <div className="me-2">
+                            <UserAvatar 
+                                userProfileDto={userProfileDto}
+                                userProfilePicture={userProfilePicture}
+                                initials={initials}
+                                multiplier={4.8}
+                                fontSize={2.3}
+                            />
+                        </div>
                         <div >
                             <Button className="profile-card-user-status-btn ">Online</Button>
                         </div> 

@@ -44,7 +44,7 @@ public class Task {
     @Column(updatable = false, nullable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String name;
 
     @Column(columnDefinition = "MEDIUMTEXT")

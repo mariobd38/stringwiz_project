@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { Link, useLocation } from 'react-router-dom';
  
@@ -17,7 +17,7 @@ import StatusDropdownContent from '../../DropdownContent/statusDropdownContent';
 import './taskCardContent.css';
 
 const TaskCardContent = (props) => {
-    const {today,taskType,taskTypeObj,currentTaskDueDate, currentTaskDueDateTime, currentIndex, setCurrentIndex, setCurrentTaskDueDate,
+    const {today,taskType,taskTypeObj,currentTaskDueDate, currentTaskDueDateTime, currentIndex, setCurrentIndex, setCurrentTask,setCurrentTaskDueDate,
         setCurrentTaskDueDateTime, getTagInfo,setCurrentTaskTags,setModalShow,setCurrentTaskName,setCurrentTaskCreationDate,setCurrentTaskDescription,
         setCurrentTaskLastUpdatedOn,setCurrentTaskStatus,setCurrentTaskPriority,handleTaskComplete,dueDatePopoverIsOpen,setDueDatePopoverIsOpen,
         setTaskType,isTaskTabCompleted, setCurrentTaskDescriptionHtml,handleTaskUpdateNew
@@ -36,6 +36,7 @@ const TaskCardContent = (props) => {
         try {
             const currentTags = await getTagInfo(taskType[index].id);
             setTaskType(taskType);
+            setCurrentTask(taskType[index]);
             setCurrentTaskTags(currentTags);
             setCurrentTaskName(taskType[index].name);
             setCurrentTaskCreationDate(taskType[index].createdOn);
@@ -77,10 +78,22 @@ const TaskCardContent = (props) => {
 
     const handleTableCellMouseEnter = (index) => {
         setHoveredTableCellIndex(index);
+        // setHoveredTableCellIndex(index);
+        // if (hideTimeoutRef.current) {
+        //     clearTimeout(hideTimeoutRef.current);
+        // }
+        // setShowIcon(true);
     };
 
     const handleTableCellMouseLeave = () => {
         setHoveredTableCellIndex(null);
+        // setHoveredTableCellIndex(null);
+        // if (openMenuRowIndex === null) {
+        //     hideTimeoutRef.current = setTimeout(() => {
+        //         setShowIcon(false);
+        //         setHoveredTableCellIndex(null);
+        //     }, 200); // 1.2 second delay
+        // }
     };
 
 
@@ -89,23 +102,109 @@ const TaskCardContent = (props) => {
 
 
     const handleMenuToggle = (isOpened, rowIndex) => {
+        // if (isOpened) {
+        //     setShowIcon(true);
+        //     setOpenMenuRowIndex(rowIndex);
+        // } else {
+        //     setOpenMenuRowIndex(null);
+        // }
         if (isOpened) {
+            clearTimeout(hideTimeoutRef.current);
+            setShowIcon(true);
             setOpenMenuRowIndex(rowIndex);
         } else {
             setOpenMenuRowIndex(null);
+            handleTableCellMouseLeave(); // Trigger the hide process if the menu is closed
         }
     };
 
+    const [showIcon, setShowIcon] = useState(false);
+    const [delayedHide, setDelayedHide] = useState(false);
+    const hideTimeoutRef = useRef(null);  // Use useRef to persist the timeout
+
+    // console.log(hoveredTableCellIndex);
+    
+    
+    const tableRowRefs = useRef({});
+    // const tableIconsRefs = useRef({});
+    const [taskNameTextWidths, setTaskNameTextWidths] = useState(0);
+    const tableRowRef = useRef(null);
+    const [hoveredCell, setHoveredCell] = useState(null);
+
+    useEffect(() => {
+        // Calculate initial widths when component mounts
+        calculateInitialWidths();
+      }, []);
+    
+      useEffect(() => {
+        // This effect will run whenever taskNameTextWidths or hoveredCell changes
+        if (hoveredCell) {
+          const { taskTypeName, index } = hoveredCell;
+          const width = taskNameTextWidths[`${taskTypeName}-${index}`];
+          if (tableRowRefs.current[taskTypeName] && tableRowRefs.current[taskTypeName][index]) {
+            if (width && width > 0) {
+              tableRowRefs.current[taskTypeName][index].style.width = `${width}px`;
+            } else {
+              tableRowRefs.current[taskTypeName][index].style.width = "auto";
+            }
+          }
+        }
+      }, [taskNameTextWidths, hoveredCell]);
+    
+      const calculateInitialWidths = () => {
+        if (tableRowRef.current) {
+          const rowWidth = tableRowRef.current.offsetWidth;
+          setTaskNameTextWidths(prevWidths => {
+            const newWidths = {};
+            Object.keys(tableRowRefs.current).forEach(taskType => {
+              Object.keys(tableRowRefs.current[taskType]).forEach(index => {
+                newWidths[`${taskType}-${index}`] = rowWidth;
+              });
+            });
+            return newWidths;
+          });
+        }
+      };
+    
+      const handleMouseEnter = (taskTypeName, index) => {
+        setHoveredCell({ taskTypeName, index });
+        if (tableRowRefs.current[taskTypeName] && tableRowRefs.current[taskTypeName][index] && tableRowRef.current) {
+          const linkWidth = tableRowRefs.current[taskTypeName][index].offsetWidth;
+          const rowWidth = tableRowRef.current.offsetWidth;
+          
+          setTaskNameTextWidths(prevWidths => ({
+            ...prevWidths,
+            [`${taskTypeName}-${index}`]: rowWidth - linkWidth
+          }));
+        }
+      };
+    
+      const handleMouseLeave = (taskTypeName, index) => {
+        setHoveredCell(null);
+        setTaskNameTextWidths(prevWidths => {
+          const newWidths = { ...prevWidths };
+        //   newWidths[`${taskTypeName}-${index}`] = tableRowRef.current ? tableRowRef.current.offsetWidth : 'auto';
+          newWidths[`${taskTypeName}-${index}`] = 'auto';
+          return newWidths;
+        });
+      };
+      
 
     const rows = (taskTypeName,taskType) => {
+        
         return taskType.map((element, index) => (
-          <Table.Tr key={index} className='table-row-dark' bd='none'>
+            
+          <Table.Tr key={index} className='table-row-dark' bd='none'> 
             <Table.Td className={`d-flex align-items-center justify-content-between table-cell ${taskTypeName === activeTaskType && openMenuRowIndex === index ? 'active' : ''}`}
+                onMouseEnter={() => handleMouseEnter(taskTypeName,index)}
+                onMouseLeave={() => handleMouseLeave(taskTypeName,index)}
+                // onMouseLeave={handleMouseLeave}
             onClick={() => {
                 setActiveTaskType(taskTypeName);
             }}
+            // ref={tableRowRef}
             >
-              <div className='d-flex justify-content-between w-100 align-items-center'>
+              <div className='d-flex justify-content-between w-100 align-items-center' ref={tableRowRef}>
                 <div className="d-flex" style={{ color: "#fafafa" }}>
                   <div className='align-items-center d-flex'>
                     {isTaskTabCompleted ?
@@ -131,52 +230,71 @@ const TaskCardContent = (props) => {
                       )
                     }
                   </div>
-                  <Link className='ps-2' to={{ pathname: '/home/modal' }} state={{ background: location }} onClick={(e) => OpenTaskDetailsModal(e, taskType, index)}>
-                    <div style={{ outline: "none" }}>
+                  <Link 
+                className='m-0 d-flex ps-1' to={{ pathname: '/home/modal' }} state={{ background: location }} style={{ overflow: "hidden", textOverflow:"ellipsis", whiteSpace: "nowrap"
+            }} onClick={(e) => OpenTaskDetailsModal(e, taskType, index)}
+                ref={el => {
+                    if (!tableRowRefs.current[taskTypeName]) {
+                        tableRowRefs.current[taskTypeName] = {};
+                    }
+                    tableRowRefs.current[taskTypeName][index] = el;
+                    }}
+                >
+                    <div style={{ outline: "none" }} className='d-flex'>
                       <button className='task-name-link'>
-                        <span className={`ps-2 taskName-text`}>
+                        <div className={`task-name-text`}
+                            // style={{ maxWidth: taskNameTextWidth ? `${300}px` : 'auto' }}
+                        >
                           {element.name}
-                        </span>
+                        </div>
                       </button>
                     </div>
                   </Link>
                 </div>
 
 
-                <div className='d-flex gap-2'>
-                    <span className='table-cell-icon' >
-                            <Tooltip label="Delete task" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font'
-                            style={{ backgroundColor: "#338b6f", borderRadius: "6px" }}>
-                                <div className='user-home-calendar-icon-div'>
-                                    <IconTrash className='user-home-calendar-icon' />
-                                </div>
-                            </Tooltip>
+                <div className='d-flex gap-2'  
+                // ref={tableIconsRefs}
+                >
+                            <span
+                            className="table-cell-icon"
+                            >
+                                <Tooltip label="Delete task" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font'
+                                style={{ backgroundColor: "#338b6f", borderRadius: "6px" }}>
+                                    <div className='user-home-calendar-icon-div'>
+                                        <IconTrash className='user-home-calendar-icon' />
+                                    </div>
+                                </Tooltip>
                         
-                        </span>
-                        <span className='table-cell-icon'>
-                            <Tooltip label="Change assignee" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font'
-                            style={{ backgroundColor: "#338b6f", borderRadius: "6px" }}>
-                                <div className='user-home-calendar-icon-div'>
-                                    <IconUser className='user-home-calendar-icon' />
-                                </div>
-                            </Tooltip>
-                        </span>
+                            </span> 
 
-                        <span className='table-cell-icon'>
-                            <MantineDropdown 
-                                target={
-                                    <Tooltip label="Set status" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font'
-                                    style={{ backgroundColor: "#338b6f", borderRadius: "6px" }}>
-                                        <div className='user-home-calendar-icon-div'>
-                                            <IconLoader className='user-home-calendar-icon' />
-                                        </div>
-                                    </Tooltip>
-                                }
-                                width={190} dropdown={<StatusDropdownContent element={element} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} setTaskType={setTaskType} idx={index}/> }
-                                rowIndex={index} onMenuToggle={handleMenuToggle} position='bottom-end'
+                            <span
+                            className="table-cell-icon"
+                            >
+                                <Tooltip label="Change assignee" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font'
+                                style={{ backgroundColor: "#338b6f", borderRadius: "6px" }}>
+                                    <div className='user-home-calendar-icon-div'>
+                                        <IconUser className='user-home-calendar-icon' />
+                                    </div>
+                                </Tooltip>
+                            </span> 
+
+                            <span
+                            className="table-cell-icon"
+                            >
+                                <MantineDropdown 
+                                    target={
+                                        <Tooltip label="Set status" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font'
+                                        style={{ backgroundColor: "#338b6f", borderRadius: "6px" }}>
+                                            <div className='user-home-calendar-icon-div'>
+                                                <IconLoader className='user-home-calendar-icon' />
+                                            </div>
+                                        </Tooltip>
+                                    }
+                                    width={190} dropdown={<StatusDropdownContent element={element} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} setTaskType={setTaskType} idx={index}/> }
+                                    rowIndex={index} onMenuToggle={handleMenuToggle} position='bottom-end'
                             />
-                        </span>
-
+                            </span>
                         <span className='table-cell-icon'>
                             <MantineDropdown 
                                 target={
@@ -196,7 +314,7 @@ const TaskCardContent = (props) => {
                             popoverTarget={
 
                             <>{element.dueDate &&
-                                <span style={{ color: "#a7a7a7" }} className={`lato-font, user-home-chosen-due-date-text`}>
+                                <span style={{ color: "#a7a7a7" }} className={`lato-font, user-home-chosen-due-date-text`} >
                                         <span style={{ color: dayjs(element.dueDate).startOf('day').diff(dayjs(today).startOf('day'), 'day') < 0 ? "#e10845cf" : "#e5e5e5" }} 
                                         >
                                         {formatDate(element.dueDate)}

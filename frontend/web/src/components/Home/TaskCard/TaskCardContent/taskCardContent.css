@@ -16,12 +16,13 @@
     font-size: 15px;
     /* padding: 0.85rem 0rem !important; */
     /* margin: 0rem -1rem !important; */
-    overflow: hidden !important;
+    overflow: clip !important;
     border: none !important;
     border-radius: 6px;
+    position: relative;
     /* padding: 14px 16px !important; */
     height: 50px !important;
-    transition: all 0.2s ease;
+    transition: all 1s ease;
 }
 .table-cell:hover {
     background-color: #2f3032 !important;
@@ -46,20 +47,31 @@
 .task-name-link:hover {
     color: #fafafa;
 }
-.taskName-text:focus {
+.task-name-text:focus {
     outline: none !important;
 }
-.taskName-text {
+.task-name-text {
+    margin: auto !important;
     font-size: 0.88rem !important;
     padding: 0.3em 1em;
     border: none !important;
     font-family: 'Poppins', serif;
     color: #fafafa;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    
+    /* overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important; */
+    /* width: 280px; */
 }
-.taskName-text.strikethrough {
+.table-cell:hover .task-name-text {
+    /* padding:0 !important; */
+    /* white-space: nowrap;
+    overflow:clip;
+    text-overflow: ellipsis;
+    width: calc(100% - 292px) !important; */
+    margin:0 !important;
+}
+.task-name-text.strikethrough {
     text-decoration: line-through;
 }
 .user-home-calendar-icon-div {
@@ -157,17 +169,6 @@
     cursor: pointer;
 }
 
-
-/* .task-card-content-dropdown-item {
-    width: 87% !important;
-    color: #fafafa !important;
-    font-family: 'Lato';
-    margin: 4px 0px;
-} */
-
 .mantine-dropdown-model .mantine-Menu-item {
     background-color: #232426;
 }
-/* .task-card-content-dropdown-item:hover {
-    background-color: #303133;
-} */

@@ -11,7 +11,6 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequ
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationResponse;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Map;
 
 @Component
@@ -66,7 +65,4 @@ public class OAuth2TokenRetrievalService {
             .redirectUri(clientRegistration.getRedirectUri())
             .build();
     }
-
-
-
 }

@@ -31,7 +31,7 @@ const PriorityDropdownContent = (props) => {
                         }}
                         className='task-card-content-dropdown-item'
                         leftSection={item.icon}
-                        rightSection={element.priority === item.name && <IconCheck style={{ color: "teal" }} />}
+                        rightSection={element.priority === item.name && <IconCheck color='teal' width={20} height={20} className='m-0'/>}
                     >
                         {item.name}
                     </Menu.Item>

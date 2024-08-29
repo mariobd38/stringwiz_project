@@ -73,7 +73,7 @@ a {
     }
 }
 .landing-get-started-button:hover,.landing-learn-more-button:hover {
-    transform: scale(1.08); /* This will make the button 5% bigger */
+    transform: scale(1.08); 
 }
 .illustration-landing {
     width: 15.2rem;

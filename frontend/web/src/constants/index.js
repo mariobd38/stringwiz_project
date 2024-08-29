@@ -1,6 +1,5 @@
 const keys = require("../config/dev");
 
-
 export const OAUTH2_REDIRECT_URI = keys.redirectUri;
 
 export const OAUTH2_CALLBACK_URI = keys.callbackUri;

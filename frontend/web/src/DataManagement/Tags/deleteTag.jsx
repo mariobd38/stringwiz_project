@@ -1,7 +1,6 @@
 
-function deleteTagInfo(
-    currentTaskTags,setCurrentTaskTags,tagDeleteButtonClickedIndex) {
-    const tagId = currentTaskTags[tagDeleteButtonClickedIndex].id;
+function deleteTagInfo(tagToDelete) {
+    const tagId = tagToDelete.id;
     fetch(`/api/tags/delete?tagId=${tagId}`, {
         method: "DELETE",
         headers: {
@@ -13,8 +12,8 @@ function deleteTagInfo(
         }
         if (response.status === 204) {
             // No content in response (successful deletion)
-            const updatedTaskTagsData = currentTaskTags.filter((_, index) => index !== tagDeleteButtonClickedIndex);
-            setCurrentTaskTags(updatedTaskTagsData);    
+            // const updatedTaskTagsData = currentTaskTags.filter((_, index) => index !== tagDeleteButtonClickedIndex);
+            // setCurrentTaskTags(updatedTaskTagsData);    
         }
     })
     .catch((error) => {

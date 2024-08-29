@@ -16,10 +16,6 @@ body.scroll-lock {
 .create-home-navbar-button:hover {
     background-color: #444648 !important;
 }
-.add-icon-create-home-navbar {
-    width: 1rem;
-    color: #20d386; 
-}
 .home-navbar-search-ss {
     background-color: #3c3e40;
     border-radius: 50%;
@@ -60,22 +56,6 @@ body.scroll-lock {
 }
 .home-navbar-search-input::before, .home-navbar-search-input::after {
     border-bottom: none !important;
-}
-.user-home-avatar-menu-target .home-navbar-avatar-button {
-    width: calc(2.075rem * var(--mantine-scale)) !important; 
-    min-width: calc(2.075rem * var(--mantine-scale)) !important; 
-    height: calc(2.075rem * var(--mantine-scale)) !important; 
-}
-.home-navbar-avatar-button .mantine-Avatar-placeholder {
-    display: none !important;
-}
-.home-navbar-avatar-button img {
-    border-radius: 50%;
-}
-.user-home-navbar-menu-dropdown .home-navbar-avatar-button {
-    width: calc(4.8rem * var(--mantine-scale)) !important; 
-    min-width: calc(4.8rem * var(--mantine-scale)) !important; 
-    height: calc(4.8rem * var(--mantine-scale)) !important; 
 }
 
 

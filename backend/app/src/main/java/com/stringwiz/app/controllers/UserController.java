@@ -3,7 +3,9 @@ package com.stringwiz.app.controllers;
 import com.stringwiz.app.models.Profile;
 import com.stringwiz.app.models.Task;
 import com.stringwiz.app.models.User;
+import com.stringwiz.app.models.UserToken;
 import com.stringwiz.app.repositories.UserRepository;
+import com.stringwiz.app.repositories.UserTokenRepository;
 import com.stringwiz.app.utils.JwtUtil;
 import com.stringwiz.app.utils.UserPlatformDtoConverter;
 import com.stringwiz.app.web.ProfileDto;
@@ -11,6 +13,7 @@ import com.stringwiz.app.web.UserPlatformDto;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +31,7 @@ import java.util.Optional;
 public class UserController {
     @Autowired UserRepository userRepository;
     @Autowired JwtUtil jwtUtil;
+    @Autowired UserTokenRepository userTokenRepository;
 
     @GetMapping("/api/user/getInfo")
     public ResponseEntity<?> getUserInfo(@CookieValue(name = "${JWT_COOKIE_ATTRIBUTE_NAME}", required = false) String jwt) {
@@ -69,7 +73,17 @@ public class UserController {
     }
 
     @GetMapping("/api/user/logout")
-    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
+    @Transactional
+    public ResponseEntity<?> logout(@AuthenticationPrincipal User user, HttpServletRequest request, HttpServletResponse response) {
+
+        String sessionId = request.getSession().getId(); // Retrieve session ID before invalidating the session
+        // Find the token using the session ID
+        Optional<UserToken> userToken = userTokenRepository.findByUserIdAndSessionId(user.getId(), sessionId);
+
+        if (userToken.isPresent()) {
+            userTokenRepository.deleteByUserIdAndSessionId(user.getId(), sessionId);
+        }
+
         request.getSession().invalidate();
 
         Cookie[] cookies = request.getCookies();

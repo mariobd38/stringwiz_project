@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
-
 import { Input, InputAdornment } from '@mui/material';
-import { IconSearch,IconCommand,IconApps } from '@tabler/icons-react';
+import { IconSearch,IconCommand,IconApps,IconCirclePlusFilled } from '@tabler/icons-react';
 
 import {
     Tooltip,
@@ -17,15 +15,12 @@ import HomeNavbarUserMenu from './homeNavbarUserMenu';
 import './homeNavbar.css';
 
 const HomeNavbar = (props) => {
-    const { userFullName, userEmail,userProfilePicture,userProfileDto } = props;
-
-    const [firstName, lastName] = userFullName.split(' ');
+    const { userFullName, initials,userEmail,userProfilePicture,userProfileDto } = props;
 
     //user button
     const [isSmallScreen, setIsSmallScreen] = useState(false);
 
     // const [userEmail] = useLocalState('', 'userEmail');
-    const initials = (firstName[0] + lastName[0]).toUpperCase();
 
     const closeOffcanvasIfLargeScreen = () => {
         const screenWidth = window.innerWidth;
@@ -96,14 +91,15 @@ const HomeNavbar = (props) => {
                                         <Tooltip
                                         label="Create items"
                                         position="bottom"
-                                        offset={8}
+                                        offset={13}
                                         withArrow
                                         openDelay={700}
                                         className='fafafa-color lato-font custom-tooltip' // Add custom class here
-                                        style={{ backgroundColor: "#338b6f", borderRadius: "20px" }}
+                                        bg='#338b6f'
+                                        radius={7}
                                         >
                                             <Button className='create-home-navbar-button' >
-                                                <AddCircleRoundedIcon className='me-1 add-icon-create-home-navbar' />Create
+                                                <IconCirclePlusFilled color='#20d386' width={23} className='me-1 add-icon-create-home-navbar' />Create
                                             </Button>
                                         </Tooltip>
                                     </div>
@@ -112,7 +108,7 @@ const HomeNavbar = (props) => {
                                 </div> */}
                                 <Divider size="xs" orientation="vertical" ms={13} me={8} m='auto' h={35} bd='.1px solid #676869'/>
                                 <div className='m-auto me-4 user-home-navbar-icon-apps'>
-                                    <IconApps width={30} height={30}/>
+                                    <IconApps width={30} height={30} />
 
                                 </div>
 
@@ -120,6 +116,7 @@ const HomeNavbar = (props) => {
                                     userProfileDto={userProfileDto}
                                     userProfilePicture={userProfilePicture}
                                     userFullName={userFullName}
+                                    initials={initials}
                                 />
 
                             </div>

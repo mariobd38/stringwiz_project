@@ -1,6 +1,6 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { Input } from '@mantine/core';
+import { Input,Button, Divider } from '@mantine/core';
 
 import { getAllTagsInfo } from '../../../DataManagement/Tags/getAllTags';
 import { addExistingTagInfo } from '../../../DataManagement/Tags/addExistingTag';
@@ -10,7 +10,9 @@ import { TagOptionsDropdown } from '../TaskDetailsModal/TagOptionsDropdown/tagOp
 import './dropdownContent.css';
     
 const TagsDropdownContent = (props) => {
-    const {task, taskType,setTaskType,idx,setCurrentTaskTags,currentTaskTags,childDropdownOpened,setChildDropdownOpened } = props;
+    const {task, taskType,setTaskType,idx,setCurrentTaskTags,currentTaskTags,childDropdownOpened,setChildDropdownOpened,
+        setTagDeleteItemClicked, setTagToDelete
+     } = props;
 
     const [allTagData, setAllTagData] = useState([]);
     const [tagItems, setTagItems] = useState(allTagData);
@@ -60,15 +62,16 @@ const TagsDropdownContent = (props) => {
     
     async function handleTagSearch(event) {
         const tagInput = event.target.value;
-        console.log(tagInput);
         if (event.key === 'Enter' && !/^\s*$/.test(tagInput)) {
             if (tagNames.filter(item => item.name === tagInput.trim())) {
-                const tagEntered = tagItems.find(item => item.name === tagInput.trim());
-                console.log(tagNames);
-                console.log(tagEntered);
-                console.log(currentTaskTags);
+                const tagEntered = allTagData.find(item => item.name === tagInput.trim());
                 if (tagEntered !== undefined) {
-                    handleAddTag(tagEntered);
+                    const isTagIncluded = currentTaskTags.some(
+                        tag => tag.id === tagEntered.id
+                    );
+                    if (!isTagIncluded) {
+                        handleAddTag(tagEntered)
+                    }
                 } else {
                     handleTagCreation(tagInput);
                     setTagInputValue('');
@@ -89,6 +92,7 @@ const TagsDropdownContent = (props) => {
         setTagItems(filteredItems);
     }, [tagInputValue,allTagData,nonIncludedTaskTags]);
 
+    // console.log(ref.current.offsetWidth);
     
     async function handleAddTag (item) {
         try {
@@ -108,6 +112,16 @@ const TagsDropdownContent = (props) => {
 
     return (
         <>
+            {currentTaskTags.length > 0 &&
+            <><div className='py-2 px-1 d-flex flex-wrap user-home-task-details-modal-tags-button-parent'>
+                {currentTaskTags.map((item, index) => (
+                    <Button key={index} bg={item.color} className='user-home-task-details-modal-tags-button' fw={400} h='22' ff='Lato' fz={16}>
+                        {item.name}
+                    </Button>
+                ))}
+            </div>
+            <Divider color='#898989' />
+            </>}
             <div className='model-dropdown-search-wrapper'>
                 <div className='d-flex align-items-center' style={{borderBottom: "1px solid #898989"}}>
                     <form className="model-dropdown-search" role='search' onSubmit={(event) => {event.preventDefault(); return false;}}>
@@ -128,6 +142,8 @@ const TagsDropdownContent = (props) => {
                 handleAddTag={handleAddTag}
                 childDropdownOpened={childDropdownOpened}
                 setChildDropdownOpened={setChildDropdownOpened}
+                setTagDeleteItemClicked={setTagDeleteItemClicked}
+                setTagToDelete={setTagToDelete}
             />
         </>
     );

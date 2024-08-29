@@ -3,6 +3,7 @@ import React, { useState, useRef } from 'react';
 import Cookies from 'js-cookie';
 import { userLogout } from '../../../DataManagement/Users/logout';
 import { constructImageSrc } from '../../../utils/constructImageSrc';
+import UserAvatar from '../UserAvatar/userAvatar';
 
 import { IconSettings, IconTrash,IconArchive,IconHelp,IconBell,IconUser,IconChevronDown,IconLogout } from '@tabler/icons-react';
 
@@ -10,7 +11,7 @@ import { Avatar,Text,Menu, rem } from '@mantine/core';
 import { useScrollLock } from '../../../utils/useScrollLock';
 
 const HomeNavbarUserMenu = (props) => {
-    const {userProfileDto,userProfilePicture, userFullName  } = props;
+    const {userProfileDto,userProfilePicture, userFullName, initials } = props;
 
     const handleUserLogout = () => {
         localStorage.clear();
@@ -22,6 +23,7 @@ const HomeNavbarUserMenu = (props) => {
     const [menuOpened, setMenuOpened] = useState(false);
     const { disableScroll, enableScroll } = useScrollLock();  // Destructure the functions from the hook
 
+    // console.log(userProfileDto);
 
     return (
         <>
@@ -40,12 +42,12 @@ const HomeNavbarUserMenu = (props) => {
                 <div className='d-flex align-items-center'>
                     <Menu.Target className='d-flex align-items-center user-home-avatar-menu-target' style={{borderRadius: "8px", cursor: "pointer", padding: "6px 8px"}}>
                         <div>
-                            <Avatar 
-                                className='home-navbar-avatar-button d-flex align-items-center'
-                                src={userProfileDto !== null &&
-                                userProfileDto.avatarType === 'image' ? constructImageSrc(userProfileDto.pfd.data, userProfileDto.avatarType) : 'none'}
-                                style={{backgroundImage: userProfilePicture !== null && userProfileDto == null ? `url(${userProfilePicture})` : 'none', overflow: "visible",
-                                cursor: "pointer",backgroundSize: 'cover', borderRadius: "50%"}} 
+                            <UserAvatar 
+                                userProfileDto={userProfileDto}
+                                userProfilePicture={userProfilePicture}
+                                initials={initials}
+                                multiplier={2.075}
+                                fontSize={1}
                             />
                             <span className='ps-1'><IconChevronDown width={15} height={15}/></span>
                         </div>
@@ -60,12 +62,12 @@ const HomeNavbarUserMenu = (props) => {
                     
                     <Menu.Label>
                         <div className='d-flex gap-3 align-items-center'>
-                            <Avatar 
-                                className='home-navbar-avatar-button d-flex align-items-center'
-                                src={userProfileDto !== null &&
-                                userProfileDto.avatarType === 'image' ? constructImageSrc(userProfileDto.pfd.data, userProfileDto.avatarType) : 'none'}
-                                style={{backgroundImage: userProfilePicture !== null && userProfileDto == null ? `url(${userProfilePicture})` : 'none', overflow: "visible",
-                                backgroundSize: 'cover'}} 
+                            <UserAvatar 
+                                userProfileDto={userProfileDto}
+                                userProfilePicture={userProfilePicture}
+                                initials={initials}
+                                multiplier={4.8}
+                                fontSize={2.1}
                             />
 
                             <div className='d-flex flex-column'>

@@ -36,3 +36,9 @@ code {
 .no-pointer-events {
   pointer-events: none !important;
 }
+.user-avatar:hover {
+  scale: 1;  
+}
+/* .mantine-Avatar-placeholder:not(.sidebar-avatar .mantine-Avatar-placeholder) {
+  display: none !important;
+} */

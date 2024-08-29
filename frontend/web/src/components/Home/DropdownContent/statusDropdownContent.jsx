@@ -80,7 +80,7 @@ const StatusDropdownContent = (props) => {
                     key={index}
                     className='task-card-content-dropdown-item'
                     leftSection={item.icon}
-                    rightSection={element.status === item.name && <IconCheck style={{ color: "teal" }} />}
+                    rightSection={element.status === item.name && <IconCheck color='teal' width={20} height={20} className='m-0'/>}
                 >
                     {item.name}
                 </Menu.Item>

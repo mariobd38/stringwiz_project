@@ -47,3 +47,18 @@
 .task-deletion-modal-footer-button-option.delete:hover {
     background-color: #99000542;
 }
+
+
+/* new */
+
+.tag-deletion-modal .ant-modal-content {
+    background-color: #1e1f21;
+    /* padding:0;
+    border-radius: 8px; */
+}
+.tag-deletion-modal .ant-modal-close {
+    display: none;
+}
+.tag-deletion-modal .ant-modal-body {
+    color: #fafafa;
+}

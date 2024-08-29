@@ -148,7 +148,7 @@ const ProjectCard = () => {
                                                                             <CheckRoundedIcon className='user-home-task-check-icon' />
                                                                         </div>
                                                                         <div>
-                                                                            {/* <input onKeyDown={handleTaskCreate} placeholder='Task name' autoFocus="autofocus" className={`ps-2 taskName-text user-home-new-task-input fafafa-color`} contentEditable={true} />  */}
+                                                                            {/* <input onKeyDown={handleTaskCreate} placeholder='Task name' autoFocus="autofocus" className={`ps-2 task-name-text user-home-new-task-input fafafa-color`} contentEditable={true} />  */}
                                                                         </div>
                                                                     </div>
                                                                 </TableCell>

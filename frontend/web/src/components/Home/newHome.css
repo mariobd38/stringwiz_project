@@ -60,7 +60,7 @@
 .user-home-right-side-block, .task-card-parent, .calendar-block-parent,.milestone-block-parent {
     transition: width 0.35s ease;
 }
-@media (min-width: 991px) {
+@media (min-width: 992px) {
     .user-home-right-side-block {
       width: 46%;
     }
@@ -68,20 +68,20 @@
         width: 54%;
     }
 }
-@media (min-width: 1200px) {
+/* @media (min-width: 1200px) {
     .user-home-right-side-block {
       width: 39%;
     }
     .task-card-parent {
         width: 61%;
     }
-}
-@media (min-width: 1310px) {
+} */
+@media (min-width: 1210px) {
     .user-home-right-side-block {
-      width: 36%;
+      width: 50%;
     }
     .task-card-parent {
-        width: 64%;
+        width: 50%;
     }
 }
 @media (max-width: 991px) {

@@ -1,12 +1,4 @@
-.user-home-task-details-modal-assignee-initials-circle {
-    position: relative;
-    --avatar-size: calc(2rem* var(--mantine-scale)) !important;
-    overflow: visible !important;
-}
-.user-home-task-details-modal-assignee-initials-circle img {
-    border-radius: 50%;
-    overflow: none !important;
-}
+
 .user-home-task-details-modal-head-property-group {
     height:45px;
 }
@@ -89,17 +81,6 @@
     .user-home-task-details-modal-status-search-input::after {
     border: none !important;
 } */
-.user-home-task-details-modal-priority-btn {
-    padding: 0.2rem 0.7rem;
-    font-family: 'Nunito Sans' !important;
-    color: #fafafa;
-    border-radius: 5px;
-    background-color: #222325 !important;
-    border: 1.5px solid #898989;
-    /* border-right: none; */
-    margin-right: 5px;
-    transition: border 0.45s linear;
-}
 .user-home-task-details-modal-status-set-complete-btn {
     padding: 0.35rem 0.4rem;
     border-radius: 5px;
@@ -119,44 +100,10 @@
     width : 2rem;
 }
 .user-home-task-details-modal-status-set-complete-btn:hover,
-.user-home-task-details-modal-priority-btn:hover, .user-home-task-details-modal-no-status-btn:hover,
+.user-home-task-details-modal-no-status-btn:hover,
 .user-home-task-details-modal-next-status-btn:hover {
     border-color: #7730e2;
     transition: border 0.45s linear;
-}
-.user-home-task-details-modal-no-priority-btn {
-    background-color: #222325;
-    border-radius: 50%;
-    border: 1px dashed #898989;
-    width: 2.5rem;
-    height: 2.5rem;
-    color: #898989;
-    transition: border 0.45s linear;
-}
-.user-home-task-details-modal-task-options-btn {
-    color: #999999 !important;
-    border: 1.5px solid #999999;
-    transition: border 0.45s linear;
-    font-family: 'Lato';
-}
-.user-home-task-details-modal-task-options-btn:hover {
-    background-color: #2a2b2d;
-    border-color: #7730e2;
-    transition: border 0.45s linear;
-}
-.user-home-task-details-modal-taskIdNumber {
-    color: #999999 !important;
-    border: 1.5px solid #999999;
-    transition: border 0.45s linear;
-    background-color: #222325 !important;
-    font-family: 'Lato';
-    width: 5.8rem;
-    display: flex;
-    justify-content: center;
-}
-.user-home-task-details-modal-taskIdNumber:hover {
-    transition: border 0.45s linear;
-    border-color: #7730e2;
 }
 .user-home-task-details-modal-tag {
     padding: 0.2rem 0.4rem;
@@ -165,29 +112,6 @@
 }
 .user-home-task-details-modal-tag:hover {
     background-color: #292a2c;
-}
-.user-home-task-details-modal-description-textarea {
-    background-color: #222325;
-    border: 1px solid #222325 !important;
-    resize: none;
-    color: #e8e8e8;
-    min-height: 60px !important;
-    padding: 0.5rem 1rem;
-    overflow: auto;
-    border: 1px solid #898989 !important;
-    transition: border 0.65s linear;
-    border-radius: 8px !important;
-    margin: 0 auto;
-    font-family: 'Lato';
-}
-.user-home-task-details-modal-description-textarea:focus {
-    background-color: #222325;
-    color: #e8e8e8 !important;
-    border-color: #7730e2 !important;
-    transition: border 0.65s linear;
-}
-.user-home-task-details-modal-description-textarea::placeholder {
-    color: #898989 !important;
 }
 .task-details-modal-tooltip {
     opacity: 1 !important;
@@ -203,6 +127,19 @@
     display: flex;
     margin: 0 8px 0 0;
 }
+.user-home-task-details-modal-tags-button-parent {
+    /* display: flex; */
+    gap:10px 0px;
+    /* column-gap: 20px !important; */
+}
+.user-home-task-details-modal-tags-button-options {
+    display: none;
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%); 
+    color: rgb(255,255,255,0.75);
+}
 .user-home-task-details-modal-tags-button-close {
     display: none;
     position: absolute;
@@ -211,10 +148,11 @@
     transform: translateY(-50%); 
     color: rgb(255,255,255,0.75);
 }
-.user-home-task-details-modal-tags-button-close:hover {
+.user-home-task-details-modal-tags-button-close:hover, .user-home-task-details-modal-tags-button-options:hover {
     color: #ffffff;
 }
-.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-close {
+.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-close,
+.user-home-task-details-modal-tags-button:hover .user-home-task-details-modal-tags-button-options {
     display: inline-block !important;
 }
 .user-home-task-details-modal-tags-button-text {
@@ -239,65 +177,6 @@
     text-overflow: ellipsis;
     width: calc(100% - 12px) !important;
 }
-
-/* tiptap */
-.user-home-task-details-rte {
-    border: 1.5px solid #37393d;
-
-}
-.user-home-task-details-modal-rte-toolbar {
-    background-color: #222325;
-    padding: 5px;
-    z-index: 0;
-    border-radius: 8px 8px 0px 0px;
-    transition: all 0.5s ease !important;
-    border-bottom: 1.5px solid #37393d;
-    /* visibility: hidden; */
-}
-.rich-text-editor-wrapper .user-home-task-details-modal-rte-toolbar {
-    display: none;
-    /* opacity: 0; */
-    /* transition: opacity 1.5s ease !important; */
-    transition: display 1.5s ease !important;
-
-    /* visibility: hidden; */
-  }
-  
-  .rich-text-editor-wrapper:focus-within .user-home-task-details-modal-rte-toolbar {
-    display: flex;
-  }
-.user-home-task-details-modal-rte-controls-group {
-    background-color: #222325;
-}
-.user-home-task-details-modal-rte-controls-group button {
-    border-radius: 4px !important;
-    margin: 5px 2.5px;
-}
-.user-home-task-details-modal-rte-controls-group button:hover {
-    background-color: #323335;
-}
-.user-home-task-details-modal-rte-controls-group button svg {
-    width: calc(1.15rem * var(--mantine-scale)) !important;
-    height: calc(1.15rem * var(--mantine-scale)) !important;
-}
-.user-home-task-details-modal-rte-content .tiptap {
-    padding: 10px 10px;
-    min-height: 170px;
-}
-.user-home-task-details-modal-rte-content .tiptap li {
-    margin-bottom: 7.5px;
-    margin-top: 0;
-    padding-top: 0;
-}
-.user-home-task-details-modal-rte-content .tiptap ul {
-    margin-bottom: 0px;
-    padding-left: 15px;
-}
-.user-home-task-details-modal-rte-content {
-    padding: 1px;
-    /* border-radius: 4.5px !important; */
-}
-
 
 
 /* new */
@@ -325,13 +204,32 @@
     border: 2px solid transparent;
     border-radius: 8px;
     padding-left: 15px !important;
+    transition: border-color 0.5s ease-in;
+}
+.user-home-task-details-modal-name .mantine-Input-input {
+    border: none;
+    background-color: transparent !important;
+    color: #fafafa;
+    font-size: 40px;
+    font-family: 'Nunito Sans' !important;
+    padding: 5px 0px !important;
 }
 .user-home-task-details-modal-name:hover,
 .user-home-task-details-modal-name:focus {
-    border-color: #e7e7e7;
+    border-color: #b7b7b7;
 }
 
 .user-home-task-details-modal-tags-button, .user-home-task-details-modal-head-text-dropdown-value {
     padding: 2px 10px !important;
     border-radius: 5px;
+}
+
+
+.user-home-task-details-modal-tags-button-additional {
+    background-color: #707274;
+    color: #2e2f31;
+    padding: 4px 6px;
+    border-radius: 20px !important;
+    font-family: 'Inter' !important;
+    font-size: 14px;
 }

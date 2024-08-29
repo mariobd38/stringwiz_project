@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import dayjs from 'dayjs';
 
 import { useClickOutside } from '@mantine/hooks';
-import { Table, Card, Text } from '@mantine/core';
+import { Table, Card, Text, Input } from '@mantine/core';
 import { IconPlus,IconCircle,IconLockFilled,IconDots } from '@tabler/icons-react';
 import { Tabs } from "antd";
 
-import {createTaskInfo} from './../../../DataManagement/Tasks/createTask';
-import {UpdateTaskInfo} from './../../../DataManagement/Tasks/updateTask';
+import { createTaskInfo } from './../../../DataManagement/Tasks/createTask';
+import { UpdateTaskInfo } from './../../../DataManagement/Tasks/updateTask';
 import { getTagInfo } from '../../../DataManagement/Tags/getTags';
 
-import TaskDetailsModalNew from '../TaskDetailsModal/taskDetailsModalNew';
+import TaskDetailsModal from '../TaskDetailsModal/taskDetailsModal';
 import TaskCardContent from './TaskCardContent/taskCardContent';
 
 import { UpdateTaskInfoNew } from '../../../DataManagement/Tasks/updateTaskNew';
@@ -22,7 +22,7 @@ import './taskCard.css'
 
 const TaskCard = (props) => {
 
-    const {userFullName, userEmail, taskData, setTaskData, today, ongoingTasks, todaysTasks,unscheduledTasks, overdueTasks,
+    const {userFullName, initials, userEmail, taskData, setTaskData, today, ongoingTasks, todaysTasks,unscheduledTasks, overdueTasks,
         completedTasks,userProfileDto,userProfilePicture} = props; 
     const [currentIndex, setCurrentIndex] = useState(null);
     const [newTaskRowOpen, setNewTaskRowOpen] = useState(false);
@@ -50,6 +50,7 @@ const TaskCard = (props) => {
     };
 
     //task attributes
+    const [currentTask, setCurrentTask] = useState(null);
     const [currentTaskName, setCurrentTaskName] = useState('');
     const [currentTaskCreationDate, setCurrentTaskCreationDate] = useState('');
     const [currentTaskLastUpdatedOn, setCurrentTaskLastUpdatedOn] = useState('');
@@ -113,34 +114,56 @@ const TaskCard = (props) => {
             setTaskType,
             index
         );
+        setCurrentTask(taskType[currentIndex]);
     }
+
+    const [inputWidth, setInputWidth] = useState('100%');
+
+    useEffect(() => {
+        const updateWidth = () => {
+            if (newTaskClickAway.current) {
+                const width = newTaskClickAway.current.offsetWidth - 80;
+                setInputWidth(`${width}px`);
+            }
+        };
+    
+        updateWidth();
+    
+        window.addEventListener('resize', updateWidth);
+    
+        return () => {
+            window.removeEventListener('resize', updateWidth);
+        };
+    }, [newTaskClickAway]);
 
     const items = [
         {
           key: '1',
           label: <> 
-                    <Text className='d-flex' c='#f5f6f9' ff='Nunito Sans'>Onoing<Text ms={15}  c='#959699'>{ongoingTasks.length+todaysTasks.length+unscheduledTasks.length}</Text></Text>
+                <Text className='d-flex' c='#f5f6f9' ff='Nunito Sans'>Ongoing<Text ms={15}  c='#959699'>{ongoingTasks.length+todaysTasks.length+unscheduledTasks.length}</Text></Text>
             </>,
           children: 
           <div className='table-container-wrapper'>
                 <Table>
                     <Table.Tbody >
-                        <div style={{ position: 'relative' }} ref={newTaskClickAway}>
-                            <button className='user-home-create-task-button-dark d-flex align-items-center ms-2 mb-2'
+                        <div style={{ position: 'relative',margin: "0 calc(0.57rem* var(--mantine-scale))" }} ref={newTaskClickAway}>
+                            <button className='user-home-create-task-button-dark d-flex align-items-center px-1'
                                 style={{ color: "#919191" }} onClick={handleNewTaskClick}
                             >
                                 <IconPlus className='me-1' style={{ width: "1rem", marginBottom: ".09rem" }}/>
                                 <span className='me-1' style={{ fontSize: '0.95rem' }}>Create task</span>
                             </button>
                             {newTaskRowOpen ? (
-                                <Table.Tr className='table-row-new-dark'>
-                                    <Table.Td scope="row" className=' d-flex align-items-center justify-content-between table-cell'>
-                                        <div className='d-flex align-items-center mb-1 m-0' style={{color: "#fafafa"}}>
+                                <Table.Tr className='table-row-new-dark w-100'>
+                                    <Table.Td scope="row" className='w-100 d-flex align-items-center justify-content-between '>
+                                        <div className='w-100 d-flex align-items-center mb-1 m-0' style={{color: "#fafafa"}}>
                                             <div>
                                                 <IconCircle className='user-home-task-check-icon' />
                                             </div>
-                                            <div>
-                                                <input onKeyDown={handleTaskCreate} placeholder='Task name' autoFocus="autofocus" className={`ps-2 taskName-text user-home-new-task-input fafafa-color`} contentEditable={true} /> 
+                                            <div className=''>
+                                                {/* <input onKeyDown={handleTaskCreate} placeholder='Task name' autoFocus="autofocus" className={`ps-2 task-name-text user-home-new-task-input fafafa-color`} contentEditable={true} />  */}
+                                                <Input style={{ width: inputWidth }} onKeyDown={handleTaskCreate} placeholder='Task name' autoFocus="autofocus" className={`ps-2 task-name-text user-home-new-task-input fafafa-color`} /> 
+                                                {/* dsdadsadakdasjksdadsdadsadakdasjksdadsdadsadakdasjksdadsdadsadakdasjksda */}
                                             </div>
                                         </div>
                                     </Table.Td>
@@ -156,6 +179,7 @@ const TaskCard = (props) => {
                             currentTaskDueDate={currentTaskDueDate}
                             currentTaskDueDateTime={currentTaskDueDateTime}
                             currentIndex={currentIndex}
+                            setCurrentTask={setCurrentTask}
                             setCurrentIndex={setCurrentIndex}
                             setCurrentTaskDueDate={setCurrentTaskDueDate}
                             setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
@@ -199,6 +223,7 @@ const TaskCard = (props) => {
                             currentTaskDueDate={currentTaskDueDate}
                             currentTaskDueDateTime={currentTaskDueDateTime}
                             currentIndex={currentIndex}
+                            setCurrentTask={setCurrentTask}
                             setCurrentIndex={setCurrentIndex}
                             setCurrentTaskDueDate={setCurrentTaskDueDate}
                             setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
@@ -243,6 +268,7 @@ const TaskCard = (props) => {
                                 currentTaskDueDate={currentTaskDueDate}
                                 currentTaskDueDateTime={currentTaskDueDateTime}
                                 currentIndex={currentIndex}
+                                setCurrentTask={setCurrentTask}
                                 setCurrentIndex={setCurrentIndex}
                                 setCurrentTaskDueDate={setCurrentTaskDueDate}
                                 setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
@@ -304,8 +330,9 @@ const TaskCard = (props) => {
                 </div>
             </Card>
 
-            <TaskDetailsModalNew
+            <TaskDetailsModal
                 userFullName={userFullName}
+                initials={initials}
                 userEmail={userEmail}
                 show={modalShow}
                 onHide={() => setModalShow(false)}
@@ -322,6 +349,7 @@ const TaskCard = (props) => {
                 currentTaskStatus={currentTaskStatus}
                 currentTaskPriority={currentTaskPriority}
                 currentTaskTags={currentTaskTags}
+                setCurrentTaskName={setCurrentTaskName}
                 setCurrentTaskDueDate={setCurrentTaskDueDate}
                 setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
                 setCurrentIndex={setCurrentIndex}

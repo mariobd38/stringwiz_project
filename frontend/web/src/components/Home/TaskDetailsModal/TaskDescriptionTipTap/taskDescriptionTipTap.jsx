@@ -14,6 +14,8 @@ import Placeholder from '@tiptap/extension-placeholder';
 
 import { UpdateTaskInfo } from '../../../../DataManagement/Tasks/updateTask';
 
+import './taskDescriptionTipTap.css'
+
 const TaskDescriptionTipTap = (props) => {
     const {content, currentIndex,taskType,setTaskType,selectedDate,setCurrentTaskDueDate,setCurrentTaskDueDateTime,
         completedTasks
@@ -41,7 +43,6 @@ const TaskDescriptionTipTap = (props) => {
         content,
         onUpdate(props) {
             const description = props.editor.getHTML();
-            console.log(description);
             UpdateTaskInfo(
                 currentIndexRef.current, 
                 "description",
@@ -67,9 +68,9 @@ const TaskDescriptionTipTap = (props) => {
 
     return (
         <div className="rich-text-editor-wrapper">
-            <RichTextEditor editor={editor} 
+            <RichTextEditor editor={editor}
             style={{borderRadius: "8px"}} className='user-home-task-details-rte'>
-                <RichTextEditor.Toolbar sticky stickyOffset={60} className='user-home-task-details-modal-rte-toolbar' >
+                <RichTextEditor.Toolbar sticky className='user-home-task-details-modal-rte-toolbar ' >
                     <RichTextEditor.ControlsGroup className='user-home-task-details-modal-rte-controls-group'>
                         {/* <RichTextEditor.Bold /> */}
                         {/* <RichTextEditor.Italic />

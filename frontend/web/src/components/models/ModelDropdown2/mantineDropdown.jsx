@@ -2,12 +2,10 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useScrollLock } from '../../../utils/useScrollLock';
 
 import { Menu } from '@mantine/core';
-import { useHotkeys } from '@mantine/hooks';
-
-import { motion, AnimatePresence } from 'framer-motion';
 
 const MantineDropdown = (props) => {
-    const { target,width,onMenuToggle,rowIndex,dropdown,isParent,childDropdownOpened,handleCloseChildDropdown,isChild,position } = props;
+    const { target,width,onMenuToggle,rowIndex,dropdown,isParent,childDropdownOpened,handleCloseChildDropdown,isChild,position,
+        tagDeleteItemClicked,setOpenTagDeletionModal,setTagDeleteItemClicked } = props;
 
     const [menuOpened, setMenuOpened] = useState(false);
     const dropdownRef = useRef(null);
@@ -20,7 +18,6 @@ const MantineDropdown = (props) => {
     }, [childDropdownOpened,isParent,menuOpened]);
 
     const shouldEnablePointerEvents = () => {
-        if (isChild) return menuOpened;
         if (isParent) return menuOpened && !childDropdownOpened;
         return menuOpened;
     };
@@ -37,8 +34,16 @@ const MantineDropdown = (props) => {
                 onMenuToggle(false, rowIndex);
             }, 100);
         }
-    }, [childDropdownOpened, enableScroll, rowIndex, onMenuToggle, isParent, handleCloseChildDropdown,isChild]);
+    }, [childDropdownOpened, enableScroll, rowIndex, onMenuToggle, handleCloseChildDropdown,isChild]);
 
+    useEffect(() => {
+        if (menuOpened && tagDeleteItemClicked) {
+            setOpenTagDeletionModal(true);
+            setMenuOpened(false);
+            enableScroll();
+            setTagDeleteItemClicked(false);
+        }
+    }, [menuOpened, tagDeleteItemClicked,enableScroll,setOpenTagDeletionModal,setTagDeleteItemClicked]);
 
     return (
         <Menu shadow="md" width={width} position={position} offset={12} zIndex={1000000}
@@ -69,32 +74,19 @@ const MantineDropdown = (props) => {
                 {target}
             </Menu.Target>
 
-            <AnimatePresence>
-                {menuOpened && (
-                    <Menu.Dropdown 
-                        component={motion.div}
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ 
-                            enter: { duration: 0.3, ease: "easeOut" },
-                            exit: { duration: 0.3, ease: "easeIn", delay: 0.5 }
-
-                        }}
-                        className={`mantine-dropdown-model ${isParent ? 'parent' : ''}`}
-                        bd='0' 
-                        bg='#232426' 
-                        ref={dropdownRef} 
-                        style={{
-                            pointerEvents: shouldEnablePointerEvents() ? "auto" : "none",
-                            boxShadow: "0 2px 16px #0006"
-                        }}
-                        onClick={(event) => event.stopPropagation()}
-                    >
-                        {dropdown}
-                    </Menu.Dropdown>
-                )}
-            </AnimatePresence>
+            <Menu.Dropdown 
+                className={`mantine-dropdown-model ${isParent ? 'parent' : ''}`}
+                bd='0' 
+                bg='#232426' 
+                ref={dropdownRef} 
+                style={{
+                    pointerEvents: shouldEnablePointerEvents() ? "auto" : "none",
+                    boxShadow: "0 2px 16px #0006"
+                }}
+                onClick={(event) => event.stopPropagation()}
+            >
+                {dropdown}
+            </Menu.Dropdown>
         </Menu>
     );
 };
