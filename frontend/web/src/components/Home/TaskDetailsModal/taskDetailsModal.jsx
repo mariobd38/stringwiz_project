@@ -4,8 +4,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import dayjs from 'dayjs';
 
 import { Modal } from 'antd';
-import { Text, Input, Button,Textarea } from '@mantine/core';
-import { IconX,IconDots } from '@tabler/icons-react';
+import { Text, Button,Textarea } from '@mantine/core';
+import { IconX } from '@tabler/icons-react';
 
 import UserAvatar from '../UserAvatar/userAvatar';
 import { ProfileCard } from './ProfileCard/profileCard';
@@ -392,7 +392,7 @@ const TaskDetailsModal = (props) => {
                         </div>
                     </div> 
 
-                    <div className='mt-3'>
+                    <div className='mt-3 mb-5'>
                         <TaskDescriptionTipTap 
                             content={content}
                             currentIndex={currentIndex}

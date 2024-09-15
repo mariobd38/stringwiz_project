@@ -1,18 +1,17 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import dayjs from 'dayjs';
 
-import { RichTextEditor, Link } from '@mantine/tiptap';
-import { useEditor } from '@tiptap/react';
-import Highlight from '@tiptap/extension-highlight';
-import StarterKit from '@tiptap/starter-kit';
-import Underline from '@tiptap/extension-underline';
-import TextAlign from '@tiptap/extension-text-align';
-import Superscript from '@tiptap/extension-superscript';
-import SubScript from '@tiptap/extension-subscript';
-import Placeholder from '@tiptap/extension-placeholder';
+import { Menu,Box, rem } from '@mantine/core';
+import { useClickOutside } from '@mantine/hooks';
+import { RichTextEditor } from '@mantine/tiptap';
+import { IconH1, IconH2, IconQuote,IconH3,IconClearFormatting,IconList,IconCode,IconCommand,IconSquareArrowUp,IconLetterB,IconLetterC,
+    IconNumber8,IconAlt,IconNumber0,IconNumber1,IconNumber2,IconNumber3,IconNumber7,IconNumber9,IconSeparatorHorizontal,IconMinus,
+    IconListNumbers
+ } 
+from '@tabler/icons-react';
 
-import { UpdateTaskInfo } from '../../../../DataManagement/Tasks/updateTask';
+import { useScrollLock } from '../../../../utils/useScrollLock';
+import { GetEditor } from './customEditor';
 
 import './taskDescriptionTipTap.css'
 
@@ -22,42 +21,30 @@ const TaskDescriptionTipTap = (props) => {
     } = props;
 
     const taskTypeRef = useRef(taskType);
-     const currentIndexRef = useRef(currentIndex);
+    const currentIndexRef = useRef(currentIndex);
+    const [menuOpened, setMenuOpened] = useState(false);
+    const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
+    const editorRef = useRef(null);
+    const ref = useClickOutside(() => {enableScroll(); setMenuOpened(false);});
+
+    const { disableScroll, enableScroll } = useScrollLock(); 
+
     useEffect(() => {
         taskTypeRef.current = taskType;
         currentIndexRef.current = currentIndex;
     }, [taskType,currentIndex]);
 
-    const editor = useEditor({
-        extensions: [
-          StarterKit,
-          Underline,
-          Link,
-          Superscript,
-          SubScript,
-          Highlight.configure({ multicolor: true }),
-          TextAlign.configure({ types: ['heading', 'paragraph'] }),
-          Placeholder.configure(
-            { placeholder: "Write your task description"  }),
-        ],
-        content,
-        onUpdate(props) {
-            const description = props.editor.getHTML();
-            UpdateTaskInfo(
-                currentIndexRef.current, 
-                "description",
-                taskTypeRef.current,
-                setTaskType,
-                selectedDate,
-                dayjs,
-                setCurrentTaskDueDate,
-                setCurrentTaskDueDateTime,
-                completedTasks,
-                description
-            );
-            
-        }
-      });
+
+    const editor = GetEditor({
+        content, 
+        currentIndexRef, 
+        taskTypeRef, 
+        setTaskType, 
+        selectedDate, 
+        setCurrentTaskDueDate, 
+        setCurrentTaskDueDateTime,
+        completedTasks
+    });
 
       useEffect(() => {
         editor?.commands.setContent(content || "", false, {
@@ -66,12 +53,92 @@ const TaskDescriptionTipTap = (props) => {
          // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [content]);
 
+
+
+    const handleChange = (e) => {
+        const currentLine = getCurrentLine();
+        if (currentLine) {
+            const textContent = currentLine.textContent.trim();
+            if (textContent === "/") {
+            const rect = currentLine.getBoundingClientRect();
+            const editorRect = editorRef.current.getBoundingClientRect();
+
+            const left = rect.left - editorRect.left;
+
+            const shouldPositionAbove = rect.top < 460;
+
+            const top = shouldPositionAbove ? rect.top : rect.top - 350 ;
+
+            setMenuPosition({
+                top,
+                left,
+                placement: shouldPositionAbove ? 'above' : 'below'
+            });
+            setMenuOpened(true);
+            disableScroll();
+            } else {
+                setMenuOpened(false);
+                enableScroll();
+            }
+        }
+    }
+
+    const getCurrentLine = () => {
+        const selection = window.getSelection();
+        const anchorNode = selection.anchorNode;
+        
+        let currentLine = anchorNode;
+        while (currentLine && currentLine.nodeType !== Node.ELEMENT_NODE) {
+            currentLine = currentLine.parentElement;
+        }
+        return currentLine;
+    }
+    // console.log(window.getSelection().toString());
+    
+    const menuItems = [
+        { label: 'Paragraph', icon: IconClearFormatting, 
+            command: <span className='rte-styles-options-command-button'><IconCommand /><IconAlt /><IconNumber0 /></span>, 
+            action: () => {editor.chain().focus(); editor.commands.setParagraph();} },
+        { label: 'Heading 1', icon: IconH1, 
+            command: <span className='rte-styles-options-command-button'><IconCommand /><IconAlt /><IconNumber1 /></span>, 
+            action: () => editor.chain().focus().toggleHeading({ level: 1 }).run() },
+        { label: 'Heading 2', icon: IconH2, 
+            command: <span className='rte-styles-options-command-button'><IconCommand /><IconAlt /><IconNumber2 /></span>, 
+            action: () => editor.chain().focus().toggleHeading({ level: 2 }).run() },
+        { label: 'Heading 3', icon: IconH3, 
+            command: <span className='rte-styles-options-command-button'><IconCommand /><IconAlt /><IconNumber3 /></span>, 
+            action: () => editor.chain().focus().toggleHeading({ level: 3 }).run() },
+        { label: 'Blockquote', icon: IconQuote, 
+            command: <span className='rte-styles-options-command-button' ><IconCommand /><IconSquareArrowUp /><IconLetterB /></span>, 
+            action: () => editor.chain().focus().toggleBlockquote().run() },
+        { label: 'Bulleted list', icon: IconList, 
+            command: <span className='rte-styles-options-command-button' ><IconCommand /><IconSquareArrowUp /><IconNumber8 /></span>,
+            action: () => {editor.chain().focus(); !editor.isActive('bulletList') && editor.chain().focus().toggleBulletList().run();} },
+        { label: 'Ordered list', icon: IconListNumbers, 
+            command: <span className='rte-styles-options-command-button' ><IconCommand /><IconSquareArrowUp /><IconNumber7 /></span>,
+            action: () => {editor.chain().focus(); !editor.isActive('orderedList') && editor.chain().focus().toggleOrderedList().run();} },
+        { label: 'Checklist', icon: IconListNumbers, 
+            command: <span className='rte-styles-options-command-button' ><IconCommand /><IconSquareArrowUp /><IconNumber9 /></span>,
+            action: () => {editor.chain().focus(); !editor.isActive('taskList') && editor.chain().focus().toggleTaskList().run(); } },
+        { label: 'Code block', icon: IconCode, 
+            command: <span className='rte-styles-options-command-button' ><IconCommand /><IconAlt /><IconLetterC /></span>,
+            action: () => {editor.chain().focus().toggleCodeBlock().run();} },
+        { label: 'Divider', icon: IconSeparatorHorizontal, 
+            command: <span className='rte-styles-options-command-button'><IconCommand /><IconSquareArrowUp /><IconMinus /></span>, 
+            action: () => {editor.commands.setHorizontalRule();} },
+    ];
+
     return (
-        <div className="rich-text-editor-wrapper">
-            <RichTextEditor editor={editor}
-            style={{borderRadius: "8px"}} className='user-home-task-details-rte'>
-                <RichTextEditor.Toolbar sticky className='user-home-task-details-modal-rte-toolbar ' >
-                    <RichTextEditor.ControlsGroup className='user-home-task-details-modal-rte-controls-group'>
+        <>
+        <div className="rich-text-editor-wrapper" ref={editorRef} >
+            <RichTextEditor editor={editor} onInput={handleChange}
+            style={{borderRadius: "8px"}} className='rte'>
+
+                <RichTextEditor.Content bg='#222325' content={content}
+                className='rte-content'
+                />
+                <RichTextEditor.Toolbar sticky className='rte-toolbar ' >
+                    <RichTextEditor.ControlsGroup className='rte-controls-group'>
                         {/* <RichTextEditor.Bold /> */}
                         {/* <RichTextEditor.Italic />
                         <RichTextEditor.Underline /> */}
@@ -81,14 +148,14 @@ const TaskDescriptionTipTap = (props) => {
                         <RichTextEditor.Code />
                     </RichTextEditor.ControlsGroup>
 
-                    <RichTextEditor.ControlsGroup className='user-home-task-details-modal-rte-controls-group'>
-                    <RichTextEditor.H1 />
-                    <RichTextEditor.H2 />
-                    <RichTextEditor.H3 />
+                    <RichTextEditor.ControlsGroup className='rte-controls-group'>
+                    {/* <RichTextEditor.H1 /> */}
+                    {/* <RichTextEditor.H2 /> */}
+                    {/* <RichTextEditor.H3 /> */}
                     <RichTextEditor.H4 />
                     </RichTextEditor.ControlsGroup>
 
-                    <RichTextEditor.ControlsGroup className='user-home-task-details-modal-rte-controls-group'>
+                    <RichTextEditor.ControlsGroup className='rte-controls-group'>
                     <RichTextEditor.Blockquote />
                     {/* <RichTextEditor.Hr /> */}
                     {/* <RichTextEditor.OrderedList /> */}
@@ -96,29 +163,79 @@ const TaskDescriptionTipTap = (props) => {
                     <RichTextEditor.Superscript />
                     </RichTextEditor.ControlsGroup>
 
-                    <RichTextEditor.ControlsGroup className='user-home-task-details-modal-rte-controls-group'>
+                    <RichTextEditor.ControlsGroup className='rte-controls-group'>
                     <RichTextEditor.Link />
                     <RichTextEditor.Unlink />
                     </RichTextEditor.ControlsGroup>
 
-                    <RichTextEditor.ControlsGroup className='user-home-task-details-modal-rte-controls-group'>
+                    <RichTextEditor.ControlsGroup className='rte-controls-group'>
                     <RichTextEditor.AlignLeft />
                     <RichTextEditor.AlignCenter />
                     <RichTextEditor.AlignJustify />
                     <RichTextEditor.AlignRight />
                     </RichTextEditor.ControlsGroup>
 
-                    <RichTextEditor.ControlsGroup className='user-home-task-details-modal-rte-controls-group'>
+                    <RichTextEditor.ControlsGroup className='rte-controls-group'>
                     <RichTextEditor.Undo />
                     <RichTextEditor.Redo />
                     </RichTextEditor.ControlsGroup>
                 </RichTextEditor.Toolbar>
-
-                <RichTextEditor.Content bg='#222325' content={content}
-                className='user-home-task-details-modal-rte-content'
-                />
+                {menuOpened && (
+                    <Box 
+                    bg='#28292b'
+                    w='280px'
+                    ref={ref}
+                    style={{ 
+                        borderRadius: "7px", 
+                        position: 'absolute', 
+                        top: `${menuPosition.top}px`,
+                        left: `${menuPosition.left}px`,
+                        zIndex: 1000,
+                        pointerEvents: "auto",
+                    }}
+                >
+                    <Menu
+                        closeOnClickOutside={true}
+                        opened={menuOpened}
+                        onClose={() => {setMenuOpened(false); enableScroll();}}
+                        withinPortal
+                    >
+                        <div className='tip-tap-format p-2' 
+                            style={{boxShadow: "0 14px 38px rgba(0, 0, 0, 0.35)", maxHeight: "300px", overflow: "auto"}}
+                        >
+                            <Menu.Label ps={7} c='#8a929a'>Formatting</Menu.Label>
+                            <div style={{ display: 'flex', flexWrap: 'wrap'}}>
+                                {menuItems.map((item, index) => (
+                                    <div key={index} style={{ width: '98%' }} className='me-2'>
+                                        <Menu.Item 
+                                            className='rte-styles-options-button pe-2'
+                                            key={index}
+                                            w='92%' 
+                                            style={{borderRadius: "6px"}}
+                                            bg='#28292b' 
+                                            c='#eaebed'
+                                            onClick={(e) => {
+                                                item.action();
+                                                setMenuOpened(false);
+                                            }}
+                                            leftSection={<item.icon style={{ width: '18px' }} />}
+                                            rightSection={item.command}
+                                        >
+                                            <div className='d-flex gap-3 align-items-center me-3'>
+                                                <div />
+                                                <span className='fafafa-color d-flex'>{item.label}</span>
+                                            </div>
+                                        </Menu.Item>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </Menu>
+                </Box>
+                )}
             </RichTextEditor>
         </div>
+        </>
     );
 };
 

@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 
-import { Button } from '@mantine/core';
-
 import HomeHeader from '../Home/HomeHeader/homeHeader';
 import HomeNavbar from './HomeNavbar/homeNavbar';
 import TaskCard from './TaskCard/taskCard';
 import ProjectCard from './ProjectCard/projectCard';
+import QuickActions from './QuickActions/quickActions';
 import HomeSidebar from './HomeSidebar/homeSidebar';
 import CalendarBlock from './CalendarBlock/calendarBlock';
 import MilestoneBlock from './MilestoneBlock/milestoneBlock';
@@ -22,11 +21,12 @@ import { getGoogleTaskInfo } from '../../DataManagement/Tasks/getGoogleTasks';
 const NewHome = () => {
     const dayjs = require('dayjs');
     const [taskData, setTaskData] = useState([]);
-    const [ongoingTasks, setOngoingTasks] = useState([]);
+    const [upcomingTasks, setUpcomingTasks] = useState([]);
     const [todaysTasks, setTodaysTasks] = useState([]);
     const [unscheduledTasks, setUnscheduledTasks] = useState([]);
     const [overdueTasks, setOverdueTasks] = useState([]);
     const [completedTasks, setCompletedTasks] = useState([]);
+    const [ongoingTasks, setOngoingTasks] = useState([]);
     const [today, setToday] = useState(null);
 
     const location = useLocation();
@@ -38,7 +38,6 @@ const NewHome = () => {
     const [userProfileDto, setUserProfileDto] = useState('');
     // const [userEmail] = useLocalState('', 'userEmail');
     const [initials, setInitials] = useState(passedUserInfo?.fullName || '');
-    // const initials = (firstName[0] + lastName[0]).toUpperCase();
     // const [userInfo, setUserInfo] = useState(passedUserInfo || null);
 
     useEffect(() => {
@@ -58,28 +57,41 @@ const NewHome = () => {
     }, [passedUserInfo]);
     
     useEffect(() => {
+        // const socket = new WebSocket('wss://your-websocket-url');
+  
+        // socket.onmessage = (event) => {
+        //     const updatedTasks = JSON.parse(event.data);
+        //     setTasks(updatedTasks); // Update state with new tasks
+        // };
+        
+        // return () => socket.close();
         getTaskInfo(setTaskData);
         // setUpcomingTasks(taskData);
         var now = dayjs().format('YYYY-MM-DD');
             setToday(now);
 
             const todays_date = now;
-            const ongoing = [];
+            const upcoming = [];
             const unscheduled = [];
             const today = [];
             const overdue = [];
             const completed = [];
+            const ongoing = [];
+
             taskData.forEach((task) => {
                 const currentDueDate = task.dueDate ? dayjs(task.dueDate).format('YYYY-MM-DD') : null;
                 // console.log(currentDueDate);
-                if (currentDueDate === todays_date && task.status !== 'Completed') {
-                    today.push(task);
-                } else if ((currentDueDate >= todays_date) && task.status !== 'Completed') {
+                // if (currentDueDate === todays_date && task.status !== 'Completed') {
+                //     today.push(task);
+                // } else if ((currentDueDate >= todays_date) && task.status !== 'Completed') {
+                //     upcoming.push(task);
+                // } 
+                // else if (currentDueDate === null && task.status !== 'Completed') {
+                //     unscheduled.push(task);
+                // } 
+                if ((currentDueDate === null || currentDueDate >= todays_date) && task.status !== 'Completed') {
                     ongoing.push(task);
-                } 
-                else if (currentDueDate === null && task.status !== 'Completed') {
-                    unscheduled.push(task);
-                } 
+                }
                 else if (todays_date > currentDueDate && task.status !== 'Completed') {
                     overdue.push(task);
                 } else if (task.status === 'Completed') {
@@ -87,8 +99,9 @@ const NewHome = () => {
                 } 
             });
             // console.log(today);
-        setTodaysTasks(today);
         setOngoingTasks(ongoing);
+        setTodaysTasks(today);
+        setUpcomingTasks(upcoming);
         setUnscheduledTasks(unscheduled);
         setOverdueTasks(overdue);
         setCompletedTasks(completed);
@@ -109,6 +122,8 @@ const NewHome = () => {
                 userEmail={userEmail}
                 userProfilePicture={userProfilePicture}
                 userProfileDto={userProfileDto}
+                openSidebarToggle={openSidebarToggle}
+                setOpenSidebarToggle={setOpenSidebarToggle}
             />}
             <div className='container m-0 p-0'>
                 {userFullName &&
@@ -121,66 +136,31 @@ const NewHome = () => {
             </div>
 
             <div className={`row user-home-all-content ${openSidebarToggle && 'open' }`}>
-                <HomeHeader 
-                    openSidebarToggle={openSidebarToggle}
-                    setOpenSidebarToggle={setOpenSidebarToggle}
-                />
+
+                <HomeHeader />
 
                 <div className='container' style={{width: "100%"}}>
                     {/* ONLY FOR GOOGLE OAUTH USERS */}
-                    {userProfilePicture && <Button onClick={getGoogleTasks}>Access Google tasks</Button>}
+                    {/* {userProfilePicture && <Button onClick={getGoogleTasks}>Access Google tasks</Button>} */}
 
 
-                    <div className='row'>
-                        {/* <div className='d-flex justify-content-between'>
-                            <div>
+                    <div className='row mb-5'>
+                        <QuickActions />
 
-                            {userFullName &&
-                                    <TaskCard 
-                                    userFullName={userFullName}
-                                    initials={initials}
-                                    userEmail={userEmail}
-                                    taskData={taskData} setTaskData={setTaskData} today={today} 
-                                    ongoingTasks={ongoingTasks} 
-                                    todaysTasks={todaysTasks}
-                                    unscheduledTasks={unscheduledTasks}
-                                    overdueTasks={overdueTasks}
-                                    completedTasks={completedTasks}
-                                    userProfileDto={userProfileDto}
-                                    userProfilePicture={userProfilePicture}
-                                    />}
-                            </div>
-                            <div>
-                            {userFullName &&
-                                    <TaskCard 
-                                    userFullName={userFullName}
-                                    initials={initials}
-                                    userEmail={userEmail}
-                                    taskData={taskData} setTaskData={setTaskData} today={today} 
-                                    ongoingTasks={ongoingTasks} 
-                                    todaysTasks={todaysTasks}
-                                    unscheduledTasks={unscheduledTasks}
-                                    overdueTasks={overdueTasks}
-                                    completedTasks={completedTasks}
-                                    userProfileDto={userProfileDto}
-                                    userProfilePicture={userProfilePicture}
-                                    />}
-                            </div>
-
-                        </div> */}
                         <div className="task-card-parent">
                             
-                            <div className='py-3'>
-                                <div className='d-flex justify-content-between py-2'>
+                            <div className='user-home-all-content-left-spacing'>
+                                <div className=''>
                                     {userFullName &&
                                     <TaskCard 
                                     userFullName={userFullName}
                                     initials={initials}
                                     userEmail={userEmail}
                                     taskData={taskData} setTaskData={setTaskData} today={today} 
-                                    ongoingTasks={ongoingTasks} 
+                                    upcomingTasks={upcomingTasks} 
                                     todaysTasks={todaysTasks}
                                     unscheduledTasks={unscheduledTasks}
+                                    ongoingTasks={ongoingTasks}
                                     overdueTasks={overdueTasks}
                                     completedTasks={completedTasks}
                                     userProfileDto={userProfileDto}
@@ -190,14 +170,14 @@ const NewHome = () => {
                                 </div>
                             </div>
 
-                            <div className='d-flex justify-content-between py-2'>
+                            {/* <div className='d-flex justify-content-between py-2 user-home-all-content-left-spacing'>
                                 <ProjectCard 
                                 />
-                            </div>
+                            </div> */}
                         </div>
 
-                        <div className="user-home-right-side-block">
-                            <div className='mt-4 d-md-block col-12'>
+                        {/* <div className="user-home-right-side-block">
+                            <div className='d-md-block col-12 user-home-all-content-left-spacing'>
                                 <div className="row">
                                     <div className='col-lg-12 calendar-block-parent'>
                                         <CalendarBlock 
@@ -212,7 +192,7 @@ const NewHome = () => {
                                     
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

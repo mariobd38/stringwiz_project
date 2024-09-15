@@ -4,16 +4,22 @@
 
 }
 .user-home-all-content {
+    height: calc(100vh - 4.5rem) !important;
+    overflow-y: scroll;
     position: relative !important;
-    top: 85px;
+    top: 72px;
     transition: margin 0.27s linear;
 
-    margin: 0 1rem 0 5.8rem;
+    /* margin: 0 1rem 0 5.8rem; */
+    margin: 0 1rem 0 4.25rem;
+}
+.user-home-all-content-left-spacing {
+    padding-left: 1.6rem;
 }
 .user-home-all-content.open {
     
-    margin-left: 17.2rem;
-    transition: margin 0.3s linear;
+    margin-left: 15.5rem;
+    transition: margin 0.27s linear;
 }
 .user-home-main-content {
     width: 52.5rem;
@@ -32,7 +38,6 @@
     font-family: 'Lato';
 }
 .user-home-card-body {
-    border-radius: 0px 0px 7px 7px!important;
     padding: 0;
     background-color: #1E1F21;
     box-sizing: none;
@@ -65,7 +70,7 @@
       width: 46%;
     }
     .task-card-parent {
-        width: 54%;
+        width: 100%;
     }
 }
 /* @media (min-width: 1200px) {
@@ -81,7 +86,8 @@
       width: 50%;
     }
     .task-card-parent {
-        width: 50%;
+        /* width: 50%; */
+        width: 100%;
     }
 }
 @media (max-width: 991px) {

@@ -1,11 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import dayjs from 'dayjs';
 
 import { useClickOutside } from '@mantine/hooks';
-import { Table, Card, Text, Input } from '@mantine/core';
-import { IconPlus,IconCircle,IconLockFilled,IconDots } from '@tabler/icons-react';
-import { Tabs } from "antd";
+import { Table, Card, Text, Input,SegmentedControl,Flex,Button,Tooltip, Box } from '@mantine/core';
+import { IconPlus,IconCircle,IconLockFilled,IconEye,IconDots } from '@tabler/icons-react';
 
 import { createTaskInfo } from './../../../DataManagement/Tasks/createTask';
 import { UpdateTaskInfo } from './../../../DataManagement/Tasks/updateTask';
@@ -22,7 +21,7 @@ import './taskCard.css'
 
 const TaskCard = (props) => {
 
-    const {userFullName, initials, userEmail, taskData, setTaskData, today, ongoingTasks, todaysTasks,unscheduledTasks, overdueTasks,
+    const {userFullName, initials, userEmail, taskData, setTaskData, ongoingTasks, today, upcomingTasks, todaysTasks,unscheduledTasks, overdueTasks,
         completedTasks,userProfileDto,userProfilePicture} = props; 
     const [currentIndex, setCurrentIndex] = useState(null);
     const [newTaskRowOpen, setNewTaskRowOpen] = useState(false);
@@ -136,198 +135,156 @@ const TaskCard = (props) => {
         };
     }, [newTaskClickAway]);
 
-    const items = [
-        {
-          key: '1',
-          label: <> 
-                <Text className='d-flex' c='#f5f6f9' ff='Nunito Sans'>Ongoing<Text ms={15}  c='#959699'>{ongoingTasks.length+todaysTasks.length+unscheduledTasks.length}</Text></Text>
-            </>,
-          children: 
-          <div className='table-container-wrapper'>
-                <Table>
-                    <Table.Tbody >
-                        <div style={{ position: 'relative',margin: "0 calc(0.57rem* var(--mantine-scale))" }} ref={newTaskClickAway}>
-                            <button className='user-home-create-task-button-dark d-flex align-items-center px-1'
-                                style={{ color: "#919191" }} onClick={handleNewTaskClick}
-                            >
-                                <IconPlus className='me-1' style={{ width: "1rem", marginBottom: ".09rem" }}/>
-                                <span className='me-1' style={{ fontSize: '0.95rem' }}>Create task</span>
-                            </button>
-                            {newTaskRowOpen ? (
-                                <Table.Tr className='table-row-new-dark w-100'>
-                                    <Table.Td scope="row" className='w-100 d-flex align-items-center justify-content-between '>
-                                        <div className='w-100 d-flex align-items-center mb-1 m-0' style={{color: "#fafafa"}}>
-                                            <div>
-                                                <IconCircle className='user-home-task-check-icon' />
-                                            </div>
-                                            <div className=''>
-                                                {/* <input onKeyDown={handleTaskCreate} placeholder='Task name' autoFocus="autofocus" className={`ps-2 task-name-text user-home-new-task-input fafafa-color`} contentEditable={true} />  */}
-                                                <Input style={{ width: inputWidth }} onKeyDown={handleTaskCreate} placeholder='Task name' autoFocus="autofocus" className={`ps-2 task-name-text user-home-new-task-input fafafa-color`} /> 
-                                                {/* dsdadsadakdasjksdadsdadsadakdasjksdadsdadsadakdasjksdadsdadsadakdasjksda */}
-                                            </div>
-                                        </div>
-                                    </Table.Td>
-                                </Table.Tr>
-                            ) : null}
-                    
-                        </div>
+    
+    const [activeSegment, setActiveSegment] = useState('1');
 
-                        <TaskCardContent 
-                            today={today}
-                            taskType={ongoingTasks}
-                            taskTypeObj = {{ongoingTasks, todaysTasks,unscheduledTasks}}
-                            currentTaskDueDate={currentTaskDueDate}
-                            currentTaskDueDateTime={currentTaskDueDateTime}
-                            currentIndex={currentIndex}
-                            setCurrentTask={setCurrentTask}
-                            setCurrentIndex={setCurrentIndex}
-                            setCurrentTaskDueDate={setCurrentTaskDueDate}
-                            setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
-                            getTagInfo={getTagInfo}
-                            setCurrentTaskTags={setCurrentTaskTags}
-                            setModalShow={setModalShow}
-                            setCurrentTaskName={setCurrentTaskName}
-                            setCurrentTaskCreationDate={setCurrentTaskCreationDate}
-                            setCurrentTaskDescription={setCurrentTaskDescription}
-                            setCurrentTaskDescriptionHtml={setCurrentTaskDescriptionHtml}
-                            setCurrentTaskLastUpdatedOn={setCurrentTaskLastUpdatedOn}
-                            setCurrentTaskStatus={setCurrentTaskStatus}
-                            setCurrentTaskPriority={setCurrentTaskPriority}
-                            handleTaskUpdate={(event) => handleTaskUpdate(event)}
-                            handleTaskComplete={(event,index,taskType) => handleTaskComplete(event,index,taskType)}
-                            dueDatePopoverIsOpen={dueDatePopoverIsOpen}
-                            setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
-                            setTaskType={setTaskType}
-                            isTaskTabCompleted={false}
-                            handleTaskUpdateNew={(element,value, attribute, taskType,setTaskType,index) => handleTaskUpdateNew(element,value, attribute, taskType,setTaskType,index)}
-                        />
-                    </Table.Tbody> 
-                </Table>
-            </div>
-          ,
-        },
-        {
-          key: '2',
-          label: 
-            <> 
-            <Text className='d-flex' c='#f5f6f9' ff='Nunito Sans'>Overdue<Text ms={15}  c='#959699'>{overdueTasks.length}</Text></Text>
-            </>
-          ,
-          children: 
-            <div className='table-container-wrapper'>
-                <Table>
-                    <Table.Tbody >
-                        <TaskCardContent 
-                            today={today}
-                            taskType={overdueTasks}
-                            currentTaskDueDate={currentTaskDueDate}
-                            currentTaskDueDateTime={currentTaskDueDateTime}
-                            currentIndex={currentIndex}
-                            setCurrentTask={setCurrentTask}
-                            setCurrentIndex={setCurrentIndex}
-                            setCurrentTaskDueDate={setCurrentTaskDueDate}
-                            setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
-                            getTagInfo={getTagInfo}
-                            setCurrentTaskTags={setCurrentTaskTags}
-                            setModalShow={setModalShow}
-                            setCurrentTaskName={setCurrentTaskName}
-                            setCurrentTaskCreationDate={setCurrentTaskCreationDate}
-                            setCurrentTaskDescription={setCurrentTaskDescription}
-                            setCurrentTaskDescriptionHtml={setCurrentTaskDescriptionHtml}
-                            setCurrentTaskLastUpdatedOn={setCurrentTaskLastUpdatedOn}
-                            setCurrentTaskStatus={setCurrentTaskStatus}
-                            setCurrentTaskPriority={setCurrentTaskPriority}
-                            handleTaskUpdate={(event) => handleTaskUpdate(event)}
-                            handleTaskComplete={(event,index,taskType) => handleTaskComplete(event,index,taskType)}
-                            dueDatePopoverIsOpen={dueDatePopoverIsOpen}
-                            setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
-                            setTaskType={setTaskType}
-                            isTaskTabCompleted={false}
-                            handleTaskUpdateNew={(element,value, attribute, taskType,setTaskType,index) => handleTaskUpdateNew(element,value, attribute, taskType,setTaskType,index)}
-                        />
-                    </Table.Tbody> 
-                </Table>
-            </div>
-          ,
-        },
-        {
-          key: '3',
-          label: 
-            <> 
-            <Text className='d-flex' c='#f5f6f9' ff='Nunito Sans'>Completed<Text ms={15}  c='#959699'>{completedTasks.length}</Text></Text>
-            </>
-          ,
-          children: 
-            <div className='table-container-wrapper'>
-                {completedTasks.length > 0 ? 
-                    <Table>
-                        <Table.Tbody >
-                            <TaskCardContent 
-                                today={today}
-                                taskType={completedTasks}
-                                currentTaskDueDate={currentTaskDueDate}
-                                currentTaskDueDateTime={currentTaskDueDateTime}
-                                currentIndex={currentIndex}
-                                setCurrentTask={setCurrentTask}
-                                setCurrentIndex={setCurrentIndex}
-                                setCurrentTaskDueDate={setCurrentTaskDueDate}
-                                setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
-                                getTagInfo={getTagInfo}
-                                setCurrentTaskTags={setCurrentTaskTags}
-                                setModalShow={setModalShow}
-                                setCurrentTaskName={setCurrentTaskName}
-                                setCurrentTaskCreationDate={setCurrentTaskCreationDate}
-                                setCurrentTaskDescription={setCurrentTaskDescription}
-                                setCurrentTaskDescriptionHtml={setCurrentTaskDescriptionHtml}
-                                setCurrentTaskLastUpdatedOn={setCurrentTaskLastUpdatedOn}
-                                setCurrentTaskStatus={setCurrentTaskStatus}
-                                setCurrentTaskPriority={setCurrentTaskPriority}
-                                handleTaskUpdate={(event) => handleTaskUpdate(event)}
-                                handleTaskComplete={(event,index,taskType) => handleTaskComplete(event,index,taskType)}
-                                dueDatePopoverIsOpen={dueDatePopoverIsOpen}
-                                setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
-                                setTaskType={setTaskType}
-                                isTaskTabCompleted={true}
-                                handleTaskUpdateNew={(element,value, attribute, taskType,setTaskType,index) => handleTaskUpdateNew(element,value, attribute, taskType,setTaskType,index)}
-                            />
-                        </Table.Tbody> 
-                    </Table>
-                :
-                <div className='d-flex flex-column  p-0 justify-content-center align-items-center'>
-                <img style={{width: "14rem", }}  src={checklist} alt="" />
-                    <div className='fafafa-color pt-3 lato-font'>Your completed tasks will appear here ✅ </div>
-                </div>
-                }
-            </div>
-          
-          ,
-        },
+    const segments = [
+        { value: '1', label: <> {
+            <Text className='d-flex align-items-center task-card-segment' c='#f5f6f9' ff='Nunito Sans' fz='15'>Upcoming<Text className='d-flex align-items-center text' ms={10}>{ongoingTasks.length}</Text></Text>
+            }
+        </> },
+        { value: '2', label: <> {
+            <Text className='d-flex align-items-center task-card-segment' c='#f5f6f9' ff='Nunito Sans' fz='15'>Overdue<Text className='d-flex align-items-center text' ms={10}>{overdueTasks.length}</Text></Text>
+            }
+        </> },
+        // { value: '3', label: `Completed (${completedTasks.length})` },
+        { value: '3', label: <> {
+            <Text className='d-flex align-items-center task-card-segment' c='#f5f6f9' ff='Nunito Sans' fz='15'>Done<Text className='d-flex align-items-center text' ms={10}>{completedTasks.length}</Text></Text>
+            }
+        </> },
+
     ];
+    const renderTaskContent = (taskType, taskTypeObj,isCompleted) => (
+        <TaskCardContent 
+          today={today}
+          taskType={taskType}
+          taskTypeObj={taskTypeObj}
+          currentTaskDueDate={currentTaskDueDate}
+          currentTaskDueDateTime={currentTaskDueDateTime}
+          currentIndex={currentIndex}
+          setCurrentTask={setCurrentTask}
+          setCurrentIndex={setCurrentIndex}
+          setCurrentTaskDueDate={setCurrentTaskDueDate}
+          setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
+          getTagInfo={getTagInfo}
+          setCurrentTaskTags={setCurrentTaskTags}
+          setModalShow={setModalShow}
+          setCurrentTaskName={setCurrentTaskName}
+          setCurrentTaskCreationDate={setCurrentTaskCreationDate}
+          setCurrentTaskDescription={setCurrentTaskDescription}
+          setCurrentTaskDescriptionHtml={setCurrentTaskDescriptionHtml}
+          setCurrentTaskLastUpdatedOn={setCurrentTaskLastUpdatedOn}
+          setCurrentTaskStatus={setCurrentTaskStatus}
+          setCurrentTaskPriority={setCurrentTaskPriority}
+          handleTaskUpdate={handleTaskUpdate}
+          handleTaskComplete={handleTaskComplete}
+          dueDatePopoverIsOpen={dueDatePopoverIsOpen}
+          setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
+          setTaskType={setTaskType}
+          isTaskTabCompleted={isCompleted}
+          handleTaskUpdateNew={handleTaskUpdateNew}
+        />
+      );
 
     return (
-        <>
-            <Card className='task-card-card' >
-                <div 
-                    style={{
-                        backgroundColor: '#1e1f21',
-                        border: "none",
-                        borderRadius: "8px"
-                    }} 
-                    className='d-flex align-items-center pt-3 pb-2 d-flex justify-content-between px-4 user-home-card-header' >
-                    <div className='d-flex align-items-center' style={{ color: '#fafafa' }}>
-                        <span className='d-flex align-items-center'>
-                            My Tasks
-                            <IconLockFilled className='ms-2' style={{ width: "1.1rem" }}/>
-                        </span>
-                    </div>
-                    <div className='me-2' style={{ color: "#fafafa" }}>
-                        <IconDots />
-                    </div>
+
+        <Box py={20} px={20} bg='#222529' style={{borderRadius: "10px"}}>
+            <div className='d-flex align-items-center justify-content-between pb-2'>
+                <div style={{ color: '#fafafa' }}>
+                    <Text fz='18'  c='#d4d6d8' ff='Lato'>My Tasks</Text>
                 </div>
+                <div style={{ color: "#fafafa" }}>
+                    <IconDots />
+                </div> 
+            </div>
+
+
+            <Flex align='center' mt={5} mb={15} justify='space-between'>
+
+                <SegmentedControl
+                    className='task-card-segmented-control' 
+                    color="blue"
+                    withItemsBorders={false}
+                    data={segments}
+                    value={activeSegment}
+                    onChange={setActiveSegment}
+                    radius={6}
+                />
+
+
+                <Button bd='1px solid blue' radius={8} p='0px 12px' onClick={() => {setActiveSegment('1'); handleNewTaskClick();}}>
+                    <IconPlus width={18} height={15} style={{marginRight: "5px"}}/>Create task
+                </Button>
+                
+            </Flex>
+            <Card className='task-card-card' >
                 
                 <div className='user-home-card-body'>
-                    <Tabs defaultActiveKey="1" items={items} className='user-home-task-card-tabs'/>
+                    <div className=''>
+                        {activeSegment === '1' && (
+                        <div className='table-container-wrapper mx-3 py-3'>
+                        <Table>
+                            <Table.Tbody>
+                            <div style={{ position: 'relative', margin: "0 calc(0.57rem * var(--mantine-scale))" }} ref={newTaskClickAway}>
+                                
+
+                                {newTaskRowOpen ? (
+                                <Table.Tr className='table-row-new-dark w-100'>
+                                    <Table.Td scope="row" className='w-100 d-flex align-items-center justify-content-between'>
+                                    <div className='w-100 d-flex align-items-center mb-1 m-0' style={{ color: "#fafafa" }}>
+                                        <IconCircle className='user-home-task-check-icon' />
+                                        <Input
+                                        style={{ width: inputWidth }}
+                                        onKeyDown={handleTaskCreate}
+                                        placeholder='Task name'
+                                        autoFocus
+                                        className={`ps-2 task-name-text user-home-new-task-input fafafa-color`}
+                                        />
+                                    </div>
+                                    </Table.Td>
+                                </Table.Tr>
+                                ) : null}
+                            </div>
+
+                            
+                            {renderTaskContent(ongoingTasks,null,false)}
+                            </Table.Tbody>
+                        </Table>
+                        </div>
+                    )}
+
+                    {activeSegment === '2' && (
+                        <div className='table-container-wrapper mx-3 py-3'>
+                        <Table>
+                            <Table.Tbody>
+                            
+                            {renderTaskContent(overdueTasks,null,false)}
+
+                            </Table.Tbody>
+                        </Table>
+                        </div>
+                    )}
+
+                    {activeSegment === '3' && (
+                        <div className='table-container-wrapper mx-3 py-3'>
+                        {completedTasks.length > 0 ? (
+                            <Table>
+                            <Table.Tbody>
+                                {renderTaskContent(completedTasks,null,true)}
+                            </Table.Tbody>
+                            </Table>
+                        ) : (
+                            <div className='d-flex flex-column  p-0 justify-content-center align-items-center'>
+                            <img style={{ width: "14rem" }} src={checklist} alt="" />
+                            <div className='fafafa-color pt-3 lato-font'>Your completed tasks will appear here ✅</div>
+                            </div>
+                        )}
+                        </div>
+                    )}
+                    </div>
                 </div>
+
+                
             </Card>
 
             <TaskDetailsModal
@@ -366,7 +323,7 @@ const TaskCard = (props) => {
                 userProfilePicture={userProfilePicture}
                 handleTaskUpdateNew={(element,value, attribute, taskType,setTaskType,index) => handleTaskUpdateNew(element,value, attribute, taskType,setTaskType,index)}
             />
-        </>
+        </Box>
     );
 };
 

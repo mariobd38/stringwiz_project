@@ -2,20 +2,6 @@ body.scroll-lock {
     overflow: hidden;
   }
 
-.create-home-navbar-button {
-    background-color: #3a3c3e !important;
-    font-size: 1rem !important;
-    border-radius: 30px !important;
-    font-family: 'Lato', serif !important;
-    text-transform: capitalize !important;
-    border: 1.3px solid #666666 !important;
-    color: #dadada !important;
-    /* padding-right: 0.7rem !important; */
-    padding: 2px 10px !important;
-}
-.create-home-navbar-button:hover {
-    background-color: #444648 !important;
-}
 .home-navbar-search-ss {
     background-color: #3c3e40;
     border-radius: 50%;
@@ -34,7 +20,7 @@ body.scroll-lock {
 }
 .home-navbar-search {
     width: 24rem;
-    transition: width 0.55s ease-in-out;
+    transition: width 0.45s ease;
 }
 @media(max-width: 990px) {
     .home-navbar-search {
@@ -43,34 +29,27 @@ body.scroll-lock {
 }
 @media(max-width: 800px) {
     .home-navbar-search {
-        width: 20rem;
+        width: 17rem;
     }
 }
 .home-navbar-search-input {
-    font-family: 'Lato' !important;
-    background-color: #393b3d;
-    border: 1px solid #797979 !important;
-    color: #fafafa !important;
-    border-radius: 9px;
-    height: 40px;
+    display: flex;
+    align-items: center;
+
+    .mantine-Input-input {
+        /* font-family: 'Inter' !important; */
+        color: #fafafa !important;
+        height: 40px;
+        border-radius: 5px;
+        background-color: #393b3d;
+    }
 }
 .home-navbar-search-input::before, .home-navbar-search-input::after {
     border-bottom: none !important;
 }
 
-
-/* new */
 .user-home-avatar-menu-target:hover {
     background-color: #343638;
-}
-.custom-tooltip .mantine-Tooltip-tooltip {
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
-.custom-tooltip:hover .mantine-Tooltip-tooltip {
-    opacity: 1;
-    transform: translateY(0);
 }
   .user-home-navbar-menu-dropdown {
     box-shadow: 0 2px 16px #0006 !important;
@@ -82,6 +61,7 @@ body.scroll-lock {
 .user-home-navbar-menu-dropdown .mantine-Menu-item {
     color: #d5d6d8 !important;
     background-color: #222222 !important;
+
 }
 .user-home-navbar-menu-dropdown .mantine-Menu-item:hover {
     background-color: #303030 !important;
@@ -92,11 +72,11 @@ body.scroll-lock {
     text-overflow:ellipsis;
     width: 170px;
 }
-.user-home-navbar-icon-apps {
-    border-radius: 8px;
-    padding: 8px 10px;
+.user-home-navbar-icon-apps,.navbar-menu-sidebar-icon {
+    border-radius: 6px;
+    padding: 6px;
     cursor: pointer;
 }
-.user-home-navbar-icon-apps:hover {
-    background-color: #343638;
+.user-home-navbar-icon-apps:hover,.navbar-menu-sidebar-icon:hover {
+    background-color: #37393b;
 }

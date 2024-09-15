@@ -22,12 +22,12 @@ const MantineDropdown = (props) => {
         return menuOpened;
     };
 
-    const handleClose = useCallback((escapePressed = false) => {
+    const handleClose = useCallback(() => {
         if (isChild) {
             handleCloseChildDropdown();
             setMenuOpened(false);
         }
-        if (!childDropdownOpened || escapePressed) {
+        if (!childDropdownOpened) {
             setMenuOpened(false);
             enableScroll();
             rowIndex !== undefined && setTimeout(() => {
@@ -50,7 +50,7 @@ const MantineDropdown = (props) => {
             closeOnEscape={false}
             opened={menuOpened} 
             closeOnClickOutside
-            closeOnItemClick={false}
+            closeOnItemClick={!childDropdownOpened}
             onOpen={() => {
                 setMenuOpened(true);
                 disableScroll();

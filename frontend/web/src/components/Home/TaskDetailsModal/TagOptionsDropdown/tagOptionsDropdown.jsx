@@ -121,7 +121,7 @@ export const TagOptionsDropdown = (props) => {
                                                 </Menu.Item>
                                                 </div>
                                             ))}
-                                            </div>
+                                        </div>
                                     </div>
                                     <Divider />
                                     <div className="px-1">

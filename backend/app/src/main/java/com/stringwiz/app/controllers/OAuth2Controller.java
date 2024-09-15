@@ -12,6 +12,7 @@ import com.stringwiz.app.utils.JwtOAuth2Util;
 import com.stringwiz.app.utils.JwtUtil;
 import com.stringwiz.app.utils.UserPlatformDtoConverter;
 import com.stringwiz.app.web.UserPlatformDto;
+import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +76,8 @@ public class OAuth2Controller {
             UserPlatformDto userDto = UserPlatformDtoConverter.convertToDto(userToSave);
             return ResponseEntity.ok().body(userDto);
             //return ResponseEntity.ok().body(user.orElse(newUser));
+        } catch (UnsupportedJwtException jwtException) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Cannot verify JWS Signature");
         }
         catch(Exception exception) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();

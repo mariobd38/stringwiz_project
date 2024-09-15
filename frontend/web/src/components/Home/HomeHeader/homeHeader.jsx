@@ -1,16 +1,12 @@
 import React, { useEffect } from 'react';
 
-import { IconUserPlus,IconLayoutSidebar,IconHome } from '@tabler/icons-react';
+import { Button, Tooltip } from '@mantine/core';
+import { IconUserPlus,IconHome,IconCirclePlus,IconFidgetSpinner,IconSettings } from '@tabler/icons-react';
 import { useLocalState } from "../../../utils/useLocalStorage";
-
-import {
-    Text
-  } from '@mantine/core';
 
 import './homeHeader.css';
 
-const HomeHeader = (props) => {
-    const {openSidebarToggle, setOpenSidebarToggle} = props;
+const HomeHeader = () => {
     const dayjs = require('dayjs');
 
     var now = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -23,15 +19,7 @@ const HomeHeader = (props) => {
     const [backgroundImage, setBackgroundImage] = useLocalState(null, "backgroundImage");
 
     const [currentColorMode, setCurrentColorMode] = useLocalState("dark", "colorMode");
-
-    const handleOpenSidebarToggle = () => {
-        setOpenSidebarToggle(!openSidebarToggle);
-        if (openSidebarToggle) {
-            document.body.classList.remove('active');
-        } else {
-            document.body.classList.add('active');
-        }
-    }
+    document.body.style.overflowY = 'hidden';
 
     useEffect(() => {
         const storedMode = currentColorMode;
@@ -55,35 +43,45 @@ const HomeHeader = (props) => {
         });
     }, [backgroundColor, backgroundImage, setBackgroundColor, setBackgroundImage, currentColorMode, setCurrentColorMode]);
 
+    const homeHeaderButtons = [
+        {"icon": <IconCirclePlus color='#05c099' width={23} className='add-icon-create-home-navbar'/>, "label": "Create"},
+        {"icon": <IconUserPlus color='#05c099' width={23} className='add-icon-create-home-navbar'/>, "label": "Invite"},
+        {"icon": <IconFidgetSpinner color='#05c099' width={23} className='add-icon-create-home-navbar'/>, "label": "Widgets"},
+        {"icon": <IconSettings color='#05c099' width={23} className='add-icon-create-home-navbar'/>, "label": "Settings"},
+    ]
+
     return (
         <>
-            <div>
-                <div className='d-flex align-items-center'>
-                    <IconLayoutSidebar className='me-3 home-header-sidebar-icon' onClick={handleOpenSidebarToggle}/>
+            <div style={{position: "sticky", top: "0px", zIndex: "20"}}>
+                <div className='d-flex align-items-center justify-content-between user-home-all-content-left-spacing' style={{position: "sticky",top: "5rem",background: "#1e1f21", borderBottom: "1px solid #323539", zIndex: "2",height: "61.4px", 
+                }}>
                     <span className='fafafa-color lato-font d-flex ' style={{fontWeight: "600",fontSize: "17px"}}>
                         <IconHome className='me-2'/>
                         <span>Home</span>
                     </span>
-                </div>
-                <div className='d-flex align-items-center justify-content-between mt-3'>
-
-                    <div className='fafafa-color lato-font-600' style={{fontSize: "1.2rem"}}>
-                        {/* <IconLayoutSidebar className='me-2' /> */}
-                        <span>{dayOfWeek}, {month} {date.getDate()}, {date.getFullYear()}</span>
-                        
-                    </div>
-
-                    <div className=''>
-                        <button className='home-header-invite-button d-flex align-items-center'>
-                            <span className='mb-2'>
-                                <IconUserPlus />
-                            </span>
-                            <span className='ps-2'>Invite</span>
-                        </button>
+                    <div className='d-flex gap-3 align-items-center'>
+                        {homeHeaderButtons.map((button, index) => (
+                            <div
+                                key={index}
+                                >
+                                    <Tooltip label={button.label} bd='.1px solid #898989' p='5px 12px' position="bottom" offset={8} openDelay={200} fz='#fafafa' ff='Inter' radius='6' >
+                                        <Button radius='8' fw='400' c='#fafafa' p='0px 7px' bg='transparent' bd='1px solid #898989' className='home-header-button'>
+                                            {button.icon}
+                                        </Button>
+                                    </Tooltip>
+                            </div>
+                            ))}
                     </div>
                 </div>
-                
             </div>
+
+            <div className='d-flex align-items-center justify-content-between' style={{margin: "28px 0"}}>
+                <div className='fafafa-color lato-font-600 user-home-all-content-left-spacing' style={{fontSize: "1.2rem"}}>
+                    {/* <IconLayoutSidebar className='me-2' /> */}
+                    <span>{dayOfWeek}, {month} {date.getDate()}, {date.getFullYear()}</span>
+                </div>
+            </div>
+                
         </>
     )
 }

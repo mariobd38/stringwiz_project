@@ -25,3 +25,7 @@
 .home-header-sidebar-icon:hover {
     background-color: #333436;
 }
+
+.home-header-button:hover {
+    background-color: #2b2c2e !important;
+}

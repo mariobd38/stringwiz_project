@@ -1,10 +1,9 @@
 .task-card-card {
-    font-family: 'Nunito Sans' !important;
     width: 100% !important;
-    border: 2px solid #313234 !important;
+    border: 2px solid #37383a !important;
     border-radius: 10px !important;
     padding:0 !important;
-    background-color: transparent !important;
+    /* background-color: #323539 !important; */
 }
 @media (max-width: 1200px) {
     .task-card-card {
@@ -48,42 +47,24 @@
 
 
 /* new */
-.user-home-card-body .ant-tabs {
-    padding:15px !important;
-}
-.user-home-card-body .ant-tabs .ant-tabs-nav::before {
-    display: none;
-}
-.user-home-card-body .ant-tabs-tab {
-    color: #999999;
-    font-family: 'Lato';
-    font-size: 17px;
-    padding:8px 14px;
-    border-radius: 6px;
-    width: 33% !important;
-    margin-bottom: 5px;
-    display: flex;
-    justify-content: center;
-}
-.user-home-card-body .ant-tabs-tab:hover {
-    background-color: #35363a;
-}
-.user-home-card-body  .ant-tabs-tab-active .ant-tabs-tab-btn,
-.user-home-card-body .ant-tabs-tab-btn:active,
-.user-home-card-body .ant-tabs-tab-btn:focus,
-.user-home-card-body .ant-tabs-tab:hover {
-    color:#eaeaea !important;
+.user-home-card-body {
+    background-color: #222529 !important;
 }
 
-.ant-tabs-nav-list {
-    width:100% !important;
+.task-card-segmented-control {
+    background-color: #323539 !important;
+    padding:3px !important; 
+    display: flex !important;
+    align-items: center !important;
 }
-.ant-tabs-nav-list .ant-tabs-ink-bar {
-    transition: width 0s ease-in-out, left 0s ease-in-out, right 0s ease-in-out !important;
-    border-radius: 10px !important;
-    background-color: #2fa295 !important;
-    transform: translateX(-50%) !important;
+.task-card-segmented-control .mantine-SegmentedControl-control label {
+    color: #fafafa !important;
 }
-.user-home-card-body  .ant-tabs .ant-tabs-nav-operations {
-    display: none;
+.task-card-segment .text {
+    border-radius: 4px;
+    background-color: #252628;
+    padding: 0 8px;
+    height: 25px;
+    color: #d5d6d8;
+    font-size: 12px;
 }

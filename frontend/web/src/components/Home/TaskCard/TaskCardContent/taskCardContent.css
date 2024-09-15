@@ -1,12 +1,15 @@
 .table-row-dark:hover .table-row-new-dark {
     background-color: #2f3032 !important;
 }
+.table-row-dark {
+    cursor: pointer;
+}
 /* .table-row-dark:hover{
     background-color: #2f3032 !important;
 } */
 .table-row-dark:hover .user-home-calendar-icon-div {
-    display: flex !important;
-    visibility:visible;
+    /* display: flex !important;
+    visibility:visible; */
 }
 .table-cell:hover .user-home-new-task-input{
     background-color: #2f3032 !important;
@@ -18,11 +21,11 @@
     /* margin: 0rem -1rem !important; */
     overflow: clip !important;
     border: none !important;
-    border-radius: 6px;
+    border-radius: 6px !important;
     position: relative;
     /* padding: 14px 16px !important; */
-    height: 50px !important;
-    transition: all 1s ease;
+    height: 60px !important;
+    transition: all .4s ease;
 }
 .table-cell:hover {
     background-color: #2f3032 !important;
@@ -51,7 +54,7 @@
     outline: none !important;
 }
 .task-name-text {
-    margin: auto !important;
+    /* margin: auto !important; */
     font-size: 0.88rem !important;
     padding: 0.3em 1em;
     border: none !important;
@@ -75,17 +78,17 @@
     text-decoration: line-through;
 }
 .user-home-calendar-icon-div {
-    color: #e7e7e7;
-    border: 1px solid #969696;
-    padding: 0.35rem 0.2rem;
-    cursor: pointer;
+    color: #e7e7e7 !important;
+    border: .1px solid #969696 !important;
+    padding: 6.8px 0.3rem;
+    cursor: pointer !important;
     border-radius: 6px;
-    visibility: hidden;
+    /* visibility: hidden; */
     display: flex;
     align-items: center;
 }
 .user-home-calendar-icon-div:hover {
-    background-color: #414243;
+    background-color: #414243 !important;
 }
 .user-home-calendar-icon {
     color: #e7e7e7;
@@ -97,11 +100,11 @@
 }
 
 .table-cell-icon {
-    display: none;
+    display: flex;
 }
 
 .table-cell:hover .user-home-chosen-due-date-text {
-    display: none;
+    /* display: none; */
 }
 
 .table-cell:hover .table-cell-icon {
@@ -171,4 +174,24 @@
 
 .mantine-dropdown-model .mantine-Menu-item {
     background-color: #232426;
+}
+
+.text-overflow-cell {
+    max-width: 0;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis !important;
+    /* padding-right: 0rem; */
+}
+.text-overflow {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+td:first-child {
+  border-radius: 10px 0 0 10px !important;
+}
+
+td:last-child {
+  border-radius: 0 10px 10px 0;
 }

@@ -2,9 +2,10 @@ package com.stringwiz.app.utils;
 
 import com.stringwiz.app.services.GooglePublicKeysService;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwsHeader;
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SigningKeyResolverAdapter;
+import io.jsonwebtoken.Locator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,31 +14,39 @@ import java.security.PublicKey;
 import java.util.Map;
 
 @Component
-public class JwtOAuth2Util {
+public class JwtOAuth2Util implements Locator<Key> {
     @Autowired private GooglePublicKeysService googlePublicKeysService;
 
     public Map<String,String> getUserDataFromToken(String token) {
+        Claims claims = extractAllClaims(token);
         return Map.of(
-                "email",extractAllClaims(token).get("email").toString(),
-                "fullName",extractAllClaims(token).get("name").toString(),
-                "firstName",extractAllClaims(token).get("given_name").toString(),
-                "lastName",extractAllClaims(token).get("family_name").toString(),
-                "picture",extractAllClaims(token).get("picture").toString()
+                "email",claims.get("email").toString(),
+                "fullName",claims.get("name").toString(),
+                "firstName",claims.get("given_name").toString(),
+                "lastName",claims.get("family_name").toString(),
+                "picture",claims.get("picture").toString()
         );
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
-            .setSigningKeyResolver(new SigningKeyResolverAdapter() {
-                @Override
-                public Key resolveSigningKey(JwsHeader header, Claims claims) {
-                    String kid = header.getKeyId();
-                    Map<String, PublicKey> publicKeys = googlePublicKeysService.getPublicKeys();
-                    return publicKeys.get(kid);
-                }
-            })
+        return Jwts.parser()
+            .keyLocator(this)
             .build()
-            .parseClaimsJws(token)
-            .getBody();
+            .parseSignedClaims(token)
+            .getPayload();
+    }
+
+    @Override
+    public Key locate(Header header) {
+        String kid = header.get("kid").toString();
+        if (kid == null) {
+            throw new JwtException("Key ID (kid) not found in JWT header");
+        }
+        Map<String, PublicKey> jwk = googlePublicKeysService.getPublicKeys();
+        PublicKey key = jwk.get(kid);
+        if (key == null) {
+            throw new JwtException("Public key not found for kid: " + kid);
+        }
+        return key;
     }
 }
