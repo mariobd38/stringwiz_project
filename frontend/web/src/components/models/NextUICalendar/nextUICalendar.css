@@ -1,0 +1,81 @@
+
+.nextui-calendar-parent .bg-content1, .nextui-calendar-parent {
+    background-color: #232426 !important;
+    border-radius: 10px;
+}
+.nextui-calendar-parent {
+    border: 1px solid #434446;
+    /* width: 70% !important; */
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.20) !important;
+    .bg-content1 {
+        button, header span {
+            color: #f2f4f7 !important;
+            border-radius: 8px;
+        }
+        button:hover {
+            background-color: #37393c !important;
+        }
+
+    }
+    .calendar {
+        width: 71.2% !important;
+    }
+    table thead tr {
+        /* padding: 2px 0 !important; */
+        color: #cacaca !important;
+    }
+    table tbody tr td span {
+        color: #f0f2f5 !important;
+        background-color: transparent !important;
+    }
+    table tbody tr td:not([data-selected="true"]) span {
+        border-radius: 6px;
+    }
+    table tbody tr td:not([data-selected="true"]) span:hover { 
+        background-color: #37393c !important;
+        transition: none !important; /* Remove the transition to avoid the flicker */
+    }
+    
+    table tbody tr td span[data-outside-month="true"] span {
+        color: #7a7c7f !important;
+    }
+    table tbody tr td span[data-selected="true"],
+    table tbody tr td[aria-selected="true"] span:hover  {
+        background-color: #048a66 !important;
+        transition: none !important;
+    }
+    .date-picker {
+        border: 1px solid #57585a;
+        border-radius: 8px;
+    }
+    .date-picker div[data-slot="input-wrapper"] {
+        box-shadow: none !important;
+    }
+    .date-picker button[aria-label="Calendar"] {
+        display: none !important;
+    }
+    .user-home-calendar-date-input {
+        width: 49%;
+    }
+    .date-time-picker-select input {
+        background-color: #323539;
+        border: none;
+        font-family: 'Lato';
+        color: #fafafa;
+    }
+    .date-time-picker-select input[disabled] {
+        cursor: auto !important;
+    }
+    .date-time-picker-select input::placeholder {
+        color: #cfcfcf !important;
+    }
+    .mantine-Popover-dropdown {
+        background-color: #2a2b2d;
+        border-color: #4a4b4d;
+        color: #fafafa;
+
+        .mantine-Select-options .mantine-Select-option:hover {
+            background-color: #3a3b3d;
+        }
+    }
+}

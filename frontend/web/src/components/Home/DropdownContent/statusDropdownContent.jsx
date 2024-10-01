@@ -1,20 +1,16 @@
 import React, { useState,useEffect } from 'react';
 
-import { Menu,rem, Input } from '@mantine/core';
-import {
-    IconCheck,IconProgress,IconCircle,IconCircleCheckFilled
-  } from '@tabler/icons-react';
+import { Menu, Input,Text } from '@mantine/core';
+import { IconCheck } from '@tabler/icons-react';
+
+import { items } from './items';
 
 import './dropdownContent.css';
 
 const StatusDropdownContent = (props) => {
-    const {element,handleTaskUpdateNew, taskType,setTaskType,idx,setCurrentTaskStatus } = props;
-    const originalStatusItems = [
-        {icon: <IconCircle style={{ width: rem(14), height: rem(14) }} />, name: 'To Do'},
-        {icon: <IconProgress style={{ width: rem(14), height: rem(14) }} />, name: 'In Progress'},
-        {icon: <IconCircleCheckFilled style={{ width: rem(14), height: rem(14) }} />, name: 'Completed'},
-    ];
-
+    const {element,handleTaskUpdateNew, taskType,setTaskType,idx,setCurrentTaskStatus,existingTask } = props;
+    
+    const originalStatusItems = items("status");
     const statusNames = originalStatusItems.map(item => item.name);
     const [statusItems, setStatusItems] = useState(statusNames);
     const [statusInputValue, setStatusInputValue] = useState('');
@@ -22,19 +18,15 @@ const StatusDropdownContent = (props) => {
     async function handleStatusSearch(event) {
         const statusInput = event.target.value;
         if (event.key === 'Enter' && !/^\s*$/.test(statusInput)) {
-            if (statusNames.filter(item => item.name === statusInput.trim())) {
-                const tagEntered = statusNames.find(item => item.name === statusInput.trim());
-                if (tagEntered !== undefined) {
+            // console.log(statusItems.filter(item => console.log(item)));
+            // console.log(statusItems.filter(item => item.name.toLowerCase() === statusInput.trim()));
+            if (statusItems.filter(item => item.name.toLowerCase() === statusInput.trim())) {
+                const statusEntered = statusItems.find(item => item.name.toLowerCase() === statusInput.trim());
+                if (statusEntered !== undefined) {
                     try {
-                        // const addedTag =  await addExistingTagInfo(taskType[currentIndex].id,tagEntered.id);
-                        // if (addedTag) {
-                        //     const updatedTags = [...currentTaskTags, addedTag];
-                        //     setCurrentTaskTags(updatedTags);
-                        // } else {
-                        //     console.error('Error creating tag: Tag data is null');
-                        // }
+                        console.log(statusEntered);
                     } catch (error) {
-                        console.error('Error creating tag:', error);
+                        console.error('Error creating status:', error);
                     }
                 } else {
                     // handleTagCreation(tagName);
@@ -42,8 +34,6 @@ const StatusDropdownContent = (props) => {
                 // setIsDropdownOpen(!isDropdownOpen);
             }
         }
-        
-
         setStatusInputValue(statusInput);
     }
 
@@ -59,7 +49,7 @@ const StatusDropdownContent = (props) => {
 
     return (
         <>
-            <div className='d-flex align-items-center' style={{borderBottom: "1px solid #898989"}}>
+            <div className='d-flex align-items-center' style={{borderBottom: "1px solid #898989", marginBottom: "6px"}}>
                 <form className="model-dropdown-search" role='search' onSubmit={(event) => {event.preventDefault(); return false;}}>
                     <Input
                         className="model-dropdown-search-input"
@@ -71,20 +61,28 @@ const StatusDropdownContent = (props) => {
                     />
                 </form>
             </div> 
-            {statusItems.map((item, index) => (
+            {statusItems.length > 0 ? statusItems.map((item, index) => (
                 
                 <Menu.Item
-                    onClick={() => {handleTaskUpdateNew(element,item.name, 'status', taskType,setTaskType,idx);
+                    onClick={() => {
+                        existingTask && handleTaskUpdateNew(element,item.name, 'status', taskType,setTaskType,idx);
                         setCurrentTaskStatus && setCurrentTaskStatus(item.name);}
                     }
                     key={index}
+                    w='87%'
+                    m='4px auto'
+                    c='#f3f5f8'
+                    ff='Lato'
+                    p='6px 10px'
                     className='task-card-content-dropdown-item'
                     leftSection={item.icon}
-                    rightSection={element.status === item.name && <IconCheck color='teal' width={20} height={20} className='m-0'/>}
+                    rightSection={(existingTask ? element.status : element) === item.name && <IconCheck color='teal' width={20} height={20} className='m-0'/>}
                 >
                     {item.name}
                 </Menu.Item>
-            ))}
+            )) : 
+                <Text m='8px auto' fz='14.5' w='95%' c='#e3e5e8'>No results</Text>
+            }
         </>
     );
 };

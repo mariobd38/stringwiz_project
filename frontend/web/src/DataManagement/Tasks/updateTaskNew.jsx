@@ -3,6 +3,9 @@ function updateTaskAttribute(task,value, attribute) {
         case "name":
             task.name = value;
             break;
+        case "description":
+            task.descriptionHtml = value;
+            break;
         case "priority":
             if (value === 'None')
                 task.priority = null;

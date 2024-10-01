@@ -40,8 +40,6 @@
     display: flex;
     align-items: center;
     width: 90% !important;
-    /* background-color: red !important; */
-    /* background-color: red !important; */
     font-size: var(--mantine-font-size-xs);
     padding: rem(8px) var(--mantine-spacing-xs);
     border-radius: var(--mantine-radius-sm);
@@ -57,7 +55,6 @@
     align-items: center;
     margin:auto;
     margin-bottom: 13px;
-    /* background-color: red !important; */
     padding:10px;
     font-size: var(--mantine-font-size-xs);
     padding: rem(18px);

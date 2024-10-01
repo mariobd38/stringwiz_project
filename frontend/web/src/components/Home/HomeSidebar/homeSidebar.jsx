@@ -31,7 +31,7 @@ const HomeSidebar = (props) => {
 
   const profileLink = (
     <div className={openSidebarToggle ? 'home-sidebar-profile-parent-div active' : 'home-sidebar-profile-parent-div'}>
-      <UnstyledButton className={`${classes.mainLink} ${classes.profile} mb-0`}>
+      <UnstyledButton className={`${classes.mainLink} ${classes.profile} mb-0`} style={{padding:"7px"}}>
         <div className="d-flex gap-5 align-items-center justify-content-between w-100">
           <Avatar className='sidebar-avatar' color="cyan" radius="sm">{firstLetter}</Avatar>
         </div>
@@ -55,7 +55,7 @@ const HomeSidebar = (props) => {
                 </UnstyledButton>
             
             : 
-            <Tooltip label={link.label} position="right" withArrow arrowOffset={10} arrowSize={4} bg='#121212' c='#e4e6e8' openDelay={500} offset={{ mainAxis: 10 }}>
+            <Tooltip label={link.label} position="right" withArrow arrowOffset={10} arrowSize={4} bg='#121212' openDelay={500} offset={{ mainAxis: 10 }}>
                 <UnstyledButton key={link.label} className={classes.mainLink}>
                     <div className={`${classes.mainLinkInner} d-flex justify-content-center`}>
                         <div className={classes.iconWrapper}>

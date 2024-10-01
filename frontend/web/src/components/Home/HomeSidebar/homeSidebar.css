@@ -79,7 +79,6 @@ body.active .hidden {
 /* new */
 .home-sidebar-profile-parent-div.active button {
     width: 90%;
-    /* background-color: red !important; */
     padding:calc(0.5rem * var(--mantine-scale)) var(--mantine-spacing-xs);
 }
 .home-navbar-avatar-button.sidebar img {

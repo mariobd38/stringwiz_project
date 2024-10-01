@@ -17,13 +17,14 @@
 .table-cell {
     font-family: 'Lato', serif !important;
     font-size: 15px;
-    /* padding: 0.85rem 0rem !important; */
-    /* margin: 0rem -1rem !important; */
     overflow: clip !important;
     border: none !important;
-    border-radius: 6px !important;
+    border-radius: 8px !important;
     position: relative;
-    /* padding: 14px 16px !important; */
+    display:table !important;
+    /* display: flex;
+    align-items: center;
+    justify-content: space-between; */
     height: 60px !important;
     transition: all .4s ease;
 }
@@ -111,52 +112,34 @@
     display: inline !important;
 }
 
-.table-cell-tooltip {
-    display: none;
-}
-
-/* Display icons when the table cell is active */
-.table-cell.active .table-cell-icon {
-    display: inline !important;
-}
-.table-cell.active .table-cell-icon div {
-    visibility: visible;
-}
-
-/* Optional: Ensure that when a cell is active, the due date text is hidden as well */
-.table-cell.active .user-home-chosen-due-date-text {
-    display: none;
-}
-
 /* Your other styles */
 .task-card-content-accordion {
     font-family: 'Lato';
     padding: 5px 0px !important;
     border-radius: 4px;
+
+    .mantine-Accordion-chevron {
+        margin-inline-end: var(--mantine-spacing-sm);
+        margin-inline-start: 0 !important;
+        padding: 3px 3px;
+        width: 25px;
+        display: flex;
+        justify-content: left;
+        border-radius: 4px;
+    }
+    .mantine-Accordion-chevron:hover {
+        background-color: #303133;
+    }
+    .mantine-Accordion-label {
+        flex: 0;
+    }
+    .mantine-Accordion-icon {
+        margin: 0px 7px !important;
+        margin-inline-end: var(--mantine-spacing-sm) !important;
+    }
 }
 
-.task-card-content-accordion .mantine-Accordion-chevron {
-    margin-inline-end: var(--mantine-spacing-sm);
-    margin-inline-start: 0 !important;
-    padding: 3px 3px;
-    width: 25px;
-    display: flex;
-    justify-content: left;
-    border-radius: 4px;
-}
 
-.task-card-content-accordion .mantine-Accordion-chevron:hover {
-    background-color: #303133;
-}
-
-.task-card-content-accordion .mantine-Accordion-label {
-    flex: 0;
-}
-
-.task-card-content-accordion .mantine-Accordion-icon {
-    margin: 0px 7px !important;
-    margin-inline-end: var(--mantine-spacing-sm) !important;
-}
 
 .task-card-content-accordion:hover {
     background-color: transparent !important;
@@ -188,10 +171,29 @@
     overflow: hidden !important;
     text-overflow: ellipsis !important;
 }
-td:first-child {
-  border-radius: 10px 0 0 10px !important;
-}
 
-td:last-child {
-  border-radius: 0 10px 10px 0;
+
+.task-rename-modal {
+    .ant-modal-content {
+        background-color: #1e1f21;
+        border: 1px solid #57585a;
+    }
+    .ant-modal-close {
+        display: none;
+    }
+    .ant-modal-body {
+        color: #fafafa;
+    }
+    button { background-color: #048a66; }
+    button[disabled] {
+        background-color: #434446;
+        color: #838486;
+        cursor: auto;
+    }
+    .mantine-Textarea-root .mantine-Textarea-wrapper textarea {
+        background-color: transparent !important;
+        border: 1px solid transparent;
+        font-size: 20px;
+        color: #fafafa;
+    }
 }

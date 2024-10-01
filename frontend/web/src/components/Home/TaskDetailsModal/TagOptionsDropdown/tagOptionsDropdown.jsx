@@ -74,11 +74,14 @@ export const TagOptionsDropdown = (props) => {
 
     return (
         <>
-            <div className='model-dropdown-items '>
+            <div className='model-dropdown-items my-1'>
 
             {tagItems.map((tagItem, index) => (
                 
                 <Menu.Item
+                    c='#f2f4f7'
+                    w='90%'
+                    ff='Lato'
                     key={index}
                     className='task-card-content-dropdown-item'
                     onClick={() => handleAddTag(tagItem)}
@@ -101,18 +104,9 @@ export const TagOptionsDropdown = (props) => {
                                         />
                                     </div>
                                     <div className='px-1 py-1'>
-                                        {/* {tagColors.map((colorItem, index) => (
-                                            <Menu.Item w='87%' key={index} onClick={() => handleTagColorChange(tagItem,colorItem)}>
-                                                <div className='d-flex gap-3 align-items-center'>
-                                                    <div style={{backgroundColor: colorItem.color, width: "20px",height: "20px", borderRadius: "3px" }} />
-                                                    <span className='fafafa-color'>{colorItem.name}</span>
-                                                </div>
-                                                
-                                            </Menu.Item>
-                                        ))} */}
                                         <div style={{ display: 'flex', flexWrap: 'wrap'}}>
                                             {tagColors.map((colorItem, index) => (
-                                                <div key={index} style={{ width: '48%' }}> {/* 48% to leave some space for gap */}
+                                                <div key={index} style={{ width: '48%' }}>
                                                 <Menu.Item w='75%' onClick={() => handleTagColorChange(tagItem, colorItem)}>
                                                     <div className='d-flex gap-3 align-items-center'>
                                                     <div style={{ backgroundColor: colorItem.color, width: '20px', height: '20px', borderRadius: '3px' }} />
@@ -125,7 +119,7 @@ export const TagOptionsDropdown = (props) => {
                                     </div>
                                     <Divider />
                                     <div className="px-1">
-                                        <Menu.Item w='84%' color='#fafafa' onClick={() => handleOpenTagDeletionModal(tagItem)}>
+                                        <Menu.Item w='84%' c='#fafafa' onClick={() => handleOpenTagDeletionModal(tagItem)}>
                                             <div className='d-flex align-items-center gap-3'>
                                                 <IconTrash width={20}/>
                                                 <span>Delete</span>

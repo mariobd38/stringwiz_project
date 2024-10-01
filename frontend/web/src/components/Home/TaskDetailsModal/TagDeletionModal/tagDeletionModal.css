@@ -1,64 +1,16 @@
-.task-deletion-modal-parent {
-    display: flex !important;
-    align-items: center !important;
-    background-color: rgba(0, 0, 0, 0.6);
-    font-family: "Lato";
-}
-.task-deletion-modal-parent .modal-content {
-    width: 55%;
-    margin: auto;
-    transition: width 0.3s ease-in-out;
-    background-color: #212121;
-}
-@media(max-width: 850px) {
-    .task-deletion-modal-parent .modal-content {
-        width: 70%;
-        transition: width 0.3s ease-in-out;
+.tag-deletion-modal {
+    .ant-modal-content {
+        background-color: #1e1f21;
+        border: 1px solid #57585a;
+        padding:0;
     }
-}
-@media(max-width: 750px) {
-    .task-deletion-modal-parent .modal-content {
-        width: 90%;
+    .ant-modal-close {
+        display: none;
     }
-}
-.task-deletion-modal-footer {
-    border: none;
-}
-.task-deletion-modal-body {
-    font-size: 1.16rem;
-    color: #fafafa;
-}
-.task-deletion-modal-footer-button-option {
-    margin-left: 16px;
-    margin-right: 16px;
-}
-.task-deletion-modal-footer-button-option.cancel {
-    color: #e7e7e7;
-    border: 1px solid #555555;
-    background-color: #212121;
-}
-.task-deletion-modal-footer-button-option.cancel:hover {
-    background-color: #313131;
-}
-.task-deletion-modal-footer-button-option.delete {
-    color: #d91815;
-    background-color: #89000532;
-}
-.task-deletion-modal-footer-button-option.delete:hover {
-    background-color: #99000542;
-}
-
-
-/* new */
-
-.tag-deletion-modal .ant-modal-content {
-    background-color: #1e1f21;
-    /* padding:0;
-    border-radius: 8px; */
-}
-.tag-deletion-modal .ant-modal-close {
-    display: none;
-}
-.tag-deletion-modal .ant-modal-body {
-    color: #fafafa;
+    .ant-modal-body {
+        color: #fafafa;
+    }
+    .delete-tag-button:hover {
+        background-color: #313336 !important;
+    }
 }

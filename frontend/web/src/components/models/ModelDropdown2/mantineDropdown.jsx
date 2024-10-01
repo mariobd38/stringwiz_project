@@ -4,7 +4,7 @@ import { useScrollLock } from '../../../utils/useScrollLock';
 import { Menu } from '@mantine/core';
 
 const MantineDropdown = (props) => {
-    const { target,width,onMenuToggle,rowIndex,dropdown,isParent,childDropdownOpened,handleCloseChildDropdown,isChild,position,
+    const { target,width,dropdown,isParent,childDropdownOpened,handleCloseChildDropdown,isChild,position,
         tagDeleteItemClicked,setOpenTagDeletionModal,setTagDeleteItemClicked } = props;
 
     const [menuOpened, setMenuOpened] = useState(false);
@@ -30,11 +30,8 @@ const MantineDropdown = (props) => {
         if (!childDropdownOpened) {
             setMenuOpened(false);
             enableScroll();
-            rowIndex !== undefined && setTimeout(() => {
-                onMenuToggle(false, rowIndex);
-            }, 100);
         }
-    }, [childDropdownOpened, enableScroll, rowIndex, onMenuToggle, handleCloseChildDropdown,isChild]);
+    }, [childDropdownOpened, enableScroll, handleCloseChildDropdown,isChild]);
 
     useEffect(() => {
         if (menuOpened && tagDeleteItemClicked) {
@@ -54,8 +51,6 @@ const MantineDropdown = (props) => {
             onOpen={() => {
                 setMenuOpened(true);
                 disableScroll();
-                // if (childDropdownOpened) disableScroll(dropdownRef);
-                rowIndex !== undefined && onMenuToggle(true,rowIndex);
             }}
             onClose={(event) => {
                 // if (!childDropdownOpened) {

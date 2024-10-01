@@ -14,7 +14,7 @@ const CocollabLogo = ({ width, paddingBottom, fontSize, textColor }) => {
 
     return (
         <div className='cocollabs-logo' style={logoProperties}>
-            <a href={() => false}>
+            {/* <a href={() => false}>
                 <span style={{ fontFamily: 'Baron Neue, serif', color: `#${textColor}` }}
                 className='cocollabs-logo-text'
                 >COC</span>
@@ -26,7 +26,7 @@ const CocollabLogo = ({ width, paddingBottom, fontSize, textColor }) => {
                 <span style={{ fontFamily: 'Baron Neue, serif', color: `#${textColor}` }}
                 className='cocollabs-logo-text'
                 >LLABS</span>
-            </a>
+            </a> */}
         </div>
     );
 };

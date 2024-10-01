@@ -4,6 +4,7 @@ export function useScrollLock() {
   const [scrollY, setScrollY] = useState(0);
   
   const modalBody = document.querySelector('.ant-modal-body');
+  const modalContent = document.querySelector('.ant-modal-content');
   const parentDropdown = document.querySelector('.mantine-dropdown-model.parent');
   const childDropdown = document.querySelector('.mantine-dropdown-model.child');
 
@@ -16,10 +17,11 @@ export function useScrollLock() {
     document.body.style.right = '0';
     document.body.style.pointerEvents = 'none';
     modalBody && modalBody.classList.add('no-pointer-events');
+    modalContent && modalContent.classList.add('no-pointer-events');
     parentDropdown && childDropdown && parentDropdown.classList.add('no-pointer-events');
   };
 
-  const enableScroll = (parent) => {
+  const enableScroll = () => {
     document.body.style.position = '';
     document.body.style.top = '';
     document.body.style.left = '';
@@ -28,6 +30,7 @@ export function useScrollLock() {
     window.scrollTo(0, scrollY);  // Restore the scroll position
     document.body.style.pointerEvents = '';
     modalBody && modalBody.classList.remove('no-pointer-events');
+    modalContent && modalContent.classList.remove('no-pointer-events');
   };
 
   return { disableScroll, enableScroll };

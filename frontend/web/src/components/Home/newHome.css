@@ -7,7 +7,7 @@
     height: calc(100vh - 4.5rem) !important;
     overflow-y: scroll;
     position: relative !important;
-    top: 72px;
+    top: 70px;
     transition: margin 0.27s linear;
 
     /* margin: 0 1rem 0 5.8rem; */
@@ -99,4 +99,12 @@
     .calendar-block-parent,.milestone-block-parent {
       width: 100%;
     }
+}
+
+
+.user-home-tooltip {
+    border: .1px solid #898989;
+    padding: 5px 12px !important;
+    font-family: 'Inter' !important;
+    border-radius: 6px !important;
 }

@@ -88,7 +88,7 @@ const HomeNavbar = (props) => {
 
                         <div className='text-white col-10 col-sm-6 col-md-4 col-lg-4 d-flex align-items-center justify-content-end px-0'>
                             <div className='d-flex align-items-center'>
-                                <Button fw='500' radius='8' p='0 12px' bg='transparent' bd='1px solid #676869'>
+                                <Button fw='500' radius='8' p='0 11px' bg='transparent' bd='1px solid #676869' ff='Inter' color='#f0f2f6' >
                                     My Projects
                                 </Button>
 

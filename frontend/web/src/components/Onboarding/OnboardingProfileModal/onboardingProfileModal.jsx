@@ -178,7 +178,7 @@ const OnboardingProfileModal = (props) => {
                             <Text fw={500} fz={17} c='#303030' pb={10} display='flex' justify='start'>Upload an image</Text>
 
                             <ImgCrop rotationSlider>
-                                <Upload
+                            <Upload
                                     action="/api/upload"
                                     withCredentials={true}
                                     onChange={onChange}
@@ -206,6 +206,34 @@ const OnboardingProfileModal = (props) => {
                                     }
 
                                 </Upload>
+                                {/* <Upload
+                                    action="/api/upload"
+                                    withCredentials={true}
+                                    onChange={onChange}
+                                    onPreview={(file) => {
+                                        const index = fileList.findIndex(f => f.uid === file.uid);
+                                        onPreview(index);
+                                    }}
+                                    listType='picture-card'
+                                    defaultFileList={[...fileList]}
+                                    showUploadList={{
+                                        showPreviewIcon: true,
+                                        previewIcon: <CheckRoundedIcon className='fafafa-color'/>,
+                                    }}
+                                    onRemove={(file) => {
+                                        const index = fileList.findIndex(f => f.uid === file.uid);
+                                        onRemove(index);
+                                    }}
+                                    style={{width: "calc(1.95rem * var(--mantine-scale))", height: "calc(1.95rem * var(--mantine-scale))"}}
+                                    >
+
+                                    {fileList.length < 4 &&
+                                    <div className='onboarding-upload-image-button'>
+                                        <IconCloudUpload style={{width: "2.2rem",height: "2.2rem", color: "#66686a"}} className='upload-icon'/> 
+                                    </div>
+                                    }
+
+                                </Upload> */}
                             </ImgCrop>
                                     
                         </div>

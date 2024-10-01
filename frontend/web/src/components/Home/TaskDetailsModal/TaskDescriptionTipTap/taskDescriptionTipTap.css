@@ -115,20 +115,24 @@
         /* margin-bottom: revert !important; */
     }
 }
-
-.rte-styles-options-button:hover {
+.rte-styles-options-button {
+    border: .1px solid transparent !important;
+}
+.rte-styles-options-button:hover, .rte-styles-options-button.isActive {
     background-color: #353638 !important;
+    border-color: #727375 !important;
 }
 blockquote {
     background-color: #2e2f31 !important;
 }
 .rte-styles-options-command-button {
-    background-color: #384244;
+    background-color: transparent;
     padding: 0 5px;
     border-radius: 6px;
     width: 48px;
     display: flex;
     align-items: center;
+    border: .1px solid #828385;
 }
 
 
@@ -153,7 +157,7 @@ pre {
 
     .hljs-comment,
     .hljs-quote {
-        color: #616161;
+        color: #757575;
     }
 
     .hljs-variable,

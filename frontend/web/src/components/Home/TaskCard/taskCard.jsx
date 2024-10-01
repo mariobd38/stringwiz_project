@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import dayjs from 'dayjs';
 
-import { useClickOutside } from '@mantine/hooks';
-import { Table, Card, Text, Input,SegmentedControl,Flex,Button,Tooltip, Box } from '@mantine/core';
-import { IconPlus,IconCircle,IconLockFilled,IconEye,IconDots } from '@tabler/icons-react';
+import { Table, Card, Text,SegmentedControl,Flex,Button, Box } from '@mantine/core';
+import { IconPlus,IconDots } from '@tabler/icons-react';
 
 import { createTaskInfo } from './../../../DataManagement/Tasks/createTask';
 import { UpdateTaskInfo } from './../../../DataManagement/Tasks/updateTask';
@@ -12,6 +11,7 @@ import { getTagInfo } from '../../../DataManagement/Tags/getTags';
 
 import TaskDetailsModal from '../TaskDetailsModal/taskDetailsModal';
 import TaskCardContent from './TaskCardContent/taskCardContent';
+import TaskCreationModal from '../taskCreationModal/taskCreationModal';
 
 import { UpdateTaskInfoNew } from '../../../DataManagement/Tasks/updateTaskNew';
 
@@ -21,16 +21,9 @@ import './taskCard.css'
 
 const TaskCard = (props) => {
 
-    const {userFullName, initials, userEmail, taskData, setTaskData, ongoingTasks, today, upcomingTasks, todaysTasks,unscheduledTasks, overdueTasks,
+    const {userFullName, initials, userEmail, taskData, setTaskData, ongoingTasks, today, overdueTasks,
         completedTasks,userProfileDto,userProfilePicture} = props; 
     const [currentIndex, setCurrentIndex] = useState(null);
-    const [newTaskRowOpen, setNewTaskRowOpen] = useState(false);
-
-    const handleNewTaskClick = () => {
-        setNewTaskRowOpen((prev) => !prev);
-    };
-
-    const newTaskClickAway = useClickOutside(() => setNewTaskRowOpen(false));
 
     const handleTaskCreate = (event) => {
         if (event.key === 'Enter' && event.target.value.trim() !== '') {
@@ -44,16 +37,13 @@ const TaskCard = (props) => {
                 setTaskData,
                 taskData
             );
-            setNewTaskRowOpen(false);
         }
     };
 
     //task attributes
-    const [currentTask, setCurrentTask] = useState(null);
     const [currentTaskName, setCurrentTaskName] = useState('');
     const [currentTaskCreationDate, setCurrentTaskCreationDate] = useState('');
     const [currentTaskLastUpdatedOn, setCurrentTaskLastUpdatedOn] = useState('');
-    const [currentTaskDescription, setCurrentTaskDescription] = useState('');
     const [currentTaskDescriptionHtml, setCurrentTaskDescriptionHtml] = useState('');
     // const [currentTaskIdNumber, setCurrentTaskIdNumber] = useState('');
     const [currentTaskStatus, setCurrentTaskStatus] = useState('');
@@ -113,27 +103,7 @@ const TaskCard = (props) => {
             setTaskType,
             index
         );
-        setCurrentTask(taskType[currentIndex]);
     }
-
-    const [inputWidth, setInputWidth] = useState('100%');
-
-    useEffect(() => {
-        const updateWidth = () => {
-            if (newTaskClickAway.current) {
-                const width = newTaskClickAway.current.offsetWidth - 80;
-                setInputWidth(`${width}px`);
-            }
-        };
-    
-        updateWidth();
-    
-        window.addEventListener('resize', updateWidth);
-    
-        return () => {
-            window.removeEventListener('resize', updateWidth);
-        };
-    }, [newTaskClickAway]);
 
     
     const [activeSegment, setActiveSegment] = useState('1');
@@ -154,15 +124,13 @@ const TaskCard = (props) => {
         </> },
 
     ];
-    const renderTaskContent = (taskType, taskTypeObj,isCompleted) => (
+    const renderTaskContent = (taskType,isCompleted) => (
         <TaskCardContent 
           today={today}
           taskType={taskType}
-          taskTypeObj={taskTypeObj}
           currentTaskDueDate={currentTaskDueDate}
           currentTaskDueDateTime={currentTaskDueDateTime}
           currentIndex={currentIndex}
-          setCurrentTask={setCurrentTask}
           setCurrentIndex={setCurrentIndex}
           setCurrentTaskDueDate={setCurrentTaskDueDate}
           setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
@@ -171,7 +139,6 @@ const TaskCard = (props) => {
           setModalShow={setModalShow}
           setCurrentTaskName={setCurrentTaskName}
           setCurrentTaskCreationDate={setCurrentTaskCreationDate}
-          setCurrentTaskDescription={setCurrentTaskDescription}
           setCurrentTaskDescriptionHtml={setCurrentTaskDescriptionHtml}
           setCurrentTaskLastUpdatedOn={setCurrentTaskLastUpdatedOn}
           setCurrentTaskStatus={setCurrentTaskStatus}
@@ -185,25 +152,24 @@ const TaskCard = (props) => {
           handleTaskUpdateNew={handleTaskUpdateNew}
         />
       );
+    const [openTaskCreateModal, setOpenTaskCreateModal] = useState(false);
 
     return (
 
         <Box py={20} px={20} bg='#222529' style={{borderRadius: "10px"}}>
             <div className='d-flex align-items-center justify-content-between pb-2'>
                 <div style={{ color: '#fafafa' }}>
-                    <Text fz='18'  c='#d4d6d8' ff='Lato'>My Tasks</Text>
+                    <Text fz='18'  c='#e8eaed' ff='Lato'>My Tasks</Text>
                 </div>
                 <div style={{ color: "#fafafa" }}>
                     <IconDots />
                 </div> 
             </div>
 
-
             <Flex align='center' mt={5} mb={15} justify='space-between'>
-
                 <SegmentedControl
                     className='task-card-segmented-control' 
-                    color="blue"
+                    color="#048369"
                     withItemsBorders={false}
                     data={segments}
                     value={activeSegment}
@@ -211,9 +177,8 @@ const TaskCard = (props) => {
                     radius={6}
                 />
 
-
-                <Button bd='1px solid blue' radius={8} p='0px 12px' onClick={() => {setActiveSegment('1'); handleNewTaskClick();}}>
-                    <IconPlus width={18} height={15} style={{marginRight: "5px"}}/>Create task
+                <Button bd='1px solid #048369'  className='task-card-create-task-button' radius={8} p='0px 12px' bg='transparent' onClick={() => setOpenTaskCreateModal(true)}>
+                    <IconPlus width={15} style={{marginRight: "5px"}}/>Create task
                 </Button>
                 
             </Flex>
@@ -225,29 +190,8 @@ const TaskCard = (props) => {
                         <div className='table-container-wrapper mx-3 py-3'>
                         <Table>
                             <Table.Tbody>
-                            <div style={{ position: 'relative', margin: "0 calc(0.57rem * var(--mantine-scale))" }} ref={newTaskClickAway}>
-                                
 
-                                {newTaskRowOpen ? (
-                                <Table.Tr className='table-row-new-dark w-100'>
-                                    <Table.Td scope="row" className='w-100 d-flex align-items-center justify-content-between'>
-                                    <div className='w-100 d-flex align-items-center mb-1 m-0' style={{ color: "#fafafa" }}>
-                                        <IconCircle className='user-home-task-check-icon' />
-                                        <Input
-                                        style={{ width: inputWidth }}
-                                        onKeyDown={handleTaskCreate}
-                                        placeholder='Task name'
-                                        autoFocus
-                                        className={`ps-2 task-name-text user-home-new-task-input fafafa-color`}
-                                        />
-                                    </div>
-                                    </Table.Td>
-                                </Table.Tr>
-                                ) : null}
-                            </div>
-
-                            
-                            {renderTaskContent(ongoingTasks,null,false)}
+                            {renderTaskContent(ongoingTasks,false)}
                             </Table.Tbody>
                         </Table>
                         </div>
@@ -258,7 +202,7 @@ const TaskCard = (props) => {
                         <Table>
                             <Table.Tbody>
                             
-                            {renderTaskContent(overdueTasks,null,false)}
+                            {renderTaskContent(overdueTasks,false)}
 
                             </Table.Tbody>
                         </Table>
@@ -270,7 +214,7 @@ const TaskCard = (props) => {
                         {completedTasks.length > 0 ? (
                             <Table>
                             <Table.Tbody>
-                                {renderTaskContent(completedTasks,null,true)}
+                                {renderTaskContent(completedTasks,true)}
                             </Table.Tbody>
                             </Table>
                         ) : (
@@ -296,7 +240,6 @@ const TaskCard = (props) => {
                 currentIndex={currentIndex}
                 taskType={taskType}
                 setTaskType={setTaskType}
-                selectedDate={selectedDate}
                 currentTaskName={currentTaskName}
                 currentTaskCreationDate={currentTaskCreationDate}
                 currentTaskLastUpdatedOn={currentTaskLastUpdatedOn}
@@ -315,13 +258,19 @@ const TaskCard = (props) => {
                 setCurrentTaskTags={setCurrentTaskTags}
                 setSelectedDate={setSelectedDate}
                 today={today}
-                completedTasks={completedTasks}
                 dueDatePopoverIsOpen={dueDatePopoverIsOpen}
                 setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
                 setCurrentTaskStatus={setCurrentTaskStatus}
                 userProfileDto={userProfileDto}
                 userProfilePicture={userProfilePicture}
                 handleTaskUpdateNew={(element,value, attribute, taskType,setTaskType,index) => handleTaskUpdateNew(element,value, attribute, taskType,setTaskType,index)}
+            />
+
+            <TaskCreationModal 
+                openTaskCreateModal={openTaskCreateModal}
+                setOpenTaskCreateModal={setOpenTaskCreateModal}
+                currentIndex={currentIndex}
+                handleTaskUpdateNew={handleTaskUpdateNew}
             />
         </Box>
     );

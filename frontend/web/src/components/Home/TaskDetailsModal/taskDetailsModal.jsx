@@ -28,8 +28,8 @@ const TaskDetailsModal = (props) => {
     const { 
         userFullName, initials,userEmail, currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskLastUpdatedOn,
         setCurrentTaskName, setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, setSelectedDate, currentTaskTags, setCurrentTaskTags,setCurrentTaskDescriptionHtml,
-        taskType, setTaskType,selectedDate, today, currentTaskDueDateTime, setCurrentTaskDueDateTime,
-        onHide, show,completedTasks,dueDatePopoverIsOpen,setDueDatePopoverIsOpen,setCurrentTaskStatus, currentTaskDescriptionHtml,
+        taskType, setTaskType, today, currentTaskDueDateTime, setCurrentTaskDueDateTime,
+        onHide, show,dueDatePopoverIsOpen,setDueDatePopoverIsOpen,setCurrentTaskStatus, currentTaskDescriptionHtml,
         userProfileDto,userProfilePicture,handleTaskUpdateNew
     } = props;
 
@@ -108,7 +108,7 @@ const TaskDetailsModal = (props) => {
                     fontSize={1.1}
                 />
              </div>
-             <Text className='lato-font'>
+             <Text ff='Lato'>
                  {userFullName}
              </Text>
          </div>
@@ -208,13 +208,28 @@ const TaskDetailsModal = (props) => {
         setTimeout(() => calculateFirstRow(currentTaskTags), 0);
     },[currentTaskTags, calculateFirstRow]);
 
+    const TagButton = ({ tag, index, buttonRef, handleTagRemoval }) => (
+        <Button ref={buttonRef} key={index} bg={tag.color} className='user-home-task-details-modal-tags-button' fw={400} h='22' ff='Lato' fz={16}>
+            <span className='d-flex'>
+                <span className='align-middle user-home-task-details-modal-tags-button-text'>
+                    {tag.name}
+                </span>
+            </span>
+    
+            <span className='align-middle user-home-task-details-modal-tags-button-close' 
+                onClick={(event) => handleTagRemoval(event, index)}>
+                <IconX style={{ width: '1.2rem' }}/>
+            </span>
+        </Button>
+    );
+
+
     return (
         
         <Modal
             centered
             open={show}
-            onCancel={handleTaskDetailsModalClose}
-            onHide={handleTaskDetailsModalClose}
+            onCancel={() => {handleTaskDetailsModalClose(); console.log("closed!")}}
             width={1000}
             className='task-details-modal-parent'
             closeIcon
@@ -227,12 +242,6 @@ const TaskDetailsModal = (props) => {
             <div className='user-home-task-details-modal-body'>
                 <div className='d-flex justify-content-between pb-4' style={{height: "auto"}}>
                     <div className='w-100'>
-                        {/* <Text className='mt-2 mb-3 py-2 nunito-sans-600-font user-home-task-details-modal-name' suppressContentEditableWarning={true} contentEditable={true} fz={40} w='90%' 
-                        onInput={(e) => handleUpdateTaskName(e)}
-                        >
-                            {currentTaskName}
-                        </Text> */}
-
                         <Textarea
                             className='mt-2 mb-3 py-2 user-home-task-details-modal-name'
                             p={0}
@@ -247,9 +256,7 @@ const TaskDetailsModal = (props) => {
                             autosize
                         />
 
-
-
-                        <div className='d-flex flex-column flex-wrap row-gap-3 lato-font ms-4'>
+                        <div className='d-flex flex-column flex-wrap row-gap-3 lato-font'>
                             <div className='d-flex user-home-task-details-modal-head-property-group' style={{ fontSize: "1.06rem"}} >
                                 <Text className='user-home-task-details-modal-property-lefttext'>Assignee</Text>
                                 <div
@@ -273,9 +280,9 @@ const TaskDetailsModal = (props) => {
                                     <NewHomeDueDatePopover 
                                         popoverTarget={
                                             <div className='d-flex align-items-center justify-content-between user-home-task-details-modal-head-property-value' onClick={(event) => handleDueDatePopoverClick(event, currentIndex)}>
-                                                <span className='lato-font'>
+                                                <Text ff='Lato' fz='16.5'>
                                                     {currentTaskDateFormatter(currentTaskDueDate)}
-                                                </span>
+                                                </Text>
                                                 {currentTaskDateFormatter(currentTaskDueDate) !== 'None' &&
                                                 <span className='user-home-task-details-modal-due-date-remove' 
                                                 onClick={(e) => { e.stopPropagation(); handleTaskUpdateNew(taskType[currentIndex], null, "clear due date", taskType, setTaskType, currentIndex);
@@ -306,7 +313,7 @@ const TaskDetailsModal = (props) => {
                                         </div>
                                     }
                                     width={190} dropdown={<StatusDropdownContent element={taskType && taskType[currentIndex]} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} 
-                                    setTaskType={setTaskType} idx={currentIndex} setCurrentTaskStatus={setCurrentTaskStatus}  /> }
+                                    setTaskType={setTaskType} idx={currentIndex} setCurrentTaskStatus={setCurrentTaskStatus}  existingTask={true} /> }
                                     position='bottom-start'
                                 />
                             </div>
@@ -326,7 +333,7 @@ const TaskDetailsModal = (props) => {
                                         </div>
                                     }
                                     width={210} dropdown={<PriorityDropdownContent element={taskType && taskType[currentIndex]} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} 
-                                    setTaskType={setTaskType} idx={currentIndex} setCurrentTaskPriority={setCurrentTaskPriority} /> }
+                                    setTaskType={setTaskType} idx={currentIndex} setCurrentTaskPriority={setCurrentTaskPriority} existingTask={true} /> }
                                     position='bottom-start'
                                 />
                             </div>
@@ -338,7 +345,29 @@ const TaskDetailsModal = (props) => {
                                     target={
                                         <div className='user-home-task-details-modal-head-property-value' ref={tagButtonContainerRef}>
                                             <div className="d-flex flex-wrap" ref={tagButtonsRef}>
-                                                {rowOverflow && firstRowTags.length < currentTaskTags.length ?  <span>
+                                                {rowOverflow && firstRowTags.length < currentTaskTags.length ?  
+                                                    <span>
+                                                        {/* {firstRowTags.map((tag, index) => (
+                                                            <TagButton
+                                                                key={index}
+                                                                tag={tag}
+                                                                index={index}
+                                                                buttonRef={buttonRefs.current[index]}
+                                                                handleTagRemoval={handleTagRemoval}
+                                                            />)) 
+                                                        } 
+                                                        <span className='align-middle user-home-task-details-modal-tags-button-additional'>+{currentTaskTags.length - firstRowTags.length}</span>
+                                                    </span>
+                                                : currentTaskTags.map((tag, index) => (
+                                                    <TagButton
+                                                        key={index}
+                                                        tag={tag}
+                                                        index={index}
+                                                        buttonRef={buttonRefs.current[index]}
+                                                        handleTagRemoval={handleTagRemoval}
+                                                    />
+                                                    ))
+                                                } */}
                                                 {firstRowTags.map((tag, index) => (
                                                     <Button ref={buttonRefs.current[index]} key={index} bg={tag.color} className='user-home-task-details-modal-tags-button' fw={400} h='22' ff='Lato' fz={16}>
                                                         <span className='d-flex'>
@@ -347,11 +376,6 @@ const TaskDetailsModal = (props) => {
                                                             </span>
                                                         </span>
 
-                                                            {/* <span className='align-middle user-home-task-details-modal-tags-button-options' 
-                                                            onClick={(event) => {event.stopPropagation(); event.preventDefault(); console.log('options');}}>
-                                                                <IconDots style={{width: "1.2rem"}}/>
-                                                            </span> */}
-                                                        
                                                         <span className='align-middle user-home-task-details-modal-tags-button-close' 
                                                         onClick={(event) => handleTagRemoval(event,index)}>
                                                             <IconX style={{width: "1.2rem"}}/>
@@ -366,11 +390,6 @@ const TaskDetailsModal = (props) => {
                                                             </span>
                                                         </span>
 
-                                                            {/* <span className='align-middle user-home-task-details-modal-tags-button-options' 
-                                                            onClick={(event) => {event.stopPropagation(); event.preventDefault(); console.log('options');}}>
-                                                                <IconDots style={{width: "1.2rem"}}/>
-                                                            </span> */}
-                                                        
                                                         <span className='align-middle user-home-task-details-modal-tags-button-close' 
                                                         onClick={(event) => handleTagRemoval(event,index)}>
                                                             <IconX style={{width: "1.2rem"}}/>
@@ -398,11 +417,8 @@ const TaskDetailsModal = (props) => {
                             currentIndex={currentIndex}
                             taskType={taskType}
                             setTaskType={setTaskType}
-                            selectedDate={selectedDate}
-                            setCurrentTaskDueDate={setCurrentTaskDueDate}
-                            setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
-                            completedTasks={completedTasks}
-                        />
+                            handleTaskUpdateNew={(element,value, attribute, taskType,setTaskType,index) => handleTaskUpdateNew(element,value, attribute, taskType,setTaskType,index)}
+                            />
                     </div>
 
                     {tagToDelete && <TagDeletionModal 

@@ -4,9 +4,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Menu,Box, rem } from '@mantine/core';
 import { useClickOutside } from '@mantine/hooks';
 import { RichTextEditor } from '@mantine/tiptap';
-import { IconH1, IconH2, IconQuote,IconH3,IconClearFormatting,IconList,IconCode,IconCommand,IconSquareArrowUp,IconLetterB,IconLetterC,
+import { IconH1, IconH2, IconQuote,IconH3,IconClearFormatting,IconList,IconCode,IconCommand,IconArrowBigUp,IconLetterB,IconLetterC,
     IconNumber8,IconAlt,IconNumber0,IconNumber1,IconNumber2,IconNumber3,IconNumber7,IconNumber9,IconSeparatorHorizontal,IconMinus,
-    IconListNumbers
+    IconListNumbers,IconListCheck
  } 
 from '@tabler/icons-react';
 
@@ -16,8 +16,7 @@ import { GetEditor } from './customEditor';
 import './taskDescriptionTipTap.css'
 
 const TaskDescriptionTipTap = (props) => {
-    const {content, currentIndex,taskType,setTaskType,selectedDate,setCurrentTaskDueDate,setCurrentTaskDueDateTime,
-        completedTasks
+    const {content, currentIndex,taskType,setTaskType,handleTaskUpdateNew
     } = props;
 
     const taskTypeRef = useRef(taskType);
@@ -40,13 +39,10 @@ const TaskDescriptionTipTap = (props) => {
         currentIndexRef, 
         taskTypeRef, 
         setTaskType, 
-        selectedDate, 
-        setCurrentTaskDueDate, 
-        setCurrentTaskDueDateTime,
-        completedTasks
+        handleTaskUpdateNew
     });
 
-      useEffect(() => {
+    useEffect(() => {
         editor?.commands.setContent(content || "", false, {
             preserveWhitespace: true,
         });
@@ -109,22 +105,22 @@ const TaskDescriptionTipTap = (props) => {
             command: <span className='rte-styles-options-command-button'><IconCommand /><IconAlt /><IconNumber3 /></span>, 
             action: () => editor.chain().focus().toggleHeading({ level: 3 }).run() },
         { label: 'Blockquote', icon: IconQuote, 
-            command: <span className='rte-styles-options-command-button' ><IconCommand /><IconSquareArrowUp /><IconLetterB /></span>, 
+            command: <span className='rte-styles-options-command-button' ><IconCommand /><IconArrowBigUp /><IconLetterB /></span>, 
             action: () => editor.chain().focus().toggleBlockquote().run() },
-        { label: 'Bulleted list', icon: IconList, 
-            command: <span className='rte-styles-options-command-button' ><IconCommand /><IconSquareArrowUp /><IconNumber8 /></span>,
-            action: () => {editor.chain().focus(); !editor.isActive('bulletList') && editor.chain().focus().toggleBulletList().run();} },
         { label: 'Ordered list', icon: IconListNumbers, 
-            command: <span className='rte-styles-options-command-button' ><IconCommand /><IconSquareArrowUp /><IconNumber7 /></span>,
+            command: <span className='rte-styles-options-command-button' ><IconCommand /><IconArrowBigUp /><IconNumber7 /></span>,
             action: () => {editor.chain().focus(); !editor.isActive('orderedList') && editor.chain().focus().toggleOrderedList().run();} },
-        { label: 'Checklist', icon: IconListNumbers, 
-            command: <span className='rte-styles-options-command-button' ><IconCommand /><IconSquareArrowUp /><IconNumber9 /></span>,
+        { label: 'Bulleted list', icon: IconList, 
+            command: <span className='rte-styles-options-command-button' ><IconCommand /><IconArrowBigUp /><IconNumber8 /></span>,
+            action: () => {editor.chain().focus(); !editor.isActive('bulletList') && editor.chain().focus().toggleBulletList().run();} },
+        { label: 'Checklist', icon: IconListCheck, 
+            command: <span className='rte-styles-options-command-button' ><IconCommand /><IconArrowBigUp /><IconNumber9 /></span>,
             action: () => {editor.chain().focus(); !editor.isActive('taskList') && editor.chain().focus().toggleTaskList().run(); } },
         { label: 'Code block', icon: IconCode, 
             command: <span className='rte-styles-options-command-button' ><IconCommand /><IconAlt /><IconLetterC /></span>,
             action: () => {editor.chain().focus().toggleCodeBlock().run();} },
         { label: 'Divider', icon: IconSeparatorHorizontal, 
-            command: <span className='rte-styles-options-command-button'><IconCommand /><IconSquareArrowUp /><IconMinus /></span>, 
+            command: <span className='rte-styles-options-command-button'><IconCommand /><IconArrowBigUp /><IconMinus /></span>, 
             action: () => {editor.commands.setHorizontalRule();} },
     ];
 
@@ -152,7 +148,7 @@ const TaskDescriptionTipTap = (props) => {
                     {/* <RichTextEditor.H1 /> */}
                     {/* <RichTextEditor.H2 /> */}
                     {/* <RichTextEditor.H3 /> */}
-                    <RichTextEditor.H4 />
+                    {/* <RichTextEditor.H4 /> */}
                     </RichTextEditor.ControlsGroup>
 
                     <RichTextEditor.ControlsGroup className='rte-controls-group'>
@@ -203,7 +199,7 @@ const TaskDescriptionTipTap = (props) => {
                         <div className='tip-tap-format p-2' 
                             style={{boxShadow: "0 14px 38px rgba(0, 0, 0, 0.35)", maxHeight: "300px", overflow: "auto"}}
                         >
-                            <Menu.Label ps={7} c='#8a929a'>Formatting</Menu.Label>
+                            <Menu.Label ps={7} c='#8a929a' fz='13'>Formatting</Menu.Label>
                             <div style={{ display: 'flex', flexWrap: 'wrap'}}>
                                 {menuItems.map((item, index) => (
                                     <div key={index} style={{ width: '98%' }} className='me-2'>

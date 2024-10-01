@@ -1,7 +1,5 @@
 import { Link } from '@mantine/tiptap';
 
-import dayjs from 'dayjs';
-
 import { debounce } from 'lodash';
 
 import { useEditor } from '@tiptap/react';
@@ -18,11 +16,8 @@ import Placeholder from '@tiptap/extension-placeholder';
 import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
 
-import { UpdateTaskInfo } from '../../../../DataManagement/Tasks/updateTask';
-
 function GetEditor (props) {
-    const {content,currentIndexRef,taskTypeRef,setTaskType, selectedDate,setCurrentTaskDueDate,setCurrentTaskDueDateTime,
-        completedTasks
+    const {content,currentIndexRef,taskTypeRef,setTaskType,handleTaskUpdateNew,doesUpdate
     } = props;
 
     const editor = useEditor({
@@ -57,34 +52,27 @@ function GetEditor (props) {
         content,
         onUpdate: debounce((props) => {
             const description = props.editor.getHTML();
-            UpdateTaskInfo(
-              currentIndexRef.current,
-              'description',
-              taskTypeRef.current,
-              setTaskType,
-              selectedDate,
-              dayjs,
-              setCurrentTaskDueDate,
-              setCurrentTaskDueDateTime,
-              completedTasks,
-              description
+            handleTaskUpdateNew(
+                taskTypeRef.current[currentIndexRef.current],
+                description,
+                "description",
+                taskTypeRef.current,
+                setTaskType,
+                currentIndexRef.current
             );
           }, 300),
-          editorProps: {
+        editorProps: {
             handleKeyDown(view, event) {
-              // Check for the keyboard shortcut Cmd + Shift + -
-              console.log(event.metaKey);
-              if (event.metaKey && event.shiftKey && event.key === '-') {
-                event.preventDefault();
-                editor.commands.setHorizontalRule()
-                return true;
-              }
-              return false;
+                if (event.metaKey && event.shiftKey && event.key === '-') {
+                    event.preventDefault();
+                    editor.commands.setHorizontalRule();
+                    return true;
+                }
+                return false;
             },
-          },
         },
-      );
-      return editor;
+    });
+    return editor;
 }
 
 export {GetEditor}

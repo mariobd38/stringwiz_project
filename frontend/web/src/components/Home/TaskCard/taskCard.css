@@ -68,3 +68,9 @@
     color: #d5d6d8;
     font-size: 12px;
 }
+.task-card-create-task-button {
+    transition: background-color .8s ease !important;
+}
+.task-card-create-task-button:hover {
+    background-color: #048369 !important;
+}

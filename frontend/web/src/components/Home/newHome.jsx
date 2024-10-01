@@ -139,7 +139,7 @@ const NewHome = () => {
 
                 <HomeHeader />
 
-                <div className='container' style={{width: "100%"}}>
+                <div  style={{width: "100%"}}>
                     {/* ONLY FOR GOOGLE OAUTH USERS */}
                     {/* {userProfilePicture && <Button onClick={getGoogleTasks}>Access Google tasks</Button>} */}
 
@@ -156,10 +156,9 @@ const NewHome = () => {
                                     userFullName={userFullName}
                                     initials={initials}
                                     userEmail={userEmail}
-                                    taskData={taskData} setTaskData={setTaskData} today={today} 
-                                    upcomingTasks={upcomingTasks} 
-                                    todaysTasks={todaysTasks}
-                                    unscheduledTasks={unscheduledTasks}
+                                    taskData={taskData} 
+                                    setTaskData={setTaskData} 
+                                    today={today} 
                                     ongoingTasks={ongoingTasks}
                                     overdueTasks={overdueTasks}
                                     completedTasks={completedTasks}
