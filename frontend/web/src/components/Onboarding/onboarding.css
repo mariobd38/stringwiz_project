@@ -52,7 +52,9 @@
     margin: auto;
     transition: all 0.4s ease;
 }
-
+.upload-icon {
+    color: #66686a !important;
+}
 .ant-upload:hover,
 .ant-upload:hover .upload-icon 
 {

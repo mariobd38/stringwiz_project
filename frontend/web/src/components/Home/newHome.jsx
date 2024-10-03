@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,lazy,Suspense } from 'react';
 import { useLocation } from 'react-router-dom';
-
 
 import HomeHeader from '../Home/HomeHeader/homeHeader';
 import HomeNavbar from './HomeNavbar/homeNavbar';
@@ -18,7 +17,12 @@ import { getUserInfo } from '../../DataManagement/Users/getUserInfo';
 import { getTaskInfo } from './../../DataManagement/Tasks/getTasks';
 import { getGoogleTaskInfo } from '../../DataManagement/Tasks/getGoogleTasks';
 
+
 const NewHome = () => {
+    // const HomeHeader = lazy(() => import('../Home/HomeHeader/homeHeader'));
+    // const {HomeNavbar} = lazy(() => import('./HomeNavbar/homeNavbar'));
+    // const {TaskCard} = lazy(() => import('./TaskCard/taskCard'));
+
     const dayjs = require('dayjs');
     const [taskData, setTaskData] = useState([]);
     const [upcomingTasks, setUpcomingTasks] = useState([]);
@@ -116,7 +120,8 @@ const NewHome = () => {
 
     return (
         <>
-            {userFullName && <HomeNavbar 
+            {userFullName && 
+            <HomeNavbar 
                 userFullName={userFullName}
                 initials={initials}
                 userEmail={userEmail}

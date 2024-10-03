@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 
-import { IconChevronDown,IconChalkboard,IconAd2,IconBrandProducthunt,IconApps,IconSTurnRight,IconCalendarWeek,IconFiles,IconClipboardList,IconChevronRight,IconSettings,
-    IconBrush,IconTargetArrow,IconTimeline,IconChartHistogram,IconLayoutKanban } from '@tabler/icons-react';
+import Icons from '../../icons/icons';
+
 import { HoverCard,Group,UnstyledButton,Text,SimpleGrid,Divider,Center,Box,Button,Burger,Drawer,Collapse,ScrollArea,
         rem,useMantineTheme } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -15,32 +15,32 @@ import classes from './NavbarContent.module.css';
 
 const platformMockdata = [
     {
-        icon: IconClipboardList,
+        icon: 'IconClipboardList',
         title: 'Tasks and Projects',
         description: 'Manage and monitor your progress to achieve your goals',
     },
     {
-        icon: IconFiles,
+        icon: 'IconFiles',
         title: 'Docs',
         description: 'Create and collaborate on online documents',
     },
     {
-        icon: IconCalendarWeek,
+        icon: 'IconCalendarWeek',
         title: 'Calendar',
         description: 'Organize and keep track of events and deadlines',
     },
     {
-        icon: IconApps,
+        icon: 'IconApps',
         title: 'Apps and Integration',
         description: 'Align your progress into a single workspace',
     },
     {
-        icon: IconSTurnRight,
+        icon: 'IconSTurnRight',
         title: 'Workflow and Automation',
         description: 'Make work easier, faster, and more consistent',
     },
     {
-        icon: IconChalkboard,
+        icon: 'IconChalkboard',
         title: 'Whiteboards',
         description: 'Bring ideas into life with visual collaboration',
     },
@@ -48,35 +48,35 @@ const platformMockdata = [
 
 const solutionsMockdata = [
     {
-        icon: IconSettings,
+        icon: 'IconSettings',
         title: 'Engineering',
     },
     {
-        icon: IconLayoutKanban,
+        icon: 'IconLayoutKanban',
         title: 'Agile Management',
     },
     {
-        icon: IconBrush,
+        icon: 'IconBrush',
         title: 'Design',
     },
     {
-        icon: IconTargetArrow,
+        icon: 'IconTargetArrow',
         title: 'Goal Management',
     },
     {
-        icon: IconBrandProducthunt,
+        icon: 'IconBrandProducthunt',
         title: 'Product',
     },
     {
-        icon: IconTimeline,
+        icon: 'IconTimeline',
         title: 'Resource Planning',
     },
     {
-        icon: IconAd2,
+        icon: 'IconAd2',
         title: 'Marketing',
     },
     {
-        icon: IconChartHistogram,
+        icon: 'IconChartHistogram',
         title: 'Technical Diagramming',
     },
 ];
@@ -118,10 +118,13 @@ const NavbarContent = (props) => {
                                         <Box component="span" mr={4}>
                                         Platform
                                         </Box>
-                                        <IconChevronDown
+                                        <Box>
+                                            {Icons('IconChevronDown', 16,16,scrollPosition > 40 ? '#121212' : '#fafafa')}
+                                        </Box>
+                                        {/* <IconChevronDown
                                             style={{ width: rem(16), height: rem(16) }}
                                             color={scrollPosition > 40 ? '#121212' : '#fafafa'}
-                                        />
+                                        /> */}
                                     </Center>
                                 </a>
                             </HoverCard.Target>
@@ -146,10 +149,13 @@ const NavbarContent = (props) => {
                                         <Box component="span" mr={5}>
                                         Solutions
                                         </Box>
-                                        <IconChevronDown
+                                        <Box>
+                                            {Icons('IconChevronDown', 16,16,scrollPosition > 40 ? '#121212' : '#fafafa')}
+                                        </Box>
+                                        {/* <IconChevronDown
                                             style={{ width: rem(16), height: rem(16) }}
                                             color={scrollPosition > 40 ? '#121212' : '#fafafa'}
-                                        />
+                                        /> */}
                                     </Center>
                                 </a>
                             </HoverCard.Target>
@@ -191,7 +197,7 @@ const NavbarContent = (props) => {
                         </div>
                     </Group>
 
-                    <Burger opened={drawerOpened} className='navbar-content-burger' onClick={toggleDrawer} hiddenFrom="md" />
+                    <Burger opened={drawerOpened} className={`navbar-content-burger ${scrollPosition > 40 ? 'scrolled': ''}`} onClick={toggleDrawer} hiddenFrom="md" />
                 </Group>
             </header>
 
@@ -210,26 +216,32 @@ const NavbarContent = (props) => {
                     <Divider mb="md" />
                     <UnstyledButton className={classes.link + " w-100"} onClick={togglePlatform}>
                         <Center inline className='d-flex justify-content-between w-100'>
-                            <Box component="span" className={classes.platformlink}>
+                            <Box component="span" className={classes.platformlink + " " + classes.link}>
                                 Platform
                             </Box>
-                            <IconChevronRight
+                            {/* <IconChevronRight
                                 style={{ width: rem(25), height: rem(25), marginRight: rem(30) }}
                                 color={theme.colors.blue[6]}
-                            />
+                            /> */}
+                            <Box style={{ marginRight: rem(30) }} >
+                                {Icons('IconChevronRight', 25,25,theme.colors.blue[6])}
+                            </Box>
                         </Center>
                     </UnstyledButton>
                     <Collapse className='my-1' in={platformOpened}>{platformLinks}</Collapse>
 
                     <UnstyledButton className={classes.link + " w-100"} onClick={toggleSolutions}>
                         <Center inline className='d-flex justify-content-between w-100'>
-                            <Box component="span" className={classes.solutionslink}>
+                            <Box component="span" className={classes.solutionslink + " " + classes.link}>
                                 Solutions
                             </Box>
-                            <IconChevronRight
+                            {/* <IconChevronRight
                                 style={{ width: rem(25), height: rem(25), marginRight: rem(30) }}
                                 color={theme.colors.blue[6]}
-                            />
+                            /> */}
+                            <Box style={{ marginRight: rem(30) }} >
+                                {Icons('IconChevronRight', 25,25,theme.colors.blue[6])}
+                            </Box>
                         </Center>
                     </UnstyledButton>
                     

@@ -2,12 +2,12 @@ import React, { useState, useRef } from 'react';
 
 import Cookies from 'js-cookie';
 import { userLogout } from '../../../DataManagement/Users/logout';
-import { constructImageSrc } from '../../../utils/constructImageSrc';
+// import { constructImageSrc } from '../../../utils/constructImageSrc';
 import UserAvatar from '../UserAvatar/userAvatar';
 
-import { IconSettings, IconTrash,IconArchive,IconHelp,IconBell,IconUser,IconChevronDown,IconLogout } from '@tabler/icons-react';
+import Icons from '../../icons/icons';
 
-import { Avatar,Text,Menu, rem } from '@mantine/core';
+import { Text,Menu } from '@mantine/core';
 import { useScrollLock } from '../../../utils/useScrollLock';
 
 const HomeNavbarUserMenu = (props) => {
@@ -22,8 +22,6 @@ const HomeNavbarUserMenu = (props) => {
     const dropdownRef = useRef(null);
     const [menuOpened, setMenuOpened] = useState(false);
     const { disableScroll, enableScroll } = useScrollLock();  // Destructure the functions from the hook
-
-    // console.log(userProfileDto);
 
     return (
         <>
@@ -49,7 +47,9 @@ const HomeNavbarUserMenu = (props) => {
                                 multiplier={2.075}
                                 fontSize={1}
                             />
-                            <span className='ps-1'><IconChevronDown width={15} height={15}/></span>
+                            <span className='ps-1'>
+                                {Icons('IconChevronDown',15,15,'#fafafa')}
+                            </span>
                         </div>
                     </Menu.Target>
                 </div>
@@ -77,20 +77,21 @@ const HomeNavbarUserMenu = (props) => {
                         </div>
                     </Menu.Label>
                     {/* <Menu.Label>Application</Menu.Label> */}
-                    <Menu.Item mt={20} w='91.5%' leftSection={<IconUser style={{ width: rem(14), height: rem(14) }} />}>
+                    {/* <Menu.Item mt={20} w='91.5%' leftSection={<IconUser style={{ width: rem(14), height: rem(14) }} />}> */}
+                    <Menu.Item mt={20} w='91.5%' leftSection={Icons('IconUser',14,14,'#d5d6d8')}>
                         Profile
                     </Menu.Item>
-                    <Menu.Item w='91.5%' leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}>
+                    <Menu.Item w='91.5%' leftSection={Icons('IconSettings',14,14,'#d5d6d8')}>
                         Settings
                     </Menu.Item>
-                    <Menu.Item w='91.5%' leftSection={<IconBell style={{ width: rem(14), height: rem(14) }} />}>
+                    <Menu.Item w='91.5%' leftSection={Icons('IconBell',14,14,'#d5d6d8')}>
                         Notification Settings
                     </Menu.Item>
-                    <Menu.Item w='91.5%' leftSection={<IconArchive style={{ width: rem(14), height: rem(14) }} />}
+                    <Menu.Item w='91.5%' leftSection={Icons('IconArchive',14,14,'#d5d6d8')}
                     >
                         Archive
                     </Menu.Item>
-                    <Menu.Item w='91.5%' leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}>
+                    <Menu.Item w='91.5%' leftSection={Icons('IconTrash',14,14,'#d5d6d8')}>
                         Trash
                     </Menu.Item>
 
@@ -98,13 +99,13 @@ const HomeNavbarUserMenu = (props) => {
 
                     {/* <Menu.Label>Danger zone</Menu.Label> */}
                     <Menu.Item w='91.5%'
-                    leftSection={<IconHelp style={{ width: rem(14), height: rem(14) }} />}
+                    leftSection={Icons('IconHelp',14,14,'#d5d6d8')}
                     >
                     Help
                     </Menu.Item>
                     <Menu.Divider size="xs" bd='.1px solid #676869' />
                     <Menu.Item w='91.5%' onClick={handleUserLogout}
-                        leftSection={<IconLogout style={{ width: rem(14), height: rem(14) }} />}
+                        leftSection={Icons('IconLogout',14,14,'#d5d6d8')}
                     >
                         Log out
                     </Menu.Item>

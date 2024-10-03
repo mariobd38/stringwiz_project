@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Modal } from 'antd';
 import { Text, Flex, Box,Button,Divider } from '@mantine/core';
-import { IconX } from '@tabler/icons-react';
+import Icons from '../../../icons/icons';
 
 import './tagDeletionModal.css';
 
@@ -15,7 +15,7 @@ const TagDeletionModal = (props) => {
                 <Flex align='center' justify='space-between'>
                 <Text ff='Inter' ta='center' fz='19'>Delete tag?</Text>
                     <Box onClick={handleClose} bg='transparent' p='2px 4px' className='delete-tag-button' style={{borderRadius: "4px", cursor: "pointer"}}>
-                        <IconX width='22' />
+                        {Icons('IconX',22,22)}
                     </Box>
                 </Flex>
             </div>

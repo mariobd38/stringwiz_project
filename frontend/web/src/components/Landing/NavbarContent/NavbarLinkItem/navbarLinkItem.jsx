@@ -4,9 +4,9 @@ import {
     Group,
     UnstyledButton,
     Text,
-    ThemeIcon,
-    rem,
+    ThemeIcon
   } from '@mantine/core';
+import Icons from '../../../icons/icons';
 
 import classes from './../../NavbarContent/NavbarContent.module.css';
 
@@ -38,11 +38,11 @@ const NavbarLinkItem = ({ mockdata, drawerOpened }) => {
     }, [drawerOpened]);
 
     return (
-        mockdata.map((item) => (
-            <UnstyledButton className={classes.subLink} key={item.title} mb={drawerOpened ? 5 : 0} py={5} >
+        mockdata.map((item,index) => (
+            <UnstyledButton className={classes.subLink} key={index} mb={drawerOpened ? 5 : 0} py={5} >
                 <Group wrap="nowrap" mx={10} my={5} align={alignment} ps={paddingStart}>
                     <ThemeIcon size={34} variant="default" radius="md" className="d-flex align-items-center">
-                        <item.icon style={{ width: rem(22), height: rem(22) }} color='#367179' />
+                        {Icons(item.icon, 22, 22, '#367179')}
                     </ThemeIcon>
                     <div>
                         <Text size="sm" fw={500}>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Menu,Divider } from '@mantine/core';
-import { IconCheck } from '@tabler/icons-react';
+import Icons from '../../icons/icons';
 
 import { items } from './items';
 
@@ -31,7 +31,7 @@ const PriorityDropdownContent = (props) => {
                         p='6px 10px'
                         className='task-card-content-dropdown-item'
                         leftSection={item.icon}
-                        rightSection={(existingTask ? element.priority : element) === item.name && <IconCheck color='teal' width={20} height={20} className='m-0'/>}
+                        rightSection={(existingTask ? element.priority : element) === item.name && Icons('IconCheck',20,20,'teal')}
                     >
                         {item.name}
                     </Menu.Item>

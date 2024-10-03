@@ -1,16 +1,13 @@
 import React, { useState, useRef, useMemo } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 import { Modal } from "antd";
-
-import { Link, useLocation } from 'react-router-dom';
  
 import dayjs from 'dayjs';
 
 import { Tooltip, Table, Text,Button,Textarea } from '@mantine/core';
 import { useClickOutside } from '@mantine/hooks';
-import {
-    IconPencil,IconCircle,IconCalendarMonth,IconCircleCheckFilled,IconFlag3,IconCalendarDue
-  } from '@tabler/icons-react';
+import Icons from '../../../icons/icons';
 
 import NewHomeDueDatePopover from '../../newHomeDueDatePopover';
 import { MantineDropdown } from '../../../models/ModelDropdown2/mantineDropdown';
@@ -145,17 +142,14 @@ const TaskCardContent = (props) => {
                     <div className="d-flex" style={{ color: "#fafafa" }}>
                         <div className='align-items-center d-flex'>
                             {isTaskTabCompleted ?
-                                <IconCircleCheckFilled
-                                    onClick={(event) => handleTaskComplete(event, index,taskType)}
-                                    style={{ color: "#048a66" }}
-                                    className='user-home-task-check-icon user-home-task-set-complete'
-                                />
+                                <div onClick={(event) => handleTaskComplete(event, index,taskType)} className='d-flex align-items-center user-home-task-check-icon user-home-task-set-complete'>
+                                    {Icons('IconCircleCheckFilled',24,24,'#048a66')}
+                                </div>
                                 : (
-                                    <IconCircle
-                                        onClick={(event) => handleTaskComplete(event, index,taskType)}
-                                        width={16}
-                                        className="user-home-task-set-complete"
-                                    />
+                                    <div onClick={(event) => handleTaskComplete(event, index,taskType)}
+                                    className="user-home-task-set-complete d-flex align-items-center">
+                                        {Icons('IconCircle',16,16)}
+                                    </div>
                                 )
                             }
                         </div>
@@ -255,7 +249,11 @@ const TaskCardContent = (props) => {
                                     <Button p='0 12px' size="xs" radius='6' fz={13} bg='transparent' className='user-home-calendar-icon-div'>
                                         <span style={{ color: "#a7a7a7" }} className={`lato-font, user-home-chosen-due-date-text`} >
                                             <span className='d-flex align-items-center' style={{color: "#e5e5e5"}} >
-                                                <IconFlag3 className='me-1' width={18}/>{element.priority}
+                                                <div className='me-1'>
+                                                    {Icons('IconFlag3',18,18,'#e5e5e5')}
+                                                </div>
+
+                                                <span>{element.priority}</span>
                                             </span>
                                         </span>
                                     </Button> 
@@ -274,7 +272,12 @@ const TaskCardContent = (props) => {
                                         <span className='d-flex align-items-center'
                                             style={{ color: dayjs(element.dueDate).startOf('day').diff(dayjs(today).startOf('day'), 'day') < 0 && element.status !== 'Completed' ? "#e10845cf" : "#e5e5e5"
                                         }} >
-                                        <IconCalendarDue className='me-1' width={18}/>{formatDate(element.dueDate)}
+                                            <div className='d-flex align-items-center'>
+                                                <div className='me-2'>
+                                                    {Icons('IconCalendarDue',18,18,'#fafafa')}
+                                                </div>
+                                                <span>{formatDate(element.dueDate)}</span>
+                                            </div>
                                         </span>
                                     </span>
                                 </Button> :
@@ -282,7 +285,7 @@ const TaskCardContent = (props) => {
                                 <span className='table-cell-icon'>
                                     <Tooltip label="Add due date" position="top" offset={8} openDelay={400} className='user-home-tooltip' >
                                         <div className='user-home-calendar-icon-div' onClick={(event) => handleDueDatePopoverClick(event, index,element)}>
-                                            <IconCalendarMonth className='user-home-calendar-icon' />
+                                            {Icons('IconCalendarMonth',20.80,16,'#fafafa')}
                                         </div>
                                     </Tooltip>
                                 </span>}
@@ -320,7 +323,15 @@ const TaskCardContent = (props) => {
                                         defaultValue={taskType && taskType[currentIndex].name}
                                         onChange={(event) => setNewTaskName(event.currentTarget.value)}
                                     />
-                                    <Button disabled={currentTask.name === newTaskName || (newTaskName.length === '' || newTaskName.trim() === '')} onClick={handleTaskRename} w='-webkit-fill-available'><IconPencil width='17px' className='me-2'/>Confirm new task name</Button>
+                                    <Button disabled={currentTask.name === newTaskName || (newTaskName.length === '' || newTaskName.trim() === '')} onClick={handleTaskRename} w='-webkit-fill-available'>
+                                        <div className='d-flex align-items-center'>
+                                            <div className='me-2'>
+                                                {Icons('IconPencil',17,17)}
+                                            </div>
+                                            <span>Confirm new task name</span>
+                                        </div>
+                                        
+                                    </Button>
                                 </div>
                             </Modal>
                         }

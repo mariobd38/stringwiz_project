@@ -3,25 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 import achievement from '../../../assets/illustrations/signup/achievement.png';
 
-import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
-import { IconSquareArrowLeft,IconMail,IconUser,IconLock } from '@tabler/icons-react';
-
 import { useFocusWithin } from '@mantine/hooks';
-import {
-    TextInput,
-    PasswordInput,
-    Text,
-    Paper,
-    Group,
-    Button,
-    Divider,
-    Anchor,
-    Stack,
-    List, 
-    Image,
-    rem,
-    Progress
-} from '@mantine/core';
+import {TextInput,PasswordInput,Text,Paper,Group,Button,Divider,Anchor,Stack,List, Image,rem,Progress } from '@mantine/core';
+import Icons from '../../icons/icons';
 import { useForm } from '@mantine/form';
 
 import { GoogleButton } from '../OAuthButtons/googleButton';
@@ -182,9 +166,7 @@ const SignupContent = (props) => {
                         <List
                         spacing="sm"
                         className='m-auto'
-                        icon={
-                            <CheckCircleOutlineRoundedIcon style={{color: "#0f5255"}}/>
-                        }
+                        icon={Icons('IconCircleCheck',24,24,'#0f5255')}
                         >
                             <List.Item fw={400} fz={15}>Track and complete tasks </List.Item>
                             <List.Item fw={400} fz={15}>Collaborate with your team </List.Item>
@@ -228,13 +210,18 @@ const SignupContent = (props) => {
                         <div className='d-flex flex-column align-items-center w-100'>
                             <form style={{width: "80%"}} className='signup-user-info-block' onSubmit={form.onSubmit((values) => handleSignUpWithEmailRequest(values))}>
                                 <div className='d-flex align-items-center mb-4 justify-content-between'>
-                                    <div>
-                                        <IconSquareArrowLeft style={{ width: rem(30), height: rem(30) }} className='signup-back-arrow-icon' onClick={() => routeChange('/signup')} />
+                                    <div className='signup-back-arrow-icon' onClick={() => routeChange('/signup')}>
+                                        {Icons('IconSquareArrowLeft',30,30)}
                                     </div>
 
                                     <div className='text-center' style={{ flex: 1 }}>
                                         <Button className='signup-user-info-block-email' radius="xl" fw={800}>
-                                            <IconMail style={{ width: rem(18), height: rem(18) }} stroke={2.5} className='me-2'/>{inputEmail}
+                                            <div className='d-flex'>
+                                                <div className='me-2'>
+                                                    {Icons('IconMail',18,18,null,2.5)}
+                                                </div>
+                                                <span>{inputEmail}</span>
+                                            </div>
                                         </Button>
                                     </div>
                                 </div>
@@ -246,7 +233,7 @@ const SignupContent = (props) => {
                                             placeholder={isFullNameFocused ? '' : 'John Doe'}
                                             type="text"
                                             autoComplete='off'
-                                            leftSection={<IconUser style={{ width: rem(18), height: rem(18) }} stroke={2.5}/>}
+                                            leftSection={Icons('IconUser',18,18,null,'2.5')}
                                             className='w-100 auth-user-input-field'
                                             size="lg"
                                             radius="md"
@@ -261,7 +248,8 @@ const SignupContent = (props) => {
                                             placeholder={isPasswordFocused ? '' : 'Minimum 8 characters'}
                                             type="password"
                                             autoComplete='off'
-                                            leftSection={<IconLock style={{ width: rem(18), height: rem(18) }} stroke={2.5}/>}
+                                            // leftSection={<IconLock style={{ width: rem(18), height: rem(18) }} stroke={2.5}/>}
+                                            leftSection={Icons('IconLock',18,18,null,'2.5')}
                                             className='w-100 auth-user-input-field'
                                             size="lg"
                                             radius="md"
@@ -297,7 +285,7 @@ const SignupContent = (props) => {
                                         label="Enter your email"
                                         type="text"
                                         placeholder=""
-                                        leftSection={<IconMail style={{ width: rem(18), height: rem(18) }} stroke={2.5}/>}
+                                        leftSection={Icons('IconMail',18,18,null,2.5)}
                                         autoComplete='off'
                                         value={inputEmail}
                                         onChange={(e) => setInputEmail(e.target.value)}

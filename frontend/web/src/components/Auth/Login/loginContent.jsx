@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { IconSquareArrowLeft,IconMail,IconLock } from '@tabler/icons-react';
+import Icons from '../../icons/icons';
 
 import login from '../../../assets/illustrations/login/login.png';
 
@@ -16,7 +16,6 @@ import {
     Anchor,
     Stack,
     Image,
-    rem,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
@@ -145,13 +144,16 @@ const LoginContent = (props) => {
                                 form.onSubmit((values) => handleLoginWithEmailRequest(values))(e);
                             }}>
                                 <div className='d-flex align-items-center mb-4 justify-content-between'>
-                                    <div>
-                                        <IconSquareArrowLeft style={{ width: rem(30), height: rem(30) }} className='login-back-arrow-icon' onClick={() => routeChange('/login')} />
+                                    <div className='login-back-arrow-icon' onClick={() => routeChange('/login')}>
+                                        {Icons('IconSquareArrowLeft',30,30)}
                                     </div>
 
                                     <div className='text-center' style={{ flex: 1 }}>
                                         <Button className='signup-user-info-block-email' radius="xl" fw={800}>
-                                            <IconMail style={{ width: rem(18), height: rem(18) }} stroke={2.5} className='me-2'/>{inputEmail}
+                                            <div className='me-2'>
+                                                {Icons('IconMail',18,18)}
+                                            </div>
+                                            {inputEmail}
                                         </Button>
                                     </div>
                                 </div>
@@ -163,7 +165,8 @@ const LoginContent = (props) => {
                                             type="password"
                                             autoComplete='off'
                                             placeholder=""
-                                            leftSection={<IconLock style={{ width: rem(18), height: rem(18) }} stroke={2.5}/>}
+                                            // leftSection={<IconLock style={{ width: rem(18), height: rem(18) }} stroke={2.5}/>}
+                                            leftSection={Icons('IconLock',18,18,null,2.5)}
                                             className='w-100 auth-user-input-field login'
                                             size="lg"
                                             radius="md"
@@ -196,7 +199,7 @@ const LoginContent = (props) => {
                                         label="Enter your email"
                                         type="text"
                                         placeholder=""
-                                        leftSection={<IconMail style={{ width: rem(18), height: rem(18) }} stroke={2.5}/>}
+                                        leftSection={Icons('IconMail',18,18,null,2.5)}
                                         autoComplete='off'
                                         value={inputEmail}
                                         onChange={(e) => setInputEmail(e.target.value)}

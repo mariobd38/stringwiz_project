@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 
 import { Menu, Input,Text } from '@mantine/core';
-import { IconCheck } from '@tabler/icons-react';
+import Icons from '../../icons/icons';
 
 import { items } from './items';
 
@@ -76,7 +76,7 @@ const StatusDropdownContent = (props) => {
                     p='6px 10px'
                     className='task-card-content-dropdown-item'
                     leftSection={item.icon}
-                    rightSection={(existingTask ? element.status : element) === item.name && <IconCheck color='teal' width={20} height={20} className='m-0'/>}
+                    rightSection={(existingTask ? element.status : element) === item.name && Icons('IconCheck',20,20,'teal')}
                 >
                     {item.name}
                 </Menu.Item>

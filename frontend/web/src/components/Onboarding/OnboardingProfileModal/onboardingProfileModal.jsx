@@ -1,22 +1,12 @@
 import React, { useState } from 'react';
 
 
-import {
-    Avatar,
-    Text,
-    Button,
-    Modal,
-    Group,
-    ColorSwatch,
-    Divider,
-} from '@mantine/core';
+import {Avatar,Text,Button,Modal,Group,ColorSwatch,Divider} from '@mantine/core';
 
 import { Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
 
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-
-import { IconCloudUpload } from '@tabler/icons-react';
+import Icons from '../../icons/icons';
 
 import './onboardingProfileModal.css';
 
@@ -38,7 +28,9 @@ const OnboardingProfileModal = (props) => {
                             {customizedProfileColor ? initials : <img src={activeFile.thumbUrl} alt="file" style={{ width: "6rem", height: "6rem", borderRadius: "50%" }} />} 
                         </span>
                         <div className="onboarding-profile-selected">
-                            <CheckRoundedIcon className="onboarding-profile-selected-icon" />
+                            <div className="onboarding-profile-selected-icon">
+                                {Icons('IconCheck',24,24,'#fafafa')}
+                            </div>
                         </div>
                     </Avatar>
                 ),
@@ -164,7 +156,7 @@ const OnboardingProfileModal = (props) => {
                                             className='onboarding-color-swatch'
                                             color={item.color}
                                         >
-                                            {item.active && <CheckRoundedIcon style={{ padding: "2px", color: "#fafafa" }} />}
+                                            {item.active && Icons('IconCheck', 20, 20, '#fafafa') }
                                         </ColorSwatch>
                                     </div>
                                 ))}
@@ -190,7 +182,8 @@ const OnboardingProfileModal = (props) => {
                                     defaultFileList={[...fileList]}
                                     showUploadList={{
                                         showPreviewIcon: true,
-                                        previewIcon: <CheckRoundedIcon className='fafafa-color'/>,
+                                        previewIcon: <div className='fafafa-color'>{Icons('IconCheck', 24, 24)}</div>,
+                                        
                                     }}
                                     onRemove={(file) => {
                                         const index = fileList.findIndex(f => f.uid === file.uid);
@@ -201,39 +194,13 @@ const OnboardingProfileModal = (props) => {
 
                                     {fileList.length < 4 &&
                                     <div className='onboarding-upload-image-button'>
-                                        <IconCloudUpload style={{width: "2.2rem",height: "2.2rem", color: "#66686a"}} className='upload-icon'/> 
+                                        <div className='upload-icon'>
+                                            {Icons('IconCloudUpload', 35,35)}
+                                        </div>
                                     </div>
                                     }
 
                                 </Upload>
-                                {/* <Upload
-                                    action="/api/upload"
-                                    withCredentials={true}
-                                    onChange={onChange}
-                                    onPreview={(file) => {
-                                        const index = fileList.findIndex(f => f.uid === file.uid);
-                                        onPreview(index);
-                                    }}
-                                    listType='picture-card'
-                                    defaultFileList={[...fileList]}
-                                    showUploadList={{
-                                        showPreviewIcon: true,
-                                        previewIcon: <CheckRoundedIcon className='fafafa-color'/>,
-                                    }}
-                                    onRemove={(file) => {
-                                        const index = fileList.findIndex(f => f.uid === file.uid);
-                                        onRemove(index);
-                                    }}
-                                    style={{width: "calc(1.95rem * var(--mantine-scale))", height: "calc(1.95rem * var(--mantine-scale))"}}
-                                    >
-
-                                    {fileList.length < 4 &&
-                                    <div className='onboarding-upload-image-button'>
-                                        <IconCloudUpload style={{width: "2.2rem",height: "2.2rem", color: "#66686a"}} className='upload-icon'/> 
-                                    </div>
-                                    }
-
-                                </Upload> */}
                             </ImgCrop>
                                     
                         </div>

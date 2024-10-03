@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
-// import { motion } from 'framer-motion';
-
 import team_work from '../../../assets/illustrations/landing/team_work.png';
 import archery_goals from '../../../assets/illustrations/landing/archery_goals.png';
 import shared_goals from '../../../assets/illustrations/landing/shared_goals.png';
 
-import {  Container,Title, SimpleGrid, Text, Button, ThemeIcon, Grid, Card, Image, Badge, Group, rem } from '@mantine/core';
+import {  Container,Title, SimpleGrid, Text, Button, ThemeIcon, Grid, Card, Image, Badge, Group } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 
-import { IconWorld, IconApps, IconSTurnRight,IconBulb,IconChevronRight, IconChevronLeft } from '@tabler/icons-react';
-
-import home_screenshot from '../../../assets/screenshots/home_screenshot.png';
+import Icons from '../../icons/icons';
 
 import engineering_team from '../../../assets/illustrations/landing/engineering_team.png';
 import marketing_team from '../../../assets/illustrations/landing/marketing_team.png';
@@ -26,22 +22,22 @@ import './MainContent.css'
 
 const features = [
     {
-        icon: IconSTurnRight,
+        icon: 'IconSTurnRight',
         title: 'Automation at its finest',
         description: 'Reduce costs and time with effective no-code automation',
     },
     {
-        icon: IconApps,
+        icon: 'IconApps',
         title: 'Integrate with ease',
         description: 'All your workspace apps moved into a single interactive platform',
     },
     {
-        icon: IconWorld,
+        icon: 'IconWorld',
         title: 'Keep track of your endless goals',
         description: 'Enhance success with easy management of your goals and milestones',
     },
     {
-        icon: IconBulb,
+        icon: 'IconBulb',
         title: 'Capture and share ideas',
         description: 'Whiteboards is the easiest way to share brilliant ideas with your team',
     },
@@ -74,24 +70,25 @@ const MainContent = () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, [scrollPosition]);
-
-    const items = features.map((feature) => (
-        <div key={feature.title} style={{color: "#121212"}}>
-          <ThemeIcon
-            size={44}
-            radius="md"
-            bg='#468189'
-          >
-            <feature.icon style={{ width: rem(26), height: rem(26) }} stroke={1.5} />
-          </ThemeIcon>
-          <Text fz="lg" mt="sm" fw={500}>
-            {feature.title}
-          </Text>
-          <Text fz="sm" style={{color: "#737373"}}>
-            {feature.description}
-          </Text>
+    
+    const items = features.map((feature,index) => (
+        <div key={index} style={{color: "#121212"}}>
+            <ThemeIcon
+                size={44}
+                radius="md"
+                bg='#468189'
+            >
+                {Icons(feature.icon, 26, 26, '#fafafa')}
+                {/* <feature.icon style={{ width: rem(26), height: rem(26) }} stroke={1.5} /> */}
+            </ThemeIcon>
+            <Text fz="lg" mt="sm" fw={500}>
+                {feature.title}
+            </Text>
+            <Text fz="sm" style={{color: "#737373"}}>
+                {feature.description}
+            </Text>
         </div>
-      ));
+    ));
 
 
     return (
@@ -122,12 +119,18 @@ const MainContent = () => {
                                         
                                         <div className="pt-4 pb-4 text-center justify-content-md-between">
                                             <div className="d-flex flex-column flex-sm-row justify-content-center justify-content-lg-start gap-3 landing-hero-buttons">
-                                                <Button className="landing-get-started-button " onClick={() => routeChange('/signup')}>
+                                                <Button className="landing-get-started-button" onClick={() => routeChange('/signup')}>
                                                     Get Started
                                                 </Button>
                                                 <Button className="landing-learn-more-button">
                                                     Learn More
                                                 </Button>
+                                                {/* <Button className=" " onClick={() => routeChange('/signup')}>
+                                                    Get Started
+                                                </Button>
+                                                <Button className="" >
+                                                    Learn More
+                                                </Button> */}
                                             </div>
                                             <Text fz={15} className="landing-header-description-text d-flex justify-content-center justify-content-lg-start pt-4" style={{ fontSize: '0.7em', color: '#fafafa' }}>
                                                 No credit card needed · Start with a free plan
@@ -185,7 +188,7 @@ const MainContent = () => {
                         <div className='d-flex justify-content-end align-items-center'>
                             <a href={() => false} className='landing-main-content-use-cases-all'>
                                 <Text style={{fontSize: "1rem"}} fw={600} c="dark">Check out all cases 
-                                <span className='ps-2 landing-main-content-use-cases-all-arrow'><IconChevronRight w={16} height={16}/></span>
+                                <span className='ps-2 landing-main-content-use-cases-all-arrow'>{Icons('IconChevronRight',16,16,'#121212')}</span>
                             </Text>
                             </a>
                         </div>
@@ -201,8 +204,8 @@ const MainContent = () => {
                             slideGap={{ base: 0, sm: 'md' }}
                             align="start"
                             className="landing-main-content-use-cases-carousel"
-                            nextControlIcon={<IconChevronRight className="landing-main-content-use-cases-indicator" />}
-                            previousControlIcon={<IconChevronLeft className="landing-main-content-use-cases-indicator" />}
+                            previousControlIcon={Icons('IconChevronLeft',24,24,'#fafafa')}
+                            nextControlIcon={Icons('IconChevronRight',24,24,'#fafafa')}
                           >
                            {useCases.map((item,index) => (
                                 <Carousel.Slide key={index} className='d-flex align-items-end'>

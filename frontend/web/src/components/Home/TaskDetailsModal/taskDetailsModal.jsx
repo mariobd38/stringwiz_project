@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 
 import { Modal } from 'antd';
 import { Text, Button,Textarea } from '@mantine/core';
-import { IconX } from '@tabler/icons-react';
+import Icons from '../../icons/icons';
 
 import UserAvatar from '../UserAvatar/userAvatar';
 import { ProfileCard } from './ProfileCard/profileCard';
@@ -208,20 +208,20 @@ const TaskDetailsModal = (props) => {
         setTimeout(() => calculateFirstRow(currentTaskTags), 0);
     },[currentTaskTags, calculateFirstRow]);
 
-    const TagButton = ({ tag, index, buttonRef, handleTagRemoval }) => (
-        <Button ref={buttonRef} key={index} bg={tag.color} className='user-home-task-details-modal-tags-button' fw={400} h='22' ff='Lato' fz={16}>
-            <span className='d-flex'>
-                <span className='align-middle user-home-task-details-modal-tags-button-text'>
-                    {tag.name}
-                </span>
-            </span>
+    // const TagButton = ({ tag, index, buttonRef, handleTagRemoval }) => (
+    //     <Button ref={buttonRef} key={index} bg={tag.color} className='user-home-task-details-modal-tags-button' fw={400} h='22' ff='Lato' fz={16}>
+    //         <span className='d-flex'>
+    //             <span className='align-middle user-home-task-details-modal-tags-button-text'>
+    //                 {tag.name}
+    //             </span>
+    //         </span>
     
-            <span className='align-middle user-home-task-details-modal-tags-button-close' 
-                onClick={(event) => handleTagRemoval(event, index)}>
-                <IconX style={{ width: '1.2rem' }}/>
-            </span>
-        </Button>
-    );
+    //         <span className='align-middle user-home-task-details-modal-tags-button-close' 
+    //             onClick={(event) => handleTagRemoval(event, index)}>
+    //             <IconX style={{ width: '1.2rem' }}/>
+    //         </span>
+    //     </Button>
+    // );
 
 
     return (
@@ -287,7 +287,9 @@ const TaskDetailsModal = (props) => {
                                                 <span className='user-home-task-details-modal-due-date-remove' 
                                                 onClick={(e) => { e.stopPropagation(); handleTaskUpdateNew(taskType[currentIndex], null, "clear due date", taskType, setTaskType, currentIndex);
                                                     setCurrentTaskDueDate(null); setCurrentTaskDueDateTime(null); }}>
-                                                    <IconX className='user-home-task-details-modal-due-date-remove-icon' />
+                                                    <div className='user-home-task-details-modal-due-date-remove-icon d-flex align-items-center'>
+                                                        {Icons('IconX',24,24)}
+                                                    </div>
                                                 </span>}
                                         </div>
                                         } 
@@ -347,27 +349,6 @@ const TaskDetailsModal = (props) => {
                                             <div className="d-flex flex-wrap" ref={tagButtonsRef}>
                                                 {rowOverflow && firstRowTags.length < currentTaskTags.length ?  
                                                     <span>
-                                                        {/* {firstRowTags.map((tag, index) => (
-                                                            <TagButton
-                                                                key={index}
-                                                                tag={tag}
-                                                                index={index}
-                                                                buttonRef={buttonRefs.current[index]}
-                                                                handleTagRemoval={handleTagRemoval}
-                                                            />)) 
-                                                        } 
-                                                        <span className='align-middle user-home-task-details-modal-tags-button-additional'>+{currentTaskTags.length - firstRowTags.length}</span>
-                                                    </span>
-                                                : currentTaskTags.map((tag, index) => (
-                                                    <TagButton
-                                                        key={index}
-                                                        tag={tag}
-                                                        index={index}
-                                                        buttonRef={buttonRefs.current[index]}
-                                                        handleTagRemoval={handleTagRemoval}
-                                                    />
-                                                    ))
-                                                } */}
                                                 {firstRowTags.map((tag, index) => (
                                                     <Button ref={buttonRefs.current[index]} key={index} bg={tag.color} className='user-home-task-details-modal-tags-button' fw={400} h='22' ff='Lato' fz={16}>
                                                         <span className='d-flex'>
@@ -378,7 +359,7 @@ const TaskDetailsModal = (props) => {
 
                                                         <span className='align-middle user-home-task-details-modal-tags-button-close' 
                                                         onClick={(event) => handleTagRemoval(event,index)}>
-                                                            <IconX style={{width: "1.2rem"}}/>
+                                                            {Icons('IconX',18,18)}
                                                         </span>
                                                     </Button>)) } <span className='align-middle user-home-task-details-modal-tags-button-additional'>+{currentTaskTags.length - firstRowTags.length}</span>
                                                     </span>
@@ -392,7 +373,7 @@ const TaskDetailsModal = (props) => {
 
                                                         <span className='align-middle user-home-task-details-modal-tags-button-close' 
                                                         onClick={(event) => handleTagRemoval(event,index)}>
-                                                            <IconX style={{width: "1.2rem"}}/>
+                                                            {Icons('IconX',18,18)}
                                                         </span>
                                                     </Button>
                                                 ))}

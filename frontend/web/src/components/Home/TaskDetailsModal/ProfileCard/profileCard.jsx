@@ -4,9 +4,7 @@ import UserAvatar from "../../UserAvatar/userAvatar";
 
 import { HoverCard, Button, Avatar } from '@mantine/core';
 
-import {
-    IconMail,IconClock,IconClipboard,IconClipboardCheck
-  } from '@tabler/icons-react';
+import Icons from "../../../icons/icons";
 
 import { constructImageSrc } from "../../../../utils/constructImageSrc";
 
@@ -62,19 +60,23 @@ export const ProfileCard = (props) => {
                             </div>
                             
                             <div className="mt-2 ">
-                                <span><IconMail style={{width: "1.3rem"}}/></span>
+                                {/* <span><IconMail style={{width: "1.3rem"}}/></span> */}
+                                <span>{Icons('IconMail',20,20)}</span>
                                 <span className="ps-3 nunito-sans-font">{userEmail}</span>
                                 <span className="ps-2">
                                     { emailCopied ?
-                                    <IconClipboardCheck style={{width: "1.2rem", cursor: "pointer", color: "rgb(4, 156, 4)"}}/>
+                                    Icons('IconClipboardCheck',20,20,"rgb(4, 156, 4)")
                                     :
-                                    <IconClipboard onClick={handleEmailCopyClick} style={{width: "1.1rem", cursor: "pointer"}}/>
+                                    <span style={{cursor: "pointer"}} onClick={handleEmailCopyClick}>
+                                        {Icons('IconClipboard',20,20)}
+                                    </span>
                                     }
                                 </span>
                             </div>
 
                             <div className="mt-2 ">
-                                <span><IconClock style={{width: "1.3rem"}}/></span>
+                                {/* <span><IconClock style={{width: "1.3rem"}}/></span> */}
+                                <span>{Icons('IconClock',20,20)}</span>
                                 <span className="ps-3 nunito-sans-font">{currentTime} local time</span>
                             </div>
                         </div>

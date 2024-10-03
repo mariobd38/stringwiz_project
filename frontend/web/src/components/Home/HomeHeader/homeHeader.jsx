@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 
 import { Button, Tooltip, Box,Flex,Text } from '@mantine/core';
-import { IconUserPlus,IconHome,IconCirclePlus,IconSparkles,IconSettings,IconFidgetSpinner } from '@tabler/icons-react';
 import { useLocalState } from "../../../utils/useLocalStorage";
+import Icons from '../../icons/icons';
 
 import './homeHeader.css';
 
@@ -44,10 +44,10 @@ const HomeHeader = () => {
     }, [backgroundColor, backgroundImage, setBackgroundColor, setBackgroundImage, currentColorMode, setCurrentColorMode]);
 
     const homeHeaderButtons = [
-        {"icon": <IconCirclePlus color='#05c099' className='add-icon-create-home-navbar'/>, "label": "Create"},
-        {"icon": <IconUserPlus color='#05c099' className='add-icon-create-home-navbar'/>, "label": "Invite"},
-        {"icon": <IconSparkles color='#05c099' className='add-icon-create-home-navbar'/>, "label": "AI Assistant"},
-        {"icon": <IconSettings color='#05c099' className='add-icon-create-home-navbar'/>, "label": "Settings"},
+        {"icon": Icons('IconCirclePlus',23,23,'#05c099'), "label": "Invite"},
+        {"icon": Icons('IconUserPlus',23,23,'#05c099'), "label": "Invite"},
+        {"icon": Icons('IconSparkles',23,23,'#05c099'), "label": "Invite"},
+        {"icon": Icons('IconSettings',23,23,'#05c099'), "label": "Settings"},
     ]
 
     return (
@@ -56,7 +56,10 @@ const HomeHeader = () => {
                 <div className='d-flex align-items-center justify-content-between user-home-all-content-left-spacing' style={{position: "sticky",top: "5rem",background: "#1e1f21", borderBottom: "1px solid #323539", zIndex: "2",height: "59.4px", 
                 }}>
                     <span className='lato-font d-flex'>
-                        <IconHome className='me-2' color='#f2f4f7'/>
+                        <div className='me-2 d-flex'>
+                            {Icons('IconHome', 24,24,'#f2f4f7')}
+                        </div>
+                         {/* <IconHome className='me-2' color='#f2f4f7'/> */}
                         <Text c='#f2f4f7' ff='Lato' fw='600' fz='17'>Home</Text>
                     </span>
                     <div className='d-flex gap-3 align-items-center'>
@@ -89,7 +92,12 @@ const HomeHeader = () => {
                 </div> */}
                 <div>
                     <Button bd='1px solid #048369' radius={8} p='1px 13px' bg='transparent' c='#f2f4f7'>
-                        <IconFidgetSpinner width={18} style={{marginRight: "5px"}}/>Customize
+                        <div className='d-flex align-items-center'>
+                            <div style={{marginRight: "5px"}}>
+                                {Icons('IconFidgetSpinner',18,18,'#fafafa')}
+                            </div>
+                            <span>Customize</span>
+                        </div>
                     </Button>
                 </div>
             </div>

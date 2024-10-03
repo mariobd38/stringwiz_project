@@ -2,50 +2,57 @@ import React, { useState } from 'react';
 
 import dayjs from 'dayjs';
 
-import { Box,Flex,Select,Popover,Button } from '@mantine/core';
-import { IconClock,IconCalendarMonth
- } 
-from '@tabler/icons-react';
+import { Box,Flex,Select,Button } from '@mantine/core';
+import Icons from '../../icons/icons';
 
 import { parseDate } from '@internationalized/date';
-import { Calendar,DatePicker } from "@nextui-org/react";
+import { Calendar } from "@nextui-org/react";
 
 import { DatePicker as AntDatePicker }  from 'antd';
 
 import './nextUICalendar.css';
 
-const generateMinuteIntervals = () => {
-    const intervals = [];
-    let currentTime = dayjs().startOf('day'); // Start at 12:00 AM
+const generateTimeIntervals = () => {
+    const times = [];
+    let start = 0;
+    
+    for (let i = 0; i < 48; i++) { // 48 intervals in a day (30 minutes each)
+        const hours = Math.floor(start / 60);
+        const minutes = start % 60;
   
-    while (currentTime.isBefore(dayjs().endOf('day'))) {
-      intervals.push(currentTime.format('h:mm A')); // Use 'h:mm A' for no leading zero in hour
-      currentTime = currentTime.add(1, 'minute');
+        const formattedTime = `${hours % 12 === 0 ? 12 : hours % 12}:${minutes === 0 ? '00' : minutes} ${hours < 12 ? 'AM' : 'PM'}`;
+        times.push(formattedTime);
+    
+        start += 30; // increment by 30 minutes
     }
-  
-    return intervals;
-};
+    return times;
+  };
 
 const NextUICalendar = (props) => {
-    const { selectedDate, setSelectedDate } = props;
+    const { selectedDate, setSelectedDate,selectedDateTime, setSelectedDateTime } = props;
 
     const [open, setOpen] = useState(false);
 
     const handleSelectedDateChange = (date) => {
-        console.log(date);
         if (date === null) {
             setSelectedDate(null);
         } else {
-            setSelectedDate(dayjs(date).add(1, 'day'));
+            const updatedDate = dayjs(selectedDate)
+            .set('year', dayjs(date).year())
+            .set('month', dayjs(date).month())
+            .set('date', dayjs(date).date()+1); // Update the date but keep the time intact
+
+            setSelectedDate(updatedDate); // Set the updated date
+            console.log(updatedDate);
         }
     }
-    const timeOptions = generateMinuteIntervals().map((time) => ({ value: time, label: time }));
+    const timeOptions = generateTimeIntervals().map((time) => ({ value: time, label: time }));
 
     const normalizeText = (text) => {
         return text
-          .toLowerCase() // Convert to lowercase
-          .replace(/\s+/g, '') // Remove all spaces
-          .replace(/[^\w]/g, ''); // Remove all non-alphanumeric characters (punctuation, etc.)
+            .toLowerCase() // Convert to lowercase
+            .replace(/\s+/g, '') // Remove all spaces
+            .replace(/[^\w]/g, ''); // Remove all non-alphanumeric characters (punctuation, etc.)
     };
       
     const optionsFilter = ({ options, search }) => {
@@ -64,6 +71,35 @@ const NextUICalendar = (props) => {
         {name: 'Next month'},
     ]
 
+    const handleDateTimeChange = (time) => {
+        if (time !== null) {
+            const [timePart, period] = time.split(' '); // Split by space, giving you "12:30" and "PM"
+            const [hour, minute] = timePart.split(':'); // Split the hour and minute by colon
+
+            let parsedHour = parseInt(hour, 10);
+
+            // Adjust hour for AM/PM
+            if (period.toLowerCase() === 'pm' && parsedHour < 12) {
+                parsedHour += 12; // Convert PM hour to 24-hour format
+            } else if (period.toLowerCase() === 'am' && parsedHour === 12) {
+                parsedHour = 0; // Midnight case
+            }
+
+            // Set the parsed hour and minute into the selected date
+            const updatedDateTime = dayjs(selectedDate)
+                .set('hour', parsedHour)
+                .set('minute', parseInt(minute, 10))
+                .set('second',0);
+
+            // console.log(updatedDateTime.format('YYYY-MM-DD HH:mm'));
+            setSelectedDate(updatedDateTime);
+            setSelectedDateTime(updatedDateTime);
+        } else {
+            setSelectedDateTime(undefined);
+        }
+    }
+    // console.log(selectedDate);
+
     return (
         <Box bg='#232426' p='10px 5px' className='nextui-calendar-parent'>
             <Box p='5px 15px'>
@@ -79,7 +115,7 @@ const NextUICalendar = (props) => {
                         style={{backgroundColor: "#323539"}} 
                         // onKeyDown={handleDueDateInputChange}
                         format='MM/DD/YYYY' 
-                        suffixIcon={<IconCalendarMonth style={{width: "17px"}}/>} 
+                        suffixIcon={Icons('IconCalendarMonth',17,17,'#fafafa')} 
                         onChange={handleSelectedDateChange}
                     />
 
@@ -87,34 +123,27 @@ const NextUICalendar = (props) => {
                         placeholder="Select time"
                         className='date-time-picker-select' 
                         data={timeOptions}
-                        rightSection={<IconClock style={{width: "17px"}} />}
+                        // rightSection={
+                        //       <IconClock color='white' style={{width: "17px"}} />
+                        //   }
+                        clearable
+                        // rightSection={selectHover && selectedDateTime && selectedDateTime.isValid() ? <IconPlaystationX onClick={(e) => {e.preventDefault(); console.log("close");}} color='white' style={{width: "17px"}} /> : <IconClock color='white' style={{width: "17px"}} />}
                         comboboxProps={{ withinPortal: false }}
                         searchable
                         limit={12}
                         checkIconPosition="right"
                         w='49%'
+                        defaultValue={selectedDate ? dayjs(selectedDate).format('h:mm A') : undefined}
                         disabled={!selectedDate}
+                        onChange={(time) => handleDateTimeChange(time)}
                         filter={optionsFilter}
                     />
-                    {/* <Popover width={300} position="bottom-end" shadow="md" clickOutsideEvents={['mouseup', 'touchend']} closeOnClickOutside={false}>
-                        <Popover.Target>
-                            <Button>Toggle popover</Button>
-                        </Popover.Target>
-                        <Popover.Dropdown style={{zIndex: "100000"}} p={0} w='fit-content' closeOnClickOutside={false}>
-                            <Select
-                            onClick={(e) => {e.stopPropagation(); e.preventDefault(); console.log("hello");}}
-                            placeholder="Pick value"
-                            data={['React', 'Angular', 'Vue', 'Svelte']}
-                            comboboxProps={{ withinPortal: false }}
-                            />
-                        </Popover.Dropdown>
-                    </Popover> */}
                 </Flex>
             </Box>
             <Flex bg='#232426' justify='flex-end'>
                 <Flex gap={30} justify='center' direction='column'>
                     {presetOptions.map((preset) => (
-                        <Button radius={8} key={preset.name} w='68' h='30' p='0 8px' fz='12.1' fw='400' c='#d6d7da' bg='#323539' bd='.1px solid #525559'>
+                        <Button radius={4} key={preset.name} className='preset-button' >
                             {preset.name}
                         </Button>
                     ))}

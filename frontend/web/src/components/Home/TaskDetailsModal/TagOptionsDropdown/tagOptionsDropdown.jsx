@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Menu,Text, Input } from '@mantine/core';
 import { Divider } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { IconDots,IconTrash } from '@tabler/icons-react';
+import Icons from '../../../icons/icons';
 
 import { updateTagInfo } from '../../../../DataManagement/Tags/updateTag';
 import { MantineDropdown } from '../../../models/ModelDropdown2/mantineDropdown';
@@ -89,7 +89,7 @@ export const TagOptionsDropdown = (props) => {
                         <MantineDropdown 
                             target={
                                 <div className='tag-options-button-div' onClick={(event) => handleOpenTagsOptionsMenu(event, index)}>
-                                    <IconDots color='#fafafa' width='17' />
+                                        {Icons('IconDots',17,24,'#fafafa')}
                                 </div>
                             }
                             width={240} 
@@ -121,7 +121,7 @@ export const TagOptionsDropdown = (props) => {
                                     <div className="px-1">
                                         <Menu.Item w='84%' c='#fafafa' onClick={() => handleOpenTagDeletionModal(tagItem)}>
                                             <div className='d-flex align-items-center gap-3'>
-                                                <IconTrash width={20}/>
+                                                {Icons('IconTrash',20,24)}
                                                 <span>Delete</span>
                                             </div>
                                         </Menu.Item>

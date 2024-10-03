@@ -181,6 +181,9 @@
     .ant-modal-close {
         display: none;
     }
+    .ant-modal-footer {
+        display: none !important;
+    }
     .ant-modal-body {
         color: #fafafa;
     }

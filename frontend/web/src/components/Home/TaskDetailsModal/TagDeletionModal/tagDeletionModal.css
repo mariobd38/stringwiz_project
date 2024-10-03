@@ -4,6 +4,9 @@
         border: 1px solid #57585a;
         padding:0;
     }
+    .ant-modal-footer {
+        display: none;
+    }
     .ant-modal-close {
         display: none;
     }

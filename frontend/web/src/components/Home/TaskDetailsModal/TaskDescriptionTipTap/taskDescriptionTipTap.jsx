@@ -1,15 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 
-import { Menu,Box, rem } from '@mantine/core';
+import { Menu,Box } from '@mantine/core';
 import { useClickOutside } from '@mantine/hooks';
 import { RichTextEditor } from '@mantine/tiptap';
-import { IconH1, IconH2, IconQuote,IconH3,IconClearFormatting,IconList,IconCode,IconCommand,IconArrowBigUp,IconLetterB,IconLetterC,
-    IconNumber8,IconAlt,IconNumber0,IconNumber1,IconNumber2,IconNumber3,IconNumber7,IconNumber9,IconSeparatorHorizontal,IconMinus,
-    IconListNumbers,IconListCheck
- } 
-from '@tabler/icons-react';
 
+import Icons from '../../../icons/icons';
 import { useScrollLock } from '../../../../utils/useScrollLock';
 import { GetEditor } from './customEditor';
 
@@ -92,35 +88,35 @@ const TaskDescriptionTipTap = (props) => {
     // console.log(window.getSelection().toString());
     
     const menuItems = [
-        { label: 'Paragraph', icon: IconClearFormatting, 
-            command: <span className='rte-styles-options-command-button'><IconCommand /><IconAlt /><IconNumber0 /></span>, 
+        { label: 'Paragraph', icon: 'IconClearFormatting', 
+            command: <span className='rte-styles-options-command-button'>{Icons('IconCommand',22,24)}{Icons('IconAlt',30,24)}{Icons('IconNumber0',22,24)}</span>, 
             action: () => {editor.chain().focus(); editor.commands.setParagraph();} },
-        { label: 'Heading 1', icon: IconH1, 
-            command: <span className='rte-styles-options-command-button'><IconCommand /><IconAlt /><IconNumber1 /></span>, 
+        { label: 'Heading 1', icon: 'IconH1', 
+            command: <span className='rte-styles-options-command-button'>{Icons('IconCommand',22,24)}{Icons('IconAlt',30,24)}{Icons('IconNumber1',22,24)}</span>, 
             action: () => editor.chain().focus().toggleHeading({ level: 1 }).run() },
-        { label: 'Heading 2', icon: IconH2, 
-            command: <span className='rte-styles-options-command-button'><IconCommand /><IconAlt /><IconNumber2 /></span>, 
+        { label: 'Heading 2', icon: 'IconH2', 
+            command: <span className='rte-styles-options-command-button'>{Icons('IconCommand',22,24)}{Icons('IconAlt',30,24)}{Icons('IconNumber2',22,24)}</span>, 
             action: () => editor.chain().focus().toggleHeading({ level: 2 }).run() },
-        { label: 'Heading 3', icon: IconH3, 
-            command: <span className='rte-styles-options-command-button'><IconCommand /><IconAlt /><IconNumber3 /></span>, 
+        { label: 'Heading 3', icon: 'IconH3', 
+            command: <span className='rte-styles-options-command-button'>{Icons('IconCommand',22,24)}{Icons('IconAlt',30,24)}{Icons('IconNumber3',22,24)}</span>, 
             action: () => editor.chain().focus().toggleHeading({ level: 3 }).run() },
-        { label: 'Blockquote', icon: IconQuote, 
-            command: <span className='rte-styles-options-command-button' ><IconCommand /><IconArrowBigUp /><IconLetterB /></span>, 
+        { label: 'Blockquote', icon: 'IconQuote', 
+            command: <span className='rte-styles-options-command-button' >{Icons('IconCommand',22,24)}{Icons('IconArrowBigUp',22,24)}{Icons('IconLetterB',22,24)}</span>, 
             action: () => editor.chain().focus().toggleBlockquote().run() },
-        { label: 'Ordered list', icon: IconListNumbers, 
-            command: <span className='rte-styles-options-command-button' ><IconCommand /><IconArrowBigUp /><IconNumber7 /></span>,
+        { label: 'Ordered list', icon: 'IconListNumbers', 
+            command: <span className='rte-styles-options-command-button' >{Icons('IconCommand',20,24)}{Icons('IconArrowBigUp',22,24)}{Icons('IconNumber7',22,24)}</span>,
             action: () => {editor.chain().focus(); !editor.isActive('orderedList') && editor.chain().focus().toggleOrderedList().run();} },
-        { label: 'Bulleted list', icon: IconList, 
-            command: <span className='rte-styles-options-command-button' ><IconCommand /><IconArrowBigUp /><IconNumber8 /></span>,
+        { label: 'Bulleted list', icon: 'IconList', 
+            command: <span className='rte-styles-options-command-button' >{Icons('IconCommand',22,24)}{Icons('IconArrowBigUp',20,24)}{Icons('IconNumber8',20,24)}</span>,
             action: () => {editor.chain().focus(); !editor.isActive('bulletList') && editor.chain().focus().toggleBulletList().run();} },
-        { label: 'Checklist', icon: IconListCheck, 
-            command: <span className='rte-styles-options-command-button' ><IconCommand /><IconArrowBigUp /><IconNumber9 /></span>,
+        { label: 'Checklist', icon: 'IconListCheck', 
+            command: <span className='rte-styles-options-command-button' >{Icons('IconCommand',22,24)}{Icons('IconArrowBigUp',22,24)}{Icons('IconNumber9',22,24)}</span>,
             action: () => {editor.chain().focus(); !editor.isActive('taskList') && editor.chain().focus().toggleTaskList().run(); } },
-        { label: 'Code block', icon: IconCode, 
-            command: <span className='rte-styles-options-command-button' ><IconCommand /><IconAlt /><IconLetterC /></span>,
+        { label: 'Code block', icon: 'IconCode', 
+            command: <span className='rte-styles-options-command-button' >{Icons('IconCommand',22,24)}{Icons('IconAlt',22,24)}{Icons('IconLetterC',22,24)}</span>,
             action: () => {editor.chain().focus().toggleCodeBlock().run();} },
-        { label: 'Divider', icon: IconSeparatorHorizontal, 
-            command: <span className='rte-styles-options-command-button'><IconCommand /><IconArrowBigUp /><IconMinus /></span>, 
+        { label: 'Divider', icon: 'IconSeparatorHorizontal', 
+            command: <span className='rte-styles-options-command-button'>{Icons('IconCommand',22,24)}{Icons('IconArrowBigUp',22,24)}{Icons('IconMinus',22,24)}</span>, 
             action: () => {editor.commands.setHorizontalRule();} },
     ];
 
@@ -214,7 +210,8 @@ const TaskDescriptionTipTap = (props) => {
                                                 item.action();
                                                 setMenuOpened(false);
                                             }}
-                                            leftSection={<item.icon style={{ width: '18px' }} />}
+                                            // leftSection={<item.icon style={{ width: '18px' }} />}
+                                            leftSection={Icons(item.icon,18,18)}
                                             rightSection={item.command}
                                         >
                                             <div className='d-flex gap-3 align-items-center me-3'>

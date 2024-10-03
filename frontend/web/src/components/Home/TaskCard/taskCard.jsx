@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import dayjs from 'dayjs';
 
 import { Table, Card, Text,SegmentedControl,Flex,Button, Box } from '@mantine/core';
-import { IconPlus,IconDots } from '@tabler/icons-react';
 
 import { createTaskInfo } from './../../../DataManagement/Tasks/createTask';
 import { UpdateTaskInfo } from './../../../DataManagement/Tasks/updateTask';
@@ -18,6 +17,7 @@ import { UpdateTaskInfoNew } from '../../../DataManagement/Tasks/updateTaskNew';
 import checklist from '../../../assets/illustrations/home/checklist.png';
 
 import './taskCard.css'
+import Icons from '../../icons/icons';
 
 const TaskCard = (props) => {
 
@@ -161,8 +161,9 @@ const TaskCard = (props) => {
                 <div style={{ color: '#fafafa' }}>
                     <Text fz='18'  c='#e8eaed' ff='Lato'>My Tasks</Text>
                 </div>
-                <div style={{ color: "#fafafa" }}>
-                    <IconDots />
+
+                <div>
+                    {Icons('IconDots',24,24,'#fafafa')}
                 </div> 
             </div>
 
@@ -178,7 +179,12 @@ const TaskCard = (props) => {
                 />
 
                 <Button bd='1px solid #048369'  className='task-card-create-task-button' radius={8} p='0px 12px' bg='transparent' onClick={() => setOpenTaskCreateModal(true)}>
-                    <IconPlus width={15} style={{marginRight: "5px"}}/>Create task
+                    <div className='d-flex align-items-center'>
+                        <div style={{marginRight: "5px"}}>
+                        {Icons('IconPlus',15,15,'#fafafa')}
+                        </div>
+                        <span>Create task</span>
+                    </div>
                 </Button>
                 
             </Flex>

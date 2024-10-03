@@ -2,10 +2,7 @@ import React from 'react';
 
 import { Tooltip,Breadcrumbs, Anchor,Divider,Text, Button } from '@mantine/core';
 
-import {
-    IconChevronRight,IconX,IconBookmark,IconShare,IconSquareChevronUp,IconSquareChevronDown,IconDots
-  } from '@tabler/icons-react';
-
+import Icons from '../../../icons/icons';
 
 import './taskDetailsModalHeader.css';
 
@@ -15,7 +12,6 @@ const TaskDetailsModalHeader = (props) => {
     const breadcrumbItems = [
     { title: `${userFullName.split(" ")[0]}'s Workspace`, href: '#' },
     { title: `My Tasks`, href: '#' },
-    // { title: 'Mantine hooks', href: '#' },
     ].map((item, index) => (
     <Anchor href={item.href} key={index} className='user-home-task-details-modal-breadcrumbs'>
         {item.title}
@@ -26,14 +22,15 @@ const TaskDetailsModalHeader = (props) => {
         <div className='d-flex justify-content-between user-home-task-details-modal-header-parent'>
             <div className='user-home-task-details-modal-header'>
                 <Text >
-                    <Breadcrumbs separator={<IconChevronRight width={13} color='#c8cacc' />} >
+                    <Breadcrumbs separator={Icons('IconChevronRight',13,13,'#c8cacc')} >
                         {breadcrumbItems}
                     </Breadcrumbs>
                 </Text>
                 <Divider size="xs" orientation="vertical" ms={13} me={13} m='auto' h={25} bd='.1px solid #676869' />
                 <span className='gap-2 d-flex'>
-                    <Anchor href='/home'> <IconSquareChevronUp /></Anchor>
-                    <Anchor href='/home'> <IconSquareChevronDown /></Anchor>
+
+                    <Anchor href='/home'> {Icons('IconSquareChevronUp',24,24)}</Anchor>
+                    <Anchor href='/home'> {Icons('IconSquareChevronDown',24,24)}</Anchor>
                 </span>
             </div>
             <div className='d-flex justify-content-end'>
@@ -56,23 +53,30 @@ const TaskDetailsModalHeader = (props) => {
                     {/* <div className='divider m-auto mx-2 d-none d-md-flex'></div> */}
                     <div className='d-flex align-items-center'>
                         <Button className='user-home-task-details-modal-share-btn mx-sm-2' m='auto' mx='1'>
-                            <IconShare width={18} className='me-1' />
-                            Share
+                            <div className='d-flex align-items-center'>
+                                <div className='me-2'>
+                                    {Icons('IconShare',18,18)}
+                                </div>
+                                <span>Share</span>
+                            </div>
                         </Button>
                     </div>
                     <div className='user-home-task-details-modal-header-right-btn'>
-                        <IconBookmark className='mx-1 mx-sm-2 m-auto'/>
+                    <div className='mx-1 mx-sm-2 m-auto'>
+                            {Icons('IconBookmark',24,24)}
+                        </div>
                     </div>
                     <div className='user-home-task-details-modal-header-right-btn'>
-                        <IconDots className='mx-1 mx-sm-2 m-auto'/>
+                        <div className='mx-1 mx-sm-2 m-auto'>
+                            {Icons('IconDots',24,24)}
+                        </div>
                     </div>  
                     <div className='user-home-task-details-modal-header-right-btn' onClick={handleTaskDetailsModalClose}>
-                        <IconX className='mx-1 mx-sm-2 m-auto'/>
+                        <div className='mx-1 mx-sm-2 m-auto'>
+                            {Icons('IconX',24,24,'#fafafa')}
+                        </div>
                     </div> 
                 </div>
-                {/* <div className='m-auto d-none d-sm-flex'>
-                    <IconX className='user-home-task-details-modal-close-btn me-3' onClick={handleTaskDetailsModalClose}/>
-                </div> */}
             </div>
         </div>
     );

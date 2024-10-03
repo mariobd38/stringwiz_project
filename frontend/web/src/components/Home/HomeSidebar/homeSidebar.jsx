@@ -1,18 +1,8 @@
 import React, { useState, useRef } from 'react';
-import {
-  Avatar,
-  UnstyledButton,
-  Badge,
-  Tooltip,rem
-} from '@mantine/core';
-import {
-  IconHome,
-  IconDotsCircleHorizontal,
-  IconFile,
-  IconCalendar,
-  IconInbox,
-  IconCheckbox,
-} from '@tabler/icons-react';
+import {Avatar,UnstyledButton,Badge,Tooltip,rem} from '@mantine/core';
+
+import Icons from '../../icons/icons';
+
 import classes from './navbarSearch.module.css';
 import './homeSidebar.css';
 
@@ -21,12 +11,12 @@ const HomeSidebar = (props) => {
   const firstLetter = userFullName[0].toUpperCase();
 
   const links = [
-    { icon: IconHome, label: 'Home' },
-    { icon: IconInbox, label: 'Inbox', notifications: 4 },
-    { icon: IconCheckbox, label: 'Tasks', notifications: 4 },
-    { icon: IconFile, label: 'Docs' },
-    { icon: IconCalendar, label: 'Calendar' },
-    { icon: IconDotsCircleHorizontal, label: 'More' },
+    { icon: 'IconHome', label: 'Home' },
+    { icon: 'IconInbox', label: 'Inbox', notifications: 4 },
+    { icon: 'IconCheckbox', label: 'Tasks', notifications: 4 },
+    { icon: 'IconFile', label: 'Docs' },
+    { icon: 'IconCalendar', label: 'Calendar' },
+    { icon: 'IconDotsCircleHorizontal', label: 'More' },
   ];
 
   const profileLink = (
@@ -39,12 +29,15 @@ const HomeSidebar = (props) => {
     </div>
   );
 
-  const mainLinks = links.map((link) => (
+  const mainLinks = links.map((link,index) => (
         <>
             {openSidebarToggle ? 
-                <UnstyledButton key={link.label} className={`${classes.mainLink} ${classes.active}`}>
+                <UnstyledButton key={index} className={`${classes.mainLink} ${classes.active}`}>
                     <div className={classes.mainLinkInner}>
-                        <link.icon color='#868e96' size={25} className={`${classes.mainLinkIcon} ${classes.active}`} stroke={2} />
+                      <div className={`${classes.mainLinkIcon} ${classes.active}`}>
+                        {Icons(link.icon, 25, 25, '#868e96')}
+                        {/* <link.icon color='#868e96' size={25}  stroke={2} /> */}
+                      </div>
                     <span style={{fontFamily: 'Lato', fontWeight: "600", fontSize: "15px", color: "#d0d2d4"}}>{link.label}</span>
                     </div>
                     {link.notifications && (
@@ -59,13 +52,7 @@ const HomeSidebar = (props) => {
                 <UnstyledButton key={link.label} className={classes.mainLink}>
                     <div className={`${classes.mainLinkInner} d-flex justify-content-center`}>
                         <div className={classes.iconWrapper}>
-                        <link.icon
-                            justify='center'
-                            m={0}
-                            size={25}
-                            className={classes.mainLinkIcon}
-                            stroke={2}
-                        />
+                          {Icons(link.icon, 25, 25, '#868e96')}
                         {link.notifications &&
                         <Badge circle size="xs" color="blue" className={classes.badge}>
                             {link.notifications}
@@ -135,30 +122,7 @@ const HomeSidebar = (props) => {
             </div>
 
             <div className="resize-handle" onMouseDown={handleMouseDown} style={{background: sidebarColor}}></div>
-
-            
     </nav>
-    // <nav className={`${classes.navbar} ${openSidebarToggle ? 'active' : ''}`} 
-    //     style={{
-    //         'width': openSidebarToggle ? rem(260) : rem(80),
-    //       }}
-    //     >
-
-
-    //         <div className={classes.section}>
-    //             <div className={classes.profile}>{profileLink}</div>
-    //             {/* <div className={classes.mainLinks}>{mainLinks}</div> */}
-    //         </div>
-    //         <div className={classes.section}>
-    //             {/* <div className={classes.mainLinks}>{profileLink}</div> */}
-    //             <div className={classes.mainLinks}>{mainLinks}</div>
-    //         </div>
-
-    //         <div className={classes.section}>
-    //         </div>
-
-            
-    //     </nav>
   );
 };
 
