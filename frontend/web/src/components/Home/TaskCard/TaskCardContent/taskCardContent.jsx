@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo,useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { Modal } from "antd";
@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 
 import { Tooltip, Table, Text,Button,Textarea } from '@mantine/core';
 import { useClickOutside } from '@mantine/hooks';
+
 import Icons from '../../../icons/icons';
 
 import NewHomeDueDatePopover from '../../newHomeDueDatePopover';
@@ -21,7 +22,7 @@ import './taskCardContent.css';
 const TaskCardContent = (props) => {
     const {today,taskType,currentTaskDueDate, currentTaskDueDateTime, currentIndex, setCurrentIndex,setCurrentTaskDueDate,
         setCurrentTaskDueDateTime, getTagInfo,setCurrentTaskTags,setModalShow,setCurrentTaskName,setCurrentTaskCreationDate,
-        setCurrentTaskLastUpdatedOn,setCurrentTaskStatus,setCurrentTaskPriority,handleTaskComplete,dueDatePopoverIsOpen,
+        setCurrentTaskLastUpdatedOn,setCurrentTaskStatus,setCurrentTaskPriority,dueDatePopoverIsOpen,
         setDueDatePopoverIsOpen,setTaskType,isTaskTabCompleted, setCurrentTaskDescriptionHtml,handleTaskUpdateNew
     } = props;
 
@@ -99,15 +100,11 @@ const TaskCardContent = (props) => {
 
         const mouseX = event.clientX;
         const mouseY = event.clientY - 100;
-        setContextMenuPosition({
-            top: mouseY,
-            left: mouseX,
-        });
+        setContextMenuPosition({top: mouseY,left: mouseX,});
         setShowContextMenu(true);
         disableScroll();
     }
 
-    const tableRowRef = useRef(null);
     const [openRenameModal, setOpenRenameModal] = useState(false);
     const [newTaskName,setNewTaskName] = useState(null);
 
@@ -129,104 +126,76 @@ const TaskCardContent = (props) => {
     const handleTaskRename = () => {
         handleTaskUpdateNew(taskType[currentIndex], newTaskName, "name", taskType, setTaskType, currentIndex);
         setOpenRenameModal(false);
-        // console.log(newTaskName);
-        // setCurrentTaskName(event.currentTarget.value);
     }
 
+    const handleTaskComplete = (index) => {
+        handleTaskUpdateNew(taskType[index], 'Completed', "status", taskType, setTaskType, index);
+    }
 
     const rows = (taskType) => {
-        return taskType.map((element, index) => (
-        <Table.Tr key={index} className='table-row-dark table-cell' bd='none' style={{borderRadius: "18px"}} onContextMenu={(event) => handleTaskRowRightClick(event, index)}>
-            <Table.Td className={`text-overflow-cell`} >
-                <div ref={tableRowRef}>
-                    <div className="d-flex" style={{ color: "#fafafa" }}>
-                        <div className='align-items-center d-flex'>
-                            {isTaskTabCompleted ?
-                                <div onClick={(event) => handleTaskComplete(event, index,taskType)} className='d-flex align-items-center user-home-task-check-icon user-home-task-set-complete'>
-                                    {Icons('IconCircleCheckFilled',24,24,'#048a66')}
-                                </div>
-                                : (
-                                    <div onClick={(event) => handleTaskComplete(event, index,taskType)}
-                                    className="user-home-task-set-complete d-flex align-items-center">
-                                        {Icons('IconCircle',16,16)}
+        
+        return taskType.map((element, index) => {
+            // console.log(dropdownRefs.current[index]);
+            
+            return ( <Table.Tr key={index} className='table-row-dark table-cell' bd='none' style={{borderRadius: "18px"}} onContextMenu={(event) => handleTaskRowRightClick(event, index)}>
+                <Table.Td className={`text-overflow-cell`}>
+                    <div >
+                        <div className="d-flex" style={{ color: "#fafafa" }}>
+                            <div className='align-items-center d-flex'>
+                                {isTaskTabCompleted ?
+                                    <div onClick={() => handleTaskComplete(index)} className='d-flex align-items-center user-home-task-check-icon user-home-task-set-complete'>
+                                        {Icons('IconCircleCheckFilled',24,24,'#048a66')}
                                     </div>
-                                )
-                            }
-                        </div>
-                    
-                        <Link className='text-overflow m-0 d-flex ps-1' to={{ pathname: '/home/modal' }} state={{ background: location }} 
-                            onClick={(e) => OpenTaskDetailsModal(e, taskType, index)} >
-                            <div className='d-flex flex-column w-100'>
-                                <button className='task-name-link' >
-                                    <div className={`task-name-text `} >
-                                        <Text className='text-overflow' fz={14}>{element.name}</Text>
-                                    </div>
-                                </button>
+                                    : (
+                                        <div onClick={() => handleTaskComplete(index)}
+                                        className="user-home-task-set-complete d-flex align-items-center">
+                                            {Icons('IconCircle',16,16)}
+                                        </div>
+                                    )
+                                }
                             </div>
-                        </Link>
-                    </div>
-                </div>
-            </Table.Td>
-            <Table.Td ps={0} className='table-icons-cell'>
-                    <div className='d-flex align-items-center gap-2 justify-content-end' >
-                            {/* <span
-                            className="table-cell-icon"
-                            >
-                                <Tooltip label="Delete task" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font'
-                                style={{ backgroundColor: "#338b6f", borderRadius: "6px" }}>
-                                    <div className='user-home-calendar-icon-div'>
-                                        <IconTrash className='user-home-calendar-icon' />
-                                    </div>
-                                </Tooltip>
                         
-                            </span> 
+                            <Link className='text-overflow m-0 d-flex ps-1' to={{ pathname: '/home/modal' }} state={{ background: location }} 
+                                onClick={(e) => OpenTaskDetailsModal(e, taskType, index)} >
+                                <div className='d-flex flex-column w-100'>
+                                    <button className='task-name-link' >
+                                        <div className={`task-name-text `} >
+                                            <Text className='text-overflow' fz={14}>{element.name}</Text>
+                                        </div>
+                                    </button>
+                                </div>
+                            </Link>
+                        </div>
+                    </div>
+                </Table.Td>
+                <Table.Td ps={0} className='table-icons-cell'>
+                        <div className='d-flex align-items-center gap-2 justify-content-end' >
+                                {/* <span
+                                className="table-cell-icon"
+                                >
+                                    <Tooltip label="Delete task" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font'
+                                    style={{ backgroundColor: "#338b6f", borderRadius: "6px" }}>
+                                        <div className='user-home-calendar-icon-div'>
+                                            <IconTrash className='user-home-calendar-icon' />
+                                        </div>
+                                    </Tooltip>
+                            
+                                </span> 
 
-                            <span
-                            className="table-cell-icon"
-                            >
-                                <Tooltip label="Change assignee" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font'
-                                style={{ backgroundColor: "#338b6f", borderRadius: "6px" }}>
-                                    <div className='user-home-calendar-icon-div'>
-                                        <IconUser className='user-home-calendar-icon' />
-                                    </div>
-                                </Tooltip>
-                            </span> 
+                                <span
+                                className="table-cell-icon"
+                                >
+                                    <Tooltip label="Change assignee" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font'
+                                    style={{ backgroundColor: "#338b6f", borderRadius: "6px" }}>
+                                        <div className='user-home-calendar-icon-div'>
+                                            <IconUser className='user-home-calendar-icon' />
+                                        </div>
+                                    </Tooltip>
+                                </span> 
 
-                            <span
-                            className="table-cell-icon"
-                            >
-                                <MantineDropdown 
-                                    target={
-                                        <Tooltip label="Set status" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font'
-                                        style={{ backgroundColor: "#338b6f", borderRadius: "6px" }}>
-                                            <div className='user-home-calendar-icon-div'>
-                                                <IconLoader className='user-home-calendar-icon' />
-                                            </div>
-                                        </Tooltip>
-                                    }
-                                    width={190} dropdown={<StatusDropdownContent element={element} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} setTaskType={setTaskType} idx={index}/> }
-                                    rowIndex={index} onMenuToggle={handleMenuToggle} position='bottom-end'
-                            />
-                            </span> */}
-
-                            {/* <>{element.status ?
-                                <MantineDropdown 
-                                    target={
-                                        <Button p='0 12px' size="xs" radius='8' fz={13} bg='transparent' className='user-home-calendar-icon-div'>
-                                            <span style={{ color: "#a7a7a7" }} className={`lato-font, user-home-chosen-due-date-text`} >
-                                                <span className='d-flex align-items-center' style={{color: "#e5e5e5"}}
-                                                >
-                                                    <IconLoader className='me-1' width={18}/>{element.status}
-                                                </span>
-                                            </span>
-                                        
-                                        </Button> 
-                                    }
-                                    width={210} dropdown={<StatusDropdownContent element={element} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} setTaskType={setTaskType} idx={index}/> }
-                                    rowIndex={index} onMenuToggle={handleMenuToggle} position='bottom-end'
-                                />
-                                :
-                                <span className='table-cell-icon'>
+                                <span
+                                className="table-cell-icon"
+                                >
                                     <MantineDropdown 
                                         target={
                                             <Tooltip label="Set status" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font'
@@ -236,71 +205,150 @@ const TaskCardContent = (props) => {
                                                 </div>
                                             </Tooltip>
                                         }
+                                        width={190} dropdown={<StatusDropdownContent element={element} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} setTaskType={setTaskType} idx={index}/> }
+                                        rowIndex={index} onMenuToggle={handleMenuToggle} position='bottom-end'
+                                />
+                                </span> */}
+
+                                {/* <>{element.status ?
+                                    <MantineDropdown 
+                                        target={
+                                            <Button p='0 12px' size="xs" radius='8' fz={13} bg='transparent' className='user-home-calendar-icon-div'>
+                                                <span style={{ color: "#a7a7a7" }} className={`lato-font, user-home-chosen-due-date-text`} >
+                                                    <span className='d-flex align-items-center' style={{color: "#e5e5e5"}}
+                                                    >
+                                                        <IconLoader className='me-1' width={18}/>{element.status}
+                                                    </span>
+                                                </span>
+                                            
+                                            </Button> 
+                                        }
                                         width={210} dropdown={<StatusDropdownContent element={element} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} setTaskType={setTaskType} idx={index}/> }
                                         rowIndex={index} onMenuToggle={handleMenuToggle} position='bottom-end'
                                     />
-                                </span>
-                                 }
-                            </> */}
+                                    :
+                                    <span className='table-cell-icon'>
+                                        <MantineDropdown 
+                                            target={
+                                                <Tooltip label="Set status" position="top" offset={8} withArrow openDelay={400} className='fafafa-color lato-font'
+                                                style={{ backgroundColor: "#338b6f", borderRadius: "6px" }}>
+                                                    <div className='user-home-calendar-icon-div'>
+                                                        <IconLoader className='user-home-calendar-icon' />
+                                                    </div>
+                                                </Tooltip>
+                                            }
+                                            width={210} dropdown={<StatusDropdownContent element={element} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} setTaskType={setTaskType} idx={index}/> }
+                                            rowIndex={index} onMenuToggle={handleMenuToggle} position='bottom-end'
+                                        />
+                                    </span>
+                                    }
+                                </> */}
 
-                        <>{element.priority &&
-                            <MantineDropdown 
-                                target={
-                                    <Button p='0 12px' size="xs" radius='6' fz={13} bg='transparent' className='user-home-calendar-icon-div'>
+                            <>{element.priority &&
+                                <MantineDropdown 
+                                    target={
+                                        <Button p='0 12px' size="xs" radius='6' fz={13} bg='transparent' className='user-home-calendar-icon-div'>
+                                            <span style={{ color: "#a7a7a7" }} className={`lato-font, user-home-chosen-due-date-text`} >
+                                                <span className='d-flex align-items-center' style={{color: "#e5e5e5"}} >
+                                                    <div className='me-1'>
+                                                        {Icons('IconFlag3',18,18,'#e5e5e5')}
+                                                    </div>
+
+                                                    <span>{element.priority}</span>
+                                                </span>
+                                            </span>
+                                        </Button> 
+                                    }
+                                    width={210} dropdown={<PriorityDropdownContent element={element} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} setTaskType={setTaskType} idx={index} existingTask={true}/> }
+                                    position='bottom-end'
+                                />
+                            }</>
+
+                            <NewHomeDueDatePopover
+                                popoverTarget={
+
+                                <>{element.dueDate ?
+                                    <Button fz='13' size="xs" p='0 12px' radius='6' bg='transparent' className='user-home-calendar-icon-div' onClick={(event) => handleDueDatePopoverClick(event, index,element)}>
                                         <span style={{ color: "#a7a7a7" }} className={`lato-font, user-home-chosen-due-date-text`} >
-                                            <span className='d-flex align-items-center' style={{color: "#e5e5e5"}} >
-                                                <div className='me-1'>
-                                                    {Icons('IconFlag3',18,18,'#e5e5e5')}
+                                            <span className='d-flex align-items-center'
+                                                style={{ color: dayjs(element.dueDate).startOf('day').diff(dayjs(today).startOf('day'), 'day') < 0 && element.status !== 'Completed' ? "#e10845cf" : "#e5e5e5"
+                                            }} >
+                                                <div className='d-flex align-items-center'>
+                                                    <div className='me-2'>
+                                                        {Icons('IconCalendarDue',18,18,'#fafafa')}
+                                                    </div>
+                                                    <span>{formatDate(element.dueDate)}</span>
                                                 </div>
-
-                                                <span>{element.priority}</span>
                                             </span>
                                         </span>
-                                    </Button> 
-                                }
-                                width={210} dropdown={<PriorityDropdownContent element={element} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} setTaskType={setTaskType} idx={index} existingTask={true}/> }
-                                position='bottom-end'
-                            />
-                        }</>
+                                    </Button> :
 
-                        <NewHomeDueDatePopover
-                            popoverTarget={
-
-                            <>{element.dueDate ?
-                                <Button fz='13' size="xs" p='0 12px' radius='6' bg='transparent' className='user-home-calendar-icon-div' onClick={(event) => handleDueDatePopoverClick(event, index,element)}>
-                                    <span style={{ color: "#a7a7a7" }} className={`lato-font, user-home-chosen-due-date-text`} >
-                                        <span className='d-flex align-items-center'
-                                            style={{ color: dayjs(element.dueDate).startOf('day').diff(dayjs(today).startOf('day'), 'day') < 0 && element.status !== 'Completed' ? "#e10845cf" : "#e5e5e5"
-                                        }} >
-                                            <div className='d-flex align-items-center'>
-                                                <div className='me-2'>
-                                                    {Icons('IconCalendarDue',18,18,'#fafafa')}
-                                                </div>
-                                                <span>{formatDate(element.dueDate)}</span>
+                                    <span className='table-cell-icon'>
+                                        <Tooltip label="Add due date" position="top" offset={8} openDelay={400} className='user-home-tooltip' >
+                                            <div className='user-home-calendar-icon-div' onClick={(event) => handleDueDatePopoverClick(event, index,element)}>
+                                                {Icons('IconCalendarMonth',20.80,16,'#fafafa')}
                                             </div>
-                                        </span>
-                                    </span>
-                                </Button> :
+                                        </Tooltip>
+                                    </span>}
+                                </>} 
 
-                                <span className='table-cell-icon'>
-                                    <Tooltip label="Add due date" position="top" offset={8} openDelay={400} className='user-home-tooltip' >
-                                        <div className='user-home-calendar-icon-div' onClick={(event) => handleDueDatePopoverClick(event, index,element)}>
-                                            {Icons('IconCalendarMonth',20.80,16,'#fafafa')}
-                                        </div>
-                                    </Tooltip>
-                                </span>}
-                            </>} 
+                                currentTaskDueDate={currentTaskDueDate} setCurrentTaskDueDate={setCurrentTaskDueDate}
+                                currentTaskDueDateTime={currentTaskDueDateTime} setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
+                                dueDatePopoverIsOpen={dueDatePopoverIsOpen} setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
+                                currentIndex={currentIndex} taskType={taskType} setTaskType={setTaskType} handleTaskUpdateNew={(element,value, attribute, taskType,setTaskType,index) => handleTaskUpdateNew(element,value, attribute, taskType,setTaskType,index)}
+                            />
+                            {/* <Popover placement="bottom" isOpen={dueDatePopoverIsOpen} onOpenChange={(open) => setDueDatePopoverIsOpen(open)}>
+                                        <PopoverTrigger onClick={() => setDueDatePopoverIsOpen}>
+                                            // <Button fw={300} c='#e0e2e6' className='nextui-calendar-popover-trigger-button' radius={5} h='30' p='0 8px' bg='transparent' bd='.1px solid #048369' 
+                                            // >
+                                            //     {Icons('IconCalendarMonth',14,14,'#e0e2e6')} 
+                                            //     <Text ms='8' ff='Inter' fz='12.5' >
+                                            //         {currentTaskDueDateTime && currentTaskDueDateTime.isValid() 
+                                            //             ? currentTaskDueDateTime.format(`MMM D, h${currentTaskDueDateTime.minute() !== 0 ? ':mm' : ''}a`)
+                                            //             : currentTaskDueDate && currentTaskDueDate.isValid() ? `${currentTaskDueDate.format('MMM D')} ` : 'Due Date'
+                                            //         }
+                                            //     </Text>
+                                            // </Button>
+                                            <>{element.dueDate ?
+                                                <Button fz='13' size="xs" p='0 12px' radius='6' bg='transparent' className='user-home-calendar-icon-div' onClick={(event) => handleDueDatePopoverClick(event, index,element)}>
+                                                    <span style={{ color: "#a7a7a7" }} className={`lato-font, user-home-chosen-due-date-text`} >
+                                                        <span className='d-flex align-items-center'
+                                                            style={{ color: dayjs(element.dueDate).startOf('day').diff(dayjs(today).startOf('day'), 'day') < 0 && element.status !== 'Completed' ? "#e10845cf" : "#e5e5e5"
+                                                        }} >
+                                                            <div className='d-flex align-items-center'>
+                                                                <div className='me-2'>
+                                                                    {Icons('IconCalendarDue',18,18,'#fafafa')}
+                                                                </div>
+                                                                <span>{formatDate(element.dueDate)}</span>
+                                                            </div>
+                                                        </span>
+                                                    </span>
+                                                </Button> :
 
-                            currentTaskDueDate={currentTaskDueDate} setCurrentTaskDueDate={setCurrentTaskDueDate}
-                            currentTaskDueDateTime={currentTaskDueDateTime} setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
-                            today={today} dueDatePopoverIsOpen={dueDatePopoverIsOpen} setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
-                            currentIndex={currentIndex} taskType={taskType} setTaskType={setTaskType}
-                        />
-                </div>
-            </Table.Td>
-        </Table.Tr>
-        ));
-      };
+                                                <span className='table-cell-icon'>
+                                                    <Tooltip label="Add due date" position="top" offset={8} openDelay={400} className='user-home-tooltip' >
+                                                        <div className='user-home-calendar-icon-div' >
+                                                            {Icons('IconCalendarMonth',20.80,16,'#fafafa')}
+                                                        </div>
+                                                    </Tooltip>
+                                                </span>}
+                                            </>
+                                            
+                                        </PopoverTrigger>
+                                        <PopoverContent className='p-0 bg-transparent' >
+                                            <NextUICalendar 
+                                                selectedDate={currentTaskDueDate}
+                                                setSelectedDate={setCurrentTaskDueDate}
+                                                selectedDateTime={currentTaskDueDateTime}
+                                                setSelectedDateTime={setCurrentTaskDueDateTime}
+                                            />
+                                        </PopoverContent>
+                                    </Popover> */}
+                    </div>
+                </Table.Td>
+            </Table.Tr>
+        )});
+    };
 
     return (
         <>  

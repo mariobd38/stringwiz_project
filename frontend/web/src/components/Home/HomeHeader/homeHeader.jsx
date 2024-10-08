@@ -44,9 +44,9 @@ const HomeHeader = () => {
     }, [backgroundColor, backgroundImage, setBackgroundColor, setBackgroundImage, currentColorMode, setCurrentColorMode]);
 
     const homeHeaderButtons = [
-        {"icon": Icons('IconCirclePlus',23,23,'#05c099'), "label": "Invite"},
+        {"icon": Icons('IconCirclePlus',23,23,'#05c099'), "label": "Create"},
         {"icon": Icons('IconUserPlus',23,23,'#05c099'), "label": "Invite"},
-        {"icon": Icons('IconSparkles',23,23,'#05c099'), "label": "Invite"},
+        {"icon": Icons('IconSparkles',23,23,'#05c099'), "label": "AI Assistant"},
         {"icon": Icons('IconSettings',23,23,'#05c099'), "label": "Settings"},
     ]
 
@@ -93,7 +93,7 @@ const HomeHeader = () => {
                 <div>
                     <Button bd='1px solid #048369' radius={8} p='1px 13px' bg='transparent' c='#f2f4f7'>
                         <div className='d-flex align-items-center'>
-                            <div style={{marginRight: "5px"}}>
+                            <div style={{marginRight: "7px"}}>
                                 {Icons('IconFidgetSpinner',18,18,'#fafafa')}
                             </div>
                             <span>Customize</span>

@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 
-import dayjs from 'dayjs';
 
 import { Table, Card, Text,SegmentedControl,Flex,Button, Box } from '@mantine/core';
 
-import { createTaskInfo } from './../../../DataManagement/Tasks/createTask';
-import { UpdateTaskInfo } from './../../../DataManagement/Tasks/updateTask';
 import { getTagInfo } from '../../../DataManagement/Tags/getTags';
 
 import TaskDetailsModal from '../TaskDetailsModal/taskDetailsModal';
@@ -24,21 +21,6 @@ const TaskCard = (props) => {
     const {userFullName, initials, userEmail, taskData, setTaskData, ongoingTasks, today, overdueTasks,
         completedTasks,userProfileDto,userProfilePicture} = props; 
     const [currentIndex, setCurrentIndex] = useState(null);
-
-    const handleTaskCreate = (event) => {
-        if (event.key === 'Enter' && event.target.value.trim() !== '') {
-            createTaskInfo(
-                dayjs,
-                event.target.value,
-                null,
-                null,
-                null,
-                null,
-                setTaskData,
-                taskData
-            );
-        }
-    };
 
     //task attributes
     const [currentTaskName, setCurrentTaskName] = useState('');
@@ -59,40 +41,6 @@ const TaskCard = (props) => {
     const [taskType, setTaskType] = useState(null);
     //task details modal
     const [modalShow, setModalShow] = useState(false);
-
-    //update task call
-    const handleTaskUpdate = (event) => {
-        if (selectedDate === null && currentTaskDueDate !== null) {
-            setSelectedDate(currentTaskDueDate);
-        }
-        UpdateTaskInfo(
-            currentIndex, 
-            event,
-            taskType,
-            setTaskType,
-            selectedDate,
-            dayjs,
-            setCurrentTaskDueDate,
-            setCurrentTaskDueDateTime,
-            completedTasks,
-        );
-    };
-
-    // TODO
-    const handleTaskComplete = (event,index,taskType) => {
-        UpdateTaskInfo(
-            index,
-            event,
-            taskType,
-            setTaskType,
-            selectedDate,
-            dayjs,
-            setCurrentTaskDueDate,
-            setCurrentTaskDueDateTime,
-            completedTasks,
-        );
-    }
-    
 
     const handleTaskUpdateNew = (element,value, attribute, taskType,setTaskType,index) => {
         UpdateTaskInfoNew(
@@ -143,8 +91,6 @@ const TaskCard = (props) => {
           setCurrentTaskLastUpdatedOn={setCurrentTaskLastUpdatedOn}
           setCurrentTaskStatus={setCurrentTaskStatus}
           setCurrentTaskPriority={setCurrentTaskPriority}
-          handleTaskUpdate={handleTaskUpdate}
-          handleTaskComplete={handleTaskComplete}
           dueDatePopoverIsOpen={dueDatePopoverIsOpen}
           setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
           setTaskType={setTaskType}
@@ -180,7 +126,7 @@ const TaskCard = (props) => {
 
                 <Button bd='1px solid #048369'  className='task-card-create-task-button' radius={8} p='0px 12px' bg='transparent' onClick={() => setOpenTaskCreateModal(true)}>
                     <div className='d-flex align-items-center'>
-                        <div style={{marginRight: "5px"}}>
+                        <div style={{marginRight: "7px"}}>
                         {Icons('IconPlus',15,15,'#fafafa')}
                         </div>
                         <span>Create task</span>
@@ -191,46 +137,45 @@ const TaskCard = (props) => {
             <Card className='task-card-card' >
                 
                 <div className='user-home-card-body'>
-                    <div className=''>
+                    <div>
                         {activeSegment === '1' && (
-                        <div className='table-container-wrapper mx-3 py-3'>
-                        <Table>
-                            <Table.Tbody>
-
-                            {renderTaskContent(ongoingTasks,false)}
-                            </Table.Tbody>
-                        </Table>
-                        </div>
-                    )}
-
-                    {activeSegment === '2' && (
-                        <div className='table-container-wrapper mx-3 py-3'>
-                        <Table>
-                            <Table.Tbody>
-                            
-                            {renderTaskContent(overdueTasks,false)}
-
-                            </Table.Tbody>
-                        </Table>
-                        </div>
-                    )}
-
-                    {activeSegment === '3' && (
-                        <div className='table-container-wrapper mx-3 py-3'>
-                        {completedTasks.length > 0 ? (
-                            <Table>
-                            <Table.Tbody>
-                                {renderTaskContent(completedTasks,true)}
-                            </Table.Tbody>
-                            </Table>
-                        ) : (
-                            <div className='d-flex flex-column  p-0 justify-content-center align-items-center'>
-                            <img style={{ width: "14rem" }} src={checklist} alt="" />
-                            <div className='fafafa-color pt-3 lato-font'>Your completed tasks will appear here ✅</div>
+                            <div className='table-container-wrapper mx-3 py-3'>
+                                <Table>
+                                    <Table.Tbody>
+                                        {renderTaskContent(ongoingTasks,false)}
+                                    </Table.Tbody>
+                                </Table>
                             </div>
                         )}
-                        </div>
-                    )}
+
+                        {activeSegment === '2' && (
+                            <div className='table-container-wrapper mx-3 py-3'>
+                                <Table>
+                                    <Table.Tbody>
+                                    
+                                        {renderTaskContent(overdueTasks,false)}
+
+                                    </Table.Tbody>
+                                </Table>
+                            </div>
+                        )}
+
+                        {activeSegment === '3' && (
+                            <div className='table-container-wrapper mx-3 py-3'>
+                                {completedTasks.length > 0 ? (
+                                    <Table>
+                                        <Table.Tbody>
+                                            {renderTaskContent(completedTasks,true)}
+                                        </Table.Tbody>
+                                    </Table>
+                                ) : (
+                                    <div className='d-flex flex-column  p-0 justify-content-center align-items-center'>
+                                        <img style={{ width: "14rem" }} src={checklist} alt="" />
+                                        <div className='fafafa-color pt-3 lato-font'>Your completed tasks will appear here ✅</div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
 
@@ -275,8 +220,8 @@ const TaskCard = (props) => {
             <TaskCreationModal 
                 openTaskCreateModal={openTaskCreateModal}
                 setOpenTaskCreateModal={setOpenTaskCreateModal}
-                currentIndex={currentIndex}
-                handleTaskUpdateNew={handleTaskUpdateNew}
+                taskData={taskData}
+                setTaskData={setTaskData}
             />
         </Box>
     );

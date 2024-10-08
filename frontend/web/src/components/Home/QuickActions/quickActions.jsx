@@ -21,7 +21,7 @@ const QuickActions = () => {
                                 <Button className='quick-actions-button' ><span style={{marginRight: "15px"}}>{Icons('IconCalendar',24,24,'#fafafa')}</span>Schedule an event</Button>
                             </Grid.Col>
                             <Grid.Col span={{ base: 12, md: 6, lg: 3 }} style={{ display: 'flex', justifyContent: 'center' }}>
-                                <Button className='quick-actions-button' ><span style={{marginRight: "15px"}}>{Icons('IconFile',24,24,'#fafafa')}</span>Start a doc</Button>
+                                <Button className='quick-actions-button' ><span style={{marginRight: "15px"}}>{Icons('IconFile',24,24,'#fafafa')}</span>Create new doc</Button>
                             </Grid.Col>
                             <Grid.Col span={{ base: 12, md: 6, lg: 3 }} style={{ display: 'flex', justifyContent: 'center' }}>
                                 <Button className='quick-actions-button' ><span style={{marginRight: "15px"}}>{Icons('IconTargetArrow',24,24,'#fafafa')}</span>Create a milestone</Button>

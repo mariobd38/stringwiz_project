@@ -19,6 +19,13 @@ function updateTaskAttribute(task,value, attribute) {
             task.dueDate = value;
             task.dueDateTime = value;
             break;
+        case "due date":
+            task.dueDate = value;
+            break;
+        case "due date time":
+            task.dueDateTime = value;
+            console.log(task.dueDateTime);
+            break;
         default:
             break;
     }

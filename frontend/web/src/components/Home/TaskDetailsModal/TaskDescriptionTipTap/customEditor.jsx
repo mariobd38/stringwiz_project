@@ -17,12 +17,12 @@ import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
 
 function GetEditor (props) {
-    const {content,currentIndexRef,taskTypeRef,setTaskType,handleTaskUpdateNew,doesUpdate
+    const {content,currentIndexRef,taskTypeRef,setTaskType,handleTaskUpdateNew,setNewTaskDescription
     } = props;
 
     const editor = useEditor({
         extensions: [
-            StarterKit,
+            StarterKit.configure({ codeBlock: false }),
             Underline,
             Link,
             Superscript,
@@ -52,6 +52,8 @@ function GetEditor (props) {
         content,
         onUpdate: debounce((props) => {
             const description = props.editor.getHTML();
+
+            handleTaskUpdateNew ?
             handleTaskUpdateNew(
                 taskTypeRef.current[currentIndexRef.current],
                 description,
@@ -59,8 +61,8 @@ function GetEditor (props) {
                 taskTypeRef.current,
                 setTaskType,
                 currentIndexRef.current
-            );
-          }, 300),
+            ) : setNewTaskDescription(description);
+            }, 300),
         editorProps: {
             handleKeyDown(view, event) {
                 if (event.metaKey && event.shiftKey && event.key === '-') {

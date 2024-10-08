@@ -9,12 +9,6 @@ function createTaskInfo(
     setTaskData,
     taskData
     ) {
-    // if (!taskName) {
-    //     setMissingNameError(true);
-    //     return;
-    // } else {
-    //     setMissingNameError(false);
-    // }
     let myDate = null;
     let dayString = null;
     let monthString = null;

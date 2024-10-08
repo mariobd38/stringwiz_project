@@ -12,7 +12,7 @@ import { GetEditor } from './customEditor';
 import './taskDescriptionTipTap.css'
 
 const TaskDescriptionTipTap = (props) => {
-    const {content, currentIndex,taskType,setTaskType,handleTaskUpdateNew
+    const {content, currentIndex,taskType,setTaskType,handleTaskUpdateNew,setNewTaskDescription
     } = props;
 
     const taskTypeRef = useRef(taskType);
@@ -35,7 +35,8 @@ const TaskDescriptionTipTap = (props) => {
         currentIndexRef, 
         taskTypeRef, 
         setTaskType, 
-        handleTaskUpdateNew
+        handleTaskUpdateNew,
+        setNewTaskDescription
     });
 
     useEffect(() => {
@@ -54,12 +55,14 @@ const TaskDescriptionTipTap = (props) => {
             if (textContent === "/") {
             const rect = currentLine.getBoundingClientRect();
             const editorRect = editorRef.current.getBoundingClientRect();
+            const topInc = handleTaskUpdateNew ? 0 : 70;
+            const leftInc = handleTaskUpdateNew ? 15 : 21.5;
 
-            const left = rect.left - editorRect.left;
+            const left = (rect.left + leftInc) - editorRect.left;
 
             const shouldPositionAbove = rect.top < 460;
 
-            const top = shouldPositionAbove ? rect.top : rect.top - 350 ;
+            const top = shouldPositionAbove ? rect.top - topInc : rect.top - (350 + topInc);
 
             setMenuPosition({
                 top,
@@ -89,34 +92,34 @@ const TaskDescriptionTipTap = (props) => {
     
     const menuItems = [
         { label: 'Paragraph', icon: 'IconClearFormatting', 
-            command: <span className='rte-styles-options-command-button'>{Icons('IconCommand',22,24)}{Icons('IconAlt',30,24)}{Icons('IconNumber0',22,24)}</span>, 
+            command: <span className='rte-styles-options-menu-item'>{Icons('IconCommand',22,24)}{Icons('IconAlt',30,24)}{Icons('IconNumber0',22,24)}</span>, 
             action: () => {editor.chain().focus(); editor.commands.setParagraph();} },
         { label: 'Heading 1', icon: 'IconH1', 
-            command: <span className='rte-styles-options-command-button'>{Icons('IconCommand',22,24)}{Icons('IconAlt',30,24)}{Icons('IconNumber1',22,24)}</span>, 
+            command: <span className='rte-styles-options-menu-item'>{Icons('IconCommand',22,24)}{Icons('IconAlt',30,24)}{Icons('IconNumber1',22,24)}</span>, 
             action: () => editor.chain().focus().toggleHeading({ level: 1 }).run() },
         { label: 'Heading 2', icon: 'IconH2', 
-            command: <span className='rte-styles-options-command-button'>{Icons('IconCommand',22,24)}{Icons('IconAlt',30,24)}{Icons('IconNumber2',22,24)}</span>, 
+            command: <span className='rte-styles-options-menu-item'>{Icons('IconCommand',22,24)}{Icons('IconAlt',30,24)}{Icons('IconNumber2',22,24)}</span>, 
             action: () => editor.chain().focus().toggleHeading({ level: 2 }).run() },
         { label: 'Heading 3', icon: 'IconH3', 
-            command: <span className='rte-styles-options-command-button'>{Icons('IconCommand',22,24)}{Icons('IconAlt',30,24)}{Icons('IconNumber3',22,24)}</span>, 
+            command: <span className='rte-styles-options-menu-item'>{Icons('IconCommand',22,24)}{Icons('IconAlt',30,24)}{Icons('IconNumber3',22,24)}</span>, 
             action: () => editor.chain().focus().toggleHeading({ level: 3 }).run() },
         { label: 'Blockquote', icon: 'IconQuote', 
-            command: <span className='rte-styles-options-command-button' >{Icons('IconCommand',22,24)}{Icons('IconArrowBigUp',22,24)}{Icons('IconLetterB',22,24)}</span>, 
+            command: <span className='rte-styles-options-menu-item' >{Icons('IconCommand',22,24)}{Icons('IconArrowBigUp',22,24)}{Icons('IconLetterB',22,24)}</span>, 
             action: () => editor.chain().focus().toggleBlockquote().run() },
         { label: 'Ordered list', icon: 'IconListNumbers', 
-            command: <span className='rte-styles-options-command-button' >{Icons('IconCommand',20,24)}{Icons('IconArrowBigUp',22,24)}{Icons('IconNumber7',22,24)}</span>,
+            command: <span className='rte-styles-options-menu-item' >{Icons('IconCommand',20,24)}{Icons('IconArrowBigUp',22,24)}{Icons('IconNumber7',22,24)}</span>,
             action: () => {editor.chain().focus(); !editor.isActive('orderedList') && editor.chain().focus().toggleOrderedList().run();} },
         { label: 'Bulleted list', icon: 'IconList', 
-            command: <span className='rte-styles-options-command-button' >{Icons('IconCommand',22,24)}{Icons('IconArrowBigUp',20,24)}{Icons('IconNumber8',20,24)}</span>,
+            command: <span className='rte-styles-options-menu-item' >{Icons('IconCommand',22,24)}{Icons('IconArrowBigUp',20,24)}{Icons('IconNumber8',20,24)}</span>,
             action: () => {editor.chain().focus(); !editor.isActive('bulletList') && editor.chain().focus().toggleBulletList().run();} },
         { label: 'Checklist', icon: 'IconListCheck', 
-            command: <span className='rte-styles-options-command-button' >{Icons('IconCommand',22,24)}{Icons('IconArrowBigUp',22,24)}{Icons('IconNumber9',22,24)}</span>,
+            command: <span className='rte-styles-options-menu-item' >{Icons('IconCommand',22,24)}{Icons('IconArrowBigUp',22,24)}{Icons('IconNumber9',22,24)}</span>,
             action: () => {editor.chain().focus(); !editor.isActive('taskList') && editor.chain().focus().toggleTaskList().run(); } },
         { label: 'Code block', icon: 'IconCode', 
-            command: <span className='rte-styles-options-command-button' >{Icons('IconCommand',22,24)}{Icons('IconAlt',22,24)}{Icons('IconLetterC',22,24)}</span>,
+            command: <span className='rte-styles-options-menu-item' >{Icons('IconCommand',22,24)}{Icons('IconAlt',22,24)}{Icons('IconLetterC',22,24)}</span>,
             action: () => {editor.chain().focus().toggleCodeBlock().run();} },
         { label: 'Divider', icon: 'IconSeparatorHorizontal', 
-            command: <span className='rte-styles-options-command-button'>{Icons('IconCommand',22,24)}{Icons('IconArrowBigUp',22,24)}{Icons('IconMinus',22,24)}</span>, 
+            command: <span className='rte-styles-options-menu-item'>{Icons('IconCommand',22,24)}{Icons('IconArrowBigUp',22,24)}{Icons('IconMinus',22,24)}</span>, 
             action: () => {editor.commands.setHorizontalRule();} },
     ];
 
@@ -124,12 +127,11 @@ const TaskDescriptionTipTap = (props) => {
         <>
         <div className="rich-text-editor-wrapper" ref={editorRef} >
             <RichTextEditor editor={editor} onInput={handleChange}
-            style={{borderRadius: "8px"}} className='rte'>
+            style={{borderRadius: "8px", border: `${handleTaskUpdateNew && '1.5px solid #47494d'}`}} className='rte'>
 
-                <RichTextEditor.Content bg='#222325' content={content}
-                className='rte-content'
-                />
-                <RichTextEditor.Toolbar sticky className='rte-toolbar ' >
+                <RichTextEditor.Content bg={`${handleTaskUpdateNew ? '#222325' : 'transparent'}`} content={content}className='rte-content' />
+                {handleTaskUpdateNew &&
+                <RichTextEditor.Toolbar sticky className='rte-toolbar' >
                     <RichTextEditor.ControlsGroup className='rte-controls-group'>
                         {/* <RichTextEditor.Bold /> */}
                         {/* <RichTextEditor.Italic />
@@ -171,11 +173,11 @@ const TaskDescriptionTipTap = (props) => {
                     <RichTextEditor.Undo />
                     <RichTextEditor.Redo />
                     </RichTextEditor.ControlsGroup>
-                </RichTextEditor.Toolbar>
+                </RichTextEditor.Toolbar>}
                 {menuOpened && (
                     <Box 
                     bg='#28292b'
-                    w='280px'
+                    w='270px'
                     ref={ref}
                     style={{ 
                         borderRadius: "7px", 
@@ -198,7 +200,7 @@ const TaskDescriptionTipTap = (props) => {
                             <Menu.Label ps={7} c='#8a929a' fz='13'>Formatting</Menu.Label>
                             <div style={{ display: 'flex', flexWrap: 'wrap'}}>
                                 {menuItems.map((item, index) => (
-                                    <div key={index} style={{ width: '98%' }} className='me-2'>
+                                    <div key={index} style={{ width: '100%' }} className='me-1'>
                                         <Menu.Item 
                                             className='rte-styles-options-button pe-2'
                                             key={index}

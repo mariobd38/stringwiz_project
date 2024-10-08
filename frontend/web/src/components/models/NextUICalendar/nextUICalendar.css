@@ -1,4 +1,21 @@
 
+.user-home-calendar-time-picker .ant-picker-input input::placeholder {
+    color: #cfcfcf;
+}
+.user-home-calendar-time-picker .ant-picker-input .ant-picker-suffix {
+    color: #fafafa;
+}
+.user-home-calendar-time-picker .ant-picker-input input[disabled] ~ .ant-picker-suffix,
+.user-home-calendar-time-picker .ant-picker-input input[disabled]::placeholder {
+    color: #909090 !important;
+}
+.user-home-calendar-time-picker .ant-picker-input input {
+    color: #fafafa !important;
+    font-family: 'Lato';
+}
+.user-home-calendar-time-picker .ant-picker-clear {
+    color: #fafafa !important;
+}
 .nextui-calendar-parent .bg-content1, .nextui-calendar-parent {
     background-color: #232426 !important;
     border-radius: 10px;

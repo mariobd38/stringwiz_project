@@ -63,11 +63,9 @@ public class OAuth2Controller {
 
             if (existingToken.isPresent()) {
                 UserToken userToken = existingToken.get();
-                System.out.println("session id 1" + sessionId);
                 updateUserToken(userToken, accessToken, refreshToken, sessionId);
             } else {
                 UserToken userToken = createUserToken(userId, accessToken, refreshToken,sessionId);
-                System.out.println("session id 2" + sessionId);
                 userTokenService.saveUserToken(userToken);
             }
 

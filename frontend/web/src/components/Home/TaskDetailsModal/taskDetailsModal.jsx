@@ -25,7 +25,7 @@ import TaskDescriptionTipTap from './TaskDescriptionTipTap/taskDescriptionTipTap
 import './taskDetailsModal.css';
 
 const TaskDetailsModal = (props) => {
-    const { 
+    const {
         userFullName, initials,userEmail, currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskLastUpdatedOn,
         setCurrentTaskName, setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, setSelectedDate, currentTaskTags, setCurrentTaskTags,setCurrentTaskDescriptionHtml,
         taskType, setTaskType, today, currentTaskDueDateTime, setCurrentTaskDueDateTime,
@@ -43,7 +43,7 @@ const TaskDetailsModal = (props) => {
         if (dateString === null)
             return 'None';
         if (dayjs(dateString).year() === dayjs().year() && currentTaskDueDateTime) {
-            return `${dayjs(dateString).format('MMM D, h:mm a')}`;
+            return `${dayjs(currentTaskDueDateTime).format(`MMM D, h${dayjs(currentTaskDueDateTime).minute() !== 0 ? ':mm' : ''}a`)}`;
         } else {
             return `${dayjs(dateString).format('MMM D[,] YYYY')}`;
         }
@@ -297,7 +297,7 @@ const TaskDetailsModal = (props) => {
                                         currentTaskDueDate={currentTaskDueDate} setCurrentTaskDueDate={setCurrentTaskDueDate} 
                                         currentTaskDueDateTime={currentTaskDueDateTime} setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
                                         dueDatePopoverIsOpen={dueDatePopoverIsOpen} setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
-                                        handleDueDatePopoverClose={handleDueDatePopoverClose} today={today} 
+                                        handleDueDatePopoverClose={handleDueDatePopoverClose} handleTaskUpdateNew={(element,value, attribute, taskType,setTaskType,index) => handleTaskUpdateNew(element,value, attribute, taskType,setTaskType,index)}
                                     />
                             </div>
 
@@ -399,7 +399,7 @@ const TaskDetailsModal = (props) => {
                             taskType={taskType}
                             setTaskType={setTaskType}
                             handleTaskUpdateNew={(element,value, attribute, taskType,setTaskType,index) => handleTaskUpdateNew(element,value, attribute, taskType,setTaskType,index)}
-                            />
+                        />
                     </div>
 
                     {tagToDelete && <TagDeletionModal 

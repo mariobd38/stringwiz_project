@@ -1,5 +1,5 @@
 .rte {
-    border: 1.5px solid #47494d !important;
+    /* border: 1.5px solid #47494d !important; */
     /* font-size: 0.92rem !important; */
     font-family: 'Inter';
 }
@@ -114,7 +114,35 @@
         margin: revert !important;
         /* margin-bottom: revert !important; */
     }
+    .tiptap input[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -webkit-user-select: none;
+        user-select: none;
+        width: 17px;
+        height: 17px;
+        border: 1.1px solid #434446;
+        border-radius: 3px;
+        outline: none;
+        cursor: pointer;
+        position: relative;
+    }
+    .tiptap input[type="checkbox"]:checked {
+        background-color: #0f6265;
+      }
+    .tiptap input[type="checkbox"]:checked::after {
+        content: url('data:image/svg+xml; utf8, <svg  xmlns="http://www.w3.org/2000/svg"  width="16"  height="16"  viewBox="0 0 24 24"  fill="none"  stroke="white"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5l10 -10" /></svg>');
+        position: absolute;
+        color: #fafafa;
+        font-size: 9px;
+        display: block;
+        top:-.4px;
+        left:-.4px;
+      }
+      
 }
+
 .rte-styles-options-button {
     border: .1px solid transparent !important;
 }
@@ -125,7 +153,7 @@
 blockquote {
     background-color: #2e2f31 !important;
 }
-.rte-styles-options-command-button {
+.rte-styles-options-menu-item {
     background-color: transparent;
     padding: 0 5px;
     border-radius: 6px;
@@ -134,8 +162,6 @@ blockquote {
     align-items: center;
     border: .1px solid #828385;
 }
-
-
 
 /* new */
 
@@ -207,3 +233,12 @@ pre {
         font-weight: 700;
     }
 } 
+
+.tiptap p.is-editor-empty:first-child::before {
+    color: #adb5bd;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+    font-family: 'Inter';
+}
