@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo,useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { Modal } from "antd";
@@ -22,8 +22,7 @@ import './taskCardContent.css';
 const TaskCardContent = (props) => {
     const {today,taskType,currentTaskDueDate, currentTaskDueDateTime, currentIndex, setCurrentIndex,setCurrentTaskDueDate,
         setCurrentTaskDueDateTime, getTagInfo,setCurrentTaskTags,setModalShow,setCurrentTaskName,setCurrentTaskCreationDate,
-        setCurrentTaskLastUpdatedOn,setCurrentTaskStatus,setCurrentTaskPriority,dueDatePopoverIsOpen,
-        setDueDatePopoverIsOpen,setTaskType,isTaskTabCompleted, setCurrentTaskDescriptionHtml,handleTaskUpdateNew
+        setCurrentTaskLastUpdatedOn,setCurrentTaskStatus,setCurrentTaskPriority,setTaskType,isTaskTabCompleted, setCurrentTaskDescriptionHtml,handleTaskUpdateNew
     } = props;
 
     const location = useLocation();
@@ -131,6 +130,8 @@ const TaskCardContent = (props) => {
     const handleTaskComplete = (index) => {
         handleTaskUpdateNew(taskType[index], 'Completed', "status", taskType, setTaskType, index);
     }
+
+    const [openPopoverId, setOpenPopoverId] = useState(null);
 
     const rows = (taskType) => {
         
@@ -294,7 +295,10 @@ const TaskCardContent = (props) => {
 
                                 currentTaskDueDate={currentTaskDueDate} setCurrentTaskDueDate={setCurrentTaskDueDate}
                                 currentTaskDueDateTime={currentTaskDueDateTime} setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
-                                dueDatePopoverIsOpen={dueDatePopoverIsOpen} setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
+                                dueDatePopoverIsOpen={openPopoverId === index} // Check if this popover is open
+                                popoverId={index}
+                                openPopoverId={openPopoverId} // Pass the current open popover ID
+                                setOpenPopoverId={setOpenPopoverId}
                                 currentIndex={currentIndex} taskType={taskType} setTaskType={setTaskType} handleTaskUpdateNew={(element,value, attribute, taskType,setTaskType,index) => handleTaskUpdateNew(element,value, attribute, taskType,setTaskType,index)}
                             />
                             {/* <Popover placement="bottom" isOpen={dueDatePopoverIsOpen} onOpenChange={(open) => setDueDatePopoverIsOpen(open)}>

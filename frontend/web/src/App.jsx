@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { Routes, Route, useLocation } from "react-router-dom";
 
 import NewHome from "./components/Home/newHome";
@@ -15,19 +15,10 @@ import OAuth2RedirectHandler from "./components/Auth/SignUp/oAuth2RedirectHandle
 import './App.css';
 import LoginNextSteps from "./components/Auth/Login/LoginNextSteps/loginNextSteps";
 
+  
 function App() {
     const location = useLocation();
     const background = location.state && location.state.background;
-    // const LoadingFallback = () => <div>Loading...<h1>djsjdhkj</h1></div>; 
-    const LoadingFallback = () => (
-        <div style={{ color: 'white', textAlign: 'center', padding: '20px' }}>
-          Loading...
-          <h1>djsjdhkj</h1>
-        </div>)
-    // const NewHome = React.lazy(() => import('./components/Home/newHome'));
-    // const NewHome = React.lazy(() => new Promise(resolve => {
-    //     setTimeout(() => resolve(import('./components/Home/newHome')), 2000); // Simulate a 2-second delay
-    //   }));
     
     return (
         <AuthProvider>
@@ -35,17 +26,23 @@ function App() {
                 <Route path="/home" location={background || location} 
                     element={
                         <PrivateRoute>
+                        {/* <Suspense fallback={<LoadingFallback />}> */}
                             <NewHome />
+                            {/* <NewHomeWrapper /> */}
+                        {/* </Suspense> */}
                         </PrivateRoute>
                     }
                 >
                     <Route path='/home/modal' element={<TaskDetailsModal />} />
+                    
                 </Route>
           
                 {background && (
                     <Route path="/home/modal" element={
                     <PrivateRoute>
+                        {/* <Suspense fallback={null}> */}
                         <TaskDetailsModal/>
+                        {/* </Suspense> */}
                     </PrivateRoute>
                 } />
                 )}

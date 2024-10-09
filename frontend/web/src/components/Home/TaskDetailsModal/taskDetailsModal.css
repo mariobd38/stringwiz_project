@@ -11,6 +11,7 @@
     align-items: center;
 }
 .user-home-task-details-modal-head-property-value {
+    height:inherit;
     cursor: pointer;
     border-radius: 6px;
     padding: 6px 10px !important;

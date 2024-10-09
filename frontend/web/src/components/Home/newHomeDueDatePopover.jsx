@@ -3,7 +3,8 @@ import React, { useMemo } from 'react';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 
-import { Popover } from 'antd';
+// import { Popover } from 'antd';
+import { Popover, PopoverContent, PopoverTrigger} from "@nextui-org/react";
 
 import NextUICalendar from '../models/NextUICalendar/nextUICalendar';
 
@@ -12,7 +13,7 @@ import './newHomeDueDatePopover.css';
 const NewHomeDueDatePopover = (props) => {
 
     const {popoverTarget, currentTaskDueDate, setCurrentTaskDueDate, currentTaskDueDateTime, setCurrentTaskDueDateTime,
-        currentIndex,taskType,setTaskType, dueDatePopoverIsOpen, setDueDatePopoverIsOpen,handleTaskUpdateNew} = props;
+        currentIndex,taskType,setTaskType,handleTaskUpdateNew,popoverId,openPopoverId,setOpenPopoverId} = props;
 
     dayjs.extend(customParseFormat);
     const dateFormatList = ['YYYY-MM-DD', 'M-D-YY', 'M-D-YYYY', 'MM-DD-YY', 'MM-DD-YYYY'];
@@ -30,16 +31,29 @@ const NewHomeDueDatePopover = (props) => {
         />
     );
 
-    const mergedArrow = useMemo(() => {
-        return false;
-    }, []);
+    const handleOpenChange = (isOpen) => {
+        if (isOpen) {
+            setOpenPopoverId(popoverId);
+        } else {
+            setOpenPopoverId(null);
+        }
+    };
     
     return (
         <div>
-            <Popover arrow={mergedArrow} content={content} trigger="click" opened={dueDatePopoverIsOpen} onOpenChange={() => setDueDatePopoverIsOpen((o) => !o)}
-            className='h-100'
-            style={{borderRadius: "10px",backgroundColor: "#222529", border: "none", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)" }}>
-                {popoverTarget}
+            <Popover 
+                placement="bottom" 
+                isOpen={openPopoverId === popoverId}
+                onOpenChange={handleOpenChange}
+            >
+                <PopoverTrigger className='h-100 due-date-popover-trigger'>
+                    <div onClick={() => setOpenPopoverId(popoverId)}>
+                        {popoverTarget}
+                    </div>
+                </PopoverTrigger>
+                <PopoverContent className='p-0 bg-transparent'>
+                    {content}
+                </PopoverContent>
             </Popover>
         </div>
     );

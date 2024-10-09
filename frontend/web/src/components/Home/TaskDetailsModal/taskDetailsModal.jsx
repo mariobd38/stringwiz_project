@@ -27,9 +27,9 @@ import './taskDetailsModal.css';
 const TaskDetailsModal = (props) => {
     const {
         userFullName, initials,userEmail, currentIndex, currentTaskName, currentTaskPriority, currentTaskDueDate, currentTaskStatus, currentTaskCreationDate, currentTaskLastUpdatedOn,
-        setCurrentTaskName, setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, setSelectedDate, currentTaskTags, setCurrentTaskTags,setCurrentTaskDescriptionHtml,
-        taskType, setTaskType, today, currentTaskDueDateTime, setCurrentTaskDueDateTime,
-        onHide, show,dueDatePopoverIsOpen,setDueDatePopoverIsOpen,setCurrentTaskStatus, currentTaskDescriptionHtml,
+        setCurrentTaskName, setCurrentTaskDueDate, setCurrentIndex, setCurrentTaskPriority, currentTaskTags, setCurrentTaskTags,setCurrentTaskDescriptionHtml,
+        taskType, setTaskType, currentTaskDueDateTime, setCurrentTaskDueDateTime,
+        onHide, show,setCurrentTaskStatus, currentTaskDescriptionHtml,
         userProfileDto,userProfilePicture,handleTaskUpdateNew
     } = props;
 
@@ -80,18 +80,11 @@ const TaskDetailsModal = (props) => {
     const handleDueDatePopoverClick = (event, index) => {
         setCurrentIndex(index);
         setCurrentTaskDueDate(taskType[index].dueDate);
-        // if (taskType[index].dueDate) {
-        //     setCurrentTaskDueDateTime(dayjs(taskType[index].dueDate).format('HH:mm'));
-        // }
         setCurrentTaskDueDateTime(taskType[index].dueDateTime);
     };
  
     const handleDueDatePopoverClose = (event) => {
-        setSelectedDate(false);
         setCurrentTaskDueDate(taskType[currentIndex].dueDate);
-        // if (taskType[currentIndex].dueDate) {
-        //     setCurrentTaskDueDateTime(dayjs(taskType[currentIndex].dueDate).format('HH:mm'));
-        // }
         setCurrentTaskDueDateTime(taskType[currentIndex].dueDateTime);
 
     };
@@ -222,14 +215,14 @@ const TaskDetailsModal = (props) => {
     //         </span>
     //     </Button>
     // );
-
-
+    // console.log(dueDatePopoverIsOpen);
+    const [openPopoverId, setOpenPopoverId] = useState(null);
     return (
         
         <Modal
             centered
             open={show}
-            onCancel={() => {handleTaskDetailsModalClose(); console.log("closed!")}}
+            onCancel={() => {handleTaskDetailsModalClose(); console.log("closed!"); }}
             width={1000}
             className='task-details-modal-parent'
             closeIcon
@@ -296,7 +289,9 @@ const TaskDetailsModal = (props) => {
                                         currentIndex={currentIndex} taskType={taskType} setTaskType={setTaskType}
                                         currentTaskDueDate={currentTaskDueDate} setCurrentTaskDueDate={setCurrentTaskDueDate} 
                                         currentTaskDueDateTime={currentTaskDueDateTime} setCurrentTaskDueDateTime={setCurrentTaskDueDateTime}
-                                        dueDatePopoverIsOpen={dueDatePopoverIsOpen} setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
+                                        popoverId={currentIndex}
+                                        openPopoverId={openPopoverId} // Pass the current open popover ID
+                                        setOpenPopoverId={setOpenPopoverId}
                                         handleDueDatePopoverClose={handleDueDatePopoverClose} handleTaskUpdateNew={(element,value, attribute, taskType,setTaskType,index) => handleTaskUpdateNew(element,value, attribute, taskType,setTaskType,index)}
                                     />
                             </div>

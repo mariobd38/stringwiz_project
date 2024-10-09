@@ -33,10 +33,8 @@ const TaskCard = (props) => {
     const [currentTaskTags, setCurrentTaskTags] = useState([]);
 
     //due date popovers
-    const [dueDatePopoverIsOpen, setDueDatePopoverIsOpen] = useState(false);
     const [currentTaskDueDate, setCurrentTaskDueDate] = useState(null);
     const [currentTaskDueDateTime, setCurrentTaskDueDateTime] = useState(null);
-    const [selectedDate, setSelectedDate] = useState(null);
 
     const [taskType, setTaskType] = useState(null);
     //task details modal
@@ -91,8 +89,6 @@ const TaskCard = (props) => {
           setCurrentTaskLastUpdatedOn={setCurrentTaskLastUpdatedOn}
           setCurrentTaskStatus={setCurrentTaskStatus}
           setCurrentTaskPriority={setCurrentTaskPriority}
-          dueDatePopoverIsOpen={dueDatePopoverIsOpen}
-          setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
           setTaskType={setTaskType}
           isTaskTabCompleted={isCompleted}
           handleTaskUpdateNew={handleTaskUpdateNew}
@@ -207,10 +203,6 @@ const TaskCard = (props) => {
                 setCurrentTaskPriority={setCurrentTaskPriority}
                 setCurrentTaskDescriptionHtml={setCurrentTaskDescriptionHtml}
                 setCurrentTaskTags={setCurrentTaskTags}
-                setSelectedDate={setSelectedDate}
-                today={today}
-                dueDatePopoverIsOpen={dueDatePopoverIsOpen}
-                setDueDatePopoverIsOpen={setDueDatePopoverIsOpen}
                 setCurrentTaskStatus={setCurrentTaskStatus}
                 userProfileDto={userProfileDto}
                 userProfilePicture={userProfilePicture}
