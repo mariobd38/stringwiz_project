@@ -72,8 +72,8 @@ public class Task {
             inverseJoinColumns = {@JoinColumn(name = "tag_id")})
     private Set<Tag> tags = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments;
+    //@OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    //private List<Comment> comments;
 
     @Column(name = "due_date")
     private ZonedDateTime dueDate;

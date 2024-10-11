@@ -5,11 +5,13 @@ import vitePluginRequire from "vite-plugin-require";
 export default defineConfig(() => {
   return {
     build: {
-      outDir: 'build',
+        outDir: 'build',
+    },
+    define: {
+        global: {},
     },
     plugins: [react({
-      include: "**/*.jsx",
-
+        include: "**/*.jsx",
     }), vitePluginRequire.default()],
     server: {
         port: 3000,
@@ -26,7 +28,13 @@ export default defineConfig(() => {
               changeOrigin: true,
               secure: false,
               pathRewrite: { '^/api/upload': '/api/upload' },
-          },
+            },
+            '/ws': {
+                target: 'ws://localhost:8080',
+                ws: true,
+                changeOrigin: true,
+                secure: false,
+            }
         },
         
     },

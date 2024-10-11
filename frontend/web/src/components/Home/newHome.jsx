@@ -1,5 +1,9 @@
-import React, { useState, useEffect,lazy,Suspense } from 'react';
+import React, { useState, useEffect,useCallback } from 'react';
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
+
 import { useLocation } from 'react-router-dom';
+
 
 import HomeHeader from '../Home/HomeHeader/homeHeader';
 import HomeNavbar from './HomeNavbar/homeNavbar';
@@ -17,17 +21,12 @@ import { getUserInfo } from '../../DataManagement/Users/getUserInfo';
 import { getTaskInfo } from './../../DataManagement/Tasks/getTasks';
 import { getGoogleTaskInfo } from '../../DataManagement/Tasks/getGoogleTasks';
 
-
 const NewHome = () => {
-    // const HomeHeader = lazy(() => import('../Home/HomeHeader/homeHeader'));
-    // const {HomeNavbar} = lazy(() => import('./HomeNavbar/homeNavbar'));
-    // const {TaskCard} = lazy(() => import('./TaskCard/taskCard'));
-
     const dayjs = require('dayjs');
     const [taskData, setTaskData] = useState([]);
-    const [upcomingTasks, setUpcomingTasks] = useState([]);
-    const [todaysTasks, setTodaysTasks] = useState([]);
-    const [unscheduledTasks, setUnscheduledTasks] = useState([]);
+    // const [upcomingTasks, setUpcomingTasks] = useState([]);
+    // const [todaysTasks, setTodaysTasks] = useState([]);
+    // const [unscheduledTasks, setUnscheduledTasks] = useState([]);
     const [overdueTasks, setOverdueTasks] = useState([]);
     const [completedTasks, setCompletedTasks] = useState([]);
     const [ongoingTasks, setOngoingTasks] = useState([]);
@@ -59,58 +58,117 @@ const NewHome = () => {
         };
         fetchData();
     }, [passedUserInfo]);
+
+    const client = Stomp.client(import.meta.env.VITE_SERVER_BASE_URI + '/ws');
+    //this works
+    // client.connect({}, (frame) => {
+    //     console.log('Connected: ' + frame);
+    //     client.subscribe('/topic/messages', (message) => {
+    //         console.log('Received message:', message.body);
+    //         setMessages((prevMessages) => [...prevMessages, message.body]);
+    //     });
+    // }, (error) => {
+    //     console.error('Error connecting to WebSocket:', error);
+    // });
+    
+    // // Function to send a message
+    // const sendMessage = () => {
+    //     console.log('Client connected:', client.connected);
+    //     if (client && client.connected) {
+    //         client.send('/app/message', {}, JSON.stringify({ message: 'Hello!' }));
+    //         setMessageToSend('');
+    //     } else {
+    //         console.error('Client is not connected.');
+    //     }
+    // };
+    
+
+    const processTaskData = useCallback((data) => {
+        const now = dayjs();
+        const overdue = [];
+        const completed = [];
+        const ongoing = [];
+
+        taskData.forEach((task) => {
+            const currentDueDate = task.dueDateTime ? dayjs(task.dueDateTime) : task.dueDate ? dayjs(task.dueDate) : null;
+            
+            if ((currentDueDate === null || currentDueDate.isAfter(now) || currentDueDate.isSame(now)) && task.status !== 'Completed') {
+                ongoing.push(task);
+            }
+            else if (currentDueDate && currentDueDate.isBefore(now) && task.status !== 'Completed') {
+                overdue.push(task);
+            } else if (task.status === 'Completed') {
+                completed.push(task);
+            } 
+        });
+        setOngoingTasks(ongoing);
+        setOverdueTasks(overdue);
+        setCompletedTasks(completed);
+    },[dayjs,taskData]);
+
+
+    //this works for my use case
+    //client.debug = () => {};
+    // useEffect(() => {
+
+    //     client.connect({}, () => {
+    //     client.subscribe('/topic/tasks', (message) => {
+    //         try {
+    //             const tasks = JSON.parse(message.body);
+    //             setTaskData(tasks);
+    //             // processTaskData(tasks);
+    //         } catch (e) {
+    //             console.error('Error parsing message:', e);
+    //         }
+    //     });
+        
+    //     // if (client.connected) {
+    //         client.send('/app/tasks', {}, {});
+    //     // } else {
+    //         // console.error('Client is not connected.');
+    //     // }
+    // }, (error) => {
+    //     console.error('Error connecting to WebSocket:', error);
+    // })
+    // return () => {
+    //     // Clean up the connection when the component is unmounted
+    //     if (client.connected) {
+    //         client.disconnect(() => {
+    //             console.log('Disconnected from WebSocket');
+    //         });
+    //     }
+    // };
+    // },[client]);
+
+    // useEffect(() => {
+    //     processTaskData(taskData);
+    //   }, [taskData, processTaskData]);
+
     
     useEffect(() => {
-        // const socket = new WebSocket('wss://your-websocket-url');
-  
-        // socket.onmessage = (event) => {
-        //     const updatedTasks = JSON.parse(event.data);
-        //     setTasks(updatedTasks); // Update state with new tasks
-        // };
-        
-        // return () => socket.close();
         getTaskInfo(setTaskData);
         // setUpcomingTasks(taskData);
-        var now = dayjs().format('YYYY-MM-DD');
-            setToday(now);
+        const now = dayjs();
+        const overdue = [];
+        const completed = [];
+        const ongoing = [];
 
-            const todays_date = now;
-            const upcoming = [];
-            const unscheduled = [];
-            const today = [];
-            const overdue = [];
-            const completed = [];
-            const ongoing = [];
-
-            taskData.forEach((task) => {
-                const currentDueDate = task.dueDate ? dayjs(task.dueDate).format('YYYY-MM-DD') : null;
-                // console.log(currentDueDate);
-                // if (currentDueDate === todays_date && task.status !== 'Completed') {
-                //     today.push(task);
-                // } else if ((currentDueDate >= todays_date) && task.status !== 'Completed') {
-                //     upcoming.push(task);
-                // } 
-                // else if (currentDueDate === null && task.status !== 'Completed') {
-                //     unscheduled.push(task);
-                // } 
-                if ((currentDueDate === null || currentDueDate >= todays_date) && task.status !== 'Completed') {
-                    ongoing.push(task);
-                }
-                else if (todays_date > currentDueDate && task.status !== 'Completed') {
-                    overdue.push(task);
-                } else if (task.status === 'Completed') {
-                    completed.push(task);
-                } 
-            });
-            // console.log(today);
+        taskData.forEach((task) => {
+            const currentDueDate = task.dueDateTime ? dayjs(task.dueDateTime) : task.dueDate ? dayjs(task.dueDate) : null;
+            
+            if ((currentDueDate === null || currentDueDate.isAfter(now) || currentDueDate.isSame(now)) && task.status !== 'Completed') {
+                ongoing.push(task);
+            }
+            else if (currentDueDate && currentDueDate.isBefore(now) && task.status !== 'Completed') {
+                overdue.push(task);
+            } else if (task.status === 'Completed') {
+                completed.push(task);
+            } 
+        });
         setOngoingTasks(ongoing);
-        setTodaysTasks(today);
-        setUpcomingTasks(upcoming);
-        setUnscheduledTasks(unscheduled);
         setOverdueTasks(overdue);
         setCompletedTasks(completed);
     }, [taskData,dayjs]);
-    // console.log(todaysTasks);
 
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
 
