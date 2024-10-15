@@ -1,13 +1,15 @@
 import React, {forwardRef,useState } from 'react';
 
 import { Menu,Box,Portal, Divider } from '@mantine/core';
-import Icons from '../../../icons/icons';
+import {Icons} from '../../../icons/icons';
+
+import { deleteTaskInfo } from '../../../../DataManagement/Tasks/deleteTask';
 
 import './taskOptionsPortal.css';
 
 const TaskOptionsPortal = forwardRef((props, ref) => {
     const { contextMenuPosition, showContextMenu,setShowContextMenu,openMenuIndex,setOpenMenuIndex,
-        enableScroll,setShowInnerContextMenu,setOpenRenameModal
+        enableScroll,setShowInnerContextMenu,setOpenRenameModal,taskType, setTaskType, currentIndex
      } = props;
 
     const menuItems = [
@@ -17,15 +19,15 @@ const TaskOptionsPortal = forwardRef((props, ref) => {
         {label: 'Status', icon: Icons('IconLoader',17,17), cascade: true,
             child: {
                 width: '200'
-            }
+            }, action: () => console.log('test')
         },
         {label: 'Priority', icon: Icons('IconFlag3',17,17), cascade: true,
             child: {
                 width: '200'
-            }
+            }, action: () => console.log('test')
         },
-        {label: 'Set due date', icon: Icons('IconCalendarPlus',17,17), cascade: false},
-        {label: 'Delete', icon: Icons('IconTrash',17,17), cascade: false}
+        {label: 'Set due date', icon: Icons('IconCalendarPlus',17,17), cascade: false, action: () => console.log('test')},
+        {label: 'Delete', icon: Icons('IconTrash',17,17), cascade: false, action: () => deleteTaskInfo(currentIndex,taskType,setTaskType)}
     ]
 
     const handleRenameButtonClick = () => {
@@ -95,7 +97,7 @@ const TaskOptionsPortal = forwardRef((props, ref) => {
                                             c='#eaebed'
                                             leftSection={item.icon}
                                             rightSection={item.cascade && Icons('IconChevronRight',17,17,'#d3d5d7')}
-                                            onClick={item.action || item.action} 
+                                            onClick={item.action} 
                                         >
                                             <span>{item.label}</span>
                                         </Menu.Item>
@@ -133,6 +135,7 @@ const TaskOptionsPortal = forwardRef((props, ref) => {
                                         bg='#28292b' 
                                         c='#eaebed'
                                         leftSection={item.icon}
+                                        onClick={item.action} 
                                     >
                                         <span className='fafafa-color d-flex'>{item.label}</span>
                                     </Menu.Item>

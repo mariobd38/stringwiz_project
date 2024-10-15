@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Modal } from 'antd';
 import { Text, Flex, Box,Button,Divider } from '@mantine/core';
-import Icons from '../../../icons/icons';
+import {Icons} from '../../../icons/icons';
 
 import './tagDeletionModal.css';
 

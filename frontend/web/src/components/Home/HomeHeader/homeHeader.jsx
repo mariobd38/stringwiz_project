@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { Button, Tooltip, Box,Flex,Text } from '@mantine/core';
 import { useLocalState } from "../../../utils/useLocalStorage";
-import Icons from '../../icons/icons';
+import {Icons} from '../../icons/icons';
 
 import './homeHeader.css';
 

@@ -14,7 +14,7 @@ import { UpdateTaskInfoNew } from '../../../DataManagement/Tasks/updateTaskNew';
 import checklist from '../../../assets/illustrations/home/checklist.png';
 
 import './taskCard.css'
-import Icons from '../../icons/icons';
+import {Icons} from '../../icons/icons';
 
 const TaskCard = (props) => {
 

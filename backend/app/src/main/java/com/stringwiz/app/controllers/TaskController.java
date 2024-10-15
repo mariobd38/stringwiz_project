@@ -28,8 +28,6 @@ public class TaskController {
     @Autowired TaskService taskService;
     @Autowired UserRepository userRepository;
     @Autowired JwtUtil jwtUtil;
-    @Value("${JWT_COOKIE_ATTRIBUTE_NAME}")
-    private String JWT_COOKIE_NAME;
 
     @PostMapping("/api/tasks/create")
     public ResponseEntity<?> createTask(@AuthenticationPrincipal User user, @RequestBody Task task) {

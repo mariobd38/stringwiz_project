@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Icons from '../../icons/icons';
+import {Icons} from '../../icons/icons';
 
 import login from '../../../assets/illustrations/login/login.png';
 

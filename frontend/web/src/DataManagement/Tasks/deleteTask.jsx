@@ -1,8 +1,4 @@
-function deleteTaskInfo  (
-    currentRowIndex, 
-    taskData,
-    setTaskData
-    ) {
+function deleteTaskInfo (currentRowIndex, taskData,setTaskData ) {
     let task = taskData[currentRowIndex];
     const taskInfo = {
         id: task.id
@@ -21,7 +17,7 @@ function deleteTaskInfo  (
         if (response.status === 204) {
             // No content in response (successful deletion)
             const updatedTaskData = taskData.filter((_, index) => index !== currentRowIndex);
-            setTaskData(updatedTaskData);    
+            setTaskData(updatedTaskData);
             console.log("Deleted item from task array!");
         }
     })

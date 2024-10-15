@@ -1,6 +1,7 @@
 package com.stringwiz.app.services;
 
 
+import com.stringwiz.app.enums.RoleNames;
 import com.stringwiz.app.models.Role;
 import com.stringwiz.app.models.User;
 import com.stringwiz.app.repositories.RoleRepository;
@@ -27,9 +28,9 @@ public class CustomUserService implements UserService {
         if (user.getPassword() != null)
             user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        List<Role.RoleNames> roleNames = new RoleSelectorUtil().getRolesFromEmail(user.getEmail());
+        List<RoleNames> roleNames = new RoleSelectorUtil().getRolesFromEmail(user.getEmail());
         List<Role> roleList = new ArrayList<>();
-        for(Role.RoleNames names : roleNames) {
+        for(RoleNames names : roleNames) {
             String roleName = names.name();
             Role role = roleRepository.findByName(roleName);
             if (role == null) {

@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 import { Tooltip, Table, Text,Button,Textarea } from '@mantine/core';
 import { useClickOutside } from '@mantine/hooks';
 
-import Icons from '../../../icons/icons';
+import {Icons} from '../../../icons/icons';
 
 import NewHomeDueDatePopover from '../../newHomeDueDatePopover';
 import { MantineDropdown } from '../../../models/ModelDropdown2/mantineDropdown';
@@ -118,9 +118,12 @@ const TaskCardContent = (props) => {
             enableScroll={enableScroll}
             setShowInnerContextMenu={setShowInnerContextMenu}
             setOpenRenameModal={setOpenRenameModal}
+            taskType={taskType}
+            currentIndex={currentIndex}
+            setTaskType={setTaskType}
         />
         
-    },[showContextMenu,contextMenuPosition,ref,openMenuIndex,enableScroll]);
+    },[showContextMenu,contextMenuPosition,ref,openMenuIndex,enableScroll,currentIndex,setTaskType,taskType]);
 
     const handleTaskRename = () => {
         handleTaskUpdateNew(taskType[currentIndex], newTaskName, "name", taskType, setTaskType, currentIndex);
@@ -278,7 +281,7 @@ const TaskCardContent = (props) => {
                                                     <div className='me-2'>
                                                         {Icons('IconCalendarDue',18,18,'#fafafa')}
                                                     </div>
-                                                    <span>{formatDate(element.dueDate)}</span>
+                                                    <span>{formatDate(element.dueDateTime || element.dueDate)}</span>
                                                 </div>
                                             </span>
                                         </span>

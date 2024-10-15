@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import {Avatar,UnstyledButton,Badge,Tooltip,rem} from '@mantine/core';
 
-import Icons from '../../icons/icons';
+import {Icons} from '../../icons/icons';
 
 import classes from './navbarSearch.module.css';
 import './homeSidebar.css';
@@ -13,7 +13,7 @@ const HomeSidebar = (props) => {
   const links = [
     { icon: 'IconHome', label: 'Home' },
     { icon: 'IconInbox', label: 'Inbox', notifications: 4 },
-    { icon: 'IconCheckbox', label: 'Tasks', notifications: 4 },
+    { icon: 'IconFolder', label: 'Projects', notifications: 4 },
     { icon: 'IconFile', label: 'Docs' },
     { icon: 'IconCalendar', label: 'Calendar' },
     { icon: 'IconDotsCircleHorizontal', label: 'More' },

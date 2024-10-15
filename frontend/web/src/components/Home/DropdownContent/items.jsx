@@ -1,4 +1,4 @@
-import Icons from '../../icons/icons';
+import {Icons} from '../../icons/icons';
 
 function items(property) {
     let items = null;

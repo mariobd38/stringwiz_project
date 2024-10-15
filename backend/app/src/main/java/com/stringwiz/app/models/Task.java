@@ -90,18 +90,18 @@ public class Task {
     private Timestamp lastUpdatedOn;
 
     public Task(String name, String description, String descriptionHtml, String status, String priority, User user, ZonedDateTime dueDate, ZonedDateTime dueDateTime) {
-        setName(name);
-        setDescription(description);
-        setDescriptionHtml(descriptionHtml);
-        setStatus(status);
-        setPriority(priority);
-        setTaskIdNumber(new TaskIdNumberBuilder().buildTaskIdNumber());
-        setUser(user);
-        setDueDate(dueDate);
-        setDueDateTime(dueDateTime);
+        this.name = name;
+        this.description = description;
+        this.descriptionHtml = descriptionHtml;
+        this.status = status;
+        this.priority = priority;
+        this.taskIdNumber = new TaskIdNumberBuilder().buildTaskIdNumber();
+        this.user = user;
+        this.dueDate = dueDate;
+        this.dueDateTime = dueDateTime;
         Timestamp currentTime = new Timestamp(new Date().getTime());
-        setCreatedOn(currentTime);
-        setLastUpdatedOn(currentTime);
+        this.createdOn = currentTime;
+        this.lastUpdatedOn = currentTime;
     }
 
     public void addTag(Tag tag) {

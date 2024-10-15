@@ -61,24 +61,11 @@ public class Tag {
     private Timestamp lastUpdatedOn;
 
     public Tag(String name, String color, User user) {
-        setUser(user);
-        setName(name);
-        setColor(color);
+        this.user = user;
+        this.name = name;
+        this.color = color;
         Timestamp currentTime = new Timestamp(new Date().getTime());
-        setCreatedOn(currentTime);
-        setLastUpdatedOn(currentTime);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Tag tag = (Tag) o;
-        return Objects.equals(name, tag.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
+        this.createdOn = currentTime;
+        this.lastUpdatedOn = currentTime;
     }
 }

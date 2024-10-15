@@ -1,7 +1,6 @@
 package com.stringwiz.app.controllers;
 
 import com.stringwiz.app.models.Tag;
-import com.stringwiz.app.models.Task;
 import com.stringwiz.app.models.User;
 import com.stringwiz.app.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;

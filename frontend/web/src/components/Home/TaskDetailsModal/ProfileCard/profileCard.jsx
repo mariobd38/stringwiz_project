@@ -4,7 +4,7 @@ import UserAvatar from "../../UserAvatar/userAvatar";
 
 import { HoverCard, Button, Avatar } from '@mantine/core';
 
-import Icons from "../../../icons/icons";
+import {Icons} from "../../../icons/icons";
 
 import { constructImageSrc } from "../../../../utils/constructImageSrc";
 

@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react';
 import dayjs from 'dayjs';
 
 import { Box,Flex,Select,Button } from '@mantine/core';
-import Icons from '../../icons/icons';
+import {Icons} from '../../icons/icons';
 
 import { parseDate } from '@internationalized/date';
 import { Calendar } from "@nextui-org/react";

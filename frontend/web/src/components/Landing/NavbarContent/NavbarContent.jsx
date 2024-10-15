@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 
-import Icons from '../../icons/icons';
+import {Icons} from '../../icons/icons';
 
 import { HoverCard,Group,UnstyledButton,Text,SimpleGrid,Divider,Center,Box,Button,Burger,Drawer,Collapse,ScrollArea,
         rem,useMantineTheme } from '@mantine/core';

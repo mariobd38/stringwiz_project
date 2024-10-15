@@ -1,7 +1,6 @@
 package com.stringwiz.app.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.stringwiz.app.utils.RoleSelectorUtil;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,11 +27,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity()
 @Table(name = "users_dim")
@@ -85,8 +86,6 @@ public class User implements UserDetails {
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "profile_id", referencedColumnName = "id")
-//    @OneToOne(cascade = CascadeType.ALL)
     private Profile profile;
 
     @JsonIgnore
@@ -97,6 +96,13 @@ public class User implements UserDetails {
             inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
     private List<Role> roles = new ArrayList<>();
 
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "user_space_dim",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "space_id")})
+    private Set<Space> spaces = new LinkedHashSet<>();
+
     public User(String email, String password) {
         this.email = email;
         this.password = password;
@@ -104,8 +110,6 @@ public class User implements UserDetails {
 
     public User(String fullName, String email, String password, String picture) {
         setFullName(fullName);
-        setFirstName();
-        setLastName();
         this.email = email;
         this.password = password;
         this.picture = picture;
@@ -116,13 +120,17 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<Role.RoleNames> roleNames = new RoleSelectorUtil().getRolesFromEmail(email);
-        List<SimpleGrantedAuthority> result = new ArrayList<>();
-        for(Role.RoleNames roleName : roleNames) {
-            result.add(new SimpleGrantedAuthority(roleName.name()));
-        }
-        return result;
-//        return List.of(new SimpleGrantedAuthority(Role.RoleNames.USER.name()),new SimpleGrantedAuthority(Role.RoleNames.USER.name()));
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
+        //List<RoleNames> roleNames = new RoleSelectorUtil().getRolesFromEmail(email);
+        //List<SimpleGrantedAuthority> result = new ArrayList<>();
+        //for(RoleNames roleName : roleNames) {
+        //    result.add(new SimpleGrantedAuthority(roleName.name()));
+        //}
+        //return result;
+
+        //return List.of(new SimpleGrantedAuthority(Role.RoleNames.USER.name()),new SimpleGrantedAuthority(Role.RoleNames.USER.name()));
     }
 
     @Override
@@ -151,23 +159,33 @@ public class User implements UserDetails {
     }
 
     private void setFullName(String fullName) {
-        String[] fullNameArr = fullName.replaceAll("\\s+", " ").split("\\s+");
-        StringBuilder sb = new StringBuilder();
-        for (String word : fullNameArr) {
-            if (word.length() > 0) {
-                sb.append(word.substring(0, 1).toUpperCase());
-                sb.append(word.substring(1).toLowerCase());
-                sb.append(" ");
-            }
-        }
-        this.fullName = sb.toString().trim();
+        this.fullName = capitalizeName(fullName);
+        String[] names = this.fullName.split(" ");
+        this.firstName = names.length > 0 ? names[0] : "";
+        this.lastName = names.length > 1 ? names[names.length - 1] : "";
     }
 
-    private void setFirstName() {
-        this.firstName = fullName.substring(0,fullName.lastIndexOf(" "));
+    // Utility method for capitalizing names properly
+    private String capitalizeName(String fullName) {
+        return Arrays.stream(fullName.trim().split("\\s+"))
+                .map(word -> Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase())
+                .collect(Collectors.joining(" "));
     }
 
-    private void setLastName() {
-        this.lastName = fullName.substring(fullName.lastIndexOf(" ")+1);
+    public void addSpace(Space space) {
+        spaces.add(space);
+        space.getUsers().add(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        return id != null && id.equals(((User) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

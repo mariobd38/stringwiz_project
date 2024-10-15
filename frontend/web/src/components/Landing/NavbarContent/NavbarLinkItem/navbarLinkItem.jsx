@@ -6,7 +6,7 @@ import {
     Text,
     ThemeIcon
   } from '@mantine/core';
-import Icons from '../../../icons/icons';
+import {Icons} from '../../../icons/icons';
 
 import classes from './../../NavbarContent/NavbarContent.module.css';
 

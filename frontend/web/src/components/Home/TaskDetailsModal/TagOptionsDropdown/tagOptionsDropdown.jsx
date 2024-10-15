@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Menu,Text, Input } from '@mantine/core';
 import { Divider } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import Icons from '../../../icons/icons';
+import {Icons} from '../../../icons/icons';
 
 import { updateTagInfo } from '../../../../DataManagement/Tags/updateTag';
 import { MantineDropdown } from '../../../models/ModelDropdown2/mantineDropdown';

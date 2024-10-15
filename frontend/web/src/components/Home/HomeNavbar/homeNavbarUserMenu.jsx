@@ -5,7 +5,7 @@ import { userLogout } from '../../../DataManagement/Users/logout';
 // import { constructImageSrc } from '../../../utils/constructImageSrc';
 import UserAvatar from '../UserAvatar/userAvatar';
 
-import Icons from '../../icons/icons';
+import {Icons} from '../../icons/icons';
 
 import { Text,Menu } from '@mantine/core';
 import { useScrollLock } from '../../../utils/useScrollLock';

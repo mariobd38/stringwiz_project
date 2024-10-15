@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Text, Container, ActionIcon, Group } from '@mantine/core';
 import classes from './FooterLinks.module.css';
-import Icons from '../../icons/icons';
+import {Icons} from '../../icons/icons';
 
 import Logo2 from '../../Logo/logo2';
 import './FooterContent.css';

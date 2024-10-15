@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 
 import { Modal } from 'antd';
 import { Text, Button,Textarea } from '@mantine/core';
-import Icons from '../../icons/icons';
+import {Icons} from '../../icons/icons';
 
 import UserAvatar from '../UserAvatar/userAvatar';
 import { ProfileCard } from './ProfileCard/profileCard';
@@ -237,9 +237,6 @@ const TaskDetailsModal = (props) => {
                     <div className='w-100'>
                         <Textarea
                             className='mt-2 mb-3 py-2 user-home-task-details-modal-name'
-                            p={0}
-                            m={0}
-                            w='90%'
                             minRows={1}
                             value={currentTaskName}
                             onChange={(event) => {

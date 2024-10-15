@@ -8,7 +8,7 @@ import shared_goals from '../../../assets/illustrations/landing/shared_goals.png
 import {  Container,Title, SimpleGrid, Text, Button, ThemeIcon, Grid, Card, Image, Badge, Group } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 
-import Icons from '../../icons/icons';
+import {Icons} from '../../icons/icons';
 
 import engineering_team from '../../../assets/illustrations/landing/engineering_team.png';
 import marketing_team from '../../../assets/illustrations/landing/marketing_team.png';

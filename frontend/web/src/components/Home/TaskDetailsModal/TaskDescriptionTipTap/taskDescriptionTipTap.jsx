@@ -5,7 +5,7 @@ import { Menu,Box } from '@mantine/core';
 import { useClickOutside } from '@mantine/hooks';
 import { RichTextEditor } from '@mantine/tiptap';
 
-import Icons from '../../../icons/icons';
+import {Icons} from '../../../icons/icons';
 import { useScrollLock } from '../../../../utils/useScrollLock';
 import { GetEditor } from './customEditor';
 

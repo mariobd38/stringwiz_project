@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import Icons from '../../icons/icons';
+import {Icons} from '../../icons/icons';
 
-import {Divider,Input, Button} from '@mantine/core';
+import { Divider,Input, Button, Popover,Text,Flex} from '@mantine/core';
 import Logo2 from '../../Logo/logo2';
 
 import HomeNavbarUserMenu from './homeNavbarUserMenu';
+import SpaceCreationModal from '../SpaceCreationModal/spaceCreationModal';
 
 import './homeNavbar.css';
 
@@ -16,6 +17,7 @@ const HomeNavbar = (props) => {
 
     //user button
     const [isSmallScreen, setIsSmallScreen] = useState(false);
+    const [openSpaceCreateModal,setOpenSpaceCreateModal] = useState(false);
 
     // const [userEmail] = useLocalState('', 'userEmail');
 
@@ -90,9 +92,30 @@ const HomeNavbar = (props) => {
 
                         <div className='text-white col-10 col-sm-6 col-md-4 col-lg-4 d-flex align-items-center justify-content-end px-0'>
                             <div className='d-flex align-items-center'>
+
+                                <div className='d-flex gap-3'>
+                                {/* <Flex gap={8} > */}
                                 <Button fw='500' radius='8' p='0 11px' bg='transparent' bd='1px solid #676869' ff='Inter' color='#f0f2f6' >
-                                    My Projects
+                                    Explore
                                 </Button>
+                                
+                                <Popover width={280} position="bottom-end" shadow="md">
+                                    <Popover.Target>
+                                        <div className='user-home-navbar-icon-apps'>
+                                                {Icons('IconPlanet',25,25,'#fafafa')}
+                                        </div>
+                                    </Popover.Target>
+
+                                    <Popover.Dropdown bg='#2e2f31' bd='.1px solid #57585a'>
+
+                                        <Flex justify='center' align='center' direction='column' gap={20}  c='#ebecef'>
+                                            <Text fz='14.3'>No active spaces..</Text>
+                                            <Button bd='1px solid #6e6f71' bg='transparent' fullWidth px={0} onClick={() => setOpenSpaceCreateModal(true)}>New Space</Button>
+                                        </Flex>
+                                    </Popover.Dropdown>
+                                </Popover>
+                                {/* </Flex> */}
+                                </div>
 
 
                                 <Divider size="xs" orientation="vertical" ms={13} me={10} m='auto' h={28} bd='.1px solid #676869'/>
@@ -111,6 +134,11 @@ const HomeNavbar = (props) => {
                                     userProfilePicture={userProfilePicture}
                                     userFullName={userFullName}
                                     initials={initials}
+                                />
+                                
+                                <SpaceCreationModal 
+                                    openSpaceCreateModal={openSpaceCreateModal}
+                                    setOpenSpaceCreateModal={setOpenSpaceCreateModal}
                                 />
 
                             </div>

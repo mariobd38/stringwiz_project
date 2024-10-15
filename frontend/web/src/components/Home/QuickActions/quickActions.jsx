@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Grid, Box, Flex, Text,Button } from '@mantine/core';
 
-import Icons from '../../icons/icons';
+import {Icons} from '../../icons/icons';
 
 import './quickActions.css';
 

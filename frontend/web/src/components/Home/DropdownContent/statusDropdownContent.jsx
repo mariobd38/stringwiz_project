@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 
 import { Menu, Input,Text } from '@mantine/core';
-import Icons from '../../icons/icons';
+import {Icons} from '../../icons/icons';
 
 import { items } from './items';
 

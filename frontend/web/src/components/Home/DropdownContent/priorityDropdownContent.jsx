@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Menu,Divider } from '@mantine/core';
-import Icons from '../../icons/icons';
+import {Icons} from '../../icons/icons';
 
 import { items } from './items';
 

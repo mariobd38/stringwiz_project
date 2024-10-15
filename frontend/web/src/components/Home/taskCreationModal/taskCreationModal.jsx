@@ -5,7 +5,7 @@ import { Modal } from "antd";
 import { Text,Textarea,Button,Box,Flex,Divider } from '@mantine/core';
 import { Popover, PopoverContent, PopoverTrigger} from "@nextui-org/react";
 
-import Icons from '../../icons/icons';
+import {Icons} from '../../icons/icons';
 
 import getPriorityProperty from '../../../utils/getPriorityProperty';
 

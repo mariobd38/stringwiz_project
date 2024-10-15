@@ -4,7 +4,6 @@ import { Stomp } from '@stomp/stompjs';
 
 import { useLocation } from 'react-router-dom';
 
-
 import HomeHeader from '../Home/HomeHeader/homeHeader';
 import HomeNavbar from './HomeNavbar/homeNavbar';
 import TaskCard from './TaskCard/taskCard';
@@ -16,10 +15,10 @@ import MilestoneBlock from './MilestoneBlock/milestoneBlock';
 
 // import StatBlocks from './HomeHeader/StatBlocks/statBlocks';
 
-import './newHome.css';
 import { getUserInfo } from '../../DataManagement/Users/getUserInfo';
 import { getTaskInfo } from './../../DataManagement/Tasks/getTasks';
 import { getGoogleTaskInfo } from '../../DataManagement/Tasks/getGoogleTasks';
+import './newHome.css';
 
 const NewHome = () => {
     const dayjs = require('dayjs');
@@ -30,7 +29,7 @@ const NewHome = () => {
     const [overdueTasks, setOverdueTasks] = useState([]);
     const [completedTasks, setCompletedTasks] = useState([]);
     const [ongoingTasks, setOngoingTasks] = useState([]);
-    const [today, setToday] = useState(null);
+    const [today, setToday] = useState(dayjs());
 
     const location = useLocation();
 
@@ -42,6 +41,19 @@ const NewHome = () => {
     // const [userEmail] = useLocalState('', 'userEmail');
     const [initials, setInitials] = useState(passedUserInfo?.fullName || '');
     // const [userInfo, setUserInfo] = useState(passedUserInfo || null);
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            const newDate = dayjs();
+            // Check if the new date is different from the current state
+            if (!newDate.isSame(today, 'day')) {
+                setToday(newDate);
+            }
+        }, 1000 * 5); // Check every 5 seconds
+
+        // Clean up the interval when the component unmounts
+        return () => clearInterval(intervalId);
+    }, [today,dayjs]);
 
     useEffect(() => {
         const fetchData = async () => {

@@ -5,7 +5,7 @@ import achievement from '../../../assets/illustrations/signup/achievement.png';
 
 import { useFocusWithin } from '@mantine/hooks';
 import {TextInput,PasswordInput,Text,Paper,Group,Button,Divider,Anchor,Stack,List, Image,rem,Progress } from '@mantine/core';
-import Icons from '../../icons/icons';
+import {Icons} from '../../icons/icons';
 import { useForm } from '@mantine/form';
 
 import { GoogleButton } from '../OAuthButtons/googleButton';
