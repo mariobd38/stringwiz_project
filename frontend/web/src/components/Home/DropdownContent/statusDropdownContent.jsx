@@ -70,6 +70,7 @@ const StatusDropdownContent = (props) => {
                     }
                     key={index}
                     w='87%'
+                    bg='#232426'
                     m='4px auto'
                     c='#f3f5f8'
                     ff='Lato'

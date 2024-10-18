@@ -306,7 +306,7 @@ const TaskDetailsModal = (props) => {
                                             </div>
                                         </div>
                                     }
-                                    width={190} dropdown={<StatusDropdownContent element={taskType && taskType[currentIndex]} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} 
+                                    background={'#232426'} width={190} dropdown={<StatusDropdownContent element={taskType && taskType[currentIndex]} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} 
                                     setTaskType={setTaskType} idx={currentIndex} setCurrentTaskStatus={setCurrentTaskStatus}  existingTask={true} /> }
                                     position='bottom-start'
                                 />
@@ -326,7 +326,7 @@ const TaskDetailsModal = (props) => {
                                             </div> : <Text c='#babbbe'>Empty</Text>}
                                         </div>
                                     }
-                                    width={210} dropdown={<PriorityDropdownContent element={taskType && taskType[currentIndex]} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} 
+                                    background={'#232426'} width={210} dropdown={<PriorityDropdownContent element={taskType && taskType[currentIndex]} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} 
                                     setTaskType={setTaskType} idx={currentIndex} setCurrentTaskPriority={setCurrentTaskPriority} existingTask={true} /> }
                                     position='bottom-start'
                                 />
@@ -372,7 +372,7 @@ const TaskDetailsModal = (props) => {
                                             </div>
                                         </div>
                                     }
-                                    width={260} 
+                                    background={'#232426'} width={260} 
                                     dropdown={<TagsDropdownContent task={taskType && taskType[currentIndex]} taskType={taskType} setTaskType={setTaskType}
                                     idx={currentIndex} setCurrentTaskTags={setCurrentTaskTags} currentTaskTags={currentTaskTags} childDropdownOpened={childDropdownOpened} 
                                     setChildDropdownOpened={setChildDropdownOpened} setTagDeleteItemClicked={setTagDeleteItemClicked} setTagToDelete={setTagToDelete} /> } tagDeleteItemClicked={tagDeleteItemClicked} setTagDeleteItemClicked={setTagDeleteItemClicked}

@@ -66,6 +66,11 @@ public class Task {
     private User user;
 
     @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "space_id", referencedColumnName = "id")
+    private Space space;
+
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "task_tags_dim",
             joinColumns = {@JoinColumn(name = "task_id")},

@@ -7,7 +7,7 @@ import { Button,Flex,Divider,Avatar,ColorInput,Group,ColorSwatch } from '@mantin
 import {Popover, PopoverTrigger, PopoverContent} from "@nextui-org/react";
 
 
-const HexColorInput = ({ value, onChange, spaceIcon, setSpaceIcon, setColor, ...props }) => {
+const HexColorInput = ({ value, onChange, spaceIcon, setSpaceIcon, setColor, firstLetter, ...props }) => {
     const handleChange = (newValue) => {
         // Ensure the value starts with '#'
         if (!newValue.startsWith('#')) {
@@ -24,7 +24,7 @@ const HexColorInput = ({ value, onChange, spaceIcon, setSpaceIcon, setColor, ...
                 <svg xmlns={props.xmlns} width={props.width} height={props.height} viewBox={props.viewBox}  fill={newValue} className={props.className}>{props.children}</svg>
             </Avatar>),30);
             } else {
-                setTimeout(() => setSpaceIcon(<Avatar color={newValue} bg='#313b3f' radius="md" w={18}>M</Avatar>),30);
+                setTimeout(() => setSpaceIcon(<Avatar color={newValue} bg='#313b3f' radius="md" w={18}>{firstLetter}</Avatar>),30);
             }
         setColor(newValue);
         onChange(newValue);
@@ -65,7 +65,7 @@ const MemoizedIconButtons = ({ filledIcons, color, handleSpaceIconClick,activeIn
 };
 
 const SpaceCreationIconsPopover = (props) => {
-    const { color, setColor, spaceIcon, setSpaceIcon } = props;
+    const { color, setColor, spaceIcon, setSpaceIcon,firstLetter } = props;
 
     const [colorSwatchActive, setColorSwatchActive] = useState(false);
     const [activeIndex, setActiveIndex] = useState(-1);
@@ -73,7 +73,7 @@ const SpaceCreationIconsPopover = (props) => {
 
     const handleSpaceIconClick = (key,index) => {
         setActiveIndex(index);
-        const icon = key ? IconsFilled(key,25,25,color) : 'M';
+        const icon = key ? IconsFilled(key,25,25,color) : firstLetter;
         setTimeout(() => setSpaceIcon(<Avatar color={color} bg='#313b3f' radius="md" w={18}>{icon}</Avatar>),30);
     }
 
@@ -85,10 +85,15 @@ const SpaceCreationIconsPopover = (props) => {
                 <svg xmlns={props.xmlns} width={props.width} height={props.height} viewBox={props.viewBox}  fill={newColor} className={props.className}>{props.children}</svg>
             </Avatar>),30);
         } else {
-            setTimeout(() => setSpaceIcon(<Avatar color={newColor} bg='#313b3f' radius="md" w={18}>M</Avatar>),30);
+            setTimeout(() => setSpaceIcon(<Avatar color={newColor} bg='#313b3f' radius="md" w={18}>{firstLetter}</Avatar>),30);
         }
         setColor(newColor);
     }
+
+    const colorSwatchList = [
+        {color: "#d9d9d9"}, {color: "#ffd6ba"}, {color: "#009790"}, {color: "#0077b6"},
+        {color: "#80ed99"}, {color: "#e9c46a"}, {color: "#e76f51"},
+    ]
 
     return (
         <Popover 
@@ -104,24 +109,18 @@ const SpaceCreationIconsPopover = (props) => {
             </PopoverTrigger>
             <PopoverContent>
                 <Flex mb={10} w='97%' justify='space-between' >
-                    {/* <div className='d-flex'> */}
                     {colorSwatchActive ? 
                         <>
                         <Group>
-                            <ColorSwatch style={{cursor: "pointer"}} color="#d9d9d9" size={22} onClick={() => handleIconColorChange("#d9d9d9")} />
-                            <ColorSwatch style={{cursor: "pointer"}} color="#ffd6ba" size={22} onClick={() => handleIconColorChange("#ffd6ba")}/>
-                            <ColorSwatch style={{cursor: "pointer"}} color="#009790" size={22} onClick={() => handleIconColorChange("#009790")}/>
-                            <ColorSwatch style={{cursor: "pointer"}} color="#0077b6" size={22} onClick={() => handleIconColorChange("#0077b6")}/>
-                            <ColorSwatch style={{cursor: "pointer"}} color="#80ed99" size={22} onClick={() => handleIconColorChange("#80ed99")}/>
-                            <ColorSwatch style={{cursor: "pointer"}} color="#e9c46a" size={22} onClick={() => handleIconColorChange("#e9c46a")}/>
-                            <ColorSwatch style={{cursor: "pointer"}} color="#e76f51" size={22} onClick={() => handleIconColorChange("#e76f51")}/>
+                            {colorSwatchList.map((swatch) => (
+                                <ColorSwatch key={swatch.color} style={{cursor: "pointer"}} color={swatch.color} size={22} onClick={() => handleIconColorChange(swatch.color)}/>
+                            ))}
                         </Group>
                             <Divider size="sm" orientation="vertical" h={30} ms='14' m='auto' bd='.1 solid #e7e7e7' />
                         </>
                         :
-                        <HexColorInput value={color} onChange={setColor} spaceIcon={spaceIcon} setSpaceIcon={setSpaceIcon} setColor={setColor} />
+                        <HexColorInput value={color} onChange={setColor} spaceIcon={spaceIcon} setSpaceIcon={setSpaceIcon} setColor={setColor} firstLetter={firstLetter} />
                     }
-                    {/* <HexColorInput value={color} onChange={setColor}  /> */}
                     <div className='d-flex align-items-center'>
                         <Button h={30} p='2px 6px' bg='transparent' bd='.1px solid #e7e7e7' className='space-creation-color-swatch-button' 
                         onClick={() => setColorSwatchActive(!colorSwatchActive)}>
@@ -132,15 +131,10 @@ const SpaceCreationIconsPopover = (props) => {
                             }
                         </Button>
                     </div>
-                    {/* </div> */}
                 </Flex>
 
                 <Flex wrap='wrap' justify='center' gap={2} h={280} style={{overflowY: "auto"}}>
-                    {/* <Avatar w={20} h={40} variant="transparent" color={color} radius="md"  onClick={() => handleSpaceIconClick(null,-1)} className={`space-creation-icon-button ${activeIndex === -1 ? 'active-icon' : ''}`}>
-                        M
-                    </Avatar> */}
                     <Avatar 
-                        // bg='red'
                         style={{cursor: "pointer"}} 
                         onClick={() => handleSpaceIconClick(null,-1)} 
                         variant={`${activeIndex === -1 ? 'light' : 'transparent'}`}  
@@ -149,7 +143,7 @@ const SpaceCreationIconsPopover = (props) => {
                         w={18}
                         className={`${!activeIndex === -1 && 'space-creation-icon-button'}`}
                     >
-                        M
+                        {firstLetter}
                     </Avatar>
 
                     {/* {filledIcons.map((icon) => (

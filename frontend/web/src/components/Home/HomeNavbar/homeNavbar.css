@@ -51,21 +51,12 @@ body.scroll-lock {
 .user-home-avatar-menu-target:hover {
     background-color: #343638;
 }
-  .user-home-navbar-menu-dropdown {
-    box-shadow: 0 2px 16px #0006 !important;
-    background-color: #222222 !important;
-    /* color: #898989 !important; */
+
+.user-home-navbar-menu-dropdown {
     border: none !important;
-  }
-
-.user-home-navbar-menu-dropdown .mantine-Menu-item {
-    color: #d5d6d8 !important;
-    background-color: #222222 !important;
-
+    pointer-events: auto;
 }
-.user-home-navbar-menu-dropdown .mantine-Menu-item:hover {
-    background-color: #303030 !important;
-}
+
 .home-navbar-menu-fullnamedesc {
     white-space: nowrap;
     overflow:hidden;

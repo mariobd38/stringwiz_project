@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.stringwiz.app.converters.SpaceIconConverter;
 import com.stringwiz.app.enums.Visibility;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -14,6 +15,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,8 +26,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
@@ -63,8 +67,11 @@ public class Space {
     @Column(name="last_updated_on")
     private Timestamp lastUpdatedOn;
 
+    @OneToMany(mappedBy = "space", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Task> tasks = new ArrayList<>();
+
     @JsonIgnore
-    @ManyToMany(mappedBy = "spaces", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "spaces", fetch = FetchType.LAZY)
     private Set<User> users = new LinkedHashSet<>();
 
     public Space(String name, String description, SpaceIcon icon, Visibility visibility) {

@@ -81,6 +81,7 @@ export const TagOptionsDropdown = (props) => {
                 <Menu.Item
                     c='#f2f4f7'
                     w='90%'
+                    bg='#232426'
                     ff='Lato'
                     key={index}
                     className='task-card-content-dropdown-item'
@@ -129,7 +130,7 @@ export const TagOptionsDropdown = (props) => {
                                 </div>
                                 
                             }
-                            childDropdownOpened={childDropdownOpened && activeChildDropdownIndex === index}
+                            background={'#232426'} childDropdownOpened={childDropdownOpened && activeChildDropdownIndex === index}
                             isChild={true} isParent={false} handleCloseChildDropdown={handleCloseChildDropdown} position='top-start'
                         />
                     }

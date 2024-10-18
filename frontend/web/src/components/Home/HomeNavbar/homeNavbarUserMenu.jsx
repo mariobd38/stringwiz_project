@@ -1,14 +1,14 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 
 import Cookies from 'js-cookie';
 import { userLogout } from '../../../DataManagement/Users/logout';
 // import { constructImageSrc } from '../../../utils/constructImageSrc';
-import UserAvatar from '../UserAvatar/userAvatar';
-
-import {Icons} from '../../icons/icons';
 
 import { Text,Menu } from '@mantine/core';
-import { useScrollLock } from '../../../utils/useScrollLock';
+
+import {Icons} from '../../icons/icons';
+import UserAvatar from '../UserAvatar/userAvatar';
+import { MantineDropdown } from '../../models/ModelDropdown2/mantineDropdown';
 
 const HomeNavbarUserMenu = (props) => {
     const {userProfileDto,userProfilePicture, userFullName, initials } = props;
@@ -19,47 +19,36 @@ const HomeNavbarUserMenu = (props) => {
         userLogout();
     };
 
-    const dropdownRef = useRef(null);
-    const [menuOpened, setMenuOpened] = useState(false);
-    const { disableScroll, enableScroll } = useScrollLock();  // Destructure the functions from the hook
+    const menuItems = [
+        { name: 'Profile',icon: 'IconUser', marginTop: '20'},
+        { name: 'Settings',icon: 'IconSettings'},
+        { name: 'Notification Settings',icon: 'IconBell'},
+        { name: 'Archive',icon: 'IconArchive'},
+        { name: 'Trash',icon: 'IconTrash'},
+        { name: 'Help',icon: 'IconHelp'},
+    ];
 
     return (
         <>
-            <Menu shadow="md" width={300} position="bottom-end" offset={12} 
-            closeOnEscape
-            opened={menuOpened}
-            onOpen={() => {
-                disableScroll();
-                setMenuOpened(true);
-            }}
-            onClose={() => {
-                enableScroll();
-                setMenuOpened(false);
-            }}
-            >
-                <div className='d-flex align-items-center'>
-                    <Menu.Target className='d-flex align-items-center user-home-avatar-menu-target' style={{borderRadius: "8px", cursor: "pointer", padding: "6px 8px"}}>
-                        <div>
-                            <UserAvatar 
-                                userProfileDto={userProfileDto}
-                                userProfilePicture={userProfilePicture}
-                                initials={initials}
-                                multiplier={2.075}
-                                fontSize={1}
-                            />
-                            <span className='ps-1'>
-                                {Icons('IconChevronDown',15,15,'#fafafa')}
-                            </span>
-                        </div>
-                    </Menu.Target>
-                </div>
-
-                <Menu.Dropdown 
-                    ref={dropdownRef}
-                    style={{borderRadius: "8px",pointerEvents: menuOpened ? "auto" : "none"}}
-                    className={`user-home-navbar-menu-dropdown`}
-                >
-                    
+            <MantineDropdown 
+                target={
+                    <div className='d-flex align-items-center user-home-avatar-menu-target' style={{borderRadius: "8px", cursor: "pointer", padding: "6px 8px"}}>
+                        <UserAvatar 
+                            userProfileDto={userProfileDto}
+                            userProfilePicture={userProfilePicture}
+                            initials={initials}
+                            multiplier={2.075}
+                            fontSize={1}
+                        />
+                        <span className='ps-1'>
+                            {Icons('IconChevronDown',15,15,'#fafafa')}
+                        </span>
+                    </div>
+                }
+                width={300}
+                dropdown={
+                    <div className={`user-home-navbar-menu-dropdown`}
+                    >
                     <Menu.Label>
                         <div className='d-flex gap-3 align-items-center'>
                             <UserAvatar 
@@ -76,41 +65,20 @@ const HomeNavbarUserMenu = (props) => {
                             </div>
                         </div>
                     </Menu.Label>
-                    {/* <Menu.Label>Application</Menu.Label> */}
-                    {/* <Menu.Item mt={20} w='91.5%' leftSection={<IconUser style={{ width: rem(14), height: rem(14) }} />}> */}
-                    <Menu.Item mt={20} w='91.5%' leftSection={Icons('IconUser',14,14,'#d5d6d8')}>
-                        Profile
-                    </Menu.Item>
-                    <Menu.Item w='91.5%' leftSection={Icons('IconSettings',14,14,'#d5d6d8')}>
-                        Settings
-                    </Menu.Item>
-                    <Menu.Item w='91.5%' leftSection={Icons('IconBell',14,14,'#d5d6d8')}>
-                        Notification Settings
-                    </Menu.Item>
-                    <Menu.Item w='91.5%' leftSection={Icons('IconArchive',14,14,'#d5d6d8')}
-                    >
-                        Archive
-                    </Menu.Item>
-                    <Menu.Item w='91.5%' leftSection={Icons('IconTrash',14,14,'#d5d6d8')}>
-                        Trash
-                    </Menu.Item>
 
-                    {/* <Menu.Divider /> */}
-
-                    {/* <Menu.Label>Danger zone</Menu.Label> */}
-                    <Menu.Item w='91.5%'
-                    leftSection={Icons('IconHelp',14,14,'#d5d6d8')}
-                    >
-                    Help
-                    </Menu.Item>
+                    {menuItems.map((item) => (
+                        <Menu.Item key={item.name} bg='#222222' c='#d5d6d8' mt={item?.marginTop} w='91.5%' leftSection={Icons(item.icon,14,14,'#d5d6d8')}>
+                            {item.name}
+                        </Menu.Item>
+                    ))}
                     <Menu.Divider size="xs" bd='.1px solid #676869' />
-                    <Menu.Item w='91.5%' onClick={handleUserLogout}
-                        leftSection={Icons('IconLogout',14,14,'#d5d6d8')}
-                    >
+                    <Menu.Item w='91.5%' bg='#222222' c='#d5d6d8' onClick={handleUserLogout} leftSection={Icons('IconLogout',14,14,'#d5d6d8')}>
                         Log out
                     </Menu.Item>
-                </Menu.Dropdown>
-            </Menu>
+                    </div>
+                }
+            background={'#222222'} position='bottom-end'
+            />
         </>
     );
 };

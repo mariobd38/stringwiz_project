@@ -87,7 +87,6 @@ const TaskOptionsPortal = forwardRef((props, ref) => {
                                     opened={openMenuIndex === index}
                                     closeOnItemClick={false}
                                     onMouseEnter={() => handleMouseEnter(index)}
-                                    //onMouseLeave={handleMouseLeave}
                                 >
                                     <Menu.Target closeOnItemClick={false}  >
                                         <Menu.Item

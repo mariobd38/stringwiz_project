@@ -155,10 +155,6 @@
     cursor: pointer;
 }
 
-.mantine-dropdown-model .mantine-Menu-item {
-    background-color: #232426;
-}
-
 .text-overflow-cell {
     max-width: 0;
     width: 100%;

@@ -139,6 +139,7 @@ const HomeNavbar = (props) => {
                                 <SpaceCreationModal 
                                     openSpaceCreateModal={openSpaceCreateModal}
                                     setOpenSpaceCreateModal={setOpenSpaceCreateModal}
+                                    userFullName={userFullName}
                                 />
 
                             </div>

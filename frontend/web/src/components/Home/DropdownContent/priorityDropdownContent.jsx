@@ -26,6 +26,7 @@ const PriorityDropdownContent = (props) => {
                         }}
                         w='87%'
                         m='4px auto'
+                        bg='#232426'
                         c='#f3f5f8'
                         ff='Lato'
                         p='6px 10px'

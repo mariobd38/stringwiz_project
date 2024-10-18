@@ -8,24 +8,24 @@ import { Text,Button,Textarea,Box,Flex,Divider,TextInput,Grid,Radio, Group,Stack
 import { Modal } from "antd";
 import SpaceCreationIconsPopover from './spaceCreationIconsPopover';
 import { createSpaceInfo } from '../../../DataManagement/Spaces/createSpace';
+import { linkTasksToPersonalSpace } from '../../../DataManagement/Spaces/linkTasksToPersonalSpace';
 
 import classes from './spaceCreationModal.module.css';
 import './spaceCreationModal.css';
 
-
 const visibilityOptions = [
-    { name: 'Private', description: 'Space is accessible to you and invited members only.' },
+    { name: 'Private', icon: '', description: 'Space is accessible to invited members only.' },
     { name: 'Public', description: 'Anyone can request to join or be invited to join this space.' },
     // { name: 'Global', description: 'Space is accessible to you and anyone.' },
 ];
 
 const SpaceCreationModal = (props) => {
-    const {openSpaceCreateModal,setOpenSpaceCreateModal} = props;
+    const {openSpaceCreateModal,setOpenSpaceCreateModal,userFullName} = props;
 
     const [spaceName, setSpaceName] = useState('');
-    
+    const firstLetter = userFullName.substring(0, 1).toUpperCase(); 
     const [color, setColor] = useState('#ffffff');
-    const [spaceIcon, setSpaceIcon] = useState(<Avatar color={color} bg='#343537' radius="md" h='inherit'>M</Avatar>);
+    const [spaceIcon, setSpaceIcon] = useState(<Avatar color={color} bg='#343537' radius="md" h='inherit'>{firstLetter}</Avatar>);
     const [spaceDescription, setSpaceDescription] = useState('');
     const textareaRef = useRef(null);
     const spaceNameDisabled = spaceName.trim() === '';
@@ -74,11 +74,33 @@ const SpaceCreationModal = (props) => {
                 spaceIconJson,
                 spaceVisibility
             );
+            setOpenSpaceCreateModal(false);
     
         } catch (error) {
             console.error("Error creating task:", error);
         }
     };
+
+    // const personalSpaceCreation = async () => {
+    //     try {
+    //         const spaceIconJson = {
+    //             background: '#156abf1a',
+    //             color: '#156abf',
+    //             radius: 'calc(0.25rem * 1)',
+    //             children: firstLetter
+    //         };
+    //         const newSpace = linkTasksToPersonalSpace(
+    //             'Personal Space :)',
+    //             'This is my personal workspace.. made by me',
+    //             spaceIconJson,
+    //             'PERSONAL'
+    //         );
+    //         setOpenSpaceCreateModal(false);
+    
+    //     } catch (error) {
+    //         console.error("Error creating task:", error);
+    //     }
+    // };
     
     return (
         <Modal open={openSpaceCreateModal} onCancel={() => {setOpenSpaceCreateModal(false) }} className='space-creation-modal' width={650} >
@@ -89,6 +111,8 @@ const SpaceCreationModal = (props) => {
                     <Box mb={24}>
                         <Text fw={600} c='#f12f5' fz='20'>Create a space</Text>
                     </Box>
+                    {/* <Button onClick={personalSpaceCreation}>click</Button> */}
+
                     <Flex gap={24} direction='column'>
 
                         <Grid grow>
@@ -101,6 +125,7 @@ const SpaceCreationModal = (props) => {
                                         setColor={setColor}
                                         spaceIcon={spaceIcon}
                                         setSpaceIcon={setSpaceIcon}
+                                        firstLetter={firstLetter}
                                     />
                                 </Flex>
                             </Grid.Col>
@@ -126,6 +151,7 @@ const SpaceCreationModal = (props) => {
 
                             </Grid.Col>
                         </Grid>
+
 
                         <Textarea
                             label={

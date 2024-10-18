@@ -1,24 +1,27 @@
 import React, { useState, useEffect,useCallback } from 'react';
-import SockJS from 'sockjs-client';
-import { Stomp } from '@stomp/stompjs';
+// import SockJS from 'sockjs-client';
+// import { Stomp } from '@stomp/stompjs';
 
 import { useLocation } from 'react-router-dom';
 
 import HomeHeader from '../Home/HomeHeader/homeHeader';
 import HomeNavbar from './HomeNavbar/homeNavbar';
 import TaskCard from './TaskCard/taskCard';
-import ProjectCard from './ProjectCard/projectCard';
+// import ProjectCard from './ProjectCard/projectCard';
 import QuickActions from './QuickActions/quickActions';
 import HomeSidebar from './HomeSidebar/homeSidebar';
-import CalendarBlock from './CalendarBlock/calendarBlock';
-import MilestoneBlock from './MilestoneBlock/milestoneBlock';
+// import CalendarBlock from './CalendarBlock/calendarBlock';
+// import MilestoneBlock from './MilestoneBlock/milestoneBlock';
 
 // import StatBlocks from './HomeHeader/StatBlocks/statBlocks';
 
 import { getUserInfo } from '../../DataManagement/Users/getUserInfo';
-import { getTaskInfo } from './../../DataManagement/Tasks/getTasks';
-import { getGoogleTaskInfo } from '../../DataManagement/Tasks/getGoogleTasks';
+// import { getTaskInfo } from './../../DataManagement/Tasks/getTasks';
+import { getPersonalSpaceInfo } from '../../DataManagement/Spaces/getPersonalSpaceInfo';
+import { getTaskInfoBySpace } from '../../DataManagement/Tasks/getTasksBySpace';
+// import { getGoogleTaskInfo } from '../../DataManagement/Tasks/getGoogleTasks';
 import './newHome.css';
+// import { linkTasksToPersonalSpace } from '../../DataManagement/Spaces/linkTasksToPersonalSpace';
 
 const NewHome = () => {
     const dayjs = require('dayjs');
@@ -38,9 +41,19 @@ const NewHome = () => {
     const [userEmail, setUserEmail] = useState(passedUserInfo?.email || '');
     const [userProfilePicture, setUserProfilePicture] = useState('');
     const [userProfileDto, setUserProfileDto] = useState('');
-    // const [userEmail] = useLocalState('', 'userEmail');
     const [initials, setInitials] = useState(passedUserInfo?.fullName || '');
-    // const [userInfo, setUserInfo] = useState(passedUserInfo || null);
+    const [spaceData, setSpaceData] = useState([]);
+
+    useEffect(() => {
+        async function fetchSpaceData() {
+            const data = await getPersonalSpaceInfo();
+            setSpaceData(data);
+        }
+
+        fetchSpaceData();
+    }, []);
+
+    // console.log(spaceData);
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -71,7 +84,7 @@ const NewHome = () => {
         fetchData();
     }, [passedUserInfo]);
 
-    const client = Stomp.client(import.meta.env.VITE_SERVER_BASE_URI + '/ws');
+    // const client = Stomp.client(import.meta.env.VITE_SERVER_BASE_URI + '/ws');
     //this works
     // client.connect({}, (frame) => {
     //     console.log('Connected: ' + frame);
@@ -95,7 +108,7 @@ const NewHome = () => {
     // };
     
 
-    const processTaskData = useCallback((data) => {
+    const processTaskData = useCallback(() => {
         const now = dayjs();
         const overdue = [];
         const completed = [];
@@ -158,35 +171,20 @@ const NewHome = () => {
 
     
     useEffect(() => {
-        getTaskInfo(setTaskData);
-        // setUpcomingTasks(taskData);
-        const now = dayjs();
-        const overdue = [];
-        const completed = [];
-        const ongoing = [];
+        // getTaskInfo(setTaskData);
+        getTaskInfoBySpace(setTaskData,'Personal Space');
+        processTaskData();
+    }, [processTaskData]);
 
-        taskData.forEach((task) => {
-            const currentDueDate = task.dueDateTime ? dayjs(task.dueDateTime) : task.dueDate ? dayjs(task.dueDate) : null;
-            
-            if ((currentDueDate === null || currentDueDate.isAfter(now) || currentDueDate.isSame(now)) && task.status !== 'Completed') {
-                ongoing.push(task);
-            }
-            else if (currentDueDate && currentDueDate.isBefore(now) && task.status !== 'Completed') {
-                overdue.push(task);
-            } else if (task.status === 'Completed') {
-                completed.push(task);
-            } 
-        });
-        setOngoingTasks(ongoing);
-        setOverdueTasks(overdue);
-        setCompletedTasks(completed);
-    }, [taskData,dayjs]);
+    // const getUserSpace = () => {
+    //     getPersonalSpaceInfo();
+    // }
 
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
 
-    const getGoogleTasks = () => {
-        getGoogleTaskInfo();
-    }
+    // const getGoogleTasks = () => {
+    //     getGoogleTaskInfo();
+    // }
 
     return (
         <>
@@ -203,16 +201,19 @@ const NewHome = () => {
             <div className='container m-0 p-0'>
                 {userFullName &&
                 <HomeSidebar className='user-home-sidebar p-0'
-                    userFullName={userFullName}
                     userEmail={userEmail}
                     openSidebarToggle={openSidebarToggle}
                     setOpenSidebarToggle={setOpenSidebarToggle}
+                    spaceName={spaceData.name}
+                    spaceIcon={spaceData.icon}
                 />}
             </div>
 
             <div className={`row user-home-all-content ${openSidebarToggle && 'open' }`}>
-
-                <HomeHeader />
+                {}
+                <HomeHeader 
+                    spaceName={spaceData.name}
+                />
 
                 <div  style={{width: "100%"}}>
                     {/* ONLY FOR GOOGLE OAUTH USERS */}
@@ -225,6 +226,8 @@ const NewHome = () => {
                         <div className="task-card-parent">
                             
                             <div className='user-home-all-content-left-spacing'>
+                                {/* <Button onClick={getSpaceTasks}>get personal tasks</Button> */}
+                                {/* <Button onClick={getUserSpace}>get personal tasks</Button> */}
                                 <div className=''>
                                     {userFullName &&
                                     <TaskCard 

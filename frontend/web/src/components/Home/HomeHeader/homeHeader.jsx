@@ -6,7 +6,8 @@ import {Icons} from '../../icons/icons';
 
 import './homeHeader.css';
 
-const HomeHeader = () => {
+const HomeHeader = ({spaceName}) => {
+    // console.log(spaceName);
     const dayjs = require('dayjs');
 
     var now = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -80,10 +81,9 @@ const HomeHeader = () => {
                 <div className='user-home-all-content-left-spacing'>
                     <Box>
                         <Flex direction={{ base: 'column' }} gap={5}>
-                            <Text ff='Inter' fw='700' fz='18.4' c='#f2f4f7'>Personal Workspace</Text>
+                            <Text ff='Inter' fw='700' fz='18.4' c='#f2f4f7'>{spaceName}</Text>
                             <Text ff='Inter' fw='400' fz='13.2' c='#c4c0c6'>{dayOfWeek}, {month} {date.getDate()}, {date.getFullYear()}</Text>
                         </Flex>
-
                     </Box>
                 </div>
                 

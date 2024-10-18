@@ -4,8 +4,8 @@ import { useScrollLock } from '../../../utils/useScrollLock';
 import { Menu } from '@mantine/core';
 
 const MantineDropdown = (props) => {
-    const { target,width,dropdown,isParent,childDropdownOpened,handleCloseChildDropdown,isChild,position,
-        tagDeleteItemClicked,setOpenTagDeletionModal,setTagDeleteItemClicked } = props;
+    const { background,target,width,dropdown,isParent,childDropdownOpened,handleCloseChildDropdown,isChild,position,
+        tagDeleteItemClicked,setOpenTagDeletionModal,setTagDeleteItemClicked,dmt } = props;
 
     const [menuOpened, setMenuOpened] = useState(false);
     const dropdownRef = useRef(null);
@@ -72,11 +72,13 @@ const MantineDropdown = (props) => {
             <Menu.Dropdown 
                 className={`mantine-dropdown-model ${isParent ? 'parent' : ''}`}
                 bd='0' 
-                bg='#232426' 
+                bg={background}
                 ref={dropdownRef} 
                 style={{
                     pointerEvents: shouldEnablePointerEvents() ? "auto" : "none",
-                    boxShadow: "0 2px 16px #0006"
+                    boxShadow: "0 2px 16px #0006",
+                    borderRadius: "6px",
+                    marginTop: dmt || '0'
                 }}
                 onClick={(event) => event.stopPropagation()}
             >

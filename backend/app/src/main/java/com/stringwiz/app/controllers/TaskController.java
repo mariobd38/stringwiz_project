@@ -6,17 +6,16 @@ import com.stringwiz.app.repositories.UserRepository;
 import com.stringwiz.app.services.TaskService;
 import com.stringwiz.app.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -53,6 +52,25 @@ public class TaskController {
             throw new NullPointerException("User does not exist");
         } catch(NullPointerException e) {
             throw new NullPointerException("Task does not exist");
+        }
+    }
+
+    @GetMapping("/api/tasks/getBySpace")
+    public ResponseEntity<?> getTasksBySpace(@CookieValue(name = "${JWT_COOKIE_ATTRIBUTE_NAME}", required = false) String jwt, @RequestParam("spaceName") String spaceName) {
+        if (jwt == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("JWT token not found in cookie");
+        }
+        try {
+            Optional<User> optionalUser = userRepository.findByEmail(jwtUtil.getUserEmailFromToken(jwt));
+            if (optionalUser.isPresent()) {
+                List<Task> tasks = taskService.getBySpace(optionalUser.get(),spaceName);
+                return ResponseEntity.ok(tasks);
+            }
+            throw new NullPointerException("User does not exist");
+        } catch(NullPointerException e) {
+            throw new NullPointerException("Task does not exist");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

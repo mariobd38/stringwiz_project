@@ -121,7 +121,7 @@ const TaskCreationModal = (props) => {
                                             <Text ms='8' ff='Inter' fz='12.5' >{newTaskStatus ? newTaskStatus : 'Status'}</Text>
                                         </Button>
                                     }
-                                    width={190}
+                                    background={'#232426'} width={190}
                                     dropdown={<StatusDropdownContent element={newTaskStatus} setCurrentTaskStatus={setNewTaskStatus} existingTask={false} /> }
                                     position='bottom-start'
                                 />
@@ -133,7 +133,7 @@ const TaskCreationModal = (props) => {
                                             <Text ms='8' ff='Inter' fz='12.5' >{newTaskPriority ? newTaskPriority : 'Priority'}</Text>
                                         </Button>
                                     }
-                                    width={180} 
+                                    background={'#232426'} width={180} 
                                     dropdown={<PriorityDropdownContent element={newTaskPriority} setCurrentTaskPriority={setNewTaskPriority} existingTask={false}/> }
                                     position='bottom-start'
                                 />

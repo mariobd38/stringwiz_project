@@ -263,7 +263,7 @@ const TaskCardContent = (props) => {
                                             </span>
                                         </Button> 
                                     }
-                                    width={210} dropdown={<PriorityDropdownContent element={element} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} setTaskType={setTaskType} idx={index} existingTask={true}/> }
+                                    background={'#232426'} width={210} dropdown={<PriorityDropdownContent element={element} handleTaskUpdateNew={handleTaskUpdateNew} taskType={taskType} setTaskType={setTaskType} idx={index} existingTask={true}/> }
                                     position='bottom-end'
                                 />
                             }</>

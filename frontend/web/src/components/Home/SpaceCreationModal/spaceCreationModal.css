@@ -64,14 +64,6 @@
         --input-color: #222222 !important;
     }
 }
-.space-creation-icon-button {
-    /* width: 20px !important; */
-    /* padding: 2px 10px !important; */
-    /* background-color: transparent !important; */
-    /* border: none !important;
-    cursor: pointer; */
-    /* background-color: red; */
-}
 .space-creation-icon-button:hover {
     background-color: #404143 !important;
 }
@@ -83,7 +75,6 @@
 }
 .space-creation-icon-popover-parent {
     width: 350px;
-    /* height: 250px; */
     border-radius: 15px;
     border: 1px solid #57585a;
 }
@@ -93,9 +84,9 @@
     width: 100% !important;
 }
 .space-creation-color-input input {
+    border: none;
     background-color: transparent;
-    color: #d5d6d8;
-    /* width: 70% !important; */
+    color: #fafafa;
 }
 .space-creation-color-swatch-button:hover {
     background-color: #3e3f41 !important;
